@@ -1,6 +1,6 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.1;
 
-contract Bizliconchain {
+contract BizlicOnchain {
     address creator;
     /*
      * 管理员
@@ -15,13 +15,12 @@ contract Bizliconchain {
     /**
      * 仅管理员才可以执行此
      */
-    modifier onlyAdmin(){
+    modifier onlyAdmin() {
         for(uint i=0;i< administrators.length;i++){
-            if(administrators == msg.sender){
-                return;
+            if(administrators[i] == msg.sender){
+                _;
             } 
         }
-        require(false);
     }
     
     /**
@@ -39,13 +38,4 @@ contract Bizliconchain {
         
     }
     
-   
-
-
-    // TODO Add functions
-    function kill() public {
-        if (msg.sender == creator) {
-            selfdestruct(creator);
-        }
-    }
 }
