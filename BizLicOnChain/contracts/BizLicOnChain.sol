@@ -41,7 +41,7 @@ contract BizlicOnchain {
     /**
      * 获取所有的管理员
      */
-    function getAdmins() public constant returns(address[]){
+    function getAdmins() public view returns(address[] memory){
         return administrators;
     }
     
