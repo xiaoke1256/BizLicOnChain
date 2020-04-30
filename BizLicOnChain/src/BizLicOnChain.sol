@@ -1,4 +1,4 @@
-pragma solidity ^0.5.1;
+pragma solidity ^0.5.0;
 
 contract BizlicOnchain {
     address creator;
@@ -36,6 +36,13 @@ contract BizlicOnchain {
     function removeAdmin(address admin) public onlyAdmin{
         //从 administrators中删除指定的管理员
         
+    }
+    
+    /**
+     * 获取所有的管理员
+     */
+    function getAdmins() public constant returns(address[]){
+        return administrators;
     }
     
 }
