@@ -1,2 +1,2 @@
 *.sol linguist-language=Solidity
-*.js Text
+*.js linguist-language=JavaScript
