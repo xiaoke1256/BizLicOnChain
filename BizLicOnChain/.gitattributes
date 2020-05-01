@@ -1,2 +1,2 @@
 *.sol linguist-language=Solidity
-/*.js = -JavaScript
+*.js = -JavaScript
