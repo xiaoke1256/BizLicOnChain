@@ -33,16 +33,16 @@ contract BizlicOnchain {
      /**
      * 删除一个管理员
      */
-    function removeAdmin(address admin) public onlyAdmin{
+    //function removeAdmin(address admin) public onlyAdmin{
         //从 administrators中删除指定的管理员
         
-    }
+   // }
     
     /**
      * 获取所有的管理员
      */
-    function getAdmins() public view returns(address[] memory){
-        return administrators;
+    function getAdmins() public view returns(address[] memory admins){
+        admins = administrators;
     }
     
 }
