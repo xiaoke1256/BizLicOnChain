@@ -1,6 +1,6 @@
 pragma solidity ^0.4.25;
 
-contract BizlicOnchain {
+contract BizlicOnChain {
     address creator;
     /*
      * 管理员
