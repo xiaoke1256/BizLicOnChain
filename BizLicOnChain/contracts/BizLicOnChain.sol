@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.25;
 
 contract BizlicOnchain {
     address creator;
@@ -19,6 +19,7 @@ contract BizlicOnchain {
         for(uint i=0;i< administrators.length;i++){
             if(administrators[i] == msg.sender){
                 _;
+                return;
             } 
         }
     }
