@@ -5,6 +5,11 @@ pragma solidity ^0.4.25;
  */
 contract BizLicOnChainStorage {
     address creator;
+    
+    /*
+     * 管理员
+     */
+    address[] administrators;
 
     constructor() public{
         creator = msg.sender;

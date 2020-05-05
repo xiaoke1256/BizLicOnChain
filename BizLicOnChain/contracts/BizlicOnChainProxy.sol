@@ -4,7 +4,8 @@ pragma solidity ^0.4.25;
  * 合约代理
  */
 contract BizLicOnChainProxy {
-    address owner;
+    
+    address creator;
     
      /*
      * 管理员
@@ -12,12 +13,17 @@ contract BizLicOnChainProxy {
     address[] administrators;
     
     /**
-     * 真正的合约地址
+     * 逻辑合约地址
      */
     address public currentVersion;
     
-    modifier onlyOwner() {
-        require(msg.sender == owner);
+    /**
+     * 存储合约地址
+     */
+    address public storageVersion;
+    
+    modifier onlyCreator() {
+        require(msg.sender == creator);
         _;
     }
 	
@@ -25,15 +31,22 @@ contract BizLicOnChainProxy {
 	 * 创建合约
 	 */
     constructor(address initAddr) public{
-        owner = msg.sender;
-        currentVersion = initAddr;
+        creator = msg.sender;
+    }
+    
+    /**
+     * 初始化合约
+     */
+    function initialize(address newVersion) public{
+        currentVersion = newVersion;
     }
     
     /**
      * 合约版本变更
      */
-    function changeContract(address newVersion) public onlyOwner{
+    function changeContract(address newVersion) public onlyCreator{
         currentVersion = newVersion;
+        currentVersion.delegatecall(bytes4(keccak256("initialize()")),address(this),storageVersion);
     }
     
     function() public {
