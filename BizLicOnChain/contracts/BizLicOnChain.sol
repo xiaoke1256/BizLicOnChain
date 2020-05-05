@@ -25,6 +25,10 @@ contract BizlicOnChain {
         administrators.push(creator);
     }
     
+    function getOwner() public view returns (address) {
+        return owner;
+    }
+    
     /**
      * 初始化合约
      */

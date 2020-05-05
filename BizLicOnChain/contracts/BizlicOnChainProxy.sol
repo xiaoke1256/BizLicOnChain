@@ -46,7 +46,7 @@ contract BizLicOnChainProxy {
      */
     function changeContract(address newVersion) public onlyCreator{
         currentVersion = newVersion;
-        currentVersion.delegatecall(bytes4(keccak256("initialize()")),address(this),storageVersion);
+        currentVersion.delegatecall(bytes4(keccak256("initialize(address,address)")),address(this),storageVersion);
     }
     
     function() public {
