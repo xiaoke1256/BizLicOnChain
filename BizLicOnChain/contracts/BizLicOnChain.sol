@@ -26,6 +26,9 @@ contract BizlicOnChain {
         creator = tx.origin;
     }
     
+    /**
+     * 供存储合约调用检查
+     */
     function checkOwner(address toCheck) public view {
         require(toCheck != address(0x0));
         require(toCheck == owner);
