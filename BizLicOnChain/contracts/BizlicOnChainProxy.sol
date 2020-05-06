@@ -22,6 +22,8 @@ contract BizLicOnChainProxy {
      */
     address public storageVersion;
     
+    bool internal _initialized = false;
+    
     modifier onlyCreator() {
         require(msg.sender == creator);
         _;
@@ -37,8 +39,12 @@ contract BizLicOnChainProxy {
     /**
      * 初始化合约
      */
-    function initialize(address newVersion) public{
+    function initialize(address newVersion,address newStorageVersion) public onlyCreator{
+        require(!_initialized);
         currentVersion = newVersion;
+        storageVersion = newStorageVersion;
+        require(currentVersion.delegatecall(bytes4(keccak256("initialize(address,address)")),address(this),storageVersion));
+        _initialized = true;
     }
     
     /**
@@ -46,7 +52,15 @@ contract BizLicOnChainProxy {
      */
     function changeContract(address newVersion) public onlyCreator{
         currentVersion = newVersion;
-        currentVersion.delegatecall(bytes4(keccak256("initialize(address,address)")),address(this),storageVersion);
+        require(currentVersion.delegatecall(bytes4(keccak256("initialize(address,address)")),address(this),storageVersion));
+    }
+    
+    /**
+     * 合约存储版本变更
+     */
+    function changeStorage(address newVersion) public onlyCreator{
+        storageVersion = newVersion;
+        require(currentVersion.delegatecall(bytes4(keccak256("resetDataStorage(address,address)")),newVersion));
     }
     
     function() public {
