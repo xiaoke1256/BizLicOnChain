@@ -30,7 +30,7 @@ contract BizLicOnChainProxy {
 	/**
 	 * 创建合约
 	 */
-    constructor(address initAddr) public{
+    constructor() public{
         creator = msg.sender;
     }
     
