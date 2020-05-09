@@ -52,7 +52,7 @@ contract BizLicOnChainProxy {
      */
     function changeContract(address newVersion) public onlyCreator{
         currentVersion = newVersion;
-        require(currentVersion.delegatecall(bytes4(keccak256("initialize()"))));
+        require(currentVersion.call(bytes4(keccak256("initialize()"))));//初始化合约
     }
     
     /**
