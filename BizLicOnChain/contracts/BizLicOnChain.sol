@@ -2,8 +2,6 @@ pragma solidity ^0.4.25;
 
 import { ArrayUtils } from "./ArrayUtils.sol";
 
-import { BizLicOnChainStorage } from "./BizLicOnChainStorage.sol";
-
 contract BizlicOnChain {
     /**
      * 创建者
@@ -20,39 +18,26 @@ contract BizlicOnChain {
      */
     address owner;
     
-    bool internal _initialized = false;
+    address[] administrators;
 
     constructor() public{
         creator = tx.origin;
     }
-    
+
     /**
-     * 供存储合约调用检查
+     * 初始化合约(用call来调用)
      */
-    function checkOwner(address toCheck) public view {
-        require(toCheck != address(0x0));
-        require(toCheck == owner);
+    function initialize() external {
+        require(creator == tx.origin);
+        owner = msg.sender;
     }
     
     /**
-     * 初始化合约
+     * 初始化业务数据(用delegatecall来调用)
      */
-    function initialize(address intOwner,address initDataStorage) public{
+    function initDatas() external {
         require(creator == tx.origin);
-        require(!_initialized);
-        owner = intOwner;
-        dataStorage = initDataStorage;
-        require(dataStorage.delegatecall(bytes4(keccak256("pushAdmin(address)")),creator));
-        _initialized = true;
-    }
-    
-    function resetDataStorage(address newDataStorage) public {
-        require(creator == tx.origin);
-        address oldDataStorgae = dataStorage;
-        if(oldDataStorgae != address(0x0)){
-            require(newDataStorage.delegatecall(bytes4(keccak256("loadData(address)")),oldDataStorgae));//从旧版本的存储合约中加载数据。
-        }
-        dataStorage = newDataStorage;
+        administrators.push(tx.origin);
     }
     
     modifier onlyOwner() {
@@ -75,9 +60,8 @@ contract BizlicOnChain {
      * 添加一个管理员
      */
     function addAdmin(address admin) public onlyAdmin onlyOwner{
-        address[] memory administrators = BizLicOnChainStorage(dataStorage).getAdmins();
         if(!ArrayUtils.contains(administrators,admin)){
-            require(dataStorage.delegatecall(bytes4(keccak256("pushAdmin(address)")),admin));
+            administrators.push(admin);
         }
     }
     
@@ -85,17 +69,16 @@ contract BizlicOnChain {
      * 删除一个管理员
      */
     function removeAdmin(address admin) public onlyAdmin onlyOwner{
-       address[] memory administrators = BizLicOnChainStorage(dataStorage).getAdmins();
        // 从 administrators中删除指定的管理员
        require(administrators.length>1,"At least one administrator exist in this System!");
-       require(dataStorage.delegatecall(bytes4(keccak256("removeAdmin(address)")),admin));
+       ArrayUtils.remove(administrators,admin);
     }
     
     /**
      * 获取所有的管理员
      */
     function getAdmins() public view onlyOwner returns(address[] memory admins){
-        admins = BizLicOnChainStorage(dataStorage).getAdmins();
+        admins administrators
     }
     
 }

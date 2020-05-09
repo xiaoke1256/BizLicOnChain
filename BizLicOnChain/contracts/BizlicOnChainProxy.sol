@@ -1,5 +1,7 @@
 pragma solidity ^0.4.25;
 
+import { BizlicOnChain } from "./BizLicOnChain.sol";
+
 /**
  * 合约代理
  */
@@ -39,11 +41,11 @@ contract BizLicOnChainProxy {
     /**
      * 初始化合约
      */
-    function initialize(address newVersion,address newStorageVersion) public onlyCreator{
+    function initialize(address newVersion) public onlyCreator{
         require(!_initialized);
         currentVersion = newVersion;
-        storageVersion = newStorageVersion;
-        require(currentVersion.delegatecall(bytes4(keccak256("initialize(address,address)")),address(this),storageVersion));
+        require(currentVersion.call(bytes4(keccak256("initialize()"))));//初始化合约
+        require(currentVersion.delegatecall(bytes4(keccak256("initDatas()"))));//初始化业务数据
         _initialized = true;
     }
     
@@ -52,19 +54,37 @@ contract BizLicOnChainProxy {
      */
     function changeContract(address newVersion) public onlyCreator{
         currentVersion = newVersion;
-        require(currentVersion.delegatecall(bytes4(keccak256("initialize(address,address)")),address(this),storageVersion));
+        require(currentVersion.delegatecall(bytes4(keccak256("initialize()"))));
     }
     
     /**
-     * 合约存储版本变更
+     * 将老版本数据加载过来
      */
-    function changeStorage(address newVersion) public onlyCreator{
-        storageVersion = newVersion;
-        require(currentVersion.delegatecall(bytes4(keccak256("resetDataStorage(address,address)")),newVersion));
+    function reloadData(address oldVersion) public onlyCreator{
+        administrators = BizLicOnChainProxy(oldVersion).getAdmins();
+        //....
     }
     
-    function() public {
-        require(currentVersion.delegatecall(msg.data));
+     //以下业务函数
+    /**
+     * 添加一个管理员
+     */
+    function addAdmin(address admin) public {
+        require(currentVersion.delegatecall(bytes4(keccak256("addAdmin(address)")),admin));
+    }
+    
+     /**
+     * 删除一个管理员
+     */
+    function removeAdmin(address admin) public{
+       require(currentVersion.delegatecall(bytes4(keccak256("removeAdmin(address)")),admin));
+    }
+    
+    /**
+     * 获取所有的管理员
+     */
+    function getAdmins() public view returns(address[] memory admins){
+        return administrators;
     }
     
 }
