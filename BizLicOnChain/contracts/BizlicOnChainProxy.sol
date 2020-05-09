@@ -1,7 +1,5 @@
 pragma solidity ^0.4.25;
 
-import { BizlicOnChain } from "./BizLicOnChain.sol";
-
 /**
  * 合约代理
  */
