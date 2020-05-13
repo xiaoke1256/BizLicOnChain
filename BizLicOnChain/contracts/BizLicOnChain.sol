@@ -2,7 +2,7 @@ pragma solidity ^0.4.25;
 
 import { ArrayUtils } from "./ArrayUtils.sol";
 
-contract BizlicOnChain {
+contract BizLicOnChain {
     /**
      * 创建者
      */
@@ -49,7 +49,6 @@ contract BizlicOnChain {
      * 仅管理员才可以执行此
      */
     modifier onlyAdmin() {
-        address[] memory administrators = BizLicOnChainStorage(dataStorage).getAdmins();
         //tx.origin 是合约的发起方，而msg.sender是上一级调用者的地址
 		require(ArrayUtils.contains(administrators,tx.origin),"Unauthorized operation!");
 		_;
@@ -59,7 +58,7 @@ contract BizlicOnChain {
     /**
      * 添加一个管理员
      */
-    function addAdmin(address admin) public onlyAdmin onlyOwner{
+    function addAdmin(address admin) public  {
         if(!ArrayUtils.contains(administrators,admin)){
             administrators.push(admin);
         }
@@ -77,8 +76,8 @@ contract BizlicOnChain {
     /**
      * 获取所有的管理员
      */
-    function getAdmins() public view onlyOwner returns(address[] memory admins){
-        admins administrators
+    function getAdmins() public view onlyOwner returns(address[] memory){
+        return administrators;
     }
     
 }
