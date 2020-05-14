@@ -9,6 +9,20 @@ contract BizLicOnChain {
     address creator;
     
     address[] administrators;
+    
+    /**
+     * 工商局
+     */
+    struct AicOrgan{
+        string organName;//机关名称
+        string organCode;//机关代码
+        bytes publicKey;//公钥
+    }
+    
+    /**
+     * 所有工商机关
+     */
+    mapping(string => AicOrgan) aicOrgans;
 
     constructor() public{
         creator = tx.origin;
