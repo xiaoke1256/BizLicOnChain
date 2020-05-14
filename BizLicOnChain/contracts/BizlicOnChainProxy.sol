@@ -40,8 +40,7 @@ contract BizLicOnChainProxy {
     function initialize(address newVersion) public onlyCreator{
         require(!_initialized);
         currentVersion = newVersion;
-        require(currentVersion.call(bytes4(keccak256("initialize()"))),'Fail to execute initialize function.');//初始化合约
-        require(currentVersion.delegatecall(bytes4(keccak256("initDatas()"))),'Fail to execute initDatas function.');//初始化业务数据
+        require(currentVersion.delegatecall(bytes4(keccak256("initialize()"))),'Fail to execute initialize function.');//初始化合约
         _initialized = true;
     }
     
@@ -51,7 +50,6 @@ contract BizLicOnChainProxy {
     function changeContract(address newVersion) public onlyCreator{
         require(_initialized);
         currentVersion = newVersion;
-        require(currentVersion.call(bytes4(keccak256("initialize()"))));//初始化合约
     }
     
     /**
