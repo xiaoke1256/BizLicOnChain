@@ -71,4 +71,21 @@ contract BizLicOnChain {
         return administrators;
     }
     
+        
+    /**
+     * 注册一个发证机关
+     */
+    function regestOrgan(string organCode,string organName,bytes publicKey) public onlyAdmin {
+        //检查名称有没有，code有没有
+        aicOrgans[organCode] = AicOrgan(organCode,organName,publicKey);
+    }
+    
+    /**
+     * 获取所有发证机关
+     */
+    function getOrgan(string organCode) public view onlyAdmin returns(string memoery)  {
+        AicOrgan organ = aicOrgans[organCode];
+        return organ.organName;
+    }
+    
 }

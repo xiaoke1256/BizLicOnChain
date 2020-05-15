@@ -100,12 +100,21 @@ contract BizLicOnChainProxy {
         return administrators;//BizlicOnChain(currentVersion).getAdmins();
     }
     
-       /**
-     * 获取所有的管理员
+    /**
+     * 注册一个发证机关
      */
-    function getAdminsFromInner() public view returns(address[] memory admins){
+    function regestOrgan(string organCode,string organName,bytes publicKey) public {
         require(_initialized);
-        return BizLicOnChain(currentVersion).getAdmins();
+        require(currentVersion.delegatecall(bytes4(keccak256("regestOrgan(string,string,bytes)")),organCode,organName,publicKey));
+    }
+    
+    /**
+     * 获取所有发证机关
+     */
+    function getOrgan(string organCode) public view returns(string memoery) {
+        require(_initialized);
+        AicOrgan organ = aicOrgans[organCode];
+         return organ.organName;
     }
     
 }
