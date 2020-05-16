@@ -2,6 +2,8 @@ pragma solidity ^0.4.25;
 
 import { BizLicOnChain } from "./BizLicOnChain.sol";
 
+import { StringUtils } from "./StringUtils.sol";
+
 /**
  * 合约代理
  */
@@ -113,8 +115,17 @@ contract BizLicOnChainProxy {
      */
     function getOrgan(string organCode) public view returns(string memoery) {
         require(_initialized);
-        AicOrgan organ = aicOrgans[organCode];
-         return organ.organName;
+        AicOrgan memory organ = aicOrgans[organCode];
+        string[] strArr;
+        // = ["{organCode:'",organCode,"',organName:'",organ.organName,"',publicKey:'",string(organ.publicKey),"'}"]
+        strArr.push("{organCode:'");
+        strArr.push(organCode);
+        strArr.push("',organName:'");
+        strArr.push(organ.organName);
+        strArr.push("',publicKey:'");
+        strArr.push(string(organ.publicKey));
+        strArr.push("'}");
+        return StringUtils.concatArr(strArr);
     }
     
 }

@@ -80,12 +80,12 @@ contract BizLicOnChain {
         aicOrgans[organCode] = AicOrgan(organCode,organName,publicKey);
     }
     
-    /**
-     * 获取所有发证机关
-     */
-    function getOrgan(string organCode) public view onlyAdmin returns(string memoery)  {
-        AicOrgan organ = aicOrgans[organCode];
-        return organ.organName;
-    }
+//    /**
+//     * 获取所有发证机关
+//     */
+//    function getOrgan(string organCode) public view onlyAdmin returns(string memoery)  {
+//        AicOrgan memory organ = aicOrgans[organCode];
+//        return StringUtils.concat(["{organCode:'",organCode,"',organName:'",organ.organName,"',publicKey:'",string(organ.publicKey),"'}"]);
+//    }
     
 }
