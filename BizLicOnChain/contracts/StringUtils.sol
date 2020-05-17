@@ -13,8 +13,8 @@ library StringUtils {
         bytes memory _bb = bytes(s2);
         string memory ret = new string(_ba.length + _bb.length);
         bytes memory bret = bytes(ret);
-        uint k = 0;
-        for (uint i = 0; i < _ba.length; i++)bret[k++] = _ba[i];
+        uint64 k = 0;
+        for (uint64 i = 0; i < _ba.length; i++)bret[k++] = _ba[i];
         for (i = 0; i < _bb.length; i++) bret[k++] = _bb[i];
         return string(ret);
     }
@@ -24,7 +24,7 @@ library StringUtils {
      */
     function concatArr(string[] memory s1) internal pure returns (string) {
         string memory s = s1[0];
-        for(uint i = 1; i < s1.length; i++){
+        for(uint64 i = 1; i < s1.length; i++){
             s = concat(s,s1[i]);
         }
         return s;

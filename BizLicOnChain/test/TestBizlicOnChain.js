@@ -7,6 +7,6 @@ await proxy.getAdmins.call()
 proxy.addAdmin(accounts[1])
 
 
-proxy.regestOrgan('320000000','上海市市场监督局','0x0000000000000000000000000000000000000000000000000000000000000001')
+proxy.regestOrgan("310000000","上海市市场监督局","0x0")
 
-proxy.getOrgan('320000000')
+proxy.getOrgan.call('310000000')

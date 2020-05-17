@@ -105,10 +105,11 @@ contract BizLicOnChainProxy {
     /**
      * 注册一个发证机关
      */
-    function regestOrgan(string organCode,string organName,bytes publicKey) public {
+    function regestOrgan(string organCode,string organName,string publicKey) public {
         require(_initialized);
-        require(currentVersion.delegatecall(bytes4(keccak256("regestOrgan(string,string,bytes)")),organCode,organName,publicKey));
+        require(currentVersion.delegatecall(bytes4(keccak256("regestOrgan(string,string,bytes)")),organCode,organName,bytes(publicKey)));
     }
+    
     
     /**
      * 获取所有发证机关
@@ -116,16 +117,16 @@ contract BizLicOnChainProxy {
     function getOrgan(string organCode) public view returns(string memoery) {
         require(_initialized);
         AicOrgan memory organ = aicOrgans[organCode];
-        string[] strArr;
+        //string[] strArr;
         // = ["{organCode:'",organCode,"',organName:'",organ.organName,"',publicKey:'",string(organ.publicKey),"'}"]
-        strArr.push("{organCode:'");
-        strArr.push(organCode);
-        strArr.push("',organName:'");
-        strArr.push(organ.organName);
-        strArr.push("',publicKey:'");
-        strArr.push(string(organ.publicKey));
-        strArr.push("'}");
-        return StringUtils.concatArr(strArr);
+        //strArr.push("{organCode:'");
+        //strArr.push(organCode);
+        //strArr.push("',organName:'");
+        //strArr.push(organ.organName);
+        //strArr.push("',publicKey:'");
+        //strArr.push(string(organ.publicKey));
+        //strArr.push("'}");
+        return StringUtils.concat("{organCode:'",organ.organCode);
     }
     
 }
