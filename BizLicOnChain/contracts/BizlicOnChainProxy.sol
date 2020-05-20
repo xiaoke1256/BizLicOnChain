@@ -20,8 +20,8 @@ contract BizLicOnChainProxy {
      * 工商局
      */
     struct AicOrgan{
-        string organName;//机关名称
         string organCode;//机关代码
+        string organName;//机关名称
         bytes publicKey;//公钥
     }
     
@@ -117,6 +117,9 @@ contract BizLicOnChainProxy {
     function getOrgan(string organCode) public view returns(string memoery) {
         require(_initialized);
         AicOrgan memory organ = aicOrgans[organCode];
+        if(organ.organCode==''){
+            return '';
+        }
         //string[] strArr;
         // = ["{organCode:'",organCode,"',organName:'",organ.organName,"',publicKey:'",string(organ.publicKey),"'}"]
         //strArr.push("{organCode:'");

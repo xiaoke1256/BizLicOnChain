@@ -14,8 +14,8 @@ contract BizLicOnChain {
      * 工商局
      */
     struct AicOrgan{
-        string organName;//机关名称
         string organCode;//机关代码
+        string organName;//机关名称
         bytes publicKey;//公钥
     }
     
