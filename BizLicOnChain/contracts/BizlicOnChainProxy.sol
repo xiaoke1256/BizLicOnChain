@@ -1,13 +1,13 @@
 pragma solidity ^0.4.25;
 
-import { BizLicOnChain } from "./BizLicOnChain.sol";
+import { BaseBizLicOnChain } from "./BaseBizLicOnChain.sol";
 
 import { StringUtils } from "./StringUtils.sol";
 
 /**
  * 合约代理
  */
-contract BizLicOnChainProxy {
+contract BizLicOnChainProxy is BaseBizLicOnChain {
     
     address creator;
     
@@ -16,14 +16,7 @@ contract BizLicOnChainProxy {
      */
     address[] administrators;
     
-    /**
-     * 工商局
-     */
-    struct AicOrgan{
-        string organCode;//机关代码
-        string organName;//机关名称
-        bytes publicKey;//公钥
-    }
+    
     
     /**
      * 所有工商机关
@@ -116,9 +109,9 @@ contract BizLicOnChainProxy {
      */
     function getOrgan(string organCode) public view returns(string memoery) {
         require(_initialized);
-        AicOrgan memory organ = aicOrgans[organCode];
-        if(organ.organCode==''){
-            return '';
+        AicOrgan organ = aicOrgans[organCode];
+        if(!organ.isUserd){
+            return "";
         }
         //string[] strArr;
         // = ["{organCode:'",organCode,"',organName:'",organ.organName,"',publicKey:'",string(organ.publicKey),"'}"]
