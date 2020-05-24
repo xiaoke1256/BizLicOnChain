@@ -8,5 +8,7 @@ proxy.addAdmin(accounts[1])
 
 
 proxy.regestOrgan("310000000","上海市市场监督局","0x0")
-
 proxy.getOrgan.call('310000000')
+proxy.removeOrgan("310000000")
+proxy.getOrgan.call('310000000')
+

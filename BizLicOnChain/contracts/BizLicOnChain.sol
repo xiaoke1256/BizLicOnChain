@@ -83,6 +83,13 @@ contract BizLicOnChain is BaseBizLicOnChain {
         aicOrgans[organCode].isUserd = true;
     }
     
+    /**
+     * 删除一个发证机关
+     */
+    function removeOrgan(string memory organCode) public onlyAdmin {
+        delete aicOrgans[organCode];
+    }
+    
 //    /**
 //     * 获取所有发证机关
 //     */

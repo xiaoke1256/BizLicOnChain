@@ -47,8 +47,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         require(!_initialized);
         currentVersion = newVersion;
         bool sucess;
-        bytes memory result; 
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("initialize()"));
+        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("initialize()"));
         require(sucess,'Fail to execute initialize function.');//初始化合约
         _initialized = true;
     }
@@ -77,8 +76,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     function addAdmin(address admin) public {
         require(_initialized);
         bool sucess;
-        bytes memory result; 
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("addAdmin(address)",admin));
+        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("addAdmin(address)",admin));
         require(sucess);
     }
     
@@ -88,8 +86,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     function removeAdmin(address admin) public{
        require(_initialized);
        bool sucess;
-       bytes memory result; 
-       (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeAdmin(address)",admin));
+       (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("removeAdmin(address)",admin));
        require(sucess);
     }
     
@@ -107,13 +104,19 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     function regestOrgan(string memory organCode,string memory organName,string memory publicKey) public {
         require(_initialized);
         bool sucess;
-        bytes memory result; 
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,bytes)",organCode,organName,bytes(publicKey)));
+        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,bytes)",organCode,organName,bytes(publicKey)));
         require(sucess);
 //        aicOrgans[organCode].organCode = organCode;
 //        aicOrgans[organCode].organName = organName;
 //        aicOrgans[organCode].publicKey = bytes(publicKey);
 //        aicOrgans[organCode].isUserd = true;
+    }
+    
+    function removeOrgan(string memory organCode)public {
+        require(_initialized);
+        bool sucess;
+        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("removeOrgan(string)",organCode));
+        require(sucess);
     }
     
     
