@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.0;
 
 import { BaseBizLicOnChain } from "./BaseBizLicOnChain.sol";
 
@@ -16,20 +16,17 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
      */
     address[] administrators;
     
-    
-    
     /**
      * 所有工商机关
      */
     mapping(string => AicOrgan) aicOrgans;
     
+    bool internal _initialized = false;
+    
     /**
      * 逻辑合约地址
      */
     address currentVersion;
-    
-    
-    bool internal _initialized = false;
     
     modifier onlyCreator() {
         require(msg.sender == creator);
@@ -49,7 +46,10 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     function initialize(address newVersion) public onlyCreator{
         require(!_initialized);
         currentVersion = newVersion;
-        require(currentVersion.delegatecall(bytes4(keccak256("initialize()"))),'Fail to execute initialize function.');//初始化合约
+        bool sucess;
+        bytes memory result; 
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("initialize()"));
+        require(sucess,'Fail to execute initialize function.');//初始化合约
         _initialized = true;
     }
     
@@ -76,7 +76,10 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
      */
     function addAdmin(address admin) public {
         require(_initialized);
-        require(currentVersion.delegatecall(bytes4(keccak256("addAdmin(address)")),admin));
+        bool sucess;
+        bytes memory result; 
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("addAdmin(address)",admin));
+        require(sucess);
     }
     
      /**
@@ -84,7 +87,10 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
      */
     function removeAdmin(address admin) public{
        require(_initialized);
-       require(currentVersion.delegatecall(bytes4(keccak256("removeAdmin(address)")),admin));
+       bool sucess;
+       bytes memory result; 
+       (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeAdmin(address)",admin));
+       require(sucess);
     }
     
     /**
@@ -98,19 +104,25 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     /**
      * 注册一个发证机关
      */
-    function regestOrgan(string organCode,string organName,string publicKey) public {
+    function regestOrgan(string memory organCode,string memory organName,string memory publicKey) public {
         require(_initialized);
-        require(currentVersion.delegatecall(bytes4(keccak256("regestOrgan(string,string,bytes)")),organCode,organName,bytes(publicKey)));
+        bool sucess;
+        bytes memory result; 
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,bytes)",organCode,organName,bytes(publicKey)));
+        require(sucess);
+//        aicOrgans[organCode].organCode = organCode;
+//        aicOrgans[organCode].organName = organName;
+//        aicOrgans[organCode].publicKey = bytes(publicKey);
+//        aicOrgans[organCode].isUserd = true;
     }
     
     
     /**
      * 获取所有发证机关
      */
-    function getOrgan(string organCode) public view returns(string memoery) {
+    function getOrgan(string memory organCode) public view returns(string memory) {
         require(_initialized);
-        AicOrgan organ = aicOrgans[organCode];
-        if(!organ.isUserd){
+        if(!aicOrgans[organCode].isUserd){
             return "";
         }
         //string[] strArr;
@@ -122,7 +134,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         //strArr.push("',publicKey:'");
         //strArr.push(string(organ.publicKey));
         //strArr.push("'}");
-        return StringUtils.concat("{organCode:'",organ.organCode);
+        return StringUtils.concat("{organCode:'",aicOrgans[organCode].organCode);
     }
     
 }

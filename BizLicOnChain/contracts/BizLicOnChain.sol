@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.0;
 
 import { ArrayUtils } from "./ArrayUtils.sol";
 import { BaseBizLicOnChain } from "./BaseBizLicOnChain.sol";
@@ -15,6 +15,14 @@ contract BizLicOnChain is BaseBizLicOnChain {
      * 所有工商机关
      */
     mapping(string => AicOrgan) aicOrgans;
+    
+    /* 用来占位 */
+    bool internal _initialized = false;
+    
+    /**
+     * 逻辑合约地址 用来占位
+     */
+    address currentVersion;
 
     constructor() public{
         creator = tx.origin;
@@ -67,9 +75,12 @@ contract BizLicOnChain is BaseBizLicOnChain {
     /**
      * 注册一个发证机关
      */
-    function regestOrgan(string organCode,string organName,bytes publicKey) public onlyAdmin {
-        //检查名称有没有，code有没有
-        aicOrgans[organCode] = AicOrgan(organCode,organName,publicKey,true);
+    function regestOrgan(string memory organCode,string memory organName,bytes memory publicKey) public onlyAdmin {
+        //TODO 检查名称有没有，code有没有
+        aicOrgans[organCode].organCode = organCode;
+        aicOrgans[organCode].organName = organName;
+        aicOrgans[organCode].publicKey = publicKey;
+        aicOrgans[organCode].isUserd = true;
     }
     
 //    /**

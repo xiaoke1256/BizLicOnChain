@@ -1,11 +1,11 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.0;
 
 
 library ArrayUtils {
     /**
      * 判断数组中是否包含指定元素
      */
-	function contains(address[] array,address target) internal pure returns (bool){
+	function contains(address[] storage array,address target) internal view returns (bool){
 	    require(array.length<2**64,"The Array is out of bound.");
 	    for(uint64 i=0;i< array.length;i++){
             if(array[i] == target){
@@ -18,7 +18,7 @@ library ArrayUtils {
 	 /**
      * 返回指定元素在数组中的位置
      */
-	function indexOf(address[] array,address target) internal pure returns(uint64){
+	function indexOf(address[] storage array,address target) internal view returns(uint64){
 	    require(array.length<2**64,"The Array is out of bound.");
 	    for(uint64 i=0;i< array.length;i++){
             if(array[i] == target){
@@ -56,7 +56,7 @@ library ArrayUtils {
 	/**
 	 * 判断数组中是否包含某元素
 	 */
-	function contains(string[] array,string target) internal pure returns (bool){
+	function contains(string[] storage array,string memory target) internal view returns (bool){
 	    require(array.length<2**64,"The Array is out of bound.");
 	    for(uint64 i=0;i< array.length;i++){
             if(stringEquals(array[i],target)){
@@ -69,7 +69,7 @@ library ArrayUtils {
 	/**
 	 * 判断字符串是否相等
 	 */
-	function stringEquals(string str1,string str2) private pure returns (bool){
+	function stringEquals(string memory str1,string memory str2) private pure returns (bool){
 	    if(bytes(str1).length != bytes(str2).length){
 	        return false;
 	    }
