@@ -128,16 +128,15 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         if(!aicOrgans[organCode].isUserd){
             return "";
         }
-        //string[] strArr;
-        // = ["{organCode:'",organCode,"',organName:'",organ.organName,"',publicKey:'",string(organ.publicKey),"'}"]
-        //strArr.push("{organCode:'");
-        //strArr.push(organCode);
-        //strArr.push("',organName:'");
-        //strArr.push(organ.organName);
-        //strArr.push("',publicKey:'");
-        //strArr.push(string(organ.publicKey));
-        //strArr.push("'}");
-        return StringUtils.concat("{organCode:'",aicOrgans[organCode].organCode);
+        string[] memory strArr = new string[](7);
+        strArr[0]="{organCode:'";
+        strArr[1]=organCode;
+        strArr[2]="',organName:'";
+        strArr[3]=aicOrgans[organCode].organName;
+        strArr[4]="',publicKey:'";
+        strArr[5]=string(aicOrgans[organCode].publicKey);
+        strArr[5]="'}";
+        return StringUtils.concat(strArr);
     }
     
 }

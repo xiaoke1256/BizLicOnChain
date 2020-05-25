@@ -22,7 +22,7 @@ library StringUtils {
      /**
      * 拼接字符串
      */
-    function concatArr(string[] memory s1) internal pure returns (string memory) {
+    function concat(string[] memory s1) internal pure returns (string memory) {
         string memory s = s1[0];
         for(uint64 i = 1; i < s1.length; i++){
             s = concat(s,s1[i]);
