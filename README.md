@@ -8,5 +8,5 @@ BizLicOnChain
  |属性名|备注|
  |-----|----|
  |organCode|发证机关|
- |licContent|证照内容(拼成json串)|
+ |licContent|证照内容(把企业名称，法定代表人等字段拼成json串。)|
  |sign|电子签章|
