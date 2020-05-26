@@ -21,6 +21,11 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
      */
     mapping(string => AicOrgan) aicOrgans;
     
+    /*
+     * 所有营业执照（key是组织机构代码，value是营业执照内容的json）
+     */
+    mapping(string => BizLic) bizLics;
+    
     bool internal _initialized = false;
     
     /**

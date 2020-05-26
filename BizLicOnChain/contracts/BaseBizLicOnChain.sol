@@ -10,4 +10,10 @@ contract BaseBizLicOnChain {
         bytes publicKey;//公钥
         bool isUserd;
     }
+    
+    struct BizLic{
+        string organCode;//发证机关代码
+        string licContent;//证照内容
+        string sign;//电子签章
+    }
 }

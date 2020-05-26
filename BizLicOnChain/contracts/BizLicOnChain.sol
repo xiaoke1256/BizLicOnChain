@@ -16,6 +16,11 @@ contract BizLicOnChain is BaseBizLicOnChain {
      */
     mapping(string => AicOrgan) aicOrgans;
     
+    /*
+     * 所有营业执照（key是组织机构代码，value是营业执照内容的json）
+     */
+    mapping(string => BizLic) bizLics;
+    
     /* 用来占位 */
     bool internal _initialized = false;
     
