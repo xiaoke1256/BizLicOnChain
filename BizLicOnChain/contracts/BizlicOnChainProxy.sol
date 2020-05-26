@@ -101,15 +101,18 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     /**
      * 注册一个发证机关
      */
-    function regestOrgan(string memory organCode,string memory organName,string memory publicKey) public {
+    function regestOrgan(string memory organCode,string memory organName,bytes memory publicKey) public {
         require(_initialized);
         bool sucess;
-        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,bytes)",organCode,organName,bytes(publicKey)));
+        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,bytes)",organCode,organName,publicKey));
         require(sucess);
-//        aicOrgans[organCode].organCode = organCode;
-//        aicOrgans[organCode].organName = organName;
-//        aicOrgans[organCode].publicKey = bytes(publicKey);
-//        aicOrgans[organCode].isUserd = true;
+    }
+    
+      /**
+     * 注册一个发证机关
+     */
+    function regestOrgan(string memory organCode,string memory organName,string memory publicKey) public {
+        regestOrgan(organCode,organName,bytes(publicKey));
     }
     
     function removeOrgan(string memory organCode)public {
@@ -126,7 +129,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     function getOrgan(string memory organCode) public view returns(string memory) {
         require(_initialized);
         if(!aicOrgans[organCode].isUserd){
-            return "";
+            return "null";
         }
         string[] memory strArr = new string[](7);
         strArr[0]="{organCode:'";

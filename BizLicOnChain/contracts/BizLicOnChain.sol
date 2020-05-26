@@ -77,8 +77,8 @@ contract BizLicOnChain is BaseBizLicOnChain {
      */
     function regestOrgan(string memory organCode,string memory organName,bytes memory publicKey) public onlyAdmin {
         //检查名称有没有，code有没有
-        require(organCode.length>0);
-        require(organName.length>0);
+        require(bytes(organCode).length>0);
+        require(bytes(organName).length>0);
         aicOrgans[organCode].organCode = organCode;
         aicOrgans[organCode].organName = organName;
         aicOrgans[organCode].publicKey = publicKey;
@@ -89,7 +89,7 @@ contract BizLicOnChain is BaseBizLicOnChain {
      * 删除一个发证机关
      */
     function removeOrgan(string memory organCode) public onlyAdmin {
-        require(organCode.length>0);
+        require(bytes(organCode).length>0);
         delete aicOrgans[organCode];
     }
     
