@@ -7,7 +7,7 @@ contract BaseBizLicOnChain {
     struct AicOrgan{
         string organCode;//机关代码
         string organName;//机关名称
-        bytes publicKey;//公钥
+        address publicKey;//公钥
         bool isUserd;
     }
     

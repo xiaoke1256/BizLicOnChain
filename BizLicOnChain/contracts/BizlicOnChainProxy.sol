@@ -106,18 +106,11 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     /**
      * 注册一个发证机关
      */
-    function regestOrgan(string memory organCode,string memory organName,bytes memory publicKey) public {
+    function regestOrgan(string memory organCode,string memory organName,address publicKey) public {
         require(_initialized);
         bool sucess;
         (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,bytes)",organCode,organName,publicKey));
         require(sucess);
-    }
-    
-      /**
-     * 注册一个发证机关
-     */
-    function regestOrgan(string memory organCode,string memory organName,string memory publicKey) public {
-        regestOrgan(organCode,organName,bytes(publicKey));
     }
     
     function removeOrgan(string memory organCode)public {
@@ -142,9 +135,26 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         strArr[2]="',organName:'";
         strArr[3]=aicOrgans[organCode].organName;
         strArr[4]="',publicKey:'";
-        strArr[5]=string(aicOrgans[organCode].publicKey);
-        strArr[5]="'}";
+        strArr[5]="";//uint2str(aicOrgans[organCode].publicKey);
+        strArr[6]="'}";
         return StringUtils.concat(strArr);
     }
+    
+//    function uint2str(uint160 i) private returns (string memory c) {
+//        if (i == 0) return "0";
+//        uint160 j = i;
+//        uint32 length;
+//        while (j != 0){
+//            length++;
+//            j /= 10;
+//        }
+//        bytes memory bstr = new bytes(length);
+//        uint32 k = length - 1;
+//        while (i != 0){
+//            bstr[k--] = byte(48 + i % 10);
+//            i /= 10;
+//        }
+//        c = string(bstr);
+//    }
     
 }
