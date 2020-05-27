@@ -80,7 +80,7 @@ contract BizLicOnChain is BaseBizLicOnChain {
     /**
      * 注册一个发证机关
      */
-    function regestOrgan(string memory organCode,string memory organName,bytes memory publicKey) public onlyAdmin {
+    function regestOrgan(string memory organCode,string memory organName,address publicKey) public onlyAdmin {
         //检查名称有没有，code有没有
         require(bytes(organCode).length>0);
         require(bytes(organName).length>0);
@@ -98,12 +98,26 @@ contract BizLicOnChain is BaseBizLicOnChain {
         delete aicOrgans[organCode];
     }
     
-//    /**
-//     * 获取所有发证机关
-//     */
-//    function getOrgan(string organCode) public view onlyAdmin returns(string memoery)  {
-//        AicOrgan memory organ = aicOrgans[organCode];
-//        return StringUtils.concat(["{organCode:'",organCode,"',organName:'",organ.organName,"',publicKey:'",string(organ.publicKey),"'}"]);
-//    }
+    /**
+     * 往区块链上新增或修改一个证书
+     * uniScId: 统一社会信用码，作为企业的唯一标识
+     * organCode: 发证机关
+     * licContent: 证书内容（拼成json）
+     * sign: 电子签名
+     * 
+     */
+    function putLic(string memory uniScId,string memory organCode,string memory licContent,string memory sign) public onlyAdmin{
+        
+    }
+    
+     /**
+     * 删除一个证书
+     * uniScId: 统一社会信用码，作为企业的唯一标识
+     * 
+     */
+    function removeLic(string memory uniScId) public onlyAdmin{
+        
+    }
+    
     
 }
