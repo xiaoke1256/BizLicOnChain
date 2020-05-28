@@ -23,10 +23,35 @@ library StringUtils {
      * 拼接字符串
      */
     function concat(string[] memory s1) internal pure returns (string memory) {
+        if(s1.length==0){
+            return "";
+        }
         string memory s = s1[0];
         for(uint64 i = 1; i < s1.length; i++){
             s = concat(s,s1[i]);
         }
         return s;
+    }
+    
+    /**
+     * 把地址转成字符串
+     */
+    function address2str(address a) internal pure returns (string memory c) {
+        uint160 i = uint160(a);
+        if (i == 0) return "0";
+        uint160 j = i;
+        uint length=0;
+        while (j != 0){
+            length++;
+            j /= 16;
+        }
+        bytes memory numEle = bytes("0123456789abcdef");
+        bytes memory bstr = new bytes(length);
+        uint k = length - 1;
+        while (i != 0){
+            bstr[k--] = numEle[i % 16];
+            i /= 16;
+        }
+        c = concat("0x",string(bstr));
     }
 }
