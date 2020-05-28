@@ -107,7 +107,14 @@ contract BizLicOnChain is BaseBizLicOnChain {
      * 
      */
     function putLic(string memory uniScId,string memory organCode,string memory licContent,string memory sign) public onlyAdmin{
+        require(bytes(uniScId).length>0);
+        require(bytes(organCode).length>0);
+        require(bytes(licContent).length>0);
+        require(bytes(sign).length>0);
         
+        bizLics[uniScId].organCode = organCode;
+        bizLics[uniScId].licContent = licContent;
+        bizLics[uniScId].sign = sign;
     }
     
      /**
@@ -116,7 +123,8 @@ contract BizLicOnChain is BaseBizLicOnChain {
      * 
      */
     function removeLic(string memory uniScId) public onlyAdmin{
-        
+        require(bytes(uniScId).length>0);
+        delete bizLics[uniScId];
     }
     
     
