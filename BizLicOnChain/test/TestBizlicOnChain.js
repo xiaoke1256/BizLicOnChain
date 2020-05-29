@@ -18,6 +18,7 @@ proxy.getOrgan.call('310000000')
 //sign.signature
 //提交营业执照。
 let licContent = "{corpName:'某某股份有限公司'}";
-let sign = web3.eth.accounts.sign(licContent,accounts[1]);
-sign;
+let sign = await web3.eth.accounts.sign(licContent,accounts[1])
+//sign
 proxy.putLic("123100008654367537","310000000",licContent,sign.signature);
+proxy.getLicContent("123100008654367537")
