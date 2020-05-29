@@ -165,4 +165,9 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("removeLic(string)",uniScId));
     }
     
+    function getLicContent(string memory uniScId) public view returns(string memory)  {
+        require(_initialized);
+        return bizLics[uniScId].licContent;
+    }
+    
 }
