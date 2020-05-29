@@ -10,5 +10,5 @@ BizLicOnChain
  |属性名|解释|
  |-----|----|
  |organCode|发证机关代码|
- |licContent|证照内容(把企业名称，法定代表人等字段拼成json串。)|
+ |licContent|证照内容(把企业名称，法定代表人等数据项拼成json串。)|
  |sign|电子签章|
