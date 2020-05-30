@@ -15,7 +15,7 @@ library EncryptUtils {
         bytes memory signature = bytes(sign);
 		bytes32 r = bytesToBytes32(slice(signature,0,64));
 		bytes32 s = bytesToBytes32(slice(signature,64,64));
-		uint8 v = bytesToUint(slice(signature,128,2))+26;
+		uint8 v = bytesToUint(slice(signature,128,2))+27;
         address addr = ecrecover(keccak256(bytes(orgContent)),v,r,s);
         return addr==targetAdress;
     }
