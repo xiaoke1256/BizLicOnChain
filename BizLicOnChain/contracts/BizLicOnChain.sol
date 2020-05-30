@@ -127,5 +127,4 @@ contract BizLicOnChain is BaseBizLicOnChain {
         delete bizLics[uniScId];
     }
     
-    
 }
