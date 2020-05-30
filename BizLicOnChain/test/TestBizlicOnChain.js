@@ -17,7 +17,7 @@ proxy.getOrgan.call('310000000')
 //let sign = web3.eth.accounts.sign('上海市市场监督局','c620a4325cf94591cecd800d0e890cd8fe3adfaf7b93a870ebdcf96132b409ac');// 'c620...'，要替换成自己的私钥。
 //sign.signature
 //提交营业执照。
-let licContent = "{corpName:'某某股份有限公司'}";
+let licContent = "{uniScId:'123100008654367537',corpName:'某某股份有限公司',leadName:'李四',indsyCode:'6432',regCpt:1250000.00,provDate:'2020-05-26',limitTo:'2025-05-26',issueOrgan:'上海市市场监督局'}";
 let sign = await web3.eth.accounts.sign(licContent,'c620a4325cf94591cecd800d0e890cd8fe3adfaf7b93a870ebdcf96132b409ac')
 //sign
 proxy.putLic("123100008654367537","310000000",licContent,sign.signature);
