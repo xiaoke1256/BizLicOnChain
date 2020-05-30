@@ -113,7 +113,7 @@ contract BizLicOnChain is BaseBizLicOnChain {
         require(bytes(licContent).length>0);
         require(bytes(sign).length>0);
         //校验数字签名
-        require(EncryptUtils.verificate(licContent,sign,aicOrgans[organCode].publicKey));
+        require(EncryptUtils.verificate(licContent,sign,aicOrgans[organCode].publicKey),'Verificate sign fail.');
         
         bizLics[uniScId].organCode = organCode;
         bizLics[uniScId].licContent = licContent;

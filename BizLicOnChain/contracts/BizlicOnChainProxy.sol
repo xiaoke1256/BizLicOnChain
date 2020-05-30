@@ -152,6 +152,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         require(_initialized);
         bool sucess;
         (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("putLic(string,string,string,string)",uniScId,organCode,licContent,sign));
+        require(sucess);
     }
     
      /**
@@ -163,6 +164,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         require(_initialized);
         bool sucess;
         (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("removeLic(string)",uniScId));
+        require(sucess);
     }
     
     /**
