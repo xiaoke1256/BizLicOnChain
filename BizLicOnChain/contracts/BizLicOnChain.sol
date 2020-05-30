@@ -1,6 +1,7 @@
 pragma solidity ^0.5.0;
 
 import { ArrayUtils } from "./ArrayUtils.sol";
+import { EncryptUtils } from "./EncryptUtils.sol";
 import { BaseBizLicOnChain } from "./BaseBizLicOnChain.sol";
 
 contract BizLicOnChain is BaseBizLicOnChain {

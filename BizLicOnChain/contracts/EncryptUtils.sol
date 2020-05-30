@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 /**
  * 加解密函数
  */
-library Encryptionutils {
+library EncryptUtils {
      /**
       * 校验签名
       * orgContent: 原文
