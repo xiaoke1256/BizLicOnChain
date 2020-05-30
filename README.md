@@ -20,4 +20,9 @@ BizLicOnChain
  |uniScId|统一社会信用码,作为企业的唯一标识|
  |corpName|企业名称|
  |leadName|法定代表人|
- |indsCode|行业分类代码（GB/T 4754—2017）|
+ |indsyCode|行业分类代码(GB/T 4754—2017)|
+ |bizScope|经营范围(文字描述)|
+ |regCpt|注册资金(元)|
+ |provDate|核准时间(yyyy-MM-dd)|
+ |limitTo|有效期至(yyyy-MM-dd)|
+ |issueOrgan|发证机关(中文全称)|
