@@ -4,6 +4,7 @@ pragma solidity ^0.5.0;
  * 加解密函数
  */
 library EncryptUtils {
+    
      /**
       * 校验签名
       * orgContent: 原文
@@ -20,7 +21,7 @@ library EncryptUtils {
         return addr==targetAdress;
     }
     
-    function slice(bytes memory data,uint start,uint len) private pure returns(bytes memory){
+    function slice(bytes memory data,uint start,uint len) public pure returns(bytes memory){
         bytes memory b=new bytes(len);
         for(uint i=0;i<len;i++){
             b[i]=data[i+start];
@@ -28,17 +29,24 @@ library EncryptUtils {
         return b;
     }
     
-    function bytesToBytes32(bytes memory source) private pure returns(bytes32 result){
+    function bytesToBytes32(bytes memory source) public pure returns(bytes32 result){
         assembly{
             result :=mload(add(source,32))
         }
     }
     
-    function bytesToUint(bytes memory b) private pure returns (uint8){
+    function bytesToUint(bytes memory b) public pure returns (uint8){
 	    uint8 number = 0;
 	    for(uint i= 0; i<b.length; i++){
 	        number = uint8(number + uint8(b[i])*(2**(8*(b.length-(i+1)))));
 	    }
 	    return number;
+	}
+	
+	/**
+	 * 把字符串解析成bytes数组
+	 */
+	function parseBytes(string memory s) public pure returns(bytes memory){
+	    
 	}
 }

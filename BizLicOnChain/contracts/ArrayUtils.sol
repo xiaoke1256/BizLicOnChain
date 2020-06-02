@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 
 
 library ArrayUtils {
+    
     /**
      * 判断数组中是否包含指定元素
      */
