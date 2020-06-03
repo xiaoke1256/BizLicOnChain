@@ -37,16 +37,30 @@ library EncryptUtils {
     
     function bytesToUint(bytes memory b) public pure returns (uint8){
 	    uint8 number = 0;
-	    for(uint i= 0; i<b.length; i++){
+	    for(uint64 i= 0; i<b.length; i++){
 	        number = uint8(number + uint8(b[i])*(2**(8*(b.length-(i+1)))));
 	    }
 	    return number;
 	}
 	
 	/**
-	 * 把字符串解析成bytes数组
+	 * 把16进制字符串解析成bytes数组
 	 */
 	function parseBytes(string memory s) public pure returns(bytes memory){
-	    
+	    bytes memory numEle = bytes("0123456789abcdef");
+	    bytes memory numEleUpper = bytes("0123456789ABCDEF");
+	    bytes memory bys = bytes(s);
+	    uint64 index = 0;
+	    if(bys[0]==bytes("0")[0] && bys[1]==bytes("x")[0]){
+	        index+=2;
+	    }
+	    for(;index<bys.length;index++){
+	        for(uint j=0;j<numEle.length;j++){
+	            if(numEle[j]==bys[index]){
+	                
+	                break;
+	            }
+	        }
+	    }
 	}
 }
