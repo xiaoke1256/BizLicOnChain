@@ -7,6 +7,8 @@ contract('EncryptUtils Test', function(accounts){
     	let sign = await web3.eth.accounts.sign(licContent,'0x785154a70d49e368e64c82fd457917905ad2e70e4aded78b5424ebe7b34a00bd');
     	console.log(typeof( sign.signature));
     	console.log(sign.signature);
+    	let b = await instance.parseBytes(sign.signature)
+    	console.log(b);
     	console.log(sign.signature.length);
     	let r = await instance.slice(sign.signature,0,32);
     	console.log(r);

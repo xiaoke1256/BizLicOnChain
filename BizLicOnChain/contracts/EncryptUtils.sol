@@ -43,6 +43,20 @@ library EncryptUtils {
 	    return number;
 	}
 	
+	function uintToBytes(uint x) public pure returns (bytes memory b){
+//	    bytes memory b;
+//	    uint index = 0;
+//	    while(i>0){
+//	        b[index]=byte(i%256);
+//	        index++;
+//	    }
+//	    return b;
+		b = new bytes(32);
+        for (uint i = 0; i < 32; i++) {
+            b[i] = byte(uint8(x / (2**(8*(31 - i)))));
+        }
+	}
+	
 	/**
 	 * 把16进制字符串解析成bytes数组
 	 */
@@ -50,17 +64,39 @@ library EncryptUtils {
 	    bytes memory numEle = bytes("0123456789abcdef");
 	    bytes memory numEleUpper = bytes("0123456789ABCDEF");
 	    bytes memory bys = bytes(s);
-	    uint64 index = 0;
+	    uint64 from = 0;
 	    if(bys[0]==bytes("0")[0] && bys[1]==bytes("x")[0]){
-	        index+=2;
+	        from+=2;
 	    }
-	    for(;index<bys.length;index++){
+	    uint len = bys.length-from;
+	    
+	    //bytes memory b=new bytes(len/2);
+	    uint result = 0;
+	    for(uint i=len-1;i>=from;i--){
+	        bool hasFound = false;
 	        for(uint j=0;j<numEle.length;j++){
-	            if(numEle[j]==bys[index]){
-	                
+	            if(numEle[j]==bys[i*2+1]){
+	                result = result*16+j;
+	                hasFound = true;
 	                break;
 	            }
 	        }
+	        if(!hasFound){
+		        for(uint j=0;j<numEleUpper.length;j++){
+		            if(numEleUpper[j]==bys[i*2+1]){
+		                result = result*16+j;
+		                hasFound = true;
+		                break;
+		            }
+		        }
+	        }
+	        require(hasFound,"Invalid char");
 	    }
+	    if(len%2!=0){
+	        len++;
+	    }
+    	return uintToBytes(result);
 	}
+	
+	
 }
