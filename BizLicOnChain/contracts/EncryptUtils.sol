@@ -14,10 +14,10 @@ library EncryptUtils {
     function verificate(string memory orgContent,string memory sign,address targetAdress) public pure returns(bool) {
         //solidity 有4个取散列的方法：keccak256,sha3,sha256,ripemd160;其中ripemd160返回的是bytes20,不符合要求;sha3的算法与keccak256相同
         bytes memory signature = bytes(sign);
-		bytes32 r = bytesToBytes32(slice(signature,0,64));
-		bytes32 s = bytesToBytes32(slice(signature,64,64));
-		uint8 v = bytesToUint(slice(signature,128,2))+27;
-        address addr = ecrecover(keccak256(bytes(orgContent)),v,r,s);
+		bytes32 r = bytesToBytes32(slice(signature,0,32));
+		bytes32 s = bytesToBytes32(slice(signature,32,32));
+		uint8 v = bytesToUint(slice(signature,64,1));
+        address addr = ecrecover(sha256(bytes(orgContent)),v,r,s);
         return addr==targetAdress;
     }
     
@@ -51,10 +51,19 @@ library EncryptUtils {
 //	        index++;
 //	    }
 //	    return b;
-		b = new bytes(32);
-        for (uint i = 0; i < 32; i++) {
-            b[i] = byte(uint8(x / (2**(8*(31 - i)))));
-        }
+//		assembly {
+//	        b := mload(0x10)
+//	        mstore(b, 0x20)
+//	        mstore(add(b, 0x20), x)
+//      }
+        
+        b = new bytes(32);
+        assembly { mstore(add(b, 32), x) }
+        
+//		b = new bytes(32);
+//        for (uint i = 0; i < 32; i++) {
+//            b[i] = byte(uint8(x / (2**(8*(31 - i)))));
+//        }
 	}
 	
 	/**
@@ -68,14 +77,14 @@ library EncryptUtils {
 	    if(bys[0]==bytes("0")[0] && bys[1]==bytes("x")[0]){
 	        from+=2;
 	    }
-	    uint len = bys.length-from;
+	    //uint len = bys.length-from;
 	    
 	    //bytes memory b=new bytes(len/2);
-	    uint result = 0;
-	    for(uint i=len-1;i>=from;i--){
+	    uint256 result = 0;
+	    for(uint i=bys.length-1;i>=from;i--){
 	        bool hasFound = false;
 	        for(uint j=0;j<numEle.length;j++){
-	            if(numEle[j]==bys[i*2+1]){
+	            if(numEle[j]==bys[i]){
 	                result = result*16+j;
 	                hasFound = true;
 	                break;
@@ -83,7 +92,7 @@ library EncryptUtils {
 	        }
 	        if(!hasFound){
 		        for(uint j=0;j<numEleUpper.length;j++){
-		            if(numEleUpper[j]==bys[i*2+1]){
+		            if(numEleUpper[j]==bys[i]){
 		                result = result*16+j;
 		                hasFound = true;
 		                break;
@@ -92,9 +101,9 @@ library EncryptUtils {
 	        }
 	        require(hasFound,"Invalid char");
 	    }
-	    if(len%2!=0){
-	        len++;
-	    }
+//	    if(len%2!=0){
+//	        len++;
+//	    }
     	return uintToBytes(result);
 	}
 	
