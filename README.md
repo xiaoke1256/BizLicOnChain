@@ -34,6 +34,7 @@ BizLicOnChain
  2. 设置创世区块
  3. 同步区块
  
+ &ensp;&ensp;&ensp;&ensp;
  进入geth控制台的命令如下：
  ```
  geth --datadir "data" console 2>>geth.log
