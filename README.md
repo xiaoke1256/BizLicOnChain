@@ -39,3 +39,13 @@ BizLicOnChain
  ```
  geth --datadir "data" console 2>>geth.log
  ```
+
+4. 开始挖矿
+
+5.转账
+
+ &ensp;&ensp;&ensp;&ensp;
+ 转账命令如下：
+```
+> eth.sendTransaction({from: acc0, to: acc1, value: amount})
+```
