@@ -42,12 +42,12 @@ BizLicOnChain
 
 4. 开始挖矿
 
-5.转账
+5. 转账
 
 &ensp;&ensp;&ensp;&ensp;
 先解除账户锁定：
 ```
-personal.unlockAccount(acc0)
+> personal.unlockAccount(acc0)
 ```
  &ensp;&ensp;&ensp;&ensp;
  转账命令如下：
