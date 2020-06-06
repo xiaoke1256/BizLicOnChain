@@ -27,3 +27,14 @@ BizLicOnChain
  |limitTo|有效期至(yyyy-MM-dd)|
  |issueOrgan|发证机关(中文全称)|
  |otherInfo|其他信息|
+ 
+ ## 如何运行本系统
+ 
+ 1. 安装geth
+ 2. 设置创世区块
+ 3. 同步区块
+ 
+ 进入geth控制台的命令如下：
+ ```
+ geth --datadir "data" console 2>>geth.log
+ ```
