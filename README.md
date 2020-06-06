@@ -44,6 +44,11 @@ BizLicOnChain
 
 5.转账
 
+&ensp;&ensp;&ensp;&ensp;
+先解除账户锁定：
+```
+personal.unlockAccount(acc0)
+```
  &ensp;&ensp;&ensp;&ensp;
  转账命令如下：
 ```
