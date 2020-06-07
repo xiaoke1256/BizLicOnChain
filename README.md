@@ -40,9 +40,22 @@ BizLicOnChain
  geth --datadir "data" console 2>>geth.log
  ```
 
-4. 开始挖矿
+4. 创建账户
 
-5. 转账
+ &ensp;&ensp;&ensp;&ensp;
+ 设置挖矿地址：
+```
+> miner.setEtherbase(‘用户地址’)
+```
+ &ensp;&ensp;&ensp;&ensp;
+ 查看挖矿地址：
+ ```
+ > eth.cornbase
+ ```
+
+5. 开始挖矿
+
+6. 转账
 
 &ensp;&ensp;&ensp;&ensp;
 先解除账户锁定：
