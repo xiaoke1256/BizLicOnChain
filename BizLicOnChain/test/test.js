@@ -17,8 +17,8 @@ contract('EncryptUtils Test', function(accounts){
     	console.log(s);
     	let v = await instance.bytesToUint(await instance.slice(sign.signature,64,1));
     	console.log(v);
-    	let addr = personal.ecRecover(licContent, sign.signature);
-    	console.log(addr);
+    	//let addr = personal.ecRecover(licContent, sign.signature);
+    	//console.log(addr);
     	let res = await instance.verificate(licContent,sign.signature,'0xa468fb3adf2c5d7e19b6ba353862b7b195027b2b');
     	console.log(res.valueOf());
     	return res;

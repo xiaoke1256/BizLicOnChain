@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
 
 library ArrayUtils {
@@ -40,8 +40,7 @@ library ArrayUtils {
 	    for(uint64 i = index;i<array.length-1;i++){
 	        array[i]=array[i+1];
 	    }
-	    delete array[array.length-1];
-	    array.length--;
+	    array.pop();
 	    return true;
 	}
 	
