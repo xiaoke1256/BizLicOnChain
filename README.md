@@ -45,7 +45,7 @@ BizLicOnChain
  &ensp;&ensp;&ensp;&ensp;
  设置挖矿地址：
 ```
-> miner.setEtherbase(‘用户地址’)
+> miner.setEtherbase('用户地址')
 ```
  &ensp;&ensp;&ensp;&ensp;
  查看挖矿地址：
