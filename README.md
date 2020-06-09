@@ -67,3 +67,5 @@ BizLicOnChain
 ```
 > eth.sendTransaction({from: acc0, to: acc1, value: amount})
 ```
+
+7. 发布电子合约
