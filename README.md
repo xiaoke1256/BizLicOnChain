@@ -30,9 +30,9 @@ BizLicOnChain
  
  ## 如何运行本系统
  
- 1. 安装geth
- 2. 设置创世区块
- 3. 同步区块
+ ### 1. 安装geth
+ ### 2. 设置创世区块
+ ### 3. 同步区块
  
  &ensp;&ensp;&ensp;&ensp;
  进入geth控制台的命令如下：
@@ -40,7 +40,7 @@ BizLicOnChain
  geth --datadir "data" console 2>>geth.log
  ```
 
-4. 创建账户
+### 4. 创建账户
 
  &ensp;&ensp;&ensp;&ensp;
  设置挖矿地址：
@@ -53,9 +53,9 @@ BizLicOnChain
  > eth.cornbase
  ```
 
-5. 开始挖矿
+### 5. 开始挖矿
 
-6. 转账
+### 6. 转账测试
 
 &ensp;&ensp;&ensp;&ensp;
 先解除账户锁定：
@@ -67,5 +67,5 @@ BizLicOnChain
 ```
 > eth.sendTransaction({from: acc0, to: acc1, value: amount})
 ```
-
-7. 发布电子合约
+### 7. 按装 truffle
+### 8. 发布电子合约
