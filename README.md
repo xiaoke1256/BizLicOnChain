@@ -68,4 +68,23 @@ BizLicOnChain
 > eth.sendTransaction({from: acc0, to: acc1, value: amount})
 ```
 ### 7. 按装 truffle
+&ensp;&ensp;&ensp;&ensp;
+安装完毕后，把私有链矿机的地址注册到truffle的配置文件中。即在truffle-config.js文件中增加如下内容：
+```
+    MyNetwork: {
+      host: "192.168.xx.100";
+      port: 30303,             // Custom port
+      network_id: 123,       // Custom network
+      gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
+      gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
+      //from: <address>,        // Account to send txs from (default: accounts[0])
+      // websockets: true        // Enable EventEmitter interface for web3 (default: false)
+    },
+```
+
 ### 8. 发布电子合约
+&ensp;&ensp;&ensp;&ensp;
+保持私有链矿机挖矿状态。在命令行中输入以下命令：
+```
+truffle migrate --network MyNetwork
+```
