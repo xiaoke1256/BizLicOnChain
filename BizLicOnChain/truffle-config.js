@@ -56,7 +56,7 @@ module.exports = {
     // My network 
     MyNetwork: {
       host: "192.168.66.100",
-      port: 30303,             // Custom port
+      port: 8545,             // Custom port
       network_id: 123,       // Custom network
       gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
       gasPrice: 20000000000   // 20 gwei (in wei) (default: 100 gwei)
