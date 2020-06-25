@@ -87,8 +87,9 @@ BizLicOnChain
 &ensp;&ensp;&ensp;&ensp;
 先解锁账户 account[0],在geth客户端中执行以下命令：
 ```
-> personal.unlockAccount(eth.accounts[0],"********", 100000000)
+> personal.unlockAccount(eth.accounts[0],"********", 100)
 ```
+其中第一个参数是账户地址，第二个参数是密码，第三个账户是解锁周期。
 &ensp;&ensp;&ensp;&ensp;
 保持私有链矿机挖矿状态。在命令行中输入以下命令：
 ```
