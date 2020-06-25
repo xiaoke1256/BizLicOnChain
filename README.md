@@ -85,10 +85,11 @@ BizLicOnChain
 
 ### 8. 发布电子合约
 &ensp;&ensp;&ensp;&ensp;
-先解锁账户 account[0]
+先解锁账户 account[0],在geth客户端中执行以下命令：
 ```
-personal.unlockAccount(eth.accounts[0],"********", 100000000)
+> personal.unlockAccount(eth.accounts[0],"********", 100000000)
 ```
+&ensp;&ensp;&ensp;&ensp;
 保持私有链矿机挖矿状态。在命令行中输入以下命令：
 ```
 truffle migrate --network MyNetwork
