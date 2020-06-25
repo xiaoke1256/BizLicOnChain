@@ -51,7 +51,7 @@ BizLicOnChain
  &ensp;&ensp;&ensp;&ensp;
  查看挖矿地址：
  ```
- > eth.cornbase
+ > eth.coinbase
  ```
 
 ### 5. 开始挖矿
