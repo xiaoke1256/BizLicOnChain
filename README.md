@@ -32,6 +32,12 @@ BizLicOnChain
  
  ### 1. 安装geth
  ### 2. 设置创世区块
+ &ensp;&ensp;&ensp;&ensp;
+ 先编辑好创世区块配置文件“genesis.json”（其内容本项目源码中有）。然后在命令行中执行以下命令：
+ ```
+  geth init genesis.json --datadir data
+ ```
+ 
  ### 3. 同步区块
  
  &ensp;&ensp;&ensp;&ensp;
