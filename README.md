@@ -52,6 +52,10 @@ BizLicOnChain
  ```
  admin.nodeInfo
  ```
+ 其中enode属性就是这个节点的地址。然后到另外一台机器上去启动geth控制台，输入以下命令把同步节点添加上：
+ ```
+ admin.addPeer("enode://06de9b48518416d9b31e7baf209...db32c004a72ae5eaa79a8046e5@192.168.66.101:30303")
+ ```
 
 ### 4. 创建账户
 
