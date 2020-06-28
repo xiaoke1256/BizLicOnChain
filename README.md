@@ -43,9 +43,8 @@ BizLicOnChain
  &ensp;&ensp;&ensp;&ensp;
  进入geth控制台的命令如下：
  ```
- geth --datadir "data" --networkid 123 --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpcapi "eth,miner,net,personal,web3" --allow-insecure-unlock -rpccorsdomain "*" --nodiscover --ipcdisable console 2>>geth.log
+ geth --datadir "data" --networkid 123 --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpcapi "eth,miner,net,personal,web3" -rpccorsdomain "*" --nodiscover --ipcdisable console 2>>geth.log
  ```
- 其中 --allow-insecure-unlock 参数的目的是允许解锁某个账户。
  
  &ensp;&ensp;&ensp;&ensp;
  进入控制台后，用以下命令查看当前节点信息：
