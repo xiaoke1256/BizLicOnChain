@@ -32,14 +32,29 @@ BizLicOnChain
  
  ### 1. 安装geth
  ### 2. 设置创世区块
+ &ensp;&ensp;&ensp;&ensp;
+ 先编辑好创世区块配置文件“[genesis.json](https://github.com/xiaoke1256/BizLicOnChain/blob/master/genesis-config/genesis.json)”。然后在命令行中执行以下命令：
+ ```
+  geth init genesis.json --datadir data
+ ```
+ 
  ### 3. 同步区块
  
  &ensp;&ensp;&ensp;&ensp;
  进入geth控制台的命令如下：
  ```
- geth --datadir "data" --networkid 123 --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpcapi "eth,miner,net,personal,web3" --allow-insecure-unlock -rpccorsdomain "*" --nodiscover --ipcdisable --targetgaslimit 8888888 console 2>>geth.log
+ geth --datadir "data" --networkid 123 --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpcapi "eth,miner,net,personal,web3" -rpccorsdomain "*" --nodiscover --ipcdisable console 2>>geth.log
  ```
- 其中 --allow-insecure-unlock 参数的目的是允许解锁某个账户。
+ 
+ &ensp;&ensp;&ensp;&ensp;
+ 进入控制台后，用以下命令查看当前节点信息：
+ ```
+ admin.nodeInfo
+ ```
+ 其中enode属性就是这个节点的地址。然后到另外一台机器上去启动geth控制台，输入以下命令把同步节点添加上：
+ ```
+ admin.addPeer("enode://06de9b48518416d9b31e7baf209...db32c004a72ae5eaa79a8046e5@192.168.66.101:30303")
+ ```
 
 ### 4. 创建账户
 
