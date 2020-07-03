@@ -45,6 +45,7 @@ BizLicOnChain
  ```
  geth --datadir "data" --networkid 123 --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpcapi "eth,miner,net,personal,web3" -rpccorsdomain "*" --targetgaslimit 14500000 --nodiscover --ipcdisable console 2>>geth.log
  ```
+ “--targetgaslimit 14500000” 参数的目的是，在挖矿的过程中将gaslimit扩充到14500000。
  
  &ensp;&ensp;&ensp;&ensp;
  进入控制台后，用以下命令查看当前节点信息：
