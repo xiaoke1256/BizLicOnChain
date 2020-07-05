@@ -109,5 +109,5 @@ BizLicOnChain
 &ensp;&ensp;&ensp;&ensp;
 保持私有链矿机挖矿状态。在命令行中输入以下命令：
 ```
-truffle migrate --network MyNetwork
+truffle console --network MyNetwork
 ```
