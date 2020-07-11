@@ -31,22 +31,30 @@
 	    <artifactId>commons-lang</artifactId>
 	    <version>2.3</version>
 	 </dependency>
-	 <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpcore</artifactId>
-        <version>4.4.10</version>
-     </dependency>
-     <dependency>
-         <groupId>org.apache.httpcomponents</groupId>
-         <artifactId>httpclient</artifactId>
-         <version>4.5.6</version>
-     </dependency>
      
      <dependency>
 	    <groupId>com.alibaba</groupId>
 	    <artifactId>fastjson</artifactId>
 	    <version>1.2.47</version>
 	 </dependency>
+	 
+	 
+	<!--web3j-->
+    <dependency>
+        <groupId>org.web3j</groupId>
+        <artifactId>core</artifactId>
+        <version>3.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.web3j</groupId>
+        <artifactId>geth</artifactId>
+        <version>3.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.web3j</groupId>
+        <artifactId>abi</artifactId>
+        <version>3.4.0</version>
+    </dependency>
     
   </dependencies>
   
