@@ -11,6 +11,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HTTP;
 
+import com.alibaba.fastjson.JSON;
+
 public class BizLicOnChainCli {
 	private HttpClient httpClient = HttpClients.createDefault();
 	
@@ -28,7 +30,7 @@ public class BizLicOnChainCli {
 		HttpPost request = new HttpPost(url);
 		 
 		try {
-			request.setEntity(new StringEntity("",HTTP.UTF_8));
+			request.setEntity(new StringEntity(JSON.toJSONString(sendData),HTTP.UTF_8));
 			httpClient.execute(request );
 		} catch (IOException e) {
 			throw new RuntimeException(e);
