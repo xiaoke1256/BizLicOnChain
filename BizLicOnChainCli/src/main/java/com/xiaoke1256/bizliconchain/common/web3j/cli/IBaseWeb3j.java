@@ -14,14 +14,14 @@ import java.util.List;
 public interface IBaseWeb3j {
 
     /**
-     * 执行合约打包
+     * 鎵ц鍚堢害鎵撳寘
      *
-     * @param fromAddr        支付地址
-     * @param fromPrivateKey  支付地址私钥
-     * @param hashVal         合约地址
-     * @param month           合约方法
-     * @param gasPrice        旷工费用
-     * @param inputParameters 方法参数
+     * @param fromAddr        鏀粯鍦板潃
+     * @param fromPrivateKey  鏀粯鍦板潃绉侀挜
+     * @param hashVal         鍚堢害鍦板潃
+     * @param month           鍚堢害鏂规硶
+     * @param gasPrice        鏃峰伐璐圭敤
+     * @param inputParameters 鏂规硶鍙傛暟
      * @return hash
      */
     String transact(String fromAddr, String fromPrivateKey, String hashVal, String month, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters);

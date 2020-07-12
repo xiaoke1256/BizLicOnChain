@@ -3,8 +3,8 @@ package com.xiaoke1256.bizliconchain.common.web3j.cli;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 
 import org.web3j.abi.FunctionEncoder;
@@ -32,7 +32,7 @@ import java.util.List;
  * @title
  */
 
-//@Component
+@Component
 public class BaseWeb3jImpl implements IBaseWeb3j {
 
     private static final Logger LOG = LoggerFactory.getLogger(BaseWeb3jImpl.class);
@@ -40,16 +40,16 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
 
     static Web3j web3j;
 
-//    @Value("${contract.url}")
+    @Value("${contract.url}")
     private   String URL;
 
 
-//    @Value("${contract.addGas}")
+    @Value("${contract.addGas}")
     private BigInteger addGas;
 
 
 
-//    @Value("${contract.isAddGas}")
+    @Value("${contract.isAddGas}")
     private boolean isAddGas;
 
 
@@ -67,19 +67,19 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                     fromAddr,
                     DefaultBlockParameterName.PENDING
             ).send();
-            //¸ù¾İÅäÖÃÊÇ·ñ¿ªÆô¸ù¾İÊµÊ±ÊĞ³¡gas·ÑÓÃ£¬Ôö¼ÓÖ¸¶¨gas·ÑÓÃ£¬¼Ó¿ì´ò°üËÙÂÊ
+            //æ ¹æ®é…ç½®æ˜¯å¦å¼€å¯æ ¹æ®å®æ—¶å¸‚åœºgasè´¹ç”¨ï¼Œå¢åŠ æŒ‡å®šgasè´¹ç”¨ï¼ŒåŠ å¿«æ‰“åŒ…é€Ÿç‡
             if(isAddGas){
                  BigInteger gas  = web3j.ethGasPrice().send().getGasPrice();
-                 LOG.info("»ñÈ¡µ½µÄgasPrice{}",gas);
+                 LOG.info("è·å–åˆ°çš„gasPrice{}",gas);
                  gasPrice = addGas.add(gas);
             }
-            //·µ»ØÖ¸¶¨µØÖ··¢ÉúµÄ½»Ò×ÊıÁ¿¡£
+            //è¿”å›æŒ‡å®šåœ°å€å‘ç”Ÿçš„äº¤æ˜“æ•°é‡ã€‚
             nonce =  ethGetTransactionCount.getTransactionCount();
             List outputParameters = new ArrayList();
             TypeReference<Bool> typeReference = new TypeReference<Bool>() {
             };
             outputParameters.add(typeReference);
-            LOG.info("¸¶¸ø¿ó¹¤µÄgasPriceÎª£º{}",gasPrice);
+            LOG.info("ä»˜ç»™çŸ¿å·¥çš„gasPriceä¸ºï¼š{}",gasPrice);
             Function function = new Function(
                     month,
                     inputParameters,
@@ -95,12 +95,12 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             LOG.info(JSONObject.toJSONString(ethSendTransaction));
         } catch (Exception e) {
             if (null != ethSendTransaction) {
-                LOG.info("Ê§°ÜµÄÔ­Òò£º" + ethSendTransaction.getError().getMessage());
-                LOG.info("²ÎÊı£ºfromAddr = " + fromAddr);
-                LOG.info("²ÎÊı£ºmonth = " + month);
-                LOG.info("²ÎÊı£ºgasPrice = " + gasPrice);
-                LOG.info("²ÎÊı£ºgasLimit = " + gasLimit);
-                LOG.info("²ÎÊı£ºinputParameters = " + JSONObject.toJSONString(inputParameters));
+                LOG.info("å¤±è´¥çš„åŸå› ï¼š" + ethSendTransaction.getError().getMessage());
+                LOG.info("å‚æ•°ï¼šfromAddr = " + fromAddr);
+                LOG.info("å‚æ•°ï¼šmonth = " + month);
+                LOG.info("å‚æ•°ï¼šgasPrice = " + gasPrice);
+                LOG.info("å‚æ•°ï¼šgasLimit = " + gasLimit);
+                LOG.info("å‚æ•°ï¼šinputParameters = " + JSONObject.toJSONString(inputParameters));
             }
             throw new RuntimeException(e);
         }
