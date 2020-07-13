@@ -108,7 +108,7 @@ BizLicOnChain
 其中第一个参数是账户地址，第二个参数是密码，第三个账户是解锁周期。
 
 &ensp;&ensp;&ensp;&ensp;
-保持私有链矿机挖矿状态。在命令行中输入以下命令：
+检查truffle初始化目录的migrations文件加下的js文件，看看是否有发布相关合约的脚本。保持私有链矿机挖矿状态。在命令行中输入以下命令：
 ```
 truffle console --network MyNetwork
 ```
