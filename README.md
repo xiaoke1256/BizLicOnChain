@@ -116,3 +116,9 @@ truffle console --network MyNetwork
 ```
 > migrate
 ```
+然后输入以下命令初始化合约：
+```
+> let instance = await BizLicOnChain.deployed()
+> let proxy = await BizLicOnChainProxy.deployed()
+> await proxy.initialize(instance.address)
+```
