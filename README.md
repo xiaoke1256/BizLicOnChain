@@ -112,3 +112,7 @@ BizLicOnChain
 ```
 truffle console --network MyNetwork
 ```
+进入控制台后，输入以下命令发布合约：
+```
+> migrate
+```
