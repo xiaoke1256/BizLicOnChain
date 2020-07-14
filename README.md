@@ -122,3 +122,4 @@ truffle console --network MyNetwork
 > let proxy = await BizLicOnChainProxy.deployed()
 > await proxy.initialize(instance.address)
 ```
+### 9. 运行Web应用调用合约
