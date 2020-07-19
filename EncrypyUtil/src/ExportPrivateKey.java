@@ -21,10 +21,10 @@ import sun.misc.*;
 		try {
 			Key key=keystore.getKey(alias,password);
 			if(key instanceof PrivateKey) {
-			Certificate cert=keystore.getCertificate(alias);
-			PublicKey publicKey=cert.getPublicKey();
-			return new KeyPair(publicKey,(PrivateKey)key);
-		}
+				Certificate cert=keystore.getCertificate(alias);
+				PublicKey publicKey=cert.getPublicKey();
+				return new KeyPair(publicKey,(PrivateKey)key);
+			}
 		} catch (UnrecoverableKeyException e) {
 			
 		} catch (NoSuchAlgorithmException e) {
