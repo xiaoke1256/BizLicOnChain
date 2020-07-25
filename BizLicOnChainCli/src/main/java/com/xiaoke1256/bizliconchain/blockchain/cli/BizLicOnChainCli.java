@@ -6,11 +6,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Utf8String;
 
+import com.alibaba.fastjson.JSON;
+import com.xiaoke1256.bizliconchain.bo.Bizlic;
 import com.xiaoke1256.bizliconchain.common.web3j.cli.IBaseWeb3j;
 
+@Service
 public class BizLicOnChainCli {
 	
 	@Autowired
@@ -53,12 +57,12 @@ public class BizLicOnChainCli {
 	 * @param licContent 
 	 * @param sign 电子签名
 	 */
-	public void sendLic(String uniScId,String organCode,String licContent,String sign) {
+	public void sendLic(Bizlic bizlic) {
 		List<Type> inputParameters = new ArrayList<Type>();
-		inputParameters.add(new Utf8String(uniScId));
-		inputParameters.add(new Utf8String(organCode));
-		inputParameters.add(new Utf8String(licContent));
-		inputParameters.add(new Utf8String(sign));
+		inputParameters.add(new Utf8String(bizlic.getUniScId()));
+		inputParameters.add(new Utf8String(bizlic.getIssueOrgan()));
+		inputParameters.add(new Utf8String(JSON.toJSONString(bizlic))); 
+		inputParameters.add(new Utf8String(""));//sign 工商局做的电子签名
 		baseWeb3j.transact(fromAddr, fromPrivateKey, contractAddress, "putLic", gasPrice, gasLimit, inputParameters );
 	}
 	
