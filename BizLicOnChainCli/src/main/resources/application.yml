@@ -1,7 +1,7 @@
 contract:
   ctAddr: "0x85EA9c5229306D7D73ED41CBE427F241D6717e5B"  #合约地址
   startAddr:  "************************************"   #顶级节点地址（好像没用到）
-  sendAddr:  "aefe184653e506426daab8369504ce3a2d95b68c"   #from地址
+  sendAddr:  "0xaefe184653e506426daab8369504ce3a2d95b68c"   #from地址
   sendAddrPk:  "e08736ed03b3d08d2e07ce89600d33664656f4f4073875cda78a476607d36570"  #私钥
   gasPrice: 5000000000 # Gas Price越高，交易优先级越高，打包交易速度越快。
   gasLimit: 1500000  # Gas Limit 是用户愿意为执行某个操作或确认交易支付的最大Gas量（最少21,000）

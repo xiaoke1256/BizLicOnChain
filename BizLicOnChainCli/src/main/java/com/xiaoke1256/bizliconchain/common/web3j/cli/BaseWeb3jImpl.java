@@ -55,7 +55,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
 
 
 
-    public String transact(String fromAddr, String fromPrivateKey, String hashVal, String month, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters) {
+    public String transact(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters) {
         EthSendTransaction ethSendTransaction = null;
         BigInteger nonce = BigInteger.ZERO;
         String hash = null;
@@ -81,12 +81,12 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             outputParameters.add(typeReference);
             LOG.info("付给矿工的gasPrice为：{}",gasPrice);
             Function function = new Function(
-                    month,
+                    method,
                     inputParameters,
                     outputParameters);
             String encodedFunction = FunctionEncoder.encode(function);
             Credentials credentials = Credentials.create(fromPrivateKey);
-            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, hashVal,
+            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddress,
                     encodedFunction);
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
             String hexValue = Numeric.toHexString(signedMessage);
@@ -97,7 +97,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             if (null != ethSendTransaction) {
                 LOG.info("失败的原因：" + ethSendTransaction.getError().getMessage());
                 LOG.info("参数：fromAddr = " + fromAddr);
-                LOG.info("参数：month = " + month);
+                LOG.info("参数：month = " + method);
                 LOG.info("参数：gasPrice = " + gasPrice);
                 LOG.info("参数：gasLimit = " + gasLimit);
                 LOG.info("参数：inputParameters = " + JSONObject.toJSONString(inputParameters));

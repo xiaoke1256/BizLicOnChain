@@ -18,13 +18,13 @@ public interface IBaseWeb3j {
      *
      * @param fromAddr        支付地址
      * @param fromPrivateKey  支付地址私钥
-     * @param hashVal         合约地址
-     * @param month           合约方法
+     * @param contractAddress         合约地址
+     * @param method           合约方法
      * @param gasPrice        旷工费用
      * @param inputParameters 方法参数
      * @return hash
      */
-    String transact(String fromAddr, String fromPrivateKey, String hashVal, String month, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters);
+    String transact(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters);
 
 }
 
