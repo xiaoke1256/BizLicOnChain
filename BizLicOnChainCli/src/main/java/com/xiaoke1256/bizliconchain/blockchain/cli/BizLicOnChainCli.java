@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Utf8String;
 
@@ -15,12 +16,34 @@ public class BizLicOnChainCli {
 	@Autowired
 	private IBaseWeb3j baseWeb3j;
 	
+	/**
+	 * from地址
+	 */
+	@Value("${contract.sendAddr}")
 	private String fromAddr;
+	
+	/**
+	 * from地址私钥
+	 */
+	@Value("${contract.sendAddrPk}")
 	private String fromPrivateKey;
+	
+	/**
+	 * 合约地址
+	 */
+	@Value("${contract.ctAddr}")
 	private String contractAddress;
 
+	/**
+	 * gas价格
+	 */
+	@Value("${contract.gasPrice}")
 	private BigInteger gasPrice;
-
+	 
+	/**
+	 * gas限额
+	 */
+	@Value("${contract.gasLimit}")
 	private BigInteger gasLimit;
 	
 	/**
