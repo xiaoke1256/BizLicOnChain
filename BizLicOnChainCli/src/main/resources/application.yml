@@ -1,3 +1,14 @@
+spring:
+  profiles:
+    active: "dev"
+  application:
+    name: "bizlic-web"
+    
+server:
+  context-path: "/bizlic"
+  servlet-path: "/"
+  port: 8080
+
 contract:
   ctAddr: "0x85EA9c5229306D7D73ED41CBE427F241D6717e5B"  #合约地址
   startAddr:  "************************************"   #顶级节点地址（好像没用到）
