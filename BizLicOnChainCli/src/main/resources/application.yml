@@ -18,4 +18,4 @@ contract:
   gasLimit: 1500000  # Gas Limit 是用户愿意为执行某个操作或确认交易支付的最大Gas量（最少21,000）
   isAddGas: false #是否启用按当前市价进行加权矿工费用
   addGas:   2000000000 #所增加费用
-  url: "https://localhost:8545/" #正式网 or 测试网
+  url: "http://localhost:8545/" #正式网 or 测试网
