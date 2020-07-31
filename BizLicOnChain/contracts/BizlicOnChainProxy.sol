@@ -148,11 +148,12 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
      * sign: 电子签名
      * 
      */
-    function putLic(string memory uniScId,string memory organCode,string memory licContent,string memory sign) public {
+    function putLic(string memory uniScId,string memory organCode,string memory licContent,string memory sign) public returns (bool){
         require(_initialized);
         bool sucess;
-        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("putLic(string,string,string,string)",uniScId,organCode,licContent,sign));
-        require(sucess);
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putLic(string,string,string,string)",uniScId,organCode,licContent,sign));
+        return (sucess && bool(result));
     }
     
      /**
@@ -160,11 +161,12 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
      * uniScId: 统一社会信用码，作为企业的唯一标识
      * 
      */
-    function removeLic(string memory uniScId) public{
+    function removeLic(string memory uniScId) public returns (bool){
         require(_initialized);
         bool sucess;
-        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("removeLic(string)",uniScId));
-        require(sucess);
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeLic(string)",uniScId));
+        return sucess && bool(result);
     }
     
     /**

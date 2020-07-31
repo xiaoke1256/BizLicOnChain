@@ -107,7 +107,7 @@ contract BizLicOnChain is BaseBizLicOnChain {
      * sign: 电子签名
      * 
      */
-    function putLic(string memory uniScId,string memory organCode,string memory licContent,string memory sign) public onlyAdmin{
+    function putLic(string memory uniScId,string memory organCode,string memory licContent,string memory sign) public onlyAdmin returns (bool) {
         require(bytes(uniScId).length>0);
         require(bytes(organCode).length>0);
         require(bytes(licContent).length>0);
@@ -118,6 +118,7 @@ contract BizLicOnChain is BaseBizLicOnChain {
         bizLics[uniScId].organCode = organCode;
         bizLics[uniScId].licContent = licContent;
         bizLics[uniScId].sign = sign;
+        return true;
     }
     
      /**
@@ -125,9 +126,10 @@ contract BizLicOnChain is BaseBizLicOnChain {
      * uniScId: 统一社会信用码，作为企业的唯一标识
      * 
      */
-    function removeLic(string memory uniScId) public onlyAdmin{
+    function removeLic(string memory uniScId) public onlyAdmin returns (bool) {
         require(bytes(uniScId).length>0);
         delete bizLics[uniScId];
+        return true;
     }
     
 }
