@@ -47,11 +47,12 @@ BizLicOnChain
  ```
  其中“--targetgaslimit 14500000” 参数的目的是，在挖矿的过程中将gaslimit扩充到14500000。
  
- 也可以使用以下命令来以测试模式启动一个私有链：
+ &ensp;&ensp;&ensp;&ensp;
+ 也可以使用以下命令来以dev模式（仅当有事务时才进行挖矿）启动一个私有链：
  ```
  geth --datadir "data1" --networkid 123 --dev --rpc --rpcapi "db,eth,net,web3,miner,personal" console 2>>log
  ```
-
+ 注意，dev模式不需要特地去特地创建一个创世区块，上述命令会自动创建。
  
  &ensp;&ensp;&ensp;&ensp;
  进入控制台后，用以下命令查看当前节点信息：
