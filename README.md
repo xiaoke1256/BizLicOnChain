@@ -123,3 +123,4 @@ truffle console --network MyNetwork
 > await proxy.initialize(instance.address)
 ```
 ### 9. 运行Web应用调用合约
+
