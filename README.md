@@ -52,7 +52,7 @@ BizLicOnChain
  ```
  geth --datadir "data1" --networkid 123 --dev --rpc --rpcapi "db,eth,net,web3,miner,personal" console 2>>log
  ```
- 注意，dev模式不需要特地去特地创建一个创世区块，上述命令会自动创建。
+ 注意，dev模式会自动生成一个账号，不能用原有的账号（或keystore文件）。
  
  &ensp;&ensp;&ensp;&ensp;
  进入控制台后，用以下命令查看当前节点信息：
