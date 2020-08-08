@@ -90,7 +90,8 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                     encodedFunction);
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
             String hexValue = Numeric.toHexString(signedMessage);
-            ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
+            ethSendTransaction = web3j.ethSendRawTransaction(hexValue).send();
+           // ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
             hash = ethSendTransaction.getTransactionHash();
             LOG.info(JSONObject.toJSONString(ethSendTransaction));
         } catch (Exception e) {
