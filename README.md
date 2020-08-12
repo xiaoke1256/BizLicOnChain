@@ -112,6 +112,7 @@ BizLicOnChain
       // websockets: true        // Enable EventEmitter interface for web3 (default: false)
     },
 ```
+要确保contracts目录中放的是本项目的合约文件，migrations目录中放的是本项目的合约部署文件（2_deploy_contracts.js）。
 
 ### 8. 发布电子合约
 &ensp;&ensp;&ensp;&ensp;
