@@ -26,6 +26,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.ws.RequestWrapper;
+
 /**
  * @Datetime: 2020/6/23   10:36
  * @Author: Xia rong tao
@@ -75,10 +77,10 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             }
             //返回指定地址发生的交易数量。
             nonce =  ethGetTransactionCount.getTransactionCount();
-            List outputParameters = new ArrayList();
-            TypeReference<Bool> typeReference = new TypeReference<Bool>() {
-            };
-            outputParameters.add(typeReference);
+            List<TypeReference<?>> outputParameters = new ArrayList<TypeReference<?>>();
+           // TypeReference<Bool> typeReference = new TypeReference<Bool>() {
+            //};
+            //outputParameters.add(typeReference);
             LOG.info("付给矿工的gasPrice为：{}",gasPrice);
             Function function = new Function(
                     method,
@@ -86,7 +88,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                     outputParameters);
             String encodedFunction = FunctionEncoder.encode(function);
             Credentials credentials = Credentials.create(fromPrivateKey);
-            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddress,
+            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddress,BigInteger.ZERO,
                     encodedFunction);
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
             String hexValue = Numeric.toHexString(signedMessage);
@@ -108,4 +110,25 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
 
         return hash;
     }
+    
+    public BlockchainTransaction process(BlockchainTransaction trx) throws IOException {
+        EthAccounts accounts = web3j.ethAccounts().send();
+        EthGetTransactionCount transactionCount = web3j.ethGetTransactionCount(accounts.getAccounts().get(trx.getFromId()), DefaultBlockParameterName.LATEST).send();
+        Transaction transaction = Transaction.createEtherTransaction(accounts.getAccounts().get(trx.getFromId()), transactionCount.getTransactionCount(), BigInteger.valueOf(trx.getValue()), BigInteger.valueOf(21_000), accounts.getAccounts().get(trx.getToId()),BigInteger.valueOf(trx.getValue()));
+        EthSendTransaction response = web3j.ethSendTransaction(transaction).send();
+        if (response.getError() != null) {
+            trx.setAccepted(false);
+            return trx;
+        }
+        trx.setAccepted(true);
+        String txHash = response.getTransactionHash();
+        LOGGER.info("Tx hash: {}", txHash);
+        trx.setId(txHash);
+        EthGetTransactionReceipt receipt = web3j.ethGetTransactionReceipt(txHash).send();
+        if (receipt.getTransactionReceipt().isPresent()) {
+            LOGGER.info("Tx receipt: {}", receipt.getTransactionReceipt().get().getCumulativeGasUsed().intValue());
+        }
+        return trx;
+    }
+ 
 }
