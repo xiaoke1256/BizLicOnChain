@@ -90,13 +90,21 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                     encodedFunction);
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
             String hexValue = Numeric.toHexString(signedMessage);
-            ethSendTransaction = web3j.ethSendRawTransaction(hexValue).send();
-           // ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
+            //ethSendTransaction = web3j.ethSendRawTransaction(hexValue).send();
+            ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
             hash = ethSendTransaction.getTransactionHash();
             LOG.info(JSONObject.toJSONString(ethSendTransaction));
+            //看看到底成功了没有
+            EthGetTransactionReceipt ethGetTransactionReceipt = web3j.ethGetTransactionReceipt(hash).send();
+            String status = ethGetTransactionReceipt.getTransactionReceipt().get().getStatus();
+            BigInteger gasUsed = ethGetTransactionReceipt.getTransactionReceipt().get().getGasUsed();
+            LOG.info("status:"+status);
+            LOG.info("gasUsed:"+gasUsed);
+            //看看消耗了多少gas
         } catch (Exception e) {
             if (null != ethSendTransaction) {
-                LOG.info("失败的原因：" + ethSendTransaction.getError().getMessage());
+            	if(ethSendTransaction.getError()!=null)
+            		LOG.info("失败的原因：" + ethSendTransaction.getError().getMessage());
                 LOG.info("参数：fromAddr = " + fromAddr);
                 LOG.info("参数：month = " + method);
                 LOG.info("参数：gasPrice = " + gasPrice);
