@@ -10,7 +10,7 @@ server:
   port: 8080
 
 contract:
-  ctAddr: "0x85EA9c5229306D7D73ED41CBE427F241D6717e5B"  #合约地址
+  ctAddr: "0x85EA9e5229306D7D73ED41CBE427F241D6717e5B"  #合约地址
   startAddr:  "************************************"   #顶级节点地址（好像没用到）
   sendAddr:  "0xaefe184653e506426daab8369504ce3a2d95b68c"   #from地址
   sendAddrPk:  "e08736ed03b3d08d2e07ce89600d33664656f4f4073875cda78a476607d36570"  #私钥
