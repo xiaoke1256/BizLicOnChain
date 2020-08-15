@@ -37,8 +37,8 @@ BizLicOnChain
  ```
   geth init genesis.json --datadir data
  ```
- 
- ### 3. 同步区块
+
+ ### 3. 启动geth并进入控制台
  
  &ensp;&ensp;&ensp;&ensp;
  进入geth控制台的命令如下：
@@ -54,17 +54,20 @@ BizLicOnChain
  ```
  注意，dev模式会自动生成一个账号，不能用原有的账号（或keystore文件），如果需要用多个账号就要用`personal.newAccount("123456")`命令创建。
  
+  ### 4. 同步区块
+ 
  &ensp;&ensp;&ensp;&ensp;
  进入控制台后，用以下命令查看当前节点信息：
  ```
  admin.nodeInfo
  ```
- 其中enode属性就是这个节点的地址。然后到另外一台机器上去启动geth控制台，输入以下命令把同步节点添加上：
+ 其中enode属性就是这个节点的地址。然后到另外一台机器上去以上述方法安装并启动一个geth控制台，输入以下命令把同步节点添加上：
  ```
  admin.addPeer("enode://06de9b48518416d9b31e7baf209...db32c004a72ae5eaa79a8046e5@192.168.66.101:30303")
  ```
+ 用`admin.peers`命令就可以查看已同步的节点。
 
-### 4. 创建账户
+### 5. 创建账户
 
  &ensp;&ensp;&ensp;&ensp;
  设置挖矿地址：
@@ -77,7 +80,7 @@ BizLicOnChain
  > eth.coinbase
  ```
 
-### 5. 开始挖矿
+### 6. 开始挖矿
 
  &ensp;&ensp;&ensp;&ensp;
  键入以下地址，开始挖矿：
@@ -86,7 +89,7 @@ BizLicOnChain
  ```
 注意，挖矿时可能会有较长时间的预热。
 
-### 6. 转账测试
+### 7. 转账测试
 
 &ensp;&ensp;&ensp;&ensp;
 先解除账户锁定：
@@ -98,7 +101,7 @@ BizLicOnChain
 ```
 > eth.sendTransaction({from: acc0, to: acc1, value: amount})
 ```
-### 7. 按装 truffle
+### 8. 按装 truffle
 &ensp;&ensp;&ensp;&ensp;
 安装完毕后，把私有链矿机的地址注册到truffle的配置文件中。即在truffle-config.js文件中增加如下内容：
 ```
@@ -114,7 +117,7 @@ BizLicOnChain
 ```
 要确保contracts目录中放的是本项目的合约文件，migrations目录中放的是本项目的合约部署文件（2_deploy_contracts.js）。
 
-### 8. 发布电子合约
+### 9. 发布电子合约
 &ensp;&ensp;&ensp;&ensp;
 先解锁账户 account[0],在geth客户端中执行以下命令：
 ```
@@ -137,4 +140,4 @@ truffle console --network MyNetwork
 > let proxy = await BizLicOnChainProxy.deployed()
 > await proxy.initialize(instance.address)
 ```
-### 9. 运行Web应用调用合约
+### 10. 运行Web应用调用合约
