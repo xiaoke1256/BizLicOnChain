@@ -23,7 +23,7 @@ public class BizLicControllerTest {
 	public void testPutBizlic() {
 		Bizlic bizlic = new Bizlic();
 		bizlic.setUniScId("1231000083237TEST537");
-		bizlic.setCorpName("测试股份有限公司");
+		bizlic.setCorpName("测试KKK股份有限公司");
 		bizlic.setLeadName("李四 ");
 		bizlic.setIndsyCode("6432");
 		bizlic.setIssueOrgan("上海市市场监督局");
