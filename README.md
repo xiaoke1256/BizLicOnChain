@@ -37,8 +37,8 @@ BizLicOnChain
  ```
   geth init genesis.json --datadir data
  ```
- 
- ### 3. 同步区块
+
+ ### 3. 启动geth并进入控制台
  
  &ensp;&ensp;&ensp;&ensp;
  进入geth控制台的命令如下：
@@ -53,6 +53,8 @@ BizLicOnChain
  geth --datadir "data1" --networkid 123 --dev --rpc --rpcapi "db,eth,net,web3,miner,personal" console 2>>log
  ```
  注意，dev模式会自动生成一个账号，不能用原有的账号（或keystore文件），如果需要用多个账号就要用`personal.newAccount("123456")`命令创建。
+ 
+  ### 3. 同步区块
  
  &ensp;&ensp;&ensp;&ensp;
  进入控制台后，用以下命令查看当前节点信息：
