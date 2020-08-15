@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,13 @@ import org.web3j.abi.datatypes.Utf8String;
 
 import com.alibaba.fastjson.JSON;
 import com.xiaoke1256.bizliconchain.bo.Bizlic;
+import com.xiaoke1256.bizliconchain.common.web3j.cli.BaseWeb3jImpl;
 import com.xiaoke1256.bizliconchain.common.web3j.cli.IBaseWeb3j;
 
 @Service
 public class BizLicOnChainCli {
+	
+	 private static final Logger LOG = LoggerFactory.getLogger(BizLicOnChainCli.class);
 	
 	@Autowired
 	private IBaseWeb3j baseWeb3j;
@@ -58,11 +63,13 @@ public class BizLicOnChainCli {
 	 * @param sign 电子签名
 	 */
 	public void sendLic(Bizlic bizlic) {
+		
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(bizlic.getUniScId()));
 		inputParameters.add(new Utf8String(bizlic.getIssueOrgan()));
 		inputParameters.add(new Utf8String(JSON.toJSONString(bizlic))); 
-		inputParameters.add(new Utf8String(""));//sign 工商局做的电子签名
+		LOG.info("bizlic:"+JSON.toJSONString(bizlic));
+		inputParameters.add(new Utf8String("K"));//sign 工商局做的电子签名
 		baseWeb3j.transact(fromAddr, fromPrivateKey, contractAddress, "putLic", gasPrice, gasLimit, inputParameters );
 	}
 	

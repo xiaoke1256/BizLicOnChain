@@ -75,6 +75,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             }
             //返回指定地址发生的交易数量。
             nonce =  ethGetTransactionCount.getTransactionCount();
+            LOG.info("nonce:"+nonce);
             List<TypeReference<?>> outputParameters = new ArrayList<TypeReference<?>>();
            // TypeReference<Bool> typeReference = new TypeReference<Bool>() {
             //};
@@ -95,11 +96,15 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             hash = ethSendTransaction.getTransactionHash();
             LOG.info(JSONObject.toJSONString(ethSendTransaction));
             //看看到底成功了没有
-            EthGetTransactionReceipt ethGetTransactionReceipt = web3j.ethGetTransactionReceipt(hash).send();
-            String status = ethGetTransactionReceipt.getTransactionReceipt().get().getStatus();
-            BigInteger gasUsed = ethGetTransactionReceipt.getTransactionReceipt().get().getGasUsed();
-            LOG.info("status:"+status);
-            LOG.info("gasUsed:"+gasUsed);
+            EthGetTransactionReceipt ethGetTransactionReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
+            //LOG.info("gasUsed:"+ethGetTransactionReceipt.getResult().getGasUsed());
+            //LOG.info("status:"+ethGetTransactionReceipt.getResult().getStatus());
+            if(ethGetTransactionReceipt.getTransactionReceipt().isPresent()) {
+            	String status = ethGetTransactionReceipt.getTransactionReceipt().get().getStatus();
+            	BigInteger gasUsed = ethGetTransactionReceipt.getTransactionReceipt().get().getGasUsed();
+            	LOG.info("status:"+status);
+            	LOG.info("gasUsed:"+gasUsed);
+            }
             //看看消耗了多少gas
         } catch (Exception e) {
             if (null != ethSendTransaction) {
