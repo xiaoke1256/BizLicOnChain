@@ -20,6 +20,7 @@ public class BizLicController {
 	 */
 	@RequestMapping(value = "/bizlic", method =RequestMethod.PUT)
 	public void putBizlic(Bizlic bizlic) {
+		//organCode 需要有 organCode 为参数
 		bizLicOnChainCli.sendLic(bizlic);
 	}
 	
