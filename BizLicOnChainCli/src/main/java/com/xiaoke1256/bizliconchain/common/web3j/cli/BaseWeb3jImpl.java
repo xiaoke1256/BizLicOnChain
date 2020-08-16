@@ -9,21 +9,27 @@ import org.springframework.stereotype.Component;
 
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.methods.response.*;
-
+import org.web3j.protocol.core.methods.request.Transaction;
+import org.web3j.protocol.core.methods.response.EthCall;
+import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
+import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -122,4 +128,32 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
 
         return hash;
     }
+    
+    /**
+     * 用Call的方式调用合约。
+     * @param to
+     * @param val
+     * @param from
+     * @param contractAddress
+     * @return
+     * @throws Exception
+     */
+    public boolean querryTransfer(String to, BigInteger val, String from, String contractAddress) throws Exception{
+        List<Type> inputParameters = new ArrayList<>();
+        inputParameters.add(new Address(to));
+        inputParameters.add(new Uint256(val));
+        Function function = new Function("transfer",
+                inputParameters,
+                Collections.<TypeReference<?>>emptyList());
+        String encodedFunction = FunctionEncoder.encode(function);
+        EthCall response = web3j.ethCall(
+                Transaction.createEthCallTransaction(from, contractAddress, encodedFunction),
+                DefaultBlockParameterName.LATEST)
+                .sendAsync().get();
+ 
+        if(response.getValue().equals("0x"))
+            return false;
+        return true;
+    }
+    
 }
