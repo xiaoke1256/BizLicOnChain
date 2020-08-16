@@ -96,6 +96,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             hash = ethSendTransaction.getTransactionHash();
             LOG.info(JSONObject.toJSONString(ethSendTransaction));
             //看看到底成功了没有
+            Thread.sleep(20000);//以太坊平均出块时间是17.16
             EthGetTransactionReceipt ethGetTransactionReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
             //LOG.info("gasUsed:"+ethGetTransactionReceipt.getResult().getGasUsed());
             //LOG.info("status:"+ethGetTransactionReceipt.getResult().getStatus());
