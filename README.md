@@ -65,7 +65,7 @@ BizLicOnChain
  ```
  admin.addPeer("enode://06de9b48518416d9b31e7baf209...db32c004a72ae5eaa79a8046e5@192.168.66.101:30303")
  ```
- 用`admin.peers`命令就可以查看已同步的节点。
+ 用`admin.peers`命令就可以查远程节点列表。
 
 ### 5. 创建账户
 
