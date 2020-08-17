@@ -136,13 +136,10 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
      * @return
      * @throws Exception
      */
-    public boolean querryTransfer(String to, BigInteger val, String from, String contractAddress) throws Exception{
-        List<Type> inputParameters = new ArrayList<>();
-        inputParameters.add(new Address(to));
-        inputParameters.add(new Uint256(val));
-        Function function = new Function("transfer",
+    public boolean querryTransfer(String from, String contractAddress, String method,List<Type> inputParameters) throws Exception{
+        Function function = new Function(method,
                 inputParameters,
-                Collections.<TypeReference<?>>emptyList());
+                Collections.<TypeReference<?>>emptyList());//output 难道就是 empty了？
         String encodedFunction = FunctionEncoder.encode(function);
         EthCall response = web3j.ethCall(
                 Transaction.createEthCallTransaction(from, contractAddress, encodedFunction),
