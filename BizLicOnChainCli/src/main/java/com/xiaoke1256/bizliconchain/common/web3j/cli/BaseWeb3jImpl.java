@@ -31,6 +31,9 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @Datetime: 2020/6/23   10:36
@@ -57,10 +60,29 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
 
     @Value("${contract.isAddGas}")
     private boolean isAddGas;
+    
+    @PostConstruct
+    public void init() {
+    	
+    }
+    
+    /**
+     * 调用合约（进行检查）
+     */
+    public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters) {
+    	try {
+    		if(!querryTransfer(fromAddr,contractAddress,method,inputParameters)) {
+    			throw new RuntimeException("Something wrong happen when excute the contract , please check the input paramters.");
+    		}
+    		return transact(fromAddr,fromPrivateKey,contractAddress,method,gasPrice,gasLimit,inputParameters);
+    	}catch(Exception e) {
+    		throw new RuntimeException(e);
+    	}
+    }
 
-
-
-
+    /**
+     * 调用合约（不进行检查）
+     */
     public String transact(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters) {
         EthSendTransaction ethSendTransaction = null;
         BigInteger nonce = BigInteger.ZERO;
@@ -102,6 +124,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             hash = ethSendTransaction.getTransactionHash();
             LOG.info(JSONObject.toJSONString(ethSendTransaction));
             //看看到底成功了没有
+            /* 以下用其他方法来解决，比如现将hexValue保存到数据库，然后定时轮询来更新后续状态。
             Thread.sleep(20000);//以太坊平均出块时间是17.16
             EthGetTransactionReceipt ethGetTransactionReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
             if(ethGetTransactionReceipt.getTransactionReceipt().isPresent()) {
@@ -109,8 +132,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             	BigInteger gasUsed = ethGetTransactionReceipt.getTransactionReceipt().get().getGasUsed();
             	LOG.info("status:"+status);
             	LOG.info("gasUsed:"+gasUsed);
-            }
-            //看看消耗了多少gas
+            }*/
         } catch (Exception e) {
             if (null != ethSendTransaction) {
             	if(ethSendTransaction.getError()!=null)
@@ -128,15 +150,15 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
     }
     
     /**
-     * 用Call的方式调用合约。
-     * @param to
-     * @param val
-     * @param from
-     * @param contractAddress
+     * 用Call的方式调用合约。（目的是为了测试合约是否能成功调用）
+     * @param from 调用方
+     * @param contractAddress 
      * @return
+     * @throws ExecutionException 
+     * @throws InterruptedException 
      * @throws Exception
      */
-    public boolean querryTransfer(String from, String contractAddress, String method,List<Type> inputParameters) throws Exception{
+    public boolean querryTransfer(String from, String contractAddress, String method,List<Type> inputParameters) throws InterruptedException, ExecutionException {
         Function function = new Function(method,
                 inputParameters,
                 Collections.<TypeReference<?>>emptyList());//output 难道就是 empty了？

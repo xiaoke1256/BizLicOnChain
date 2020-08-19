@@ -24,7 +24,11 @@ public interface IBaseWeb3j {
      * @param inputParameters 方法参数
      * @return hash
      */
-    String transact(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters);
+    public String transact(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters);
 
+    /**
+     * 调用合约（不进行检查）
+     */
+    public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters);
 }
 

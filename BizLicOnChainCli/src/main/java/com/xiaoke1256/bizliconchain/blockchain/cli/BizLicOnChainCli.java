@@ -69,8 +69,8 @@ public class BizLicOnChainCli {
 		inputParameters.add(new Utf8String(bizlic.getIssueOrgan()));
 		inputParameters.add(new Utf8String(JSON.toJSONString(bizlic))); 
 		LOG.info("bizlic:"+JSON.toJSONString(bizlic));
-		inputParameters.add(new Utf8String("K"));//sign 工商局做的电子签名
-		baseWeb3j.transact(fromAddr, fromPrivateKey, contractAddress, "putLic", gasPrice, gasLimit, inputParameters );
+		inputParameters.add(new Utf8String(""));//sign 工商局做的电子签名
+		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "putLic", gasPrice, gasLimit, inputParameters );
 	}
 	
 }
