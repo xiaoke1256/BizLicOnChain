@@ -133,7 +133,7 @@ BizLicOnChain
 ```
 truffle console --network MyNetwork
 ```
-进入控制台后，输入以下命令发布合约：
+进入truffle控制台后（注意与geth不是同一个控制台），输入以下命令发布合约：
 ```
 > migrate
 ```
