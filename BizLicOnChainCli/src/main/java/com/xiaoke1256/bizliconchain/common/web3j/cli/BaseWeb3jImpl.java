@@ -63,7 +63,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
     
     @PostConstruct
     public void init() {
-    	
+    	web3j = Web3j.build(new HttpService(URL));
     }
     
     /**
@@ -88,9 +88,6 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
         BigInteger nonce = BigInteger.ZERO;
         String hash = null;
         try {
-            if(web3j == null){
-                web3j = Web3j.build(new HttpService(URL));
-            }
             EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(
                     fromAddr,
                     DefaultBlockParameterName.PENDING
@@ -168,7 +165,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                 DefaultBlockParameterName.LATEST)
                 .sendAsync().get();
  
-        if(response.getValue().equals("0x"))
+        if(response.getValue().equals("0x"))//TODO 这个判断有误。
             return false;
         return true;
     }
