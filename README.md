@@ -55,7 +55,7 @@ BizLicOnChain
  ```
  geth --datadir "data1" --networkid 123 --dev --rpc --rpcapi "db,eth,net,web3,miner,personal" console 2>>log
  ```
- 注意，dev模式会自动生成一个账号，不能用原有的账号（或keystore文件），如果需要用多个账号就要用`personal.newAccount("123456")`命令创建。
+ 注意，dev模式会自动生成一个账号，不能用原有的账号（或keystore文件），如果需要用多个账号就要用`personal.newAccount("123456")`命令创建。如果用默认账号转账的话是不用输入密码的。
  
   ### 4. 同步区块
  
