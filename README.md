@@ -34,6 +34,9 @@ BizLicOnChain
  ## 如何运行本系统
  
  ### 1. 安装geth
+  &ensp;&ensp;&ensp;&ensp;
+  geth是GO语言写的以太坊节点，也可以把它当做一个客户端来用。
+  
  ### 2. 设置创世区块
  &ensp;&ensp;&ensp;&ensp;
  先编辑好创世区块配置文件“[genesis.json](https://github.com/xiaoke1256/BizLicOnChain/blob/master/genesis-config/genesis.json)”。然后在命令行中执行以下命令：
