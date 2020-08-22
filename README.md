@@ -35,7 +35,7 @@ BizLicOnChain
  
  ### 1. 安装geth
   &ensp;&ensp;&ensp;&ensp;
-  geth是GO语言写的以太坊节点，也可以把它当做一个客户端来用。
+  geth是GO语言写的以太坊节点，也可以把它当做一个客户端来用。在官网上下载安装文件（我下载的是“geth-windows-amd64-1.8.3-329ac18e.exe”），双击之，然后根据提示点击“下一步”，直至安装成功。默认安装位置是“C:\Program Files\Geth”。
   
  ### 2. 设置创世区块
  &ensp;&ensp;&ensp;&ensp;
