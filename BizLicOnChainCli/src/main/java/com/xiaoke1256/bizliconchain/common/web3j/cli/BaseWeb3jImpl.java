@@ -165,9 +165,35 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                 DefaultBlockParameterName.LATEST)
                 .sendAsync().get();
  
-        if(response.getValue().equals("0x"))//TODO 这个判断有误。
+        if(parseHexToNum(response.getValue()) == 0)
             return false;
         return true;
+    }
+    
+    /**
+     * 解析16进制的字符串
+     * @param s
+     * @return
+     */
+    private long parseHexToNum(String s) {
+    	String nus = "0123456789abcdef";
+    	if(s==null) {
+    		throw new NullPointerException();
+    	}
+    	long result = 0;
+    	s = s.toLowerCase();
+    	if(s.startsWith("0x")) {
+    		s = s.substring(2);
+    	}
+    	for(int i = 0; i<s.length();i++) {
+    		char nu = s.charAt(s.length()-i-1);
+    		for(int j = 0;j<nus.length();j++) {
+    			if(nus.charAt(j)==nu) {
+    				result += j*(16^i);
+    			}
+    		}
+    	}
+    	return result;
     }
     
 }
