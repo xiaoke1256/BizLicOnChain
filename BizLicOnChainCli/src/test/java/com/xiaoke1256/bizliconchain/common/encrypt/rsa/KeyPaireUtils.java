@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 
 public class KeyPaireUtils {
@@ -31,7 +32,12 @@ public class KeyPaireUtils {
 		KeyPair keyPair = kpg.generateKeyPair();
 		
 		PublicKey publicKey = keyPair.getPublic();
-		
+		PrivateKey privateKey = keyPair.getPrivate();
+		savePublicKey(publicKey);
+		savePrivateKey(privateKey);
+	}
+	
+	private static void savePublicKey(PublicKey publicKey) {
 		FileOutputStream fileOs = null;
 		ObjectOutputStream os = null;
 		try {
@@ -52,6 +58,28 @@ public class KeyPaireUtils {
 				e.printStackTrace();
 			}
 		}
-		
+	}
+	
+	private static void savePrivateKey(PrivateKey privateKey) {
+		FileOutputStream fileOs = null;
+		ObjectOutputStream os = null;
+		try {
+			fileOs = new FileOutputStream(OUT_PUT_PATH+"/private_key.dat");
+			os = new ObjectOutputStream(fileOs);
+			os.writeObject(privateKey);
+		}catch(IOException e) {
+			throw new RuntimeException(e);
+		}finally {
+			try {
+				os.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				fileOs.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
