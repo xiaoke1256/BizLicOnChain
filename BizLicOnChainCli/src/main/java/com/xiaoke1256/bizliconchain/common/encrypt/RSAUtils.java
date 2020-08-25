@@ -5,6 +5,8 @@ import org.apache.commons.io.IOUtils;
 
 import javax.crypto.Cipher;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -165,6 +167,61 @@ public class RSAUtils {
 	     byte[] resultDatas = out.toByteArray();
 	     IOUtils.closeQuietly(out);
 	     return resultDatas;
+	 }
+	 
+	 /**
+	  * 把流转换成字节数组
+	  */
+	 private static byte[] inputStreamToBytes(InputStream is) {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		try {
+			byte[] b = new byte[1024];
+			@SuppressWarnings("unused")
+			int length = 0;
+			while((length = is.read(b))>0) {
+				bos.write(b);
+			}
+			return bos.toByteArray();
+		}catch(IOException e) {
+			throw new RuntimeException(e);
+		}finally{
+			try {
+				bos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	 }
+	 
+	/**
+	 * 得到公钥
+	 * @param is 文件流
+	 * @throws Exception
+	 */
+	public static RSAPublicKey getPublicKey(InputStream is) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
+		byte[] bytes = inputStreamToBytes(is);
+		X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(bytes);
+		RSAPublicKey key = (RSAPublicKey) keyFactory.generatePublic(x509KeySpec);
+		return key;
+	}
+	
+	/**
+	 * 得到私钥
+	 * @param is 文件流
+	 * @throws Exception
+	 */
+	 public static RSAPrivateKey getPrivateKey(InputStream is) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		 KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
+		 byte[] bytes = inputStreamToBytes(is);
+		 PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(bytes);
+		 RSAPrivateKey key = (RSAPrivateKey) keyFactory.generatePrivate(pkcs8KeySpec);
+		 return key;
 	 }
 /*
 	public static void main (String[] args) throws Exception {
