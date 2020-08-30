@@ -1,19 +1,24 @@
 package com.xiaoke1256.bizliconchain.common.encrypt.rsa;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+import org.apache.commons.codec.binary.Base64;
+
 public class KeyPaireUtils {
 	public static final String CHARSET = "UTF-8";
 	public static final String RSA_ALGORITHM = "RSA";
 	
-	private static final int KEY_SIZE = 1024*4;
+	private static final int KEY_SIZE = 1024;
 	
 	
 	public static final String OUT_PUT_PATH = "D:\\Temp\\";
@@ -38,22 +43,24 @@ public class KeyPaireUtils {
 	}
 	
 	private static void savePublicKey(PublicKey publicKey) {
-		FileOutputStream fileOs = null;
-		ObjectOutputStream os = null;
+		FileWriter fw = null;
+		PrintWriter pw = null;
 		try {
-			fileOs = new FileOutputStream(OUT_PUT_PATH+"/public_key.dat");
-			os = new ObjectOutputStream(fileOs);
-			os.writeObject(publicKey);
+			File file = new File(OUT_PUT_PATH+"/public_key.dat");
+			if(file.exists())
+				file.delete();
+			file.createNewFile();
+			fw= new FileWriter(OUT_PUT_PATH+"/public_key.dat", true);
+			pw = new PrintWriter(fw);
+			String key  = Base64.encodeBase64String(publicKey.getEncoded());
+			System.out.println("public key :"+key);
+			pw.print(key);
 		}catch(IOException e) {
 			throw new RuntimeException(e);
 		}finally {
+			pw.close();
 			try {
-				os.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
-				fileOs.close();
+				fw.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -61,22 +68,24 @@ public class KeyPaireUtils {
 	}
 	
 	private static void savePrivateKey(PrivateKey privateKey) {
-		FileOutputStream fileOs = null;
-		ObjectOutputStream os = null;
+		FileWriter fw = null;
+		PrintWriter pw = null;
 		try {
-			fileOs = new FileOutputStream(OUT_PUT_PATH+"/private_key.dat");
-			os = new ObjectOutputStream(fileOs);
-			os.writeObject(privateKey);
+			File file = new File(OUT_PUT_PATH+"/private_key.dat");
+			if(file.exists())
+				file.delete();
+			file.createNewFile();
+			fw= new FileWriter(OUT_PUT_PATH+"/private_key.dat", true);
+			pw = new PrintWriter(fw);
+			String key  = Base64.encodeBase64String(privateKey.getEncoded());
+			System.out.println("public key :"+key);
+			pw.print(key);
 		}catch(IOException e) {
 			throw new RuntimeException(e);
 		}finally {
+			pw.close();
 			try {
-				os.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
-				fileOs.close();
+				fw.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

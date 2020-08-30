@@ -206,7 +206,7 @@ public class RSAUtils {
 	public static RSAPublicKey getPublicKey(InputStream is) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
 		byte[] bytes = inputStreamToBytes(is);
-		X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(bytes);
+		X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(Base64.decodeBase64(new String(bytes)));
 		RSAPublicKey key = (RSAPublicKey) keyFactory.generatePublic(x509KeySpec);
 		return key;
 	}
@@ -219,7 +219,7 @@ public class RSAUtils {
 	 public static RSAPrivateKey getPrivateKey(InputStream is) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		 KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
 		 byte[] bytes = inputStreamToBytes(is);
-		 PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(bytes);
+		 PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(Base64.decodeBase64(new String(bytes)));
 		 RSAPrivateKey key = (RSAPrivateKey) keyFactory.generatePrivate(pkcs8KeySpec);
 		 return key;
 	 }
