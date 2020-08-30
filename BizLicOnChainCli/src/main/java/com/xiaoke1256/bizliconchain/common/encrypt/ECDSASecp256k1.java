@@ -1,5 +1,7 @@
 package com.xiaoke1256.bizliconchain.common.encrypt;
 
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -7,10 +9,9 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
-import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.ECPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.DSAPrivateKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
@@ -48,4 +49,67 @@ public class ECDSASecp256k1 {
 		 PrivateKey key = keyFactory.generatePrivate(pkcs);
 		 return key;
 	 }
+	 
+	 public static void savePublicKeyAsPEM(PublicKey publicKey, String name) throws Exception {
+        String content = Base64.encodeBase64String(publicKey.getEncoded());
+        File file = new File(name);
+        if ( file.isFile() && file.exists() ) {
+        	file.delete();
+        }
+            
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw")) {
+            randomAccessFile.write("-----BEGIN PUBLIC KEY-----\n".getBytes());
+            int i = 0;
+            for (; i<(content.length() - (content.length() % 64)); i+=64) {
+                randomAccessFile.write(content.substring(i, i + 64).getBytes());
+                randomAccessFile.write('\n');
+            }
+
+            randomAccessFile.write(content.substring(i, content.length()).getBytes());
+            randomAccessFile.write('\n');
+
+            randomAccessFile.write("-----END PUBLIC KEY-----".getBytes());
+        }
+    }
+
+    public static void savePrivateKeyAsPEM(PrivateKey privateKey, String name) throws Exception {
+        String content = Base64.encodeBase64String(privateKey.getEncoded());
+        File file = new File(name);
+        if ( file.isFile() && file.exists() ){
+        	file.delete();
+        }
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw")) {
+            randomAccessFile.write("-----BEGIN PRIVATE KEY-----\n".getBytes());
+            int i = 0;
+            for (; i<(content.length() - (content.length() % 64)); i+=64) {
+                randomAccessFile.write(content.substring(i, i + 64).getBytes());
+                randomAccessFile.write('\n');
+            }
+
+            randomAccessFile.write(content.substring(i, content.length()).getBytes());
+            randomAccessFile.write('\n');
+
+            randomAccessFile.write("-----END PRIVATE KEY-----".getBytes());
+        }
+    }
+    
+    public static PrivateKey loadECPrivateKey(String content) throws Exception {
+        String privateKeyPEM = content.replace("-----BEGIN PRIVATE KEY-----\n", "")
+                .replace("-----END PRIVATE KEY-----", "").replace("\n", "");
+        byte[] asBytes = Base64.decodeBase64(privateKeyPEM);
+        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(asBytes);
+        String algorithm = "EC";
+		KeyFactory keyFactory = KeyFactory.getInstance(algorithm );
+        return keyFactory.generatePrivate(spec);
+    }
+
+    public static PublicKey loadECPublicKey(String content) throws Exception {
+        String strPublicKey = content.replace("-----BEGIN PUBLIC KEY-----\n", "")
+                .replace("-----END PUBLIC KEY-----", "").replace("\n", "");
+        byte[] asBytes = Base64.decodeBase64(strPublicKey);
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(asBytes);
+        String algorithm = "EC";
+        KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
+        return (ECPublicKey) keyFactory.generatePublic(spec);
+    }
 }
