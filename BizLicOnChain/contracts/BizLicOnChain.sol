@@ -10,6 +10,9 @@ contract BizLicOnChain is BaseBizLicOnChain {
      */
     address creator;
     
+    /**
+     * 管理员 
+     */
     address[] administrators;
     
     /**
