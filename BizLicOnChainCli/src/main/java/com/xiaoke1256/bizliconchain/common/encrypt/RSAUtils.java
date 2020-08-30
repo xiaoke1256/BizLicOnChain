@@ -223,28 +223,4 @@ public class RSAUtils {
 		 RSAPrivateKey key = (RSAPrivateKey) keyFactory.generatePrivate(pkcs8KeySpec);
 		 return key;
 	 }
-/*
-	public static void main (String[] args) throws Exception {
-		Map<String, String> keyMap = RSAUtils.createKeys(1024);
-		String  publicKey = keyMap.get("publicKey");
-		String  privateKey = keyMap.get("privateKey");
-		System.out.println("公钥: \n\r" + publicKey);
-		System.out.println("私钥： \n\r" + privateKey);
-	
-		System.out.println("公钥加密——私钥解密");
-		String str = "\n" +
-				"成长带走的不只是时光\n" +
-				"还带走了当初那些不害怕失去的勇气\n" +
-				"让自己忙一点，忙到没时间去思考无关紧要的事，很多事就能悄悄淡忘了\n" +
-				"时间不一定能证明很多东西\n" +
-				"但是一定能看透很多东西\n" +
-				"坚信自己的选择，不动摇，使劲跑，明天会更好";
-		System.out.println("\r明文：\r\n" + str);
-		System.out.println("\r明文大小：\r\n" + str.getBytes().length);
-		String encodedData = RSAUtils.publicEncrypt(str, RSAUtils.getPublicKey(publicKey));
-		System.out.println("密文：\r\n" + encodedData);
-		String decodedData = RSAUtils.privateDecrypt(encodedData, RSAUtils.getPrivateKey(privateKey));
-		System.out.println("解密后文字: \r\n" + decodedData);
-	}
-	*/
 }
