@@ -1,6 +1,11 @@
 package com.xiaoke1256.bizliconchain.blockchain.cli;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +19,15 @@ import org.web3j.abi.datatypes.Utf8String;
 
 import com.alibaba.fastjson.JSON;
 import com.xiaoke1256.bizliconchain.bo.Bizlic;
-import com.xiaoke1256.bizliconchain.common.web3j.cli.BaseWeb3jImpl;
+import com.xiaoke1256.bizliconchain.common.encrypt.ECDSASecp256k1;
 import com.xiaoke1256.bizliconchain.common.web3j.cli.IBaseWeb3j;
 
 @Service
 public class BizLicOnChainCli {
 	
-	 private static final Logger LOG = LoggerFactory.getLogger(BizLicOnChainCli.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BizLicOnChainCli.class);
+	 
+	private PrivateKey privateKey;
 	
 	@Autowired
 	private IBaseWeb3j baseWeb3j;
@@ -55,6 +62,14 @@ public class BizLicOnChainCli {
 	@Value("${contract.gasLimit}")
 	private BigInteger gasLimit;
 	
+	public void init() {
+		try {
+			privateKey = ECDSASecp256k1.loadECPrivateKey(this.getClass().getResourceAsStream("/com/xiaoke1256/bizliconchain/security/keys/ecdsa/private_key.der"));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	/**
 	 * 提交一个营业执照
 	 * @param uniScId
@@ -64,12 +79,19 @@ public class BizLicOnChainCli {
 	 */
 	public void sendLic(Bizlic bizlic) {
 		
+		@SuppressWarnings("rawtypes")
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(bizlic.getUniScId()));
 		inputParameters.add(new Utf8String(bizlic.getIssueOrgan()));
-		inputParameters.add(new Utf8String(JSON.toJSONString(bizlic))); 
-		LOG.info("bizlic:"+JSON.toJSONString(bizlic));
-		inputParameters.add(new Utf8String(""));//sign 工商局做的电子签名
+		String licContent = JSON.toJSONString(bizlic);
+		inputParameters.add(new Utf8String(licContent)); 
+		LOG.info("bizlic:"+licContent);
+		try {
+			//sign 工商局做的电子签名
+			inputParameters.add(new Utf8String(new String(ECDSASecp256k1.signature(privateKey, licContent.getBytes("UTF-8")))));
+		} catch (InvalidKeyException | NoSuchAlgorithmException | SignatureException | UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
 		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "putLic", gasPrice, gasLimit, inputParameters );
 	}
 	

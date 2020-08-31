@@ -1,6 +1,9 @@
 package com.xiaoke1256.bizliconchain.common.encrypt;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -102,6 +105,10 @@ public class ECDSASecp256k1 {
 		KeyFactory keyFactory = KeyFactory.getInstance(algorithm );
         return keyFactory.generatePrivate(spec);
     }
+    
+    public static PrivateKey loadECPrivateKey(final InputStream inputStream) throws Exception {
+    	return loadECPrivateKey(new String(readBytes(inputStream)));
+    }
 
     public static PublicKey loadECPublicKey(String content) throws Exception {
         String strPublicKey = content.replace("-----BEGIN PUBLIC KEY-----\n", "")
@@ -111,5 +118,22 @@ public class ECDSASecp256k1 {
         String algorithm = "EC";
         KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
         return (ECPublicKey) keyFactory.generatePublic(spec);
+    }
+    
+    public static PublicKey loadECPublicKey(final InputStream inputStream) throws Exception {
+    	return loadECPublicKey(new String(readBytes(inputStream)));
+    }
+    
+    private static byte[] readBytes(final InputStream inputStream) throws IOException {
+        final int BUFFER_SIZE = 1024;
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int readCount;
+        byte[] data = new byte[BUFFER_SIZE];
+        while ((readCount = inputStream.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, readCount);
+        }
+        
+        buffer.flush();
+        return buffer.toByteArray();
     }
 }
