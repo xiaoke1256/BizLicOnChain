@@ -89,7 +89,7 @@ BizLicOnChain
 ### 6. 开始挖矿
 
  &ensp;&ensp;&ensp;&ensp;
- 键入以下地址，开始挖矿：
+ 键入以下命令，开始挖矿：
  ```
  miner.start(1)
  ```
