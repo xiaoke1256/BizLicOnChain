@@ -9,6 +9,8 @@ import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,7 @@ public class BizLicOnChainCli {
 	@Value("${contract.gasLimit}")
 	private BigInteger gasLimit;
 	
+	@PostConstruct
 	public void init() {
 		try {
 			privateKey = ECDSASecp256k1.loadECPrivateKey(this.getClass().getResourceAsStream("/com/xiaoke1256/bizliconchain/security/keys/ecdsa/private_key.der"));
