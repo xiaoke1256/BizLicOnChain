@@ -89,7 +89,7 @@ BizLicOnChain
 ### 6. 开始挖矿
 
  &ensp;&ensp;&ensp;&ensp;
- 键入以下地址，开始挖矿：
+ 键入以下命令，开始挖矿：
  ```
  miner.start(1)
  ```
@@ -124,7 +124,7 @@ BizLicOnChain
 
 ### 9. 发布电子合约
 &ensp;&ensp;&ensp;&ensp;
-要确保contracts目录中放的是本项目的合约文件，migrations目录中放的是本项目的合约部署文件（2_deploy_contracts.js）。
+要确保contracts目录中放的是本项目的合约文件，migrations目录中存放的是发布合约的脚本（2_deploy_contracts.js）。
 然后解锁账户 account[0],在geth客户端中执行以下命令：
 ```
 > personal.unlockAccount(eth.accounts[0],"********", 100)
