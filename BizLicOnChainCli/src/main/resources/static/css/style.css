@@ -1,0 +1,24 @@
+.content {
+	text-align:center;
+	align:center;
+	margin: 2px auto
+}
+.center {
+	margin: 2px auto
+}
+.formTable{
+	margin: 2px auto;
+	text-align:center;
+}
+
+.formTable th{
+	text-align:right;
+}
+.formTable td{
+	padding-left:10px;
+	text-align:left;
+}
+
+.formTable input,textarea{
+	width:260px
+}
