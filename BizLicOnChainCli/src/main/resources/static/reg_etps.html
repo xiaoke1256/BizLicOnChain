@@ -4,52 +4,76 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>bizlic on chain welcome!</title>
   <link rel="stylesheet" type="text/css" title="default" href="css/style.css" >
+  <script type="text/javascript" src="js/jquery.min.js" ></script>
+  <script type="text/javascript">
+  	function toSubmit(){
+  		$('#bizlicForm').submit();
+  	}
+  </script>
 </head>
 <body>
 	<div id="content" class="content">
-		<form action="bizlic" method="post">
+		<form action="bizlic" name="bizlicForm" id="bizlicForm" method="post">
 		<table class="formTable">
 			<tr>
 				<th>统一社会信用码:</th>
-				<td><input ><span style="color:red">（统一社会信用码重复则会覆盖老数据）</span></td>
+				<td><input name="uniScId" maxLength="18" ><span style="color:red">（统一社会信用码重复则会覆盖老数据）</span></td>
 			</tr>
 			<tr>
 				<th>企业名称:</th>
-				<td><input ></td>
+				<td><input name="corpName" ></td>
 			</tr>
 			<tr>
 				<th>法定代表人姓名:</th>
-				<td><input ></td>
+				<td><input name="leadName" ></td>
 			</tr>
 			<tr>
 				<th>行业分类代码:</th>
-				<td><input ></td>
+				<td><input name="indsyCode" ></td>
 			</tr>
 			<tr>
 				<th>经营范围:</th>
-				<td><textarea></textarea></td>
+				<td><textarea name="bizScope" ></textarea></td>
 			</tr>
 			<tr>
 				<th>注册资金:</th>
-				<td><input >元</td>
+				<td><input name="regCpt" >元</td>
 			</tr>
 			<tr>
 				<th>核准时间:</th>
-				<td><input ></td>
+				<td><input name="provDate" maxLength="10" readonly="readonly" ></td>
 			</tr>
 			<tr>
 				<th>有效期至:</th>
-				<td><input ></td>
+				<td><input name="limitTo" ></td>
 			</tr>
 			<tr>
 				<th>发证机关:</th>
 				<td>
-					<select>
+					<select name="issueOrgan">
 						<option value="310000000">上海市市场监督管理局</option>
+						<option value="310101000">上海市市场监督管理局黄浦分局</option>
+						<option value="310104000">上海市市场监督管理局徐汇分局</option>
+						<option value="310105000">上海市市场监督管理局长宁分局</option>
+						<option value="310106000">上海市市场监督管理局静安分局</option>
+						<option value="310107000">上海市市场监督管理局普陀分局</option>
+						<option value="310108000">上海市市场监督管理局闸北分局</option>
+						<option value="310109000">上海市市场监督管理局虹口分局</option>
+						<option value="310110000">上海市市场监督管理局杨浦分局</option>
+						<option value="310112000">上海市市场监督管理局闵行分局</option>
+						<option value="310113000">上海市市场监督管理局宝山分局</option>
+						<option value="310114000">上海市市场监督管理局嘉定分局</option>
+						<option value="310115000">上海市市场监督管理局浦东分局</option>
+						<option value="310116000">上海市市场监督管理局金山分局</option>
+						<option value="310117000">上海市市场监督管理局松江分局</option>
+						<option value="310118000">上海市市场监督管理局青浦分局</option>
+						<option value="310120000">上海市市场监督管理局奉贤分局</option>
+						<option value="310230000">上海市市场监督管理局崇明分局</option>
 					</select>
 				</td>
 			</tr>
 		</table>
+		<button onClick="toSubmit()" >提交</button>
 		</form>
 	</div>
 	
