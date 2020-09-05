@@ -20,5 +20,8 @@
 }
 
 .formTable input,textarea{
-	width:260px
+	width:260px;
+}
+.formTable textarea{
+	height:50px;
 }

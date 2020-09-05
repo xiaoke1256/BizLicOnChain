@@ -9,6 +9,31 @@
   <script type="text/javascript">
   	$(function(){
   		$('#submitBtn').click(function(){
+  			if($('[name=uniScId]').val().length==0){
+  				alert("请填写统一社会信用码。");
+  				return false;
+  			}
+  			if($('[name=uniScId]').val().length!=18){
+  				alert("统一社会信用码的长度是18位。");
+  				return false;
+  			}
+  			if($('[name=corpName]').val().length==0){
+  				alert("请填写企业名称。");
+  				return false;
+  			}
+  			if($('[name=leadName]').val().length==0){
+  				alert("请填写法定代表人姓名。");
+  				return false;
+  			}
+  			if($('[name=indsyCode]').val().length==0){
+  				alert("请填写行业分类代码。");
+  				return false;
+  			}
+  			if($('[name=bizScope]').val().length==0){
+  				alert("请填写经营范围。");
+  				return false;
+  			}
+  			
   			$('#bizlicForm').submit();
   		});
   		
@@ -36,7 +61,7 @@
 			</tr>
 			<tr>
 				<th>行业分类代码:</th>
-				<td><input name="indsyCode" maxLength="4" ></td>
+				<td><input name="indsyCode" maxLength="4" ><a href="http://www.stats.gov.cn/tjsj/tjbz/201709/t20170929_1539288.html" target="blank" >GB/T 4754—2017</a></td>
 			</tr>
 			<tr>
 				<th>经营范围:</th>
