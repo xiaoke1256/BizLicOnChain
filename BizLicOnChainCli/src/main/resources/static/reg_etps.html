@@ -5,10 +5,17 @@
   <title>bizlic on chain welcome!</title>
   <link rel="stylesheet" type="text/css" title="default" href="css/style.css" >
   <script type="text/javascript" src="js/jquery.min.js" ></script>
+  <script type="text/javascript" src="js/date_format.js" ></script>
   <script type="text/javascript">
-  	function toSubmit(){
-  		$('#bizlicForm').submit();
-  	}
+  	$(function(){
+  		$('#submitBtn').click(function(){
+  			$('#bizlicForm').submit();
+  		});
+  		
+  		//核准时间
+  		var today = new Date();
+  		$('[name=provDate]').val(today.format("yyyy-MM-dd"));
+  	});
   </script>
 </head>
 <body>
@@ -21,23 +28,23 @@
 			</tr>
 			<tr>
 				<th>企业名称:</th>
-				<td><input name="corpName" ></td>
+				<td><input name="corpName" maxLength="180" ></td>
 			</tr>
 			<tr>
 				<th>法定代表人姓名:</th>
-				<td><input name="leadName" ></td>
+				<td><input name="leadName" maxLength="20" ></td>
 			</tr>
 			<tr>
 				<th>行业分类代码:</th>
-				<td><input name="indsyCode" ></td>
+				<td><input name="indsyCode" maxLength="4" ></td>
 			</tr>
 			<tr>
 				<th>经营范围:</th>
-				<td><textarea name="bizScope" ></textarea></td>
+				<td><textarea name="bizScope" maxLength="1000" ></textarea></td>
 			</tr>
 			<tr>
 				<th>注册资金:</th>
-				<td><input name="regCpt" >元</td>
+				<td><input name="regCpt"  maxLength="20" >元</td>
 			</tr>
 			<tr>
 				<th>核准时间:</th>
@@ -45,7 +52,7 @@
 			</tr>
 			<tr>
 				<th>有效期至:</th>
-				<td><input name="limitTo" ></td>
+				<td><input name="limitTo" maxLength="10" ></td>
 			</tr>
 			<tr>
 				<th>发证机关:</th>
@@ -73,7 +80,7 @@
 				</td>
 			</tr>
 		</table>
-		<button onClick="toSubmit()" >提交</button>
+		<button id="submitBtn" >提交</button>
 		</form>
 	</div>
 	
