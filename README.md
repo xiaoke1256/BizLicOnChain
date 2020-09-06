@@ -149,4 +149,4 @@ truffle console --network MyNetwork
 ### 10. 运行Web应用调用合约
 
 &ensp;&ensp;&ensp;&ensp;
-本项目源代码中有个工程叫BizLicOnChainCli，这是个用java写的Web工程。将他编译后
+本项目源代码中有个工程叫BizLicOnChainCli，这是个用java写的Web工程。将他编译后形成一个jar包，运行其中的“SpringbootApplication”类。然后打开chrome浏览器，在地址栏里输入："http://127.0.0.1:8080/bizlic/" ，就会出现“欢迎访问链上市监局”的界面。然后就可以进行“注册企业”、“注销企业”、“注册股权”等操作。
