@@ -60,20 +60,21 @@
   			　　return false;
   			}
   			
-  			$.ajax({
-  				type:'PUT',
-  				contentType: "application/json;charset=UTF-8",
-  				url:'bizlic',
-  				data : JSON.stringify($('#bizlicForm')),
-  				success : function(result) {
-  					alert(resp.msg);
-  	            },
-  	            error : function(e){
-  	                console.log(e.status);
-  	                console.log(e.responseText);
-  	                alert('保存失败');
-  	            }
-  			});
+  			var data = {
+  				uniScId:$('[name=uniScId]').val(),
+  				corpName:$('[name=corpName]').val(),
+  				leadName:$('[name=leadName]').val(),
+  				indsyCode:$('[name=indsyCode]').val(),
+  				bizScope:$('[name=bizScope]').val(),
+  				regCpt:$('[name=regCpt]').val(),
+  				provDate:$('[name=provDate]').val(),
+  				limitTo:$('[name=limitTo]').val(),
+  				issueOrgan:$('[name=issueOrgan]').val()
+  			}
+
+  			$.post('bizlic',data,function(resp){
+  				alert(resp.msg);
+  			},'json');
   			
   		});
   		

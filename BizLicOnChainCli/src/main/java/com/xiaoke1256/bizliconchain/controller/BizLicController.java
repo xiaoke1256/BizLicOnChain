@@ -1,6 +1,7 @@
 package com.xiaoke1256.bizliconchain.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class BizLicController {
 	/**
 	 * 新增或修改一个营业职照
 	 */
-	@RequestMapping(value = "/bizlic", method =RequestMethod.PUT)
+	@RequestMapping(value = "/bizlic", method =RequestMethod.POST)
 	public RespMsg putBizlic(Bizlic bizlic) {
 		//organCode 需要有 organCode 为参数
 		try {
