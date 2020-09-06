@@ -33,6 +33,32 @@
   				alert("请填写经营范围。");
   				return false;
   			}
+  			if($('[name=regCpt]').val().length==0){
+  				alert("请填写注册资金。");
+  				return false;
+  			}
+  			if(isNaN($('[name=regCpt]').val())){
+  				alert("注册资金必须是数字。");
+  				return false;
+  			}
+  			if($('[name=provDate]').val().length==0){
+  				alert("请填写核准时间。");
+  				return false;
+  			}
+  			var dateReg = new RegExp(/^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/);
+  			if(!dateReg.test($('[name=provDate]').val())){
+  			　　alert("核准时间日期格式不正确。");
+  			　　return;
+  			}
+  			if($('[name=limitTo]').val().length==0){
+  				alert("请填写有效期至。");
+  				return false;
+  			}
+  			var dateReg = new RegExp(/^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/);
+  			if(!dateReg.test($('[name=limitTo]').val())){
+  			　　alert("有效期至日期格式不正确。");
+  			　　return false;
+  			}
   			
   			$('#bizlicForm').submit();
   		});
@@ -77,7 +103,7 @@
 			</tr>
 			<tr>
 				<th>有效期至:</th>
-				<td><input name="limitTo" maxLength="10" ></td>
+				<td><input name="limitTo" maxLength="10" ><span style="color:red">（YYYY-MM-DD）</span></td>
 			</tr>
 			<tr>
 				<th>发证机关:</th>
