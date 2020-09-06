@@ -147,3 +147,6 @@ truffle console --network MyNetwork
 > await proxy.initialize(instance.address)
 ```
 ### 10. 运行Web应用调用合约
+
+&ensp;&ensp;&ensp;&ensp;
+本项目源代码中有个工程叫BizLicOnChainCli，这是个用java写的Web工程。将他编译后
