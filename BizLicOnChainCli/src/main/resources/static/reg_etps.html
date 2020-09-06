@@ -48,7 +48,7 @@
   			var dateReg = new RegExp(/^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/);
   			if(!dateReg.test($('[name=provDate]').val())){
   			　　alert("核准时间日期格式不正确。");
-  			　　return;
+  			　　return false;
   			}
   			if($('[name=limitTo]').val().length==0){
   				alert("请填写有效期至。");
@@ -60,7 +60,21 @@
   			　　return false;
   			}
   			
-  			$('#bizlicForm').submit();
+  			$.ajax({
+  				type:'PUT',
+  				contentType: "application/json;charset=UTF-8",
+  				url:'bizlic',
+  				data : JSON.stringify($('#bizlicForm')),
+  				success : function(result) {
+  					alert(resp.msg);
+  	            },
+  	            error : function(e){
+  	                console.log(e.status);
+  	                console.log(e.responseText);
+  	                alert('保存失败');
+  	            }
+  			});
+  			
   		});
   		
   		//核准时间
@@ -71,7 +85,7 @@
 </head>
 <body>
 	<div id="content" class="content">
-		<form action="bizlic" name="bizlicForm" id="bizlicForm" method="post">
+		<form name="bizlicForm" id="bizlicForm" method="post">
 		<table class="formTable">
 			<tr>
 				<th>统一社会信用码:</th>
@@ -131,7 +145,7 @@
 				</td>
 			</tr>
 		</table>
-		<button id="submitBtn" >提交</button>
+		<button id="submitBtn" type="button" >提交</button>
 		</form>
 	</div>
 	
