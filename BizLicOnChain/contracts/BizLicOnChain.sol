@@ -20,10 +20,20 @@ contract BizLicOnChain is BaseBizLicOnChain {
      */
     mapping(string => AicOrgan) aicOrgans;
     
+    /**
+     * 所有工商机关的编码
+     */
+    string[] aicOrganCodes;
+    
     /*
      * 所有营业执照（key是组织机构代码，value是营业执照内容的json）
      */
     mapping(string => BizLic) bizLics;
+    
+    /**
+     * 所有企业的统一社会信用码
+     */
+    string[] uniScIds;
     
     /* 用来占位 */
     bool internal _initialized = false;
@@ -92,6 +102,8 @@ contract BizLicOnChain is BaseBizLicOnChain {
         aicOrgans[organCode].organName = organName;
         aicOrgans[organCode].publicKey = publicKey;
         aicOrgans[organCode].isUserd = true;
+        
+        aicOrganCodes.push(organCode);
     }
     
     /**
@@ -100,6 +112,7 @@ contract BizLicOnChain is BaseBizLicOnChain {
     function removeOrgan(string memory organCode) public onlyAdmin {
         require(bytes(organCode).length>0);
         delete aicOrgans[organCode];
+        ArrayUtils.remove(aicOrganCodes,organCode);
     }
     
     /**

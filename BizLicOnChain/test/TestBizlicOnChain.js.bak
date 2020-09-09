@@ -11,6 +11,7 @@ proxy.regestOrgan("310000000","上海市市场监督局",accounts[1])
 proxy.getOrgan.call('310000000')
 proxy.removeOrgan("310000000")
 proxy.getOrgan.call('310000000')
+proxy.getAllOrganCodes.call()
 
 ////签名 测试
 //web3.eth.sign('上海市市场监督局',accounts[1])

@@ -55,6 +55,19 @@ library ArrayUtils {
 	    return removeAt(array,index);
 	}
 	
+	 /**
+     * 返回指定元素在数组中的位置
+     */
+	function indexOf(string[] memory array,string memory target) internal view returns(uint64){
+	    require(array.length<2**64,"The Array is out of bound.");
+	    for(uint64 i=0;i< array.length;i++){
+            if(stringEquals(array[i],target)){
+                return i;
+            } 
+        }
+        return uint64(-1);
+	}
+	
 	/**
 	 * 判断数组中是否包含某元素
 	 */
@@ -66,6 +79,30 @@ library ArrayUtils {
             } 
         }
         return false;
+	}
+	
+	/**
+	 * 删除指定位置的元素
+	 */
+	function removeAt (string[] storage array,uint64 index) internal returns (bool){
+	    require(array.length<2**64,"The Array is out of bound.");
+	    if(index>=array.length){
+	        return false;
+	    }
+	    for(uint64 i = index;i<array.length-1;i++){
+	        array[i]=array[i+1];
+	    }
+	    array.pop();
+	    return true;
+	}
+	
+	/**
+	 * 删除一个元素
+	 */
+	function remove (string[] storage array ,string memory target) internal returns (bool){
+	    require(array.length<2**64,"The Array is out of bound.");
+	    uint64 index = indexOf(array,target);
+	    return removeAt(array,index);
 	}
 	
 	/**

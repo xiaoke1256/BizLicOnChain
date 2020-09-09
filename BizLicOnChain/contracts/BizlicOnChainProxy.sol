@@ -21,10 +21,20 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
      */
     mapping(string => AicOrgan) aicOrgans;
     
+     /**
+     * 所有工商机关的编码
+     */
+    string[] aicOrganCodes;
+    
     /*
      * 所有营业执照（key是组织机构代码，value是营业执照内容的json）
      */
     mapping(string => BizLic) bizLics;
+    
+    /**
+     * 所有企业的统一社会信用码
+     */
+    string[] uniScIds;
     
     bool internal _initialized = false;
     
@@ -138,6 +148,21 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         strArr[5]=StringUtils.address2str(aicOrgans[organCode].publicKey);
         strArr[6]="'}";
         return StringUtils.concat(strArr);
+    }
+    
+    /**
+     * 获取所有的
+     */
+    function getAllOrganCodes() public view returns(string memory){
+        string memory s = '[';
+        for(uint64 i = 0;i<aicOrganCodes.length;i++){
+            if(i>0){
+                s=StringUtils.concat(s,",");
+            }
+            s=StringUtils.concat(s,"'",aicOrganCodes[i],"'");
+        }
+        s=StringUtils.concat(s,"]");
+        return s;
     }
     
     /**

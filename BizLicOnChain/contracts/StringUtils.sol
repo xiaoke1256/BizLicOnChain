@@ -22,6 +22,20 @@ library StringUtils {
      /**
      * 拼接字符串
      */
+    function concat(string memory s1, string memory s2,string memory s3) internal pure returns (string memory) {
+        return concat(concat(s1,s2),s3);
+    }
+    
+     /**
+     * 拼接字符串
+     */
+    function concat(string memory s1, string memory s2,string memory s3,string memory s4) internal pure returns (string memory) {
+        return concat(concat(s1,s2,s3),s4);
+    }
+    
+     /**
+     * 拼接字符串
+     */
     function concat(string[] memory s1) internal pure returns (string memory) {
         if(s1.length==0){
             return "";
