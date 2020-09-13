@@ -223,7 +223,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
 	/**
 	 * 获取所有的企业社会信用码
 	 */
-	function getBizLics(){
+	function getBizLics()public view returns (string memory){
 	    string memory s = '[';
         for(uint64 i = 0;i<uniScIds.length;i++){
             if(i>0){
