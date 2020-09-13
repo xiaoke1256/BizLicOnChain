@@ -134,6 +134,8 @@ contract BizLicOnChain is BaseBizLicOnChain {
         bizLics[uniScId].organCode = organCode;
         bizLics[uniScId].licContent = licContent;
         bizLics[uniScId].sign = sign;
+        
+        uniScIds.push(uniScId);
         return true;
     }
     
@@ -145,6 +147,7 @@ contract BizLicOnChain is BaseBizLicOnChain {
     function removeLic(string memory uniScId) public onlyAdmin returns (bool) {
         require(bytes(uniScId).length>0);
         delete bizLics[uniScId];
+        ArrayUtils.remove(bizLics,uniScId);
         return true;
     }
     

@@ -219,5 +219,20 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
 	    }
 	    return number;
 	}
+	
+	/**
+	 * 获取所有的企业社会信用码
+	 */
+	function getBizLics(){
+	    string memory s = '[';
+        for(uint64 i = 0;i<uniScIds.length;i++){
+            if(i>0){
+                s=StringUtils.concat(s,",");
+            }
+            s=StringUtils.concat(s,"'",uniScIds[i],"'");
+        }
+        s=StringUtils.concat(s,"]");
+        return s;
+	}
     
 }
