@@ -147,7 +147,7 @@ contract BizLicOnChain is BaseBizLicOnChain {
     function removeLic(string memory uniScId) public onlyAdmin returns (bool) {
         require(bytes(uniScId).length>0);
         delete bizLics[uniScId];
-        ArrayUtils.remove(bizLics,uniScId);
+        ArrayUtils.remove(uniScIds,uniScId);
         return true;
     }
     
