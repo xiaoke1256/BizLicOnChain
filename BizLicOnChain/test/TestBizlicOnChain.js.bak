@@ -23,3 +23,5 @@ let sign = await web3.eth.accounts.sign(licContent,'c620a4325cf94591cecd800d0e89
 //sign
 proxy.putLic("123100008654367537","310000000",licContent,sign.signature);
 proxy.getLicContent.call("123100008654367537")
+
+proxy.getBizLics.call();
