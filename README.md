@@ -9,7 +9,7 @@ BizLicOnChain
 
 ## 存储设计
 &ensp;&ensp;&ensp;&ensp;
-存储在区块链中的营业执照，结构如下：
+### 1、存储在区块链中的营业执照，结构如下：
  |属性名|解释|
  |-----|----|
  |organCode|发证机关代码|
@@ -30,6 +30,16 @@ BizLicOnChain
  |limitTo|有效期至(yyyy-MM-dd)|
  |issueOrgan|发证机关(中文全称)|
  |otherInfo|其他信息|
+ 
+ ### 2、存储在区块链中股权信息结构如下：
+ |属性名|解释|
+ |-----|----|
+ |uniScId|所在企业的统一社会信用码|
+ |investorNo|股东编号（股东编号和统一社会信用码两个字段可以唯一定位一个股东。）|
+ |investorName|股东姓名|
+ |investorCetfType|股东证件类型（1：身份证，2：居留证，3：军官证，4：中国护照，6：外国或地区护照）（加密）|
+ |investorCetfId|股东证件号（加密）|
+ |cptAmt|出资额度（人民币元）|
  
  ## 如何运行本系统
  
