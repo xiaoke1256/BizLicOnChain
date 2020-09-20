@@ -12,4 +12,5 @@ public class HexUtilTest {
 		
 		assertEquals(1, HexUtil.parse("0x00000000001"));
 	}
+	
 }

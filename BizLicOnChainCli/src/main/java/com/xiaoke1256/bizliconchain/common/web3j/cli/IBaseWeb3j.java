@@ -4,6 +4,7 @@ import org.web3j.abi.datatypes.Type;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @Datetime: 2020/6/23   10:35
@@ -30,5 +31,18 @@ public interface IBaseWeb3j {
      * 调用合约（不进行检查）
      */
     public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters);
+    
+    /**
+     * 用Call的方式调用合约。（目的是查询）
+     * @param from
+     * @param contractAddress
+     * @param method
+     * @param inputParameters
+     * @return
+     * @throws ExecutionException 
+     * @throws InterruptedException 
+     * @throws ClassNotFoundException 
+     */
+    public String queryToString(String from, String contractAddress, String method,List<Type> inputParameters) throws InterruptedException, ExecutionException, ClassNotFoundException;
 }
 

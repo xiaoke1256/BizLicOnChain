@@ -8,6 +8,7 @@ import java.security.PrivateKey;
 import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.annotation.PostConstruct;
 
@@ -81,7 +82,6 @@ public class BizLicOnChainCli {
 	 * @param sign 电子签名
 	 */
 	public void sendLic(Bizlic bizlic) {
-		
 		@SuppressWarnings("rawtypes")
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(bizlic.getUniScId()));
@@ -96,6 +96,23 @@ public class BizLicOnChainCli {
 			throw new RuntimeException(e);
 		}
 		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "putLic", gasPrice, gasLimit, inputParameters );
+	}
+	
+	/**
+	 * 获取营业执照的内容
+	 * @return
+	 */
+	public Bizlic getLicContent(String uniScId) {
+		@SuppressWarnings("rawtypes")
+		List<Type> inputParameters = new ArrayList<Type>();
+		inputParameters.add(new Utf8String(uniScId));
+		String json;
+		try {
+			json = baseWeb3j.queryToString(fromAddr, contractAddress, "getLicContent", inputParameters);
+		} catch (InterruptedException | ExecutionException | ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+		return JSON.parseObject(json, Bizlic.class);
 	}
 	
 }

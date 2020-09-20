@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.xiaoke1256.bizliconchain.SpringbootApplication;
 import com.xiaoke1256.bizliconchain.bo.Bizlic;
+import com.xiaoke1256.bizliconchain.common.mvc.RespMsg;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=SpringbootApplication.class)
@@ -32,5 +33,16 @@ public class BizLicControllerTest {
 		bizlic.setLimitTo(DateUtils.addYears(new Date(), 3));
 		bizLicController.putBizlic(bizlic);
 		
+	}
+	
+	@Test
+	public void testGetBizlic() {
+		RespMsg msg = bizLicController.getBizlic("1231000083237TEST537");
+		System.out.println(msg.getData().toString());
+		Bizlic bizLic = (Bizlic)msg.getData();
+		System.out.println("corpName:"+bizLic.getCorpName());
+		System.out.println("leadName:"+bizLic.getLeadName());
+		System.out.println("provDate:"+bizLic.getProvDate());
+		System.out.println("issueOrgan:"+bizLic.getIssueOrgan());
 	}
 }

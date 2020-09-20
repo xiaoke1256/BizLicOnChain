@@ -7,15 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-
+import org.web3j.abi.DefaultFunctionReturnDecoder;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.Address;
-import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
-import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
@@ -24,13 +21,13 @@ import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthCall;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
-import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -73,7 +70,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
      */
     public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters) {
     	try {
-    		if(!querryTransfer(fromAddr,contractAddress,method,inputParameters)) {
+    		if(!queryTransfer(fromAddr,contractAddress,method,inputParameters)) {
     			throw new RuntimeException("Something wrong happen when excute the contract , please check the input paramters.");
     		}
     		return transact(fromAddr,fromPrivateKey,contractAddress,method,gasPrice,gasLimit,inputParameters);
@@ -157,7 +154,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
      * @throws InterruptedException 
      * @throws Exception
      */
-    public boolean querryTransfer(String from, String contractAddress, String method,List<Type> inputParameters) throws InterruptedException, ExecutionException {
+    public boolean queryTransfer(String from, String contractAddress, String method,List<Type> inputParameters) throws InterruptedException, ExecutionException {
         Function function = new Function(method,
                 inputParameters,
                 Collections.<TypeReference<?>>emptyList());//output 难道就是 empty了？
@@ -167,9 +164,36 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                 DefaultBlockParameterName.LATEST)
                 .sendAsync().get();
  
-        if(HexUtil.parse(response.getValue()) == 0)
+        if(HexUtil.parse(response.getValue()).intValue() == 0)
             return false;
         return true;
+    }
+    
+    /**
+     * 用Call的方式调用合约。（目的是查询）
+     * @param from
+     * @param contractAddress
+     * @param method
+     * @param inputParameters
+     * @return
+     * @throws ExecutionException 
+     * @throws InterruptedException 
+     * @throws ClassNotFoundException 
+     */
+    public String queryToString(String from, String contractAddress, String method,List<Type> inputParameters) throws InterruptedException, ExecutionException, ClassNotFoundException {
+    	Function function = new Function(method,
+                inputParameters,
+                Arrays.asList(TypeReference.create(Utf8String.class)));
+        String encodedFunction = FunctionEncoder.encode(function);
+        EthCall response = web3j.ethCall(
+                Transaction.createEthCallTransaction(from, contractAddress, encodedFunction),
+                DefaultBlockParameterName.LATEST)
+                .sendAsync().get();
+        //用DefaultFunctionReturnDecoder解析返回值。
+        DefaultFunctionReturnDecoder rd = new DefaultFunctionReturnDecoder();
+        @SuppressWarnings("unchecked")
+		List<Type> results = rd.decodeFunctionResult(response.getResult(), Arrays.asList(TypeReference.makeTypeReference("string")));
+        return results.get(0).toString();
     }
     
     
