@@ -151,7 +151,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     }
     
     /**
-     * 获取所有的
+     * 获取所有的发证机关
      */
     function getAllOrganCodes() public view returns(string memory){
         string memory s = '[';
@@ -200,6 +200,14 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     function getLicContent(string memory uniScId) public view returns(string memory)  {
         require(_initialized);
         return bizLics[uniScId].licContent;
+    }
+    
+    /**
+     * 获取证书上的签名
+     */
+    function getSignByUniScId(string memory uniScId) public returns(string memory) {
+         require(_initialized);
+        return bizLics[uniScId].sign;
     }
     
     /**
