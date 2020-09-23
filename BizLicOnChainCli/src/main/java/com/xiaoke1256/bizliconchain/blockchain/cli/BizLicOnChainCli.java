@@ -115,4 +115,19 @@ public class BizLicOnChainCli {
 		return JSON.parseObject(json, Bizlic.class);
 	}
 	
+	/**
+	 * 获取所有的企业的统一社会信用码。（此方法不要轻易调用，因为有数据量有百万规模）
+	 * @return
+	 */
+	public List<String> getAllUniScIds(){
+		@SuppressWarnings("rawtypes")
+		List<Type> inputParameters = new ArrayList<Type>();
+		String json;
+		try {
+			json = baseWeb3j.queryToString(fromAddr, contractAddress, "getAllUniScIds", inputParameters);
+		} catch (InterruptedException | ExecutionException | ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+		return JSON.parseArray(json, String.class);
+	}
 }
