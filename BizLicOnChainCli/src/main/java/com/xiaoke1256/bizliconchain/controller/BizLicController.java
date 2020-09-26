@@ -38,7 +38,6 @@ public class BizLicController {
 	 */
 	@RequestMapping(value = "/bizlic", method =RequestMethod.GET)
 	public RespMsg getBizlic(String uniScId) {
-		//organCode 需要有 organCode 为参数
 		try {
 			Bizlic bizlic = bizLicOnChainCli.getLicContent(uniScId);
 			return new RespMsg("00","Success!",bizlic);

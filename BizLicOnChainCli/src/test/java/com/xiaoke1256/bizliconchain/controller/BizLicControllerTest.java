@@ -23,7 +23,7 @@ public class BizLicControllerTest {
 	@Test
 	public void testPutBizlic() {
 		Bizlic bizlic = new Bizlic();
-		bizlic.setUniScId("1231000083237TEST537");
+		bizlic.setUniScId("12310083237TEST537");
 		bizlic.setCorpName("测试KKK股份有限公司");
 		bizlic.setLeadName("李四 ");
 		bizlic.setIndsyCode("6432");
@@ -37,7 +37,7 @@ public class BizLicControllerTest {
 	
 	@Test
 	public void testGetBizlic() {
-		RespMsg msg = bizLicController.getBizlic("1231000083237TEST537");
+		RespMsg msg = bizLicController.getBizlic("12310083237TEST537");
 		System.out.println(msg.getData().toString());
 		Bizlic bizLic = (Bizlic)msg.getData();
 		System.out.println("corpName:"+bizLic.getCorpName());
