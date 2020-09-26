@@ -1,3 +1,7 @@
+html,body,div{
+	font-size: 14px;
+}
+
 .content {
 	text-align:center;
 	align:center;
@@ -24,4 +28,16 @@
 }
 .formTable textarea{
 	height:50px;
+}
+.floatLeft {
+	float:left;
+}
+.floatRight {
+	float:right;
+}
+.clear {
+	float:right;
+}
+.subTitle {
+	font:bold 16px/40px songti important
 }
