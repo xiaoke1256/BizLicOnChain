@@ -80,8 +80,9 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
      */
     function reloadData(address oldVersion) public onlyCreator{
         require(_initialized);
-        administrators = BizLicOnChainProxy(oldVersion).getAdmins();
-        //....
+		bool sucess;
+        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("reloadData(address)",oldVersion));
+        require(sucess);
     }
     
      //以下业务函数

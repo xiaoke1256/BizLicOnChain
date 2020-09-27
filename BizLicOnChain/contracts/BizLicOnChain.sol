@@ -54,6 +54,13 @@ contract BizLicOnChain is BaseBizLicOnChain {
         require(creator == tx.origin);
         administrators.push(tx.origin);
     }
+	
+	/**
+	 * 将老版本数据加载过来
+	 */
+	function reloadData(address oldVersion) public {
+	    //.....
+	}
     
     /**
      * 仅管理员才可以执行此
