@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>bizlic on chain welcome!</title>
+  <link rel="stylesheet" type="text/css" title="default" href="css/style.css" >
+  <script type="text/javascript" src="js/jquery.min.js" ></script>
+  <script type="text/javascript" src="js/date_format.js" ></script>
+  <script type="text/javascript">
+  	$(function(){
+  		$('#searchBtn').click(function(){
+  			var data = {uniScId:$('[name=uniScId]').val()};
+  			$.get('bizlic',data,function(resp){
+  				if(resp.code!='00'){
+  					alert('查询失败');
+  					$('#revokeBtn').attr('disabled','disabled');
+  					return;
+  				}
+  				var bizLic = resp.data;
+  				if(!bizLic){
+  					alert('未查到该企业，请检查统一社会信用码是否输入正确。');
+  					$('#revokeBtn').attr('disabled','disabled');
+  					return;
+  				}
+  				$('#corpName').text(bizLic.corpName);
+  				$('#leadName').text(bizLic.leadName);
+  				$('#indsyCode').text(bizLic.indsyCode);
+  				$('#bizScope').text(bizLic.bizScope);
+  				$('#regCpt').text(bizLic.regCpt+'元');
+  				$('#provDate').text(bizLic.provDate);
+  				$('#limitTo').text(bizLic.limitTo);
+  				$('#issueOrgan').text(bizLic.issueOrgan);
+  				$('#revokeBtn').attr('disabled',false);
+  			},'json');
+  			
+  		});
+  		
+  		//加载所有uniscid
+		$.get('uniScIds',{},function(resp){
+			if(resp.code!='00'){
+				console.log('查询失败');
+				return;
+			}
+			var ids = resp.data;
+			var s = '';
+			for(var i in ids){
+				s += ids[i]+'<br>';
+			}
+			$('#uniscids_div').html(s);
+		},'json');
+  		
+  		
+  	});
+  </script>
+</head>
+<body>
+	<div id="content" class="content">
+		<div style="width:75%" class="floatLeft">
+			<table class="formTable">
+				<tr>
+					<th>统一社会信用码:</th>
+					<td><input name="uniScId" maxLength="18" >  <button id="searchBtn" type="button" >查询</button></td>
+				</tr>
+				<tr>
+					<th>企业名称:</th>
+					<td><div id="corpName" ></div></td>
+				</tr>
+				<tr>
+					<th>法定代表人姓名:</th>
+					<td><div id="leadName"></div></td>
+				</tr>
+				<tr>
+					<th>行业分类代码:</th>
+					<td><div id="indsyCode" style="width:140px" ></div></td>
+					<td><a href="http://www.stats.gov.cn/tjsj/tjbz/201709/t20170929_1539288.html" target="blank" >GB/T 4754—2017</a></td>
+				</tr>
+				<tr>
+					<th>经营范围:</th>
+					<td><div id="bizScope"></div></td>
+				</tr>
+				<tr>
+					<th>注册资金:</th>
+					<td><div id="regCpt" ></div></td>
+				</tr>
+				<tr>
+					<th>核准时间:</th>
+					<td><div id="provDate"></div></td>
+				</tr>
+				<tr>
+					<th>有效期至:</th>
+					<td><div id="limitTo"></div></td>
+				</tr>
+				<tr>
+					<th>发证机关:</th>
+					<td>
+						<div id="issueOrgan"></div>
+					</td>
+				</tr>
+			</table>
+			<button id="revokeBtn" type="button" disabled="disabled" >确认注销</button>
+		</div>
+		<div style="width:24%" class="floatRight" >
+			<div class="subTitle"> 现有企业的统一社会信用码</div>
+			<div id="uniscids_div" >
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	
+	
+</body>
+</html>
