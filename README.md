@@ -14,7 +14,7 @@ BizLicOnChain
  |-----|----|
  |organCode|发证机关代码|
  |licContent|证照内容(把企业名称，法定代表人等数据项拼成json串。)|
- |sign|电子签章|
+ |sign|发证机关的电子签章|
  
  &ensp;&ensp;&ensp;&ensp;
  其中证照内容的结构如下：
