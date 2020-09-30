@@ -8,8 +8,9 @@
   <script type="text/javascript" src="js/date_format.js" ></script>
   <script type="text/javascript">
   	$(function(){
-  		$('#searchBtn').click(function(){
-  			var data = {uniScId:$('[name=uniScId]').val()};
+  		
+  		function fillBizlic(uniScId){
+  			var data = {uniScId:uniScId};
   			$.get('bizlic',data,function(resp){
   				if(resp.code!='00'){
   					alert('查询失败');
@@ -22,6 +23,9 @@
   					$('#revokeBtn').attr('disabled','disabled');
   					return;
   				}
+  				if($.trim($('[name=uniScId]').val())==''){
+  					$('[name=uniScId]').val(bizLic.uniScId);
+  				}
   				$('#corpName').text(bizLic.corpName);
   				$('#leadName').text(bizLic.leadName);
   				$('#indsyCode').text(bizLic.indsyCode);
@@ -32,23 +36,60 @@
   				$('#issueOrgan').text(bizLic.issueOrgan);
   				$('#revokeBtn').attr('disabled',false);
   			},'json');
-  			
+  		}
+  		
+  		$('#searchBtn').click(function(){
+  			fillBizlic($('[name=uniScId]').val());
+  		});
+  		
+  		$('#uniscids_div').on('click','a.uniScIdLink',function(){
+  			fillBizlic($(this).text());
   		});
   		
   		//加载所有uniscid
 		$.get('uniScIds',{},function(resp){
 			if(resp.code!='00'){
 				console.log('查询失败');
+				alert('查询失败');
 				return;
 			}
 			var ids = resp.data;
 			var s = '';
 			for(var i in ids){
-				s += ids[i]+'<br>';
+				s += '<a class="uniScIdLink" href="#">'+ids[i]+'</a><br>';
 			}
 			$('#uniscids_div').html(s);
 		},'json');
   		
+  		$('#revokeBtn').click(function(){
+  			if(!window.confirm('确认要注销?')){
+  				return false;
+  			}
+  			$.post('removeBizlic',{uniScId:$('[name=uniScId]').val()},function(resp){
+  				if(resp.code!='00'){
+  					console.log('注销失败');
+  					alert('注销失败');
+  					return;
+  				}
+  				alert('注销成功');
+				$('a.uniScIdLink').each(function(){
+					if($(this).text()==$('[name=uniScId]').val()){
+						$(this).next().remove();
+						$(this).remove();
+					}
+				});
+  				$('#corpName').text('');
+  				$('#leadName').text('');
+  				$('#indsyCode').text('');
+  				$('#bizScope').text('');
+  				$('#regCpt').text('');
+  				$('#provDate').text('');
+  				$('#limitTo').text('');
+  				$('#issueOrgan').text('');
+  				$('#revokeBtn').attr('disabled','disabled');
+  			},'json');
+  			return true;
+  		});
   		
   	});
   </script>
@@ -97,7 +138,7 @@
 					</td>
 				</tr>
 			</table>
-			<button id="revokeBtn" type="button" disabled="disabled" >确认注销</button>
+			<button id="revokeBtn" type="button" disabled="disabled" >注销</button>
 		</div>
 		<div style="width:24%" class="floatRight" >
 			<div class="subTitle"> 现有企业的统一社会信用码</div>

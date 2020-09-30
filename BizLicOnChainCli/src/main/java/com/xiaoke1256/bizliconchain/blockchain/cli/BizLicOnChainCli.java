@@ -130,4 +130,14 @@ public class BizLicOnChainCli {
 		}
 		return JSON.parseArray(json, String.class);
 	}
+	
+	/**
+	 * 删除一个营业执照
+	 * @param uniScId
+	 */
+	public void removeLic(String uniScId) {
+		List<Type> inputParameters = new ArrayList<Type>();
+		inputParameters.add(new Utf8String(uniScId));
+		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "removeLic", gasPrice, gasLimit, inputParameters);
+	}
 }

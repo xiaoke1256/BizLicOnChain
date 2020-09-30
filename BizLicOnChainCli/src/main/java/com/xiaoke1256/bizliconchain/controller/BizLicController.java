@@ -62,4 +62,15 @@ public class BizLicController {
 		}
 	}
 	
+	@RequestMapping(value = "/removeBizlic", method =RequestMethod.POST)
+	public RespMsg removeLic(String uniScId) {
+		try {
+			bizLicOnChainCli.removeLic(uniScId);
+			return new RespMsg("00","Success!",uniScId);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new RespMsg("99",e.getMessage());
+		}
+	}
+	
 }
