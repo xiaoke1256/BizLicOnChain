@@ -69,6 +69,7 @@
   				regCpt:$('[name=regCpt]').val(),
   				provDate:$('[name=provDate]').val(),
   				limitTo:$('[name=limitTo]').val(),
+  				organCode:$('[name=organCode]').val(),
   				issueOrgan:$('[name=issueOrgan]').val()
   			}
 
@@ -76,6 +77,11 @@
   				alert(resp.msg);
   			},'json');
   			
+  		});
+  		
+  		/*organCode发生变化了*/
+  		$('[name=organCode]').change(function(){
+  			$('[name=issueOrgan]').val($(this).find('option:selected').text());
   		});
   		
   		//核准时间
@@ -123,26 +129,27 @@
 			<tr>
 				<th>发证机关:</th>
 				<td>
-					<select name="issueOrgan">
-						<option value="上海市市场监督管理局">上海市市场监督管理局</option>
-						<option value="上海市市场监督管理局黄浦分局">上海市市场监督管理局黄浦分局</option>
-						<option value="上海市市场监督管理局徐汇分局">上海市市场监督管理局徐汇分局</option>
-						<option value="上海市市场监督管理局长宁分局">上海市市场监督管理局长宁分局</option>
-						<option value="上海市市场监督管理局静安分局">上海市市场监督管理局静安分局</option>
-						<option value="上海市市场监督管理局普陀分局">上海市市场监督管理局普陀分局</option>
-						<option value="上海市市场监督管理局闸北分局">上海市市场监督管理局闸北分局</option>
-						<option value="上海市市场监督管理局虹口分局">上海市市场监督管理局虹口分局</option>
-						<option value="上海市市场监督管理局杨浦分局">上海市市场监督管理局杨浦分局</option>
-						<option value="上海市市场监督管理局闵行分局">上海市市场监督管理局闵行分局</option>
-						<option value="上海市市场监督管理局宝山分局">上海市市场监督管理局宝山分局</option>
-						<option value="上海市市场监督管理局嘉定分局">上海市市场监督管理局嘉定分局</option>
-						<option value="上海市市场监督管理局浦东分局">上海市市场监督管理局浦东分局</option>
-						<option value="上海市市场监督管理局金山分局">上海市市场监督管理局金山分局</option>
-						<option value="上海市市场监督管理局松江分局">上海市市场监督管理局松江分局</option>
-						<option value="上海市市场监督管理局青浦分局">上海市市场监督管理局青浦分局</option>
-						<option value="上海市市场监督管理局奉贤分局">上海市市场监督管理局奉贤分局</option>
-						<option value="上海市市场监督管理局崇明分局">上海市市场监督管理局崇明分局</option>
+					<select name="organCode">
+						<option value="310000000">上海市市场监督管理局</option>
+						<option value="310101000">上海市市场监督管理局黄浦分局</option>
+						<option value="310104000">上海市市场监督管理局徐汇分局</option>
+						<option value="310105000">上海市市场监督管理局长宁分局</option>
+						<option value="310106000">上海市市场监督管理局静安分局</option>
+						<option value="310107000">上海市市场监督管理局普陀分局</option>
+						<option value="310108000">上海市市场监督管理局闸北分局</option>
+						<option value="310109000">上海市市场监督管理局虹口分局</option>
+						<option value="310110000">上海市市场监督管理局杨浦分局</option>
+						<option value="310112000">上海市市场监督管理局闵行分局</option>
+						<option value="310113000">上海市市场监督管理局宝山分局</option>
+						<option value="310114000">上海市市场监督管理局嘉定分局</option>
+						<option value="310115000">上海市市场监督管理局浦东分局</option>
+						<option value="310116000">上海市市场监督管理局金山分局</option>
+						<option value="310117000">上海市市场监督管理局松江分局</option>
+						<option value="310118000">上海市市场监督管理局青浦分局</option>
+						<option value="310120000">上海市市场监督管理局奉贤分局</option>
+						<option value="310230000">上海市市场监督管理局崇明分局</option>
 					</select>
+					<input type="hidden" name="issueOrgan" value="上海市市场监督管理局" >
 				</td>
 			</tr>
 		</table>
