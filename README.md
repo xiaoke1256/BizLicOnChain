@@ -28,6 +28,7 @@ BizLicOnChain
  |regCpt|注册资金(元)|
  |provDate|核准时间(yyyy-MM-dd)|
  |limitTo|有效期至(yyyy-MM-dd)|
+ |organCode|发证机关代码|
  |issueOrgan|发证机关(中文全称)|
  |otherInfo|其他信息|
  
