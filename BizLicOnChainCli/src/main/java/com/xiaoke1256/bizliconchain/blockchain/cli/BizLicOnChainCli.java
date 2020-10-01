@@ -85,7 +85,7 @@ public class BizLicOnChainCli {
 		@SuppressWarnings("rawtypes")
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(bizlic.getUniScId()));
-		inputParameters.add(new Utf8String(bizlic.getIssueOrgan()));
+		inputParameters.add(new Utf8String(bizlic.getOrganCode()));
 		String licContent = JSON.toJSONString(bizlic);
 		inputParameters.add(new Utf8String(licContent)); 
 		LOG.info("bizlic:"+licContent);

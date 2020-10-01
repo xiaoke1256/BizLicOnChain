@@ -12,6 +12,7 @@ public class Bizlic {
 	private BigDecimal regCpt;
 	private Date provDate;
 	private Date limitTo;
+	private String organCode;
 	private String issueOrgan;
 	private String otherInfo;
 	public String getUniScId() {
@@ -61,6 +62,12 @@ public class Bizlic {
 	}
 	public void setLimitTo(Date limitTo) {
 		this.limitTo = limitTo;
+	}
+	public String getOrganCode() {
+		return organCode;
+	}
+	public void setOrganCode(String organCode) {
+		this.organCode = organCode;
 	}
 	public String getIssueOrgan() {
 		return issueOrgan;
