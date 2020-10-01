@@ -89,21 +89,23 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     /**
      * 添加一个管理员
      */
-    function addAdmin(address admin) public {
+    function addAdmin(address admin) public returns(bool) {
         require(_initialized);
         bool sucess;
-        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("addAdmin(address)",admin));
-        require(sucess);
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("addAdmin(address)",admin));
+        return (sucess && bytesToBool(result));
     }
     
      /**
      * 删除一个管理员
      */
-    function removeAdmin(address admin) public{
+    function removeAdmin(address admin) public returns(bool){
        require(_initialized);
        bool sucess;
-       (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("removeAdmin(address)",admin));
-       require(sucess);
+       bytes memory result;
+       (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeAdmin(address)",admin));
+       return (sucess && bytesToBool(result));
     }
     
     /**
@@ -117,18 +119,20 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     /**
      * 注册一个发证机关
      */
-    function regestOrgan(string memory organCode,string memory organName,address publicKey) public {
+    function regestOrgan(string memory organCode,string memory organName,address publicKey) public returns(bool){
         require(_initialized);
         bool sucess;
-        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,address)",organCode,organName,publicKey));
-        require(sucess);
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,address)",organCode,organName,publicKey));
+        return (sucess && bytesToBool(result));
     }
     
-    function removeOrgan(string memory organCode)public {
+    function removeOrgan(string memory organCode)public returns(bool) {
         require(_initialized);
         bool sucess;
-        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("removeOrgan(string)",organCode));
-        require(sucess);
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeOrgan(string)",organCode));
+        return (sucess && bytesToBool(result));
     }
     
     

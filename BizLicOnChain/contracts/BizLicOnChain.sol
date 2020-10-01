@@ -75,19 +75,21 @@ contract BizLicOnChain is BaseBizLicOnChain {
     /**
      * 添加一个管理员
      */
-    function addAdmin(address admin) public onlyAdmin  {
+    function addAdmin(address admin) public onlyAdmin returns (bool) {
         if(!ArrayUtils.contains(administrators,admin)){
             administrators.push(admin);
         }
+        return true;
     }
     
      /**
      * 删除一个管理员
      */
-    function removeAdmin(address admin) public onlyAdmin {
+    function removeAdmin(address admin) public onlyAdmin returns (bool) {
        // 从 administrators中删除指定的管理员
        require(administrators.length>1,"At least one administrator exist in this System!");
        ArrayUtils.remove(administrators,admin);
+       return true;
     }
     
     /**
@@ -101,7 +103,7 @@ contract BizLicOnChain is BaseBizLicOnChain {
     /**
      * 注册一个发证机关
      */
-    function regestOrgan(string memory organCode,string memory organName,address publicKey) public onlyAdmin {
+    function regestOrgan(string memory organCode,string memory organName,address publicKey) public onlyAdmin returns (bool) {
         //检查名称有没有，code有没有
         require(bytes(organCode).length>0);
         require(bytes(organName).length>0);
@@ -111,15 +113,17 @@ contract BizLicOnChain is BaseBizLicOnChain {
         aicOrgans[organCode].isUserd = true;
         
         aicOrganCodes.push(organCode);
+        return true;
     }
     
     /**
      * 删除一个发证机关
      */
-    function removeOrgan(string memory organCode) public onlyAdmin {
+    function removeOrgan(string memory organCode) public onlyAdmin returns (bool) {
         require(bytes(organCode).length>0);
         delete aicOrgans[organCode];
         ArrayUtils.remove(aicOrganCodes,organCode);
+        return true;
     }
     
     /**
