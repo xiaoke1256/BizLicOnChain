@@ -1,3 +1,12 @@
+//组装发证机关合约
+let organInstance = await AicOrgansHolder.deployed()
+let organProxy = await AicOrgansHolderProxy.deployed()
+await organProxy.initialize(organInstance.address)
+//测试发证机关
+//organProxy.regestOrgan("310000000","上海市市场监督局",accounts[1])
+//organProxy.getOrgan.call('310000000')
+//organProxy.getAllOrganCodes.call()
+
 let instance = await BizLicOnChain.deployed()
 let proxy = await BizLicOnChainProxy.deployed()
 await proxy.initialize(instance.address)
