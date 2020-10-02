@@ -58,7 +58,7 @@ library ArrayUtils {
 	 /**
      * 返回指定元素在数组中的位置
      */
-	function indexOf(string[] memory array,string memory target) internal view returns(uint64){
+	function indexOf(string[] memory array,string memory target) internal pure returns(uint64){
 	    require(array.length<2**64,"The Array is out of bound.");
 	    for(uint64 i=0;i< array.length;i++){
             if(stringEquals(array[i],target)){

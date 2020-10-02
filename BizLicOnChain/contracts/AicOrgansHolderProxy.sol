@@ -4,6 +4,8 @@ import { BaseAicOrgansHolder } from "./BaseAicOrgansHolder.sol";
 
 import { StringUtils } from "./StringUtils.sol";
 
+import { ArrayUtils } from "./ArrayUtils.sol";
+
 contract AicOrgansHolderProxy is BaseAicOrgansHolder {
     
     bool internal _initialized = false;
@@ -85,6 +87,14 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
         require(_initialized);
         return administrators;//BizlicOnChain(currentVersion).getAdmins();
     }
+	
+	/**
+	 * 确定某地址是否是管理员
+	 */
+	function isAdmin(address a) public view returns(bool){
+		require(_initialized);
+		return ArrayUtils.contains(administrators,a);
+	}
     
     /**
      * 注册一个发证机关

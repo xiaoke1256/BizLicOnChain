@@ -2,6 +2,8 @@ pragma solidity ^0.6.0;
 
 import { BaseBizLicOnChain } from "./BaseBizLicOnChain.sol";
 
+import { AicOrgansHolderProxy } from "./AicOrgansHolderProxy.sol";
+
 import { StringUtils } from "./StringUtils.sol";
 
 /**
@@ -10,21 +12,6 @@ import { StringUtils } from "./StringUtils.sol";
 contract BizLicOnChainProxy is BaseBizLicOnChain {
     
     address creator;
-    
-     /*
-     * 管理员
-     */
-    address[] administrators;
-    
-    /**
-     * 所有工商机关
-     */
-    mapping(string => AicOrgan) aicOrgans;
-    
-     /**
-     * 所有工商机关的编码
-     */
-    string[] aicOrganCodes;
     
     /*
      * 所有营业执照（key是组织机构代码，value是营业执照内容的json）
@@ -37,6 +24,11 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     string[] uniScIds;
     
     bool internal _initialized = false;
+	
+	/**
+     * 发证机关合约地址
+     */
+    address aicOrganHolder;
     
     /**
      * 逻辑合约地址
@@ -58,9 +50,10 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     /**
      * 初始化合约
      */
-    function initialize(address newVersion) public onlyCreator{
+    function initialize(address newVersion,address newAicOrganHolder) public onlyCreator{
         require(!_initialized);
         currentVersion = newVersion;
+		aicOrganHolder = newAicOrganHolder;
         bool sucess;
         (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("initialize()"));
         require(sucess,'Fail to execute initialize function.');//初始化合约
@@ -75,6 +68,14 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         currentVersion = newVersion;
     }
     
+	/**
+	 * 工商机关版本发生变化
+	 */
+	function setAicOrganHolder(address newVersion) public onlyCreator{
+		require(_initialized);
+		aicOrganHolder = newVersion;
+	}
+	
     /**
      * 将老版本数据加载过来
      */
@@ -93,7 +94,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("addAdmin(address)",admin));
+        (sucess,result)= aicOrganHolder.call(abi.encodeWithSignature("addAdmin(address)",admin));
         return (sucess && bytesToBool(result));
     }
     
@@ -104,7 +105,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
        require(_initialized);
        bool sucess;
        bytes memory result;
-       (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeAdmin(address)",admin));
+       (sucess,result)= aicOrganHolder.call(abi.encodeWithSignature("removeAdmin(address)",admin));
        return (sucess && bytesToBool(result));
     }
     
@@ -113,7 +114,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
      */
     function getAdmins() public view returns(address[] memory admins){
         require(_initialized);
-        return administrators;//BizlicOnChain(currentVersion).getAdmins();
+        return AicOrgansHolderProxy(aicOrganHolder).getAdmins();
     }
     
     /**
@@ -123,7 +124,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,address)",organCode,organName,publicKey));
+        (sucess,result)= aicOrganHolder.call(abi.encodeWithSignature("regestOrgan(string,string,address)",organCode,organName,publicKey));
         return (sucess && bytesToBool(result));
     }
     
@@ -131,43 +132,34 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeOrgan(string)",organCode));
+        (sucess,result)= aicOrganHolder.call(abi.encodeWithSignature("removeOrgan(string)",organCode));
         return (sucess && bytesToBool(result));
     }
     
     
     /**
-     * 获取所有发证机关
+     * 获取指定发证机关
      */
     function getOrgan(string memory organCode) public view returns(string memory) {
         require(_initialized);
-        if(!aicOrgans[organCode].isUserd){
-            return "null";
-        }
-        string[] memory strArr = new string[](7);
-        strArr[0]="{organCode:'";
-        strArr[1]=organCode;
-        strArr[2]="',organName:'";
-        strArr[3]=aicOrgans[organCode].organName;
-        strArr[4]="',publicKey:'";
-        strArr[5]=StringUtils.address2str(aicOrgans[organCode].publicKey);
-        strArr[6]="'}";
-        return StringUtils.concat(strArr);
+		//bool sucess;
+        //bytes memory result;
+		return AicOrgansHolderProxy(aicOrganHolder).getOrgan(organCode);
+		//(sucess,result)= aicOrganHolder.call(abi.encodeWithSignature("getOrgan(string)",organCode));
+		//require(sucess);
+		//return string(result);
     }
     
     /**
      * 获取所有的发证机关
      */
     function getAllOrganCodes() public view returns(string memory){
-        string memory s = '[';
-        for(uint64 i = 0;i<aicOrganCodes.length;i++){
-            if(i>0){
-                s=StringUtils.concat(s,",");
-            }
-            s=StringUtils.concat(s,"'",aicOrganCodes[i],"'");
-        }
-        s=StringUtils.concat(s,"]");
-        return s;
+		//bool sucess;
+        //bytes memory result;
+		return AicOrgansHolderProxy(aicOrganHolder).getAllOrganCodes();
+		//(sucess,result)= aicOrganHolder.call(abi.encodeWithSignature("getAllOrganCodes()"));
+		//require(sucess);
+		//return string(result);
     }
     
     /**
@@ -210,7 +202,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     /**
      * 获取证书上的签名
      */
-    function getSignByUniScId(string memory uniScId) public returns(string memory) {
+    function getSignByUniScId(string memory uniScId) public view returns(string memory) {
          require(_initialized);
         return bizLics[uniScId].sign;
     }
