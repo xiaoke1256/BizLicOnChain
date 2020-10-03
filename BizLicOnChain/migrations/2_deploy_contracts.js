@@ -22,6 +22,7 @@ module.exports = function(deployer) {
   deployer.link(ArrayUtils, AicOrgansHolder);
   deployer.link(BaseAicOrgansHolder, AicOrgansHolderProxy);
   deployer.link(StringUtils, AicOrgansHolderProxy);
+  deployer.link(ArrayUtils, AicOrgansHolderProxy);
   deployer.deploy(AicOrgansHolder);
   deployer.deploy(AicOrgansHolderProxy);
   
@@ -32,6 +33,7 @@ module.exports = function(deployer) {
   deployer.link(StringUtils, BizLicOnChain);
   deployer.link(EncryptUtils, BizLicOnChain);
   deployer.link(StringUtils, BizLicOnChainProxy);
+  deployer.link(AicOrgansHolderProxy, BizLicOnChainProxy);
   //deployer.deploy(MetaCoin);
   deployer.deploy(BizLicOnChain);
   deployer.deploy(BizLicOnChainProxy);
