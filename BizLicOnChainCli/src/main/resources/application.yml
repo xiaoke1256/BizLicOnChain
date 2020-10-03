@@ -17,7 +17,7 @@ contract:
   sendAddr:  "0x456247d681c799bf184085c2e1db8409add60c34"   #dev 环境下的
   #sendAddrPk:  "e08736ed03b3d08d2e07ce89600d33664656f4f4073875cda78a476607d36570"  #私钥
   sendAddrPk:  "159680f164539e8603c5a1d9e45dbf07b2b2a129c0e330d3b98ed529eece20a7"   #dev 环境下的私钥。
-  gasPrice: 5000000000 # Gas Price越高，交易优先级越高，打包交易速度越快。
+  gasPrice: 20000000000 # Gas Price越高，交易优先级越高，打包交易速度越快。
   gasLimit: 1500000  # Gas Limit 是用户愿意为执行某个操作或确认交易支付的最大Gas量（最少21,000）
   isAddGas: false #是否启用按当前市价进行加权矿工费用
   addGas:   2000000000 #所增加费用
