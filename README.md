@@ -18,6 +18,13 @@ BizLicOnChain
                 v                   |
             流程结束（失败）<--------┘
 ```
+&ensp;&ensp;&ensp;&ensp;
+  各个步骤解释如下：
+  1. 发起转让：
+  
+  &ensp;&ensp;&ensp;&ensp;
+  由股权持有人发起，此时要提供要提供受让方的身份信息（身份信息需要保密，则提供零知证明）。
+  
 
 ## 存储设计
 &ensp;&ensp;&ensp;&ensp;
