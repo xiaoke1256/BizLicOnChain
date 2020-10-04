@@ -78,7 +78,7 @@ BizLicOnChain
  |investorName|股东姓名|
  |address|股东账号|
  |investorCetf|股东身份证件,有身份证件类型（身份证、居留证、军官证、中国护照、外国或地区护照）和证件号码组成，由冒号(:)分隔。本字段需要加密，区块链中仅保存其Hash值。|
- |stockRightDetail|股权详情|
+ |stockRightDetail|股权详情。json方式给出，描述出资方式和份额。|
  |cptAmt|出资额度（人民币元）|
  
  ## 如何运行本系统
