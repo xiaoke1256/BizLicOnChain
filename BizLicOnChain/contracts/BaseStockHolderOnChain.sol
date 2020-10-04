@@ -48,5 +48,10 @@ contract BaseStockHolderOnChain {
      * 股权申请的Map，其中key是组织机构代码.
      */
     mapping(string => StockRightApply[]) stockRightApplys;
+    
+    /**
+     * 市监局信息的管理合约地址
+     */
+    address aicOrganHolder;
 
 }

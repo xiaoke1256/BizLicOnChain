@@ -1,10 +1,20 @@
 pragma solidity ^0.6.0;
 
-contract StockHolderOnChain {
-    address creator;
+import { AicOrgansHolderProxy } from "./AicOrgansHolderProxy.sol";
+import { BaseStockHolderOnChain } from "./BaseStockHolderOnChain.sol";
 
+contract StockHolderOnChain is BaseStockHolderOnChain {
     constructor() public{
         creator = msg.sender;
+    }
+    
+    /**
+     * 仅（市监局）管理员才可以执行
+     */
+    modifier onlyAdmin() {
+        //tx.origin 是合约的发起方，而msg.sender是上一级调用者的地址
+		require(AicOrgansHolderProxy(aicOrganHolder).isAdmin(tx.origin),"Unauthorized operation!");
+		_;
     }
     
     //设立股权(市监局操作)
