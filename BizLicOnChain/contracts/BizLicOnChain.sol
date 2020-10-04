@@ -12,7 +12,7 @@ contract BizLicOnChain is BaseBizLicOnChain {
     address creator;
     
     /*
-     * 所有营业执照（key是组织机构代码，value是营业执照内容的json）
+     * 所有营业执照（key是组织机构代码，value是营业执照的内容）
      */
     mapping(string => BizLic) bizLics;
     
