@@ -76,6 +76,14 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
 		aicOrganHolder = newVersion;
 	}
 	
+	
+	function getCurrentVersion() public view returns (address){
+	    return currentVersion;
+	}
+	
+	function getAicOrganHolder() public view returns (address){
+	    return aicOrganHolder;
+	}
     /**
      * 将老版本数据加载过来
      */

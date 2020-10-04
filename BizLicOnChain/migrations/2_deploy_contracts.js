@@ -50,5 +50,7 @@ module.exports = function(deployer) {
   deployer.link(IntUtils, StockHolderOnChain);
   deployer.deploy(StockHolderOnChain);
   deployer.link(BaseStockHolderOnChain, StockHolderOnChainProxy);
+  deployer.link(BizLicOnChainProxy, StockHolderOnChainProxy);
+  deployer.deploy(StockHolderOnChainProxy);
   
 };

@@ -55,13 +55,18 @@ contract BaseStockHolderOnChain {
     address aicOrganHolder;
     
     /**
-     * 是否初始化
+     * 管理营业执照的合约地址
      */
-    bool internal _initialized = false;
+    address bizLicContract;
     
     /**
      * 合约版本
      */
     address currentVersion;
+    
+     /**
+     * 是否初始化
+     */
+    bool internal _initialized = false;
 
 }

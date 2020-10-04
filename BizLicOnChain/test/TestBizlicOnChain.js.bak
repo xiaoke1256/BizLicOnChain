@@ -11,6 +11,9 @@ let instance = await BizLicOnChain.deployed()
 let proxy = await BizLicOnChainProxy.deployed()
 await proxy.initialize(instance.address,organProxy.address)
 //组装股权设立股权的合约
+let stockHolderInstance = await StockHolderOnChain.deployed()
+let stockHolderProxy = await StockHolderOnChainProxy.deployed()
+await stockHolderProxy.initialize(stockHolderInstance.address,proxy.address)
 
 await proxy.getAdmins.call()
 
@@ -37,3 +40,6 @@ proxy.putLic("123100008654367537","310000000",licContent,sign.signature);
 proxy.getLicContent.call("123100008654367537")
 
 proxy.getAllUniScIds.call();
+
+//测试设立股权
+stockHolderProxy.addStockHolder('123100008654367537','张老三',accounts[2],web3.utils.keccak256("身份证:310104198802233432"),'[{invtType:"货币",amt:2000000}]',2000000);
