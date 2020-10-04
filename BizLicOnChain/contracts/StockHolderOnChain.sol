@@ -99,5 +99,9 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
     //受让方出资
     
     //工商局备案(市监局操作)
+    
+    //查看现有股东(按uniScId)
+    
+    //查看交易中的股权
 
 }

@@ -53,5 +53,15 @@ contract BaseStockHolderOnChain {
      * 市监局信息的管理合约地址
      */
     address aicOrganHolder;
+    
+    /**
+     * 是否初始化
+     */
+    bool internal _initialized = false;
+    
+    /**
+     * 合约版本
+     */
+    address currentVersion;
 
 }

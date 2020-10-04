@@ -10,6 +10,7 @@ await organProxy.initialize(organInstance.address)
 let instance = await BizLicOnChain.deployed()
 let proxy = await BizLicOnChainProxy.deployed()
 await proxy.initialize(instance.address,organProxy.address)
+//组装股权设立股权的合约
 
 await proxy.getAdmins.call()
 
