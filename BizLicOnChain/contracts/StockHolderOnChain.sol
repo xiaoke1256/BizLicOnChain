@@ -19,6 +19,6 @@ contract StockHolderOnChain {
     
     //受让方出资
     
-    //工商局备案
+    //工商局备案(市监局操作)
 
 }
