@@ -36,9 +36,9 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
     }
     
     /**
-     * 
+     * 管理营业执照的合约版本发生变化
      */
-    function changeCizLicContract(address newBizLicContract)public onlyCreator{
+    function changeBizLicContract(address newBizLicContract)public onlyCreator{
         require(_initialized);
         bizLicContract = newBizLicContract;
         aicOrganHolder = BizLicOnChainProxy(newBizLicContract).getAicOrganHolder();
@@ -61,6 +61,49 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         return (sucess && bytesToBool(result));
     }
     
+    /**
+     * 修改股权(市监局操作)，
+     * 股东的新增操作
+     * uniScId 统一社会信用码
+     * investorName 股东姓名
+     * investorAccount 股东账号地址（不知道的话可以为0x0） 
+     */
+    function modifyStockHolder(string memory uniScId,uint investorNo,string memory investorName,address investorAccount,bytes32 investorCetfHash,
+       		string memory stockRightDetail,uint cptAmt
+    	) public returns (bool){
+    	require(_initialized);
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("modifyStockHolder(string,uint,string,address,bytes32,string,uint)",uniScId,investorNo,investorName,investorAccount,investorCetfHash,stockRightDetail,cptAmt));
+        return (sucess && bytesToBool(result));
+    }
+    
+	/**
+     * 增减资(市监局操作)
+     * uniScId 统一社会信用码
+     * investorNo 股东编号
+     * investorCetfHash 股东身份信息（用于核对）
+     * stockRightDetail 增减资,肯定会引起股权详情的变化
+     * amt 增资额度，可以为负 
+     */
+    function increCpt(string memory uniScId,uint investorNo,bytes32 investorCetfHash,string memory stockRightDetail,int amt) public returns (bool){
+    	require(_initialized);
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("increCpt(string,uint,bytes32,string,uint)",uniScId,investorNo,investorCetfHash,stockRightDetail,cptAmt));
+        return (sucess && bytesToBool(result));
+    }
+	
+	/**
+	 * 取消股权(市监局操作),删除股东
+	 */
+    function removeStockHolder(string memory uniScId,uint investorNo)public onlyAdmin returns (bool){
+        require(_initialized);
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeStockHolder(string,uint)",uniScId,investorNo));
+        return (sucess && bytesToBool(result));
+    }
     
      /**
      * 把字节数组转成布尔型

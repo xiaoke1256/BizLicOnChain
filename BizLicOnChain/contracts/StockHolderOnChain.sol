@@ -45,6 +45,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
         stockHolders[uniScId][investorNo].stockRightDetail=stockRightDetail;
         stockHolders[uniScId][investorNo].merkel=keccak256(abi.encode(investorName,investorAccount,investorCetfHash,bytes(stockRightDetail)));
         stockHolders[uniScId][investorNo].cptAmt=cptAmt;
+        //TODO 投资金额变化肯定会造成整个企业的注册资金变化。
         return true;
     }
     
@@ -75,6 +76,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
         stockHolders[uniScId][investorNo].stockRightDetail=stockRightDetail;
         stockHolders[uniScId][investorNo].merkel=keccak256(abi.encode(investorName,investorAccount,investorCetfHash,bytes(stockRightDetail)));
         stockHolders[uniScId][investorNo].cptAmt=cptAmt;
+        //TODO 投资金额变化肯定会造成整个企业的注册资金变化。
         return true;
     }
     
@@ -83,14 +85,51 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
      * uniScId 统一社会信用码
      * investorNo 股东编号
      * investorCetfHash 股东身份信息（用于核对）
-     * stockRightDetail 增减资有肯定会引起股权详情的变化
+     * stockRightDetail 增减资,肯定会引起股权详情的变化
      * amt 增资额度，可以为负
      */
     function increCpt(string memory uniScId,uint investorNo,bytes32 investorCetfHash,string memory stockRightDetail,int amt)public onlyAdmin returns (bool){
+        require(bytes(uniScId).length>0);
+        require(investorNo>0);
+    	require(bytes(investorName).length>0);
+    	require(investorCetfHash.length>0);
+    	require(bytes(stockRightDetail).length>0);
+    	require(cptAmt!=0);
+        
+        //核对身份
+        require(stockHolders[uniScId][investorNo].investorCetfHash==investorCetfHash);
+        //要求stockHolders中这条记录已经存在。
+        require(stockHolders[uniScId][investorNo].investorNo>0);
+        //余额必须大于0
+        require(stockHolders[uniScId][investorNo].cptAmt+amt>=0);
+        if(stockHolders[uniScId][investorNo].cptAmt+amt==0){
+            //取消股权
+            return true;
+        }
+        
+        stockHolders[uniScId][investorNo].cptAmt=cptAmt+amt;
+        stockHolders[uniScId][investorNo].stockRightDetail=stockRightDetail;
+        //重新计算默克尔值
+        string investorName = stockHolders[uniScId][investorNo].investorName;
+        string investorAccount = stockHolders[uniScId][investorNo].investorAccount;
+        stockHolders[uniScId][investorNo].merkel=keccak256(abi.encode(investorName,investorAccount,investorCetfHash,bytes(stockRightDetail)));
+        //TODO 投资金额变化肯定会造成整个企业的注册资金变化。
+        
         return true;
     }
     
-    //取消股权(市监局操作),删除股东
+    /**
+	 * 取消股权(市监局操作),删除股东
+	 */
+    function removeStockHolder(string memory uniScId,uint investorNo)public onlyAdmin returns (bool){
+        require(bytes(uniScId).length>0);
+        require(investorNo>0);
+        //要求stockHolders中这条记录已经存在。
+        require(stockHolders[uniScId][investorNo].investorNo>0);
+        delete stockHolders[uniScId][investorNo];
+		//TODO 投资金额变化肯定会造成整个企业的注册资金变化。
+		return true;
+    }
     
     //发起转让
     
