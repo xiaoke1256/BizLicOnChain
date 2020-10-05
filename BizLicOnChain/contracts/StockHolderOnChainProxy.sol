@@ -2,6 +2,7 @@ pragma solidity ^0.6.0;
 
 import { BaseStockHolderOnChain } from "./BaseStockHolderOnChain.sol";
 import { BizLicOnChainProxy } from "./BizLicOnChainProxy.sol";
+import { StringUtils } from "./StringUtils.sol";
 
 contract StockHolderOnChainProxy is BaseStockHolderOnChain {
 
@@ -105,6 +106,45 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         return (sucess && bytesToBool(result));
     }
     
+	
+    /**
+	 * 查看现有股东(按uniScId)
+	 */
+	function getStockHolders(string memory uniScId) public view returns (string memory){
+		require(bytes(uniScId).length>0);
+		uint[] memory investorNos = stockHoldersNos[uniScId];
+		//拼成json
+		string memory s = '';
+		s=StringUtils.concat(s,'[');
+		for(uint i=0;i<investorNos.length;i++){
+		     if(i>0){
+                s=StringUtils.concat(s,",");
+            }
+			uint investorNo = investorNos[i];
+			s=StringUtils.concat(s,'{');
+			s=StringUtils.concat(s,'"uniScId":"',stockHolders[uniScId][investorNo].uniScId,'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"investorNo":',StringUtils.uint2str(stockHolders[uniScId][investorNo].investorNo),'');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"investorName":"',stockHolders[uniScId][investorNo].investorName,'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"investorAccount":"',StringUtils.address2str(stockHolders[uniScId][investorNo].investorAccount),'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"investorCetfHash":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorNo].investorCetfHash),'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"stockRightDetail":',stockHolders[uniScId][investorNo].stockRightDetail,'');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"merkel":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorNo].merkel),'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"cptAmt":',StringUtils.uint2str(stockHolders[uniScId][investorNo].cptAmt),'');
+			s=StringUtils.concat(s,'}');
+		}
+		s=StringUtils.concat(s,']');
+		return s;
+	}
+    
+    //查看交易中的股权（申请案）
+	
      /**
      * 把字节数组转成布尔型
      */

@@ -3,7 +3,6 @@ pragma solidity ^0.6.0;
 import { AicOrgansHolderProxy } from "./AicOrgansHolderProxy.sol";
 import { BaseStockHolderOnChain } from "./BaseStockHolderOnChain.sol";
 import { IntUtils } from "./IntUtils.sol";
-import { StringUtils } from "./StringUtils.sol";
 import { ArrayUtils } from "./ArrayUtils.sol";
 
 contract StockHolderOnChain is BaseStockHolderOnChain {
@@ -167,42 +166,5 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
     
     //工商局备案(市监局操作)
     
-    /**
-	 * 查看现有股东(按uniScId)
-	 */
-	function getStockHolders(string memory uniScId) public view returns (string memory){
-		require(bytes(uniScId).length>0);
-		uint[] memory investorNos = stockHoldersNos[uniScId];
-		//拼成json
-		string memory s = '';
-		s=StringUtils.concat(s,'[');
-		for(uint i=0;i<investorNos.length;i++){
-		     if(i>0){
-                s=StringUtils.concat(s,",");
-            }
-			uint investorNo = investorNos[i];
-			s=StringUtils.concat(s,'{');
-			s=StringUtils.concat(s,'"uniScId":"',stockHolders[uniScId][investorNo].uniScId,'"');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"investorNo":',StringUtils.uint2str(stockHolders[uniScId][investorNo].investorNo),'');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"investorName":"',stockHolders[uniScId][investorNo].investorName,'"');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"investorAccount":"',StringUtils.address2str(stockHolders[uniScId][investorNo].investorAccount),'"');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"investorCetfHash":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorNo].investorCetfHash),'"');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"stockRightDetail":',stockHolders[uniScId][investorNo].stockRightDetail,'');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"merkel":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorNo].merkel),'"');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"cptAmt":',StringUtils.uint2str(stockHolders[uniScId][investorNo].cptAmt),'');
-			s=StringUtils.concat(s,'}');
-		}
-		s=StringUtils.concat(s,']');
-		return s;
-	}
-    
-    //查看交易中的股权（申请案）
 
 }

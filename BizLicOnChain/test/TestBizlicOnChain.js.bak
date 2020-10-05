@@ -43,3 +43,4 @@ proxy.getAllUniScIds.call();
 
 //测试设立股权
 stockHolderProxy.addStockHolder('123100008654367537','张老三',accounts[2],web3.utils.keccak256("身份证:310104198802233432"),'[{invtType:"货币",amt:2000000}]',2000000);
+stockHolderProxy.getStockHolders.call('123100008654367537')
