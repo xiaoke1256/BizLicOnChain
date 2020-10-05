@@ -20,13 +20,15 @@ contract BaseStockHolderOnChain {
      */
     struct StockRightApply{
         string uniScId;//统一社会信用码
-        string investorName;//股东姓名
-        uint price;//价格（以太币,微）
-        address investorAccount;//股东账号
-        bytes32 investorCetfHash;//身份证件信息
+		uint appNo;//申请号
+		uint transferorInvestorNo;//出让方股东编号
+        string investorName;//新股东姓名
+        uint price;//价格（以太币,wei）
+        address investorAccount;//新股东账号
+        bytes32 investorCetfHash;//新股东身份证件信息
         string stockRightDetail;//股权详情
         bytes32 merkel;//默克尔值
-        uint cptAmt;//出资额度
+        uint cptAmt;//转让额度
         string isSuccess;//是否交易成功
         string status;//状态 “待董事会确认”，“待付款”，“发证机关备案”，“结束”（成功或失败）。
     }
@@ -47,7 +49,11 @@ contract BaseStockHolderOnChain {
     /**
      * 股权申请的Map，其中key是组织机构代码.
      */
-    mapping(string => StockRightApply[]) stockRightApplys;
+    mapping(string => mapping(uint =>StockRightApply)) stockRightApplys;
+	/**
+	 * 申请案号的Map，其中key是组织机构代码.
+	 */
+	mapping(string => uint[]) stockRightApplyNos;
     
     /**
      * 市监局信息的管理合约地址

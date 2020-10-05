@@ -43,7 +43,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
         stockHolders[uniScId][investorNo].investorAccount=investorAccount;
         stockHolders[uniScId][investorNo].investorCetfHash=investorCetfHash;
         stockHolders[uniScId][investorNo].stockRightDetail=stockRightDetail;
-        stockHolders[uniScId][investorNo].merkel=keccak256(abi.encode(investorName,investorAccount,investorCetfHash,bytes(stockRightDetail)));
+        stockHolders[uniScId][investorNo].merkel=keccak256(abi.encode(investorName,investorAccount,investorCetfHash));
         stockHolders[uniScId][investorNo].cptAmt=cptAmt;
         //TODO 投资金额变化肯定会造成整个企业的注册资金变化。
         return true;
@@ -74,7 +74,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
         stockHolders[uniScId][investorNo].investorAccount=investorAccount;
         stockHolders[uniScId][investorNo].investorCetfHash=investorCetfHash;
         stockHolders[uniScId][investorNo].stockRightDetail=stockRightDetail;
-        stockHolders[uniScId][investorNo].merkel=keccak256(abi.encode(investorName,investorAccount,investorCetfHash,bytes(stockRightDetail)));
+        stockHolders[uniScId][investorNo].merkel=keccak256(abi.encode(investorName,investorAccount,investorCetfHash));
         stockHolders[uniScId][investorNo].cptAmt=cptAmt;
         //TODO 投资金额变化肯定会造成整个企业的注册资金变化。
         return true;
@@ -109,10 +109,6 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
         
         stockHolders[uniScId][investorNo].cptAmt=cptAmt+amt;
         stockHolders[uniScId][investorNo].stockRightDetail=stockRightDetail;
-        //重新计算默克尔值
-        string investorName = stockHolders[uniScId][investorNo].investorName;
-        string investorAccount = stockHolders[uniScId][investorNo].investorAccount;
-        stockHolders[uniScId][investorNo].merkel=keccak256(abi.encode(investorName,investorAccount,investorCetfHash,bytes(stockRightDetail)));
         //TODO 投资金额变化肯定会造成整个企业的注册资金变化。
         
         return true;
@@ -131,7 +127,37 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
 		return true;
     }
     
-    //发起转让
+    /**
+	 *发起股权转让
+	 * uniScId 统一社会信用码
+	 * transferorInvestorNo 出让方股东编号
+	 * investorName 受让方股东姓名
+	 * investorAccount 受让方股东账号
+	 * merkel 默克尔值
+	 * cptAmt 转让份额（元）
+	 * price 转让价格（以太币，wei）
+	 * 返回申请号
+	 */
+	function startStockTransfer(string memory uniScId,uint transferorInvestorNo,string investorName,
+			address investorAccount,bytes32 merkel,uint cptAmt,uint price)public returns (unit){
+		require(bytes(uniScId).length>0);
+        require(transferorInvestorNo>0);
+		//出在让方存这个股东，且账号就是操作人。
+		require(stockHolders[uniScId][transferorInvestorNo].investorAccount==tx.origin);
+		//把所有的申请案号拿出来取其最大者。
+		uint[] memory applyNos = stockRightApplyNos[uniScId];
+		uint appNo = IntUtils.max(applyNos)+1;
+		stockRightApplys[uniScId][appNo].uniScId=uniScId;
+		stockRightApplys[uniScId][appNo].appNo=appNo
+		stockRightApplys[uniScId][appNo].transferorInvestorNo=transferorInvestorNo;
+		stockRightApplys[uniScId][appNo].investorName=investorName;
+		stockRightApplys[uniScId][appNo].investorAccount=investorAccount;
+		stockRightApplys[uniScId][appNo].merkel=merkel;
+		stockRightApplys[uniScId][appNo].cptAmt=cptAmt;
+		stockRightApplys[uniScId][appNo].price=price;
+		stockRightApplys[uniScId][appNo].status='待董事会确认';
+		return appNo;
+	}
     
     //出让方公司的董事会确认转让
     
@@ -141,6 +167,6 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
     
     //查看现有股东(按uniScId)
     
-    //查看交易中的股权
+    //查看交易中的股权（申请案）
 
 }
