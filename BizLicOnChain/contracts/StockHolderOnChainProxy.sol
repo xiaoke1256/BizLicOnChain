@@ -90,14 +90,14 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
     	require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("increCpt(string,uint,bytes32,string,uint)",uniScId,investorNo,investorCetfHash,stockRightDetail,cptAmt));
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("increCpt(string,uint,bytes32,string,uint)",uniScId,investorNo,investorCetfHash,stockRightDetail,amt));
         return (sucess && bytesToBool(result));
     }
 	
 	/**
 	 * 取消股权(市监局操作),删除股东
 	 */
-    function removeStockHolder(string memory uniScId,uint investorNo)public onlyAdmin returns (bool){
+    function removeStockHolder(string memory uniScId,uint investorNo)public returns (bool){
         require(_initialized);
         bool sucess;
         bytes memory result;

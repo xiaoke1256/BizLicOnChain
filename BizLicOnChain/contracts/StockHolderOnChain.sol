@@ -3,6 +3,8 @@ pragma solidity ^0.6.0;
 import { AicOrgansHolderProxy } from "./AicOrgansHolderProxy.sol";
 import { BaseStockHolderOnChain } from "./BaseStockHolderOnChain.sol";
 import { IntUtils } from "./IntUtils.sol";
+import { StringUtils } from "./StringUtils.sol";
+import { ArrayUtils } from "./ArrayUtils.sol";
 
 contract StockHolderOnChain is BaseStockHolderOnChain {
     constructor() public{
@@ -91,23 +93,22 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
     function increCpt(string memory uniScId,uint investorNo,bytes32 investorCetfHash,string memory stockRightDetail,int amt)public onlyAdmin returns (bool){
         require(bytes(uniScId).length>0);
         require(investorNo>0);
-    	require(bytes(investorName).length>0);
     	require(investorCetfHash.length>0);
     	require(bytes(stockRightDetail).length>0);
-    	require(cptAmt!=0);
+    	require(amt!=0);
         
         //核对身份
         require(stockHolders[uniScId][investorNo].investorCetfHash==investorCetfHash);
         //要求stockHolders中这条记录已经存在。
         require(stockHolders[uniScId][investorNo].investorNo>0);
         //余额必须大于0
-        require(stockHolders[uniScId][investorNo].cptAmt+amt>=0);
-        if(stockHolders[uniScId][investorNo].cptAmt+amt==0){
+        require(int(stockHolders[uniScId][investorNo].cptAmt)+amt>=0);
+        if(int(stockHolders[uniScId][investorNo].cptAmt)+amt==0){
             //取消股权
-            return true;
+            return removeStockHolder(uniScId,investorNo);
         }
         
-        stockHolders[uniScId][investorNo].cptAmt=cptAmt+amt;
+        stockHolders[uniScId][investorNo].cptAmt=uint(int(stockHolders[uniScId][investorNo].cptAmt)+amt);
         stockHolders[uniScId][investorNo].stockRightDetail=stockRightDetail;
         //TODO 投资金额变化肯定会造成整个企业的注册资金变化。
         
@@ -123,6 +124,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
         //要求stockHolders中这条记录已经存在。
         require(stockHolders[uniScId][investorNo].investorNo>0);
         delete stockHolders[uniScId][investorNo];
+		ArrayUtils.remove(stockHoldersNos[uniScId],investorNo);
 		//TODO 投资金额变化肯定会造成整个企业的注册资金变化。
 		return true;
     }
@@ -138,8 +140,8 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
 	 * price 转让价格（以太币，wei）
 	 * 返回申请号
 	 */
-	function startStockTransfer(string memory uniScId,uint transferorInvestorNo,string investorName,
-			address investorAccount,bytes32 merkel,uint cptAmt,uint price)public returns (unit){
+	function startStockTransfer(string memory uniScId,uint transferorInvestorNo,string memory investorName,
+			address investorAccount,bytes32 merkel,uint cptAmt,uint price)public returns (uint){
 		require(bytes(uniScId).length>0);
         require(transferorInvestorNo>0);
 		//出在让方存这个股东，且账号就是操作人。
@@ -148,7 +150,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
 		uint[] memory applyNos = stockRightApplyNos[uniScId];
 		uint appNo = IntUtils.max(applyNos)+1;
 		stockRightApplys[uniScId][appNo].uniScId=uniScId;
-		stockRightApplys[uniScId][appNo].appNo=appNo
+		stockRightApplys[uniScId][appNo].appNo=appNo;
 		stockRightApplys[uniScId][appNo].transferorInvestorNo=transferorInvestorNo;
 		stockRightApplys[uniScId][appNo].investorName=investorName;
 		stockRightApplys[uniScId][appNo].investorAccount=investorAccount;
@@ -165,7 +167,41 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
     
     //工商局备案(市监局操作)
     
-    //查看现有股东(按uniScId)
+    /**
+	 * 查看现有股东(按uniScId)
+	 */
+	function getStockHolders(string memory uniScId) public view returns (string memory){
+		require(bytes(uniScId).length>0);
+		uint[] memory investorNos = stockHoldersNos[uniScId];
+		//拼成json
+		string memory s = '';
+		s=StringUtils.concat(s,'[');
+		for(uint i=0;i<investorNos.length;i++){
+		     if(i>0){
+                s=StringUtils.concat(s,",");
+            }
+			uint investorNo = investorNos[i];
+			s=StringUtils.concat(s,'{');
+			s=StringUtils.concat(s,'"uniScId":"',stockHolders[uniScId][investorNo].uniScId,'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"investorNo":',StringUtils.uint2str(stockHolders[uniScId][investorNo].investorNo),'');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"investorName":"',stockHolders[uniScId][investorNo].investorName,'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"investorAccount":"',StringUtils.address2str(stockHolders[uniScId][investorNo].investorAccount),'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"investorCetfHash":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorNo].investorCetfHash),'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"stockRightDetail":',stockHolders[uniScId][investorNo].stockRightDetail,'');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"merkel":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorNo].merkel),'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"cptAmt":',StringUtils.uint2str(stockHolders[uniScId][investorNo].cptAmt),'');
+			s=StringUtils.concat(s,'}');
+		}
+		s=StringUtils.concat(s,']');
+		return s;
+	}
     
     //查看交易中的股权（申请案）
 

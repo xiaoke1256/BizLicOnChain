@@ -47,6 +47,8 @@ module.exports = function(deployer) {
   deployer.deploy(BaseStockHolderOnChain);
   deployer.link(BaseStockHolderOnChain, StockHolderOnChain);
   deployer.link(AicOrgansHolderProxy, StockHolderOnChain);
+  deployer.link(StringUtils, StockHolderOnChain);
+  deployer.link(ArrayUtils, StockHolderOnChain);
   deployer.link(IntUtils, StockHolderOnChain);
   deployer.deploy(StockHolderOnChain);
   deployer.link(BaseStockHolderOnChain, StockHolderOnChainProxy);
