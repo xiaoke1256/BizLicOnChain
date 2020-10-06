@@ -47,37 +47,62 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
     
     /**
      * 设立股权(市监局操作)，
-     * 股东的新增操作
+     * 股东的新增修改操作
      * uniScId 统一社会信用码
      * investorName 股东姓名
-     * investorAccount 股东账号地址（不知道的话可以为0x0） 
      */
-    function addStockHolder(string memory uniScId,string memory investorName,address investorAccount,bytes32 investorCetfHash,
-       		string memory stockRightDetail,uint cptAmt
-    	) public returns (bool){
+    function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName) public returns (bool){
     	require(_initialized);
+		require(uint160(currentVersion)>0,'currentVersion is Empty!');
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("addStockHolder(string,string,address,bytes32,string,uint)",uniScId,investorName,investorAccount,investorCetfHash,stockRightDetail,cptAmt));
-        return (sucess && bytesToBool(result));
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolder(string,string,string)",uniScId,investorCetfHash,investorName));
+        require(sucess,'remote invork fail!');
+		require(bytesToBool(result),'return wrong');
+		return (sucess && bytesToBool(result));
     }
-    
+
+	/**
+     * 修改股东的出资额
+	 */
+	function putStockHolderCptAmt(string memory uniScId,string memory investorCetfHash,uint cptAmt)public returns (bool){
+		require(_initialized);
+		require(uint160(currentVersion)>0,'currentVersion is Empty!');
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolderCptAmt(string,string,uint256)",uniScId,investorCetfHash,cptAmt));
+        require(sucess,'remote invork fail!');
+		require(bytesToBool(result),'return wrong');
+		return (sucess && bytesToBool(result));
+	}
+
     /**
-     * 修改股权(市监局操作)，
-     * 股东的新增操作
-     * uniScId 统一社会信用码
-     * investorName 股东姓名
-     * investorAccount 股东账号地址（不知道的话可以为0x0） 
-     */
-    function modifyStockHolder(string memory uniScId,uint investorNo,string memory investorName,address investorAccount,bytes32 investorCetfHash,
-       		string memory stockRightDetail,uint cptAmt
-    	) public returns (bool){
-    	require(_initialized);
+     * 修改股东的出资x详情
+	 */
+	function putStockHolderCptDetail(string memory uniScId,string memory investorCetfHash,string memory stockRightDetail)public returns (bool){
+		require(_initialized);
+		require(uint160(currentVersion)>0,'currentVersion is Empty!');
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("modifyStockHolder(string,uint,string,address,bytes32,string,uint)",uniScId,investorNo,investorName,investorAccount,investorCetfHash,stockRightDetail,cptAmt));
-        return (sucess && bytesToBool(result));
-    }
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolderCptDetail(string,string,string)",uniScId,investorCetfHash,stockRightDetail));
+        require(sucess,'remote invork fail!');
+		require(bytesToBool(result),'return wrong');
+		return (sucess && bytesToBool(result));
+	}
+    
+	/**
+     * 修改股东的股权交易地址
+     */
+	function putStockHolderAccount(string memory uniScId,string memory investorCetfHash,address investorAccount) public returns (bool){
+		require(_initialized);
+		require(uint160(currentVersion)>0,'currentVersion is Empty!');
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolderAccount(string,string,address)",uniScId,investorCetfHash,investorAccount));
+        require(sucess,'remote invork fail!');
+		require(bytesToBool(result),'return wrong');
+		return (sucess && bytesToBool(result));
+	}
     
 	/**
      * 增减资(市监局操作)
@@ -112,31 +137,29 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
 	 */
 	function getStockHolders(string memory uniScId) public view returns (string memory){
 		require(bytes(uniScId).length>0);
-		uint[] memory investorNos = stockHoldersNos[uniScId];
+		string[] memory investorCetfHashs = stockHoldersKeys[uniScId];
 		//拼成json
 		string memory s = '';
 		s=StringUtils.concat(s,'[');
-		for(uint i=0;i<investorNos.length;i++){
+		for(uint i=0;i<investorCetfHashs.length;i++){
 		     if(i>0){
                 s=StringUtils.concat(s,",");
             }
-			uint investorNo = investorNos[i];
+			string memory investorCetfHash = investorCetfHashs[i];
 			s=StringUtils.concat(s,'{');
-			s=StringUtils.concat(s,'"uniScId":"',stockHolders[uniScId][investorNo].uniScId,'"');
+			s=StringUtils.concat(s,'"uniScId":"',stockHolders[uniScId][investorCetfHash].uniScId,'"');
 			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"investorNo":',StringUtils.uint2str(stockHolders[uniScId][investorNo].investorNo),'');
+			s=StringUtils.concat(s,'"investorName":"',stockHolders[uniScId][investorCetfHash].investorName,'"');
 			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"investorName":"',stockHolders[uniScId][investorNo].investorName,'"');
+			s=StringUtils.concat(s,'"investorAccount":"',StringUtils.address2str(stockHolders[uniScId][investorCetfHash].investorAccount),'"');
 			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"investorAccount":"',StringUtils.address2str(stockHolders[uniScId][investorNo].investorAccount),'"');
+			s=StringUtils.concat(s,'"investorCetfHash":"',stockHolders[uniScId][investorCetfHash].investorCetfHash,'"');
 			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"investorCetfHash":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorNo].investorCetfHash),'"');
+			s=StringUtils.concat(s,'"stockRightDetail":',stockHolders[uniScId][investorCetfHash].stockRightDetail,'');
 			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"stockRightDetail":',stockHolders[uniScId][investorNo].stockRightDetail,'');
+			s=StringUtils.concat(s,'"merkel":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorCetfHash].merkel),'"');
 			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"merkel":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorNo].merkel),'"');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"cptAmt":',StringUtils.uint2str(stockHolders[uniScId][investorNo].cptAmt),'');
+			s=StringUtils.concat(s,'"cptAmt":',StringUtils.uint2str(stockHolders[uniScId][investorCetfHash].cptAmt),'');
 			s=StringUtils.concat(s,'}');
 		}
 		s=StringUtils.concat(s,']');
