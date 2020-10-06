@@ -52,7 +52,7 @@ library StringUtils {
      */
     function address2str(address a) internal pure returns (string memory c) {
         uint160 i = uint160(a);
-        if (i == 0) return "0";
+        if (i == 0) return "0x0";
         uint160 j = i;
         uint length=0;
         while (j != 0){

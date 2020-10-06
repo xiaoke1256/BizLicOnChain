@@ -18,18 +18,22 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
 		//require(AicOrgansHolderProxy(aicOrganHolder).isAdmin(tx.origin),"Unauthorized operation!");
 		_;
     }
-    
-    /**
+
+	 /**
      * 设立股权(市监局操作)，
      * 股东的新增或修改操作
      * uniScId 统一社会信用码
      * investorCetfHash 股东身份证件号的Hash
      * investorName 股东姓名
+     * stockRightDetail 出资详情
+     * cptAmt 出资额（人民币元）
      */
-    function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName) public onlyAdmin returns (bool){
+    function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,string memory stockRightDetail,uint cptAmt) public onlyAdmin returns (bool){
     	require(bytes(uniScId).length>0);
     	require(bytes(investorName).length>0);
     	require(bytes(investorCetfHash).length>0);
+		require(bytes(stockRightDetail).length>0);
+		require(cptAmt>0);
 
 		if(!ArrayUtils.contains(stockHoldersKeys[uniScId],investorCetfHash)){
 			stockHoldersKeys[uniScId].push(investorCetfHash);
@@ -37,46 +41,46 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
         stockHolders[uniScId][investorCetfHash].uniScId=uniScId;
         stockHolders[uniScId][investorCetfHash].investorName=investorName;
         stockHolders[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+		stockHolders[uniScId][investorCetfHash].stockRightDetail=stockRightDetail;
+		stockHolders[uniScId][investorCetfHash].cptAmt=cptAmt;
 		if(uint160(stockHolders[uniScId][investorCetfHash].investorAccount)>0){
 			stockHolders[uniScId][investorCetfHash].merkel=keccak256(abi.encode(investorName,stockHolders[uniScId][investorCetfHash].investorAccount,investorCetfHash));
 		}
 
         return true;
     }
-
-	/**
-     * 修改股东的出资信息
-	 */
-	function putStockHolderCptAmt(string memory uniScId,string memory investorCetfHash,uint cptAmt)public onlyAdmin returns (bool){
-		require(bytes(uniScId).length>0);
-		require(bytes(investorCetfHash).length>0);
-		require(cptAmt>0);
-		
-		if(!ArrayUtils.contains(stockHoldersKeys[uniScId],investorCetfHash)){
-			stockHoldersKeys[uniScId].push(investorCetfHash);
-		}
-		stockHolders[uniScId][investorCetfHash].uniScId=uniScId;
-        stockHolders[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
-		stockHolders[uniScId][investorCetfHash].cptAmt=cptAmt;
-		//TODO 投资金额变化肯定会造成整个企业的注册资金变化。
-		return true;
-    }
-
-		/**
-     * 修改股东的出资信息
-	 */
-	function putStockHolderCptDetail(string memory uniScId,string memory investorCetfHash,string memory stockRightDetail)public onlyAdmin returns (bool){
-		require(bytes(uniScId).length>0);
-		require(bytes(investorCetfHash).length>0);
+    
+    /**
+     * 设立股权(市监局操作)，
+     * 股东的新增或修改操作
+     * uniScId 统一社会信用码
+     * investorCetfHash 股东身份证件号的Hash
+     * investorName 股东姓名
+     * investorAccount 股东交易账号，
+     * stockRightDetail 出资详情
+     * cptAmt 出资额（人民币元）
+     */
+    function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,address investorAccount,string memory stockRightDetail,uint cptAmt) public onlyAdmin returns (bool){
+    	require(bytes(uniScId).length>0);
+    	require(bytes(investorName).length>0);
+    	require(bytes(investorCetfHash).length>0);
 		require(bytes(stockRightDetail).length>0);
-		
+		require(cptAmt>0);
+
 		if(!ArrayUtils.contains(stockHoldersKeys[uniScId],investorCetfHash)){
 			stockHoldersKeys[uniScId].push(investorCetfHash);
 		}
-		stockHolders[uniScId][investorCetfHash].uniScId=uniScId;
+        stockHolders[uniScId][investorCetfHash].uniScId=uniScId;
+        stockHolders[uniScId][investorCetfHash].investorName=investorName;
         stockHolders[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+		stockHolders[uniScId][investorCetfHash].investorAccount=investorAccount;
 		stockHolders[uniScId][investorCetfHash].stockRightDetail=stockRightDetail;
-		return true;
+		stockHolders[uniScId][investorCetfHash].cptAmt=cptAmt;
+		if(uint160(investorAccount)>0){
+			stockHolders[uniScId][investorCetfHash].merkel=keccak256(abi.encode(investorName,investorAccount,investorCetfHash));
+		}
+
+        return true;
     }
 
 	/**

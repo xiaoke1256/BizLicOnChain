@@ -44,6 +44,23 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bizLicContract = newBizLicContract;
         aicOrganHolder = BizLicOnChainProxy(newBizLicContract).getAicOrganHolder();
     }
+
+	/**
+     * 设立股权(市监局操作)，
+     * 股东的新增修改操作
+     * uniScId 统一社会信用码
+     * investorName 股东姓名
+     */
+    function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,string memory stockRightDetail,uint cptAmt) public returns (bool){
+		require(_initialized);
+		require(uint160(currentVersion)>0,'currentVersion is Empty!');
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolder(string,string,string,string,uint256)",uniScId,investorCetfHash,investorName,stockRightDetail,cptAmt));
+        require(sucess,'remote invork fail!');
+		require(bytesToBool(result),'return wrong');
+		return (sucess && bytesToBool(result));
+    }
     
     /**
      * 设立股权(市监局操作)，
@@ -51,45 +68,17 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
      * uniScId 统一社会信用码
      * investorName 股东姓名
      */
-    function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName) public returns (bool){
+    function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,address investorAccount,string memory stockRightDetail,uint cptAmt) public returns (bool){
     	require(_initialized);
 		require(uint160(currentVersion)>0,'currentVersion is Empty!');
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolder(string,string,string)",uniScId,investorCetfHash,investorName));
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolder(string,string,string,address,string,uint256)",uniScId,investorCetfHash,investorName,investorAccount,stockRightDetail,cptAmt));
         require(sucess,'remote invork fail!');
 		require(bytesToBool(result),'return wrong');
 		return (sucess && bytesToBool(result));
     }
 
-	/**
-     * 修改股东的出资额
-	 */
-	function putStockHolderCptAmt(string memory uniScId,string memory investorCetfHash,uint cptAmt)public returns (bool){
-		require(_initialized);
-		require(uint160(currentVersion)>0,'currentVersion is Empty!');
-        bool sucess;
-        bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolderCptAmt(string,string,uint256)",uniScId,investorCetfHash,cptAmt));
-        require(sucess,'remote invork fail!');
-		require(bytesToBool(result),'return wrong');
-		return (sucess && bytesToBool(result));
-	}
-
-    /**
-     * 修改股东的出资x详情
-	 */
-	function putStockHolderCptDetail(string memory uniScId,string memory investorCetfHash,string memory stockRightDetail)public returns (bool){
-		require(_initialized);
-		require(uint160(currentVersion)>0,'currentVersion is Empty!');
-        bool sucess;
-        bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolderCptDetail(string,string,string)",uniScId,investorCetfHash,stockRightDetail));
-        require(sucess,'remote invork fail!');
-		require(bytesToBool(result),'return wrong');
-		return (sucess && bytesToBool(result));
-	}
-    
 	/**
      * 修改股东的股权交易地址
      */
