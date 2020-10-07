@@ -15,7 +15,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
      */
     modifier onlyAdmin() {
         //tx.origin 是合约的发起方，而msg.sender是上一级调用者的地址
-		//require(AicOrgansHolderProxy(aicOrganHolder).isAdmin(tx.origin),"Unauthorized operation!");
+		require(AicOrgansHolderProxy(aicOrganHolder).isAdmin(tx.origin),"Unauthorized operation!");
 		_;
     }
 
@@ -89,7 +89,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
 	function putStockHolderAccount(string memory uniScId,string memory investorCetfHash,address investorAccount) public onlyAdmin returns (bool){
 		require(bytes(uniScId).length>0);
 		require(bytes(investorCetfHash).length>0);
-		require(uint160(stockHolders[uniScId][investorCetfHash].investorAccount)>0);
+		require(uint160(investorAccount)>0);
 
 		if(!ArrayUtils.contains(stockHoldersKeys[uniScId],investorCetfHash)){
 			stockHoldersKeys[uniScId].push(investorCetfHash);

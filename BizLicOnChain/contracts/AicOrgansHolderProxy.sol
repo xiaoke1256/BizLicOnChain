@@ -84,7 +84,7 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
      * 获取所有的管理员
      */
     function getAdmins() public view returns(address[] memory admins){
-        require(_initialized);
+        require(_initialized,'Has not inited.');
         return administrators;//BizlicOnChain(currentVersion).getAdmins();
     }
 	

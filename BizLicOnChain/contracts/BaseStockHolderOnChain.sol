@@ -25,7 +25,7 @@ contract BaseStockHolderOnChain {
         address investorAccount;//新股东账号
         string investorCetfHash;//新股东身份证件信息
         string stockRightDetail;//股权详情
-        bytes32 merkel;//默克尔值（新股东姓名、新股东账号、新股东身份证件、转让份额四者加起来的默克尔值）
+        bytes32 merkel;//默克尔值（新股东姓名、新股东身份证件、转让份额三者加起来的默克尔值）
         uint cptAmt;//转让额度
         string isSuccess;//是否交易成功
         string status;//状态 “开始”、“待董事会确认”，“待付款”，“发证机关备案”，“结束”（成功或失败）。

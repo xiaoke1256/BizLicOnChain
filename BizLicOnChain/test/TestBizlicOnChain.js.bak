@@ -2,6 +2,7 @@
 let organInstance = await AicOrgansHolder.deployed()
 let organProxy = await AicOrgansHolderProxy.deployed()
 await organProxy.initialize(organInstance.address)
+//organProxy.getAdmins.call()
 //测试发证机关
 //organProxy.regestOrgan("310000000","上海市市场监督局",accounts[1])
 //organProxy.getOrgan.call('310000000')
@@ -43,4 +44,9 @@ proxy.getAllUniScIds.call();
 
 //测试设立股权
 stockHolderProxy.putStockHolder('123100008654367537',web3.utils.keccak256("身份证:310104198802233432"),'张老三','[{invtType:"货币",amt:2000000}]',2000000);
+stockHolderProxy.putStockHolderAccount('123100008654367537',web3.utils.keccak256("身份证:310104198802233432"),accounts[2]);
 stockHolderProxy.getStockHolders.call('123100008654367537')
+
+//计算默克尔值
+let merkel = web3.utils.keccak256('李老四',web3.utils.keccak256("身份证:310104197606123212"),2000000);
+stockHolderProxy.startStockTransfer('123100008654367537',web3.utils.keccak256("身份证:310104198802233432"),'李老四',web3.utils.keccak256("身份证:310104197606123212"),merkel,2000000,web3.utils.toWei('150','ether'),{from:accounts[2]});

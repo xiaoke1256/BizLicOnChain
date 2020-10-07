@@ -101,25 +101,45 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
      * stockRightDetail 增减资,肯定会引起股权详情的变化
      * amt 增资额度，可以为负 
      */
-    function increCpt(string memory uniScId,uint investorNo,bytes32 investorCetfHash,string memory stockRightDetail,int amt) public returns (bool){
+    function increCpt(string memory uniScId,string memory investorCetfHash,string memory stockRightDetail,int amt) public returns (bool){
     	require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("increCpt(string,uint,bytes32,string,uint)",uniScId,investorNo,investorCetfHash,stockRightDetail,amt));
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("increCpt(string,string,string,int256)",uniScId,investorCetfHash,stockRightDetail,amt));
         return (sucess && bytesToBool(result));
     }
 	
 	/**
 	 * 取消股权(市监局操作),删除股东
 	 */
-    function removeStockHolder(string memory uniScId,uint investorNo)public returns (bool){
+    function removeStockHolder(string memory uniScId,string memory investorCetfHash)public returns (bool){
         require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeStockHolder(string,uint)",uniScId,investorNo));
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeStockHolder(string,string)",uniScId,investorCetfHash));
         return (sucess && bytesToBool(result));
     }
     
+	/**
+	 *发起股权转让
+	 * uniScId 统一社会信用码
+	 * transferorCetfHash 出让方股东身份证件信息
+	 * investorName 受让方股东姓名
+	 * investorCetfHash 受让方股东身份证件信息
+	 * merkel 默克尔值
+	 * cptAmt 转让份额（元）
+	 * price 转让价格（以太币，wei）
+	 * 返回是否成功
+	 */
+	function startStockTransfer(string memory uniScId,string memory transferorCetfHash,string memory investorName,
+			string memory investorCetfHash,bytes32 merkel,uint cptAmt,uint price)public returns (bool){
+		require(_initialized);
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("startStockTransfer(string,string,string,string,bytes32,uint256,uint256)",uniScId,
+			transferorCetfHash,investorName,investorCetfHash,merkel,cptAmt,price));
+        return (sucess && bytesToBool(result));
+	}
 	
     /**
 	 * 查看现有股东(按uniScId)
