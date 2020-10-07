@@ -49,10 +49,10 @@ module.exports = function(deployer) {
   deployer.link(AicOrgansHolderProxy, StockHolderOnChain);
   deployer.link(ArrayUtils, StockHolderOnChain);
   deployer.link(IntUtils, StockHolderOnChain);
+  deployer.link(StringUtils, StockHolderOnChain);
   deployer.deploy(StockHolderOnChain);
   deployer.link(BaseStockHolderOnChain, StockHolderOnChainProxy);
   deployer.link(BizLicOnChainProxy, StockHolderOnChainProxy);
-  deployer.link(StringUtils, StockHolderOnChainProxy);
   deployer.deploy(StockHolderOnChainProxy);
   
 };

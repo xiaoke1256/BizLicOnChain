@@ -4,6 +4,7 @@ import { AicOrgansHolderProxy } from "./AicOrgansHolderProxy.sol";
 import { BaseStockHolderOnChain } from "./BaseStockHolderOnChain.sol";
 import { IntUtils } from "./IntUtils.sol";
 import { ArrayUtils } from "./ArrayUtils.sol";
+import { StringUtils } from "./StringUtils.sol";
 
 contract StockHolderOnChain is BaseStockHolderOnChain {
     constructor() public{
@@ -61,26 +62,13 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
      * cptAmt 出资额（人民币元）
      */
     function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,address investorAccount,string memory stockRightDetail,uint cptAmt) public onlyAdmin returns (bool){
-    	require(bytes(uniScId).length>0);
-    	require(bytes(investorName).length>0);
-    	require(bytes(investorCetfHash).length>0);
-		require(bytes(stockRightDetail).length>0);
-		require(cptAmt>0);
+		require(uint160(investorAccount)>0);
 
 		if(!ArrayUtils.contains(stockHoldersKeys[uniScId],investorCetfHash)){
 			stockHoldersKeys[uniScId].push(investorCetfHash);
 		}
-        stockHolders[uniScId][investorCetfHash].uniScId=uniScId;
-        stockHolders[uniScId][investorCetfHash].investorName=investorName;
-        stockHolders[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
 		stockHolders[uniScId][investorCetfHash].investorAccount=investorAccount;
-		stockHolders[uniScId][investorCetfHash].stockRightDetail=stockRightDetail;
-		stockHolders[uniScId][investorCetfHash].cptAmt=cptAmt;
-		if(uint160(investorAccount)>0){
-			stockHolders[uniScId][investorCetfHash].merkel=keccak256(abi.encode(investorName,investorAccount,investorCetfHash));
-		}
-
-        return true;
+        return putStockHolder(uniScId,investorCetfHash,investorName,stockRightDetail,cptAmt);
     }
 
 	/**
@@ -182,6 +170,42 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
     //受让方出资
     
     //工商局备案(市监局操作)
+	
+	/**
+	 * 查看现有股东(按uniScId)
+	 */
+	function getStockHolders(string memory uniScId) public view returns (string memory){
+		require(bytes(uniScId).length>0);
+		string[] memory investorCetfHashs = stockHoldersKeys[uniScId];
+		//拼成json
+		string memory s = '';
+		s=StringUtils.concat(s,'[');
+		for(uint i=0;i<investorCetfHashs.length;i++){
+		     if(i>0){
+                s=StringUtils.concat(s,",");
+            }
+			string memory investorCetfHash = investorCetfHashs[i];
+			s=StringUtils.concat(s,'{');
+			s=StringUtils.concat(s,'"uniScId":"',stockHolders[uniScId][investorCetfHash].uniScId,'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"investorName":"',stockHolders[uniScId][investorCetfHash].investorName,'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"investorAccount":"',StringUtils.address2str(stockHolders[uniScId][investorCetfHash].investorAccount),'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"investorCetfHash":"',stockHolders[uniScId][investorCetfHash].investorCetfHash,'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"stockRightDetail":',stockHolders[uniScId][investorCetfHash].stockRightDetail,'');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"merkel":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorCetfHash].merkel),'"');
+			s=StringUtils.concat(s,',');
+			s=StringUtils.concat(s,'"cptAmt":',StringUtils.uint2str(stockHolders[uniScId][investorCetfHash].cptAmt),'');
+			s=StringUtils.concat(s,'}');
+		}
+		s=StringUtils.concat(s,']');
+		return s;
+	}
+    
+    //查看交易中的股权（申请案）
     
 
 }

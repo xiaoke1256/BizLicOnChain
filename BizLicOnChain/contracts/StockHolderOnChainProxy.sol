@@ -2,7 +2,6 @@ pragma solidity ^0.6.0;
 
 import { BaseStockHolderOnChain } from "./BaseStockHolderOnChain.sol";
 import { BizLicOnChainProxy } from "./BizLicOnChainProxy.sol";
-import { StringUtils } from "./StringUtils.sol";
 
 contract StockHolderOnChainProxy is BaseStockHolderOnChain {
 
@@ -141,41 +140,17 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         return (sucess && bytesToBool(result));
 	}
 	
-    /**
+	/**
 	 * 查看现有股东(按uniScId)
 	 */
-	function getStockHolders(string memory uniScId) public view returns (string memory){
-		require(bytes(uniScId).length>0);
-		string[] memory investorCetfHashs = stockHoldersKeys[uniScId];
-		//拼成json
-		string memory s = '';
-		s=StringUtils.concat(s,'[');
-		for(uint i=0;i<investorCetfHashs.length;i++){
-		     if(i>0){
-                s=StringUtils.concat(s,",");
-            }
-			string memory investorCetfHash = investorCetfHashs[i];
-			s=StringUtils.concat(s,'{');
-			s=StringUtils.concat(s,'"uniScId":"',stockHolders[uniScId][investorCetfHash].uniScId,'"');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"investorName":"',stockHolders[uniScId][investorCetfHash].investorName,'"');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"investorAccount":"',StringUtils.address2str(stockHolders[uniScId][investorCetfHash].investorAccount),'"');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"investorCetfHash":"',stockHolders[uniScId][investorCetfHash].investorCetfHash,'"');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"stockRightDetail":',stockHolders[uniScId][investorCetfHash].stockRightDetail,'');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"merkel":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorCetfHash].merkel),'"');
-			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"cptAmt":',StringUtils.uint2str(stockHolders[uniScId][investorCetfHash].cptAmt),'');
-			s=StringUtils.concat(s,'}');
-		}
-		s=StringUtils.concat(s,']');
-		return s;
+	function getStockHolders(string memory uniScId) public returns (string memory){
+		require(_initialized);
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("getStockHolders(string)",uniScId));
+		require(sucess,'remote invork fail!');
+        return abi.decode(result,(string));
 	}
-    
-    //查看交易中的股权（申请案）
 	
      /**
      * 把字节数组转成布尔型
