@@ -1,3 +1,4 @@
 *.sol linguist-language=Solidity
-*.js linguist-language=-JavaScript
+node_modules/*.js linguist-language=-JavaScript
+app/*.js linguist-language=-JavaScript
 *.html linguist-language=-HTML
