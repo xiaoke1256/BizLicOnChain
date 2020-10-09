@@ -38,4 +38,17 @@ module.exports = function(deployer) {
   deployer.deploy(BizLicOnChain);
   deployer.deploy(BizLicOnChainProxy);
   
+  //组装发证机关合约
+  let organInstance = null;
+  let organProxy = null;
+  deployer.then(function() {
+	  return AicOrgansHolder.deployed();
+  }).then(function(instance){
+	  organInstance = instance;
+	  return AicOrgansHolderProxy.deployed();
+  }).then(function(instance){
+	  organProxy = instance;
+	  organProxy.initialize(organInstance.address);
+  });
+  
 };

@@ -1,7 +1,5 @@
-//组装发证机关合约
-let organInstance = await AicOrgansHolder.deployed()
+//发证机关合约
 let organProxy = await AicOrgansHolderProxy.deployed()
-await organProxy.initialize(organInstance.address)
 //organProxy.getAdmins.call()
 //测试发证机关
 //organProxy.regestOrgan("310000000","上海市市场监督局",accounts[1])

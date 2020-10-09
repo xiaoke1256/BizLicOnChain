@@ -25,13 +25,5 @@ module.exports = function(deployer) {
 	  deployer.link(BizLicOnChainProxy, StockHolderOnChainProxy);
 	  deployer.deploy(StockHolderOnChainProxy);
 	  
-
-	  /*
-	  deployer.then(function() {
-	   
-	    // Create a new version of A
-	   
-	    return A.new();
-	   
-	  })*/
+	  
 };
