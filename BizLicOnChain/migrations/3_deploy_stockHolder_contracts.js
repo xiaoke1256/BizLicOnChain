@@ -25,5 +25,19 @@ module.exports = function(deployer) {
 	  deployer.link(BizLicOnChainProxy, StockHolderOnChainProxy);
 	  deployer.deploy(StockHolderOnChainProxy);
 	  
-	  
+	  let bizlicProxy = null;
+	  let stockHolderInstance = null;
+	  let stockHolderProxy = null;
+	  deployer.then(function() {
+		  return BizLicOnChainProxy.deployed();
+	  }).then(function(instance){
+		  bizlicProxy = instance;
+		  return StockHolderOnChain.deployed();
+	  }).then(function(instance){
+		  stockHolderInstance = instance;
+		  return StockHolderOnChainProxy.deployed();
+	  }).then(function(instance){
+		  stockHolderProxy = instance;
+		  stockHolderProxy.initialize(stockHolderInstance.address,bizlicProxy.address);
+	  });
 };
