@@ -6,9 +6,7 @@ let organProxy = await AicOrgansHolderProxy.deployed()
 //organProxy.getOrgan.call('310000000')
 //organProxy.getAllOrganCodes.call()
 
-let instance = await BizLicOnChain.deployed()
 let proxy = await BizLicOnChainProxy.deployed()
-await proxy.initialize(instance.address,organProxy.address)
 //组装股权设立股权的合约
 let stockHolderInstance = await StockHolderOnChain.deployed()
 let stockHolderProxy = await StockHolderOnChainProxy.deployed()
@@ -16,14 +14,14 @@ await stockHolderProxy.initialize(stockHolderInstance.address,proxy.address)
 
 await proxy.getAdmins.call()
 
-proxy.addAdmin(accounts[1])
+//proxy.addAdmin(accounts[1])
 
-
-proxy.regestOrgan("310000000","上海市市场监督局",accounts[1])
-proxy.getOrgan.call('310000000')
-proxy.removeOrgan("310000000")
-proxy.getOrgan.call('310000000')
-proxy.getAllOrganCodes.call()
+//测试
+//proxy.regestOrgan("310000000","上海市市场监督局",accounts[1])
+//proxy.getOrgan.call('310000000')
+//proxy.removeOrgan("310000000")
+//proxy.getOrgan.call('310000000')
+//proxy.getAllOrganCodes.call()
 
 ////签名 测试
 //web3.eth.sign('上海市市场监督局',accounts[1])

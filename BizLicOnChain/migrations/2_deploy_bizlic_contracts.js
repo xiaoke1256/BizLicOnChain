@@ -41,6 +41,8 @@ module.exports = function(deployer) {
   //组装发证机关合约
   let organInstance = null;
   let organProxy = null;
+  let bizlicInstance = null;
+  let bizlicProxy = null;
   deployer.then(function() {
 	  return AicOrgansHolder.deployed();
   }).then(function(instance){
@@ -49,24 +51,35 @@ module.exports = function(deployer) {
   }).then(function(instance){
 	  organProxy = instance;
 	  organProxy.initialize(organInstance.address);
-	  organProxy.regestOrgan("310000000","上海市市场监督局",accounts[1]);
-	  organProxy.regestOrgan("310101000","上海市市场监督管理局黄浦分局",accounts[1]);
-	  organProxy.regestOrgan("310104000","上海市市场监督管理局徐汇分局",accounts[1]);
-	  organProxy.regestOrgan("310105000","上海市市场监督管理局长宁分局",accounts[1]);
-	  organProxy.regestOrgan("310106000","上海市市场监督管理局静安分局",accounts[1]);
-	  organProxy.regestOrgan("310107000","上海市市场监督管理局普陀分局",accounts[1]);
-	  organProxy.regestOrgan("310108000","上海市市场监督管理局闸北分局",accounts[1]);
-	  organProxy.regestOrgan("310109000","上海市市场监督管理局虹口分局",accounts[1]);
-	  organProxy.regestOrgan("310110000","上海市市场监督管理局杨浦分局",accounts[1]);
-	  organProxy.regestOrgan("310112000","上海市市场监督管理局闵行分局",accounts[1]);
-	  organProxy.regestOrgan("310113000","上海市市场监督管理局宝山分局",accounts[1]);
-	  organProxy.regestOrgan("310114000","上海市市场监督管理局嘉定分局",accounts[1]);
-	  organProxy.regestOrgan("310115000","上海市市场监督管理局浦东分局",accounts[1]);
-	  organProxy.regestOrgan("310116000","上海市市场监督管理局金山分局",accounts[1]);
-	  organProxy.regestOrgan("310117000","上海市市场监督管理局松江分局",accounts[1]);
-	  organProxy.regestOrgan("310118000","上海市市场监督管理局青浦分局",accounts[1]);
-	  organProxy.regestOrgan("310120000","上海市市场监督管理局奉贤分局",accounts[1]);
-	  organProxy.regestOrgan("310230000","上海市市场监督管理局崇明分局",accounts[1]);
+	  web3.eth.getAccounts().then(function(accounts){
+		  organProxy.addAdmin(accounts[1]);
+		  organProxy.regestOrgan("310000000","上海市市场监督局",accounts[1]);
+		  organProxy.regestOrgan("310101000","上海市市场监督管理局黄浦分局",accounts[1]);
+		  organProxy.regestOrgan("310104000","上海市市场监督管理局徐汇分局",accounts[1]);
+		  organProxy.regestOrgan("310105000","上海市市场监督管理局长宁分局",accounts[1]);
+		  organProxy.regestOrgan("310106000","上海市市场监督管理局静安分局",accounts[1]);
+		  organProxy.regestOrgan("310107000","上海市市场监督管理局普陀分局",accounts[1]);
+		  organProxy.regestOrgan("310108000","上海市市场监督管理局闸北分局",accounts[1]);
+		  organProxy.regestOrgan("310109000","上海市市场监督管理局虹口分局",accounts[1]);
+		  organProxy.regestOrgan("310110000","上海市市场监督管理局杨浦分局",accounts[1]);
+		  organProxy.regestOrgan("310112000","上海市市场监督管理局闵行分局",accounts[1]);
+		  organProxy.regestOrgan("310113000","上海市市场监督管理局宝山分局",accounts[1]);
+		  organProxy.regestOrgan("310114000","上海市市场监督管理局嘉定分局",accounts[1]);
+		  organProxy.regestOrgan("310115000","上海市市场监督管理局浦东分局",accounts[1]);
+		  organProxy.regestOrgan("310116000","上海市市场监督管理局金山分局",accounts[1]);
+		  organProxy.regestOrgan("310117000","上海市市场监督管理局松江分局",accounts[1]);
+		  organProxy.regestOrgan("310118000","上海市市场监督管理局青浦分局",accounts[1]);
+		  organProxy.regestOrgan("310120000","上海市市场监督管理局奉贤分局",accounts[1]);
+		  organProxy.regestOrgan("310230000","上海市市场监督管理局崇明分局",accounts[1]);
+	  });
+  }).then(function(){
+	  return BizLicOnChain.deployed();
+  }).then(function(instance){
+	  bizlicInstance = instance;
+	  return BizLicOnChainProxy.deployed();
+  }).then(function(instance){
+	  bizlicProxy = instance;
+	  bizlicProxy.initialize(bizlicInstance.address,organProxy.address)
   });
   
 };
