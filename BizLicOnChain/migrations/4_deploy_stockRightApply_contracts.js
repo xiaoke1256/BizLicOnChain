@@ -3,28 +3,29 @@ const StringUtils = artifacts.require("StringUtils");
 const IntUtils = artifacts.require("IntUtils");
 
 const AicOrgansHolderProxy = artifacts.require("AicOrgansHolderProxy");
-const BizLicOnChainProxy = artifacts.require("BizLicOnChainProxy");
-
-const BaseStockHolderOnChain = artifacts.require("BaseStockHolderOnChain");
-const StockHolderOnChain = artifacts.require("StockHolderOnChain");
 const StockHolderOnChainProxy = artifacts.require("StockHolderOnChainProxy");
+
+const BaseStockRightApplyOnChain = artifacts.require("BaseStockRightApplyOnChain");
+const StockRightApplyOnChain = artifacts.require("StockRightApplyOnChain");
+const StockRightApplyOnChainProxy = artifacts.require("StockRightApplyOnChainProxy");
 
 module.exports = function(deployer) {
 	  //deployer.deploy(ArrayUtils);
 	  //deployer.deploy(StringUtils);
-	  deployer.deploy(IntUtils);
+	  //deployer.deploy(IntUtils);
 	  
-	  deployer.deploy(BaseStockHolderOnChain);
-	  deployer.link(BaseStockHolderOnChain, StockHolderOnChain);
-	  deployer.link(AicOrgansHolderProxy, StockHolderOnChain);
-	  deployer.link(ArrayUtils, StockHolderOnChain);
-	  deployer.link(IntUtils, StockHolderOnChain);
-	  deployer.link(StringUtils, StockHolderOnChain);
-	  deployer.deploy(StockHolderOnChain);
-	  deployer.link(BaseStockHolderOnChain, StockHolderOnChainProxy);
-	  deployer.link(BizLicOnChainProxy, StockHolderOnChainProxy);
-	  deployer.deploy(StockHolderOnChainProxy);
+	  deployer.deploy(BaseStockRightApplyOnChain);
+	  deployer.link(BaseStockRightApplyOnChain, StockRightApplyOnChain);
+	  //deployer.link(AicOrgansHolderProxy, StockHolderOnChain);
+	  //deployer.link(ArrayUtils, StockHolderOnChain);
+	  //deployer.link(IntUtils, StockHolderOnChain);
+	 // deployer.link(StringUtils, StockHolderOnChain);
+	  deployer.deploy(StockRightApplyOnChain);
+	  deployer.link(BaseStockRightApplyOnChain, StockRightApplyOnChainProxy);
+	  deployer.link(StockHolderOnChainProxy, StockRightApplyOnChainProxy);
+	  deployer.deploy(StockRightApplyOnChainProxy);
 	  
+	  /*
 	  let bizlicProxy = null;
 	  let stockHolderInstance = null;
 	  let stockHolderProxy = null;
@@ -40,4 +41,5 @@ module.exports = function(deployer) {
 		  stockHolderProxy = instance;
 		  stockHolderProxy.initialize(stockHolderInstance.address,bizlicProxy.address);
 	  });
+	  */
 };

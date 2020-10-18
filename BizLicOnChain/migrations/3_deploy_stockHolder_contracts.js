@@ -5,17 +5,17 @@ const IntUtils = artifacts.require("IntUtils");
 const AicOrgansHolderProxy = artifacts.require("AicOrgansHolderProxy");
 const BizLicOnChainProxy = artifacts.require("BizLicOnChainProxy");
 
-const BaseStockRightApplyOnChain = artifacts.require("BaseStockRightApplyOnChain");
-const StockRightApplyOnChain = artifacts.require("StockRightApplyOnChain");
-const StockRightApplyOnChainProxy = artifacts.require("StockRightApplyOnChainProxy");
+const BaseStockHolderOnChain = artifacts.require("BaseStockHolderOnChain");
+const StockHolderOnChain = artifacts.require("StockHolderOnChain");
+const StockHolderOnChainProxy = artifacts.require("StockHolderOnChainProxy");
 
 module.exports = function(deployer) {
 	  //deployer.deploy(ArrayUtils);
 	  //deployer.deploy(StringUtils);
 	  deployer.deploy(IntUtils);
 	  
-	  deployer.deploy(BaseStockRightApplyOnChain);
-	  deployer.link(BaseStockRightApplyOnChain, StockRightApplyOnChain);
+	  deployer.deploy(BaseStockHolderOnChain);
+	  deployer.link(BaseStockHolderOnChain, StockHolderOnChain);
 	  deployer.link(AicOrgansHolderProxy, StockHolderOnChain);
 	  deployer.link(ArrayUtils, StockHolderOnChain);
 	  deployer.link(IntUtils, StockHolderOnChain);

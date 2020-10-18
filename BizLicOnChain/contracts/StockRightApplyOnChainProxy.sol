@@ -1,10 +1,8 @@
 pragma solidity ^0.6.0;
 
-import { AicOrgansHolderProxy } from "./AicOrgansHolderProxy.sol";
+import { StockHolderOnChainProxy } from "./StockHolderOnChainProxy.sol";
 import { BaseStockRightApplyOnChain } from "./BaseStockRightApplyOnChain.sol";
-import { IntUtils } from "./IntUtils.sol";
-import { ArrayUtils } from "./ArrayUtils.sol";
-import { StringUtils } from "./StringUtils.sol";
+
 
 contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
     constructor() public{
@@ -21,11 +19,11 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
      * newVersion 合约新版本
      * bizLicContract 管理营业执照的合约
      */
-    function initialize(address newVersion,address newBizLicContract) public onlyCreator{
+    function initialize(address newVersion,address newStockHolderContract) public onlyCreator{
         require(!_initialized);
         currentVersion = newVersion;
-        bizLicContract = newBizLicContract;
-        aicOrganHolder = BizLicOnChainProxy(newBizLicContract).getAicOrganHolder();
+        stockHolderContract = newStockHolderContract;
+        aicOrganHolder = StockHolderOnChainProxy(stockHolderContract).getAicOrganHolder();
         _initialized = true;
     }
     

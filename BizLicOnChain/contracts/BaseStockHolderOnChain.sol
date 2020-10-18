@@ -73,5 +73,9 @@ contract BaseStockHolderOnChain {
      * 是否初始化
      */
     bool internal _initialized = false;
+    
+    function getAicOrganHolder() public view returns(address){
+    	return aicOrganHolder;
+    }
 
 }

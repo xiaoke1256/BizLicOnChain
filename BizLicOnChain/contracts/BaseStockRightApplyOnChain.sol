@@ -37,9 +37,9 @@ contract BaseStockRightApplyOnChain {
     address aicOrganHolder;
     
     /**
-     * 管理营业执照的合约地址
+     * 管理股东的合约地址
      */
-    address bizLicContract;
+    address stockHolderContract;
     
     /**
      * 合约版本

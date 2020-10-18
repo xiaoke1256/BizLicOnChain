@@ -1,10 +1,7 @@
 pragma solidity ^0.6.0;
 
 import { AicOrgansHolderProxy } from "./AicOrgansHolderProxy.sol";
-import { BaseStockHolderOnChain } from "./BaseStockHolderOnChain.sol";
-import { IntUtils } from "./IntUtils.sol";
-import { ArrayUtils } from "./ArrayUtils.sol";
-import { StringUtils } from "./StringUtils.sol";
+import { BaseStockRightApplyOnChain } from "./BaseStockRightApplyOnChain.sol";
 
 contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
     constructor() public{
