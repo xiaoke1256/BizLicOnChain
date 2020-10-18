@@ -25,21 +25,21 @@ module.exports = function(deployer) {
 	  deployer.link(StockHolderOnChainProxy, StockRightApplyOnChainProxy);
 	  deployer.deploy(StockRightApplyOnChainProxy);
 	  
-	  /*
-	  let bizlicProxy = null;
-	  let stockHolderInstance = null;
+	  
 	  let stockHolderProxy = null;
+	  let stockRightApplyInstance = null;
+	  let stockRightApplyProxy = null;
 	  deployer.then(function() {
-		  return BizLicOnChainProxy.deployed();
+		  return StockRightApplyOnChainProxy.deployed();
 	  }).then(function(instance){
-		  bizlicProxy = instance;
-		  return StockHolderOnChain.deployed();
+		  stockRightApplyProxy = instance;
+		  return StockRightApplyOnChain.deployed();
 	  }).then(function(instance){
-		  stockHolderInstance = instance;
+		  stockRightApplyInstance = instance;
 		  return StockHolderOnChainProxy.deployed();
 	  }).then(function(instance){
 		  stockHolderProxy = instance;
-		  stockHolderProxy.initialize(stockHolderInstance.address,bizlicProxy.address);
+		  stockRightApplyProxy.initialize(stockRightApplyInstance.address,stockHolderProxy.address);
 	  });
-	  */
+	  
 };

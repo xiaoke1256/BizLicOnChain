@@ -20,7 +20,7 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
      * bizLicContract 管理营业执照的合约
      */
     function initialize(address newVersion,address newStockHolderContract) public onlyCreator{
-        require(!_initialized);
+        require(!_initialized,"The contract has inited!");
         currentVersion = newVersion;
         stockHolderContract = newStockHolderContract;
         aicOrganHolder = StockHolderOnChainProxy(stockHolderContract).getAicOrganHolder();
@@ -40,7 +40,7 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
 	 */
 	function startStockTransfer(string memory uniScId,string memory transferorCetfHash,string memory investorName,
 			string memory investorCetfHash,bytes32 merkel,uint cptAmt,uint price)public returns (bool){
-		require(_initialized);
+		require(_initialized,"The contract has not inited!");
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("startStockTransfer(string,string,string,string,bytes32,uint256,uint256)",uniScId,
