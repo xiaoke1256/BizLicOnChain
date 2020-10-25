@@ -21,9 +21,9 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
      */
     function initialize(address newVersion,address newStockHolderContract) public onlyCreator returns (bool){
         require(!_initialized,"The contract has inited!");
-        //currentVersion = newVersion;
-        //stockHolderContract = newStockHolderContract;
-        //aicOrganHolder = StockHolderOnChainProxy(stockHolderContract).getAicOrganHolder();
+        currentVersion = newVersion;
+        stockHolderContract = newStockHolderContract;
+        aicOrganHolder = StockHolderOnChainProxy(stockHolderContract).getAicOrganHolder();
         _initialized = true;
 		return true;
     }
