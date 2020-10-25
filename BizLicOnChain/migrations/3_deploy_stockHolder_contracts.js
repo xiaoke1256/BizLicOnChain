@@ -14,14 +14,14 @@ module.exports = function(deployer) {
 	  //deployer.deploy(StringUtils);
 	  deployer.deploy(IntUtils);
 	  
-	  deployer.deploy(BaseStockHolderOnChain);
-	  deployer.link(BaseStockHolderOnChain, StockHolderOnChain);
+	  //deployer.deploy(BaseStockHolderOnChain);
+	  //deployer.link(BaseStockHolderOnChain, StockHolderOnChain);
 	  deployer.link(AicOrgansHolderProxy, StockHolderOnChain);
 	  deployer.link(ArrayUtils, StockHolderOnChain);
 	  deployer.link(IntUtils, StockHolderOnChain);
 	  deployer.link(StringUtils, StockHolderOnChain);
 	  deployer.deploy(StockHolderOnChain);
-	  deployer.link(BaseStockHolderOnChain, StockHolderOnChainProxy);
+	  //deployer.link(BaseStockHolderOnChain, StockHolderOnChainProxy);
 	  deployer.link(BizLicOnChainProxy, StockHolderOnChainProxy);
 	  deployer.deploy(StockHolderOnChainProxy);
 	  

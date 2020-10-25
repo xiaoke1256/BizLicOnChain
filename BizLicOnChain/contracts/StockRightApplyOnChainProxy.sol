@@ -19,12 +19,13 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
      * newVersion 合约新版本
      * bizLicContract 管理营业执照的合约
      */
-    function initialize(address newVersion,address newStockHolderContract) public onlyCreator{
+    function initialize(address newVersion,address newStockHolderContract) public onlyCreator returns (bool){
         require(!_initialized,"The contract has inited!");
-        currentVersion = newVersion;
-        stockHolderContract = newStockHolderContract;
-        aicOrganHolder = StockHolderOnChainProxy(stockHolderContract).getAicOrganHolder();
+        //currentVersion = newVersion;
+        //stockHolderContract = newStockHolderContract;
+        //aicOrganHolder = StockHolderOnChainProxy(stockHolderContract).getAicOrganHolder();
         _initialized = true;
+		return true;
     }
     
 	/**
@@ -64,5 +65,9 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
 	        number = uint8(number + uint8(b[i])*(2**(8*(b.length-(i+1)))));
 	    }
 	    return number;
+	}
+	
+	function isInited() public view returns(bool){
+	    return _initialized;
 	}
 }

@@ -17,10 +17,10 @@ module.exports = function(deployer) {
   deployer.deploy(StringUtils);
   deployer.deploy(EncryptUtils);
   
-  deployer.deploy(BaseAicOrgansHolder);
-  deployer.link(BaseAicOrgansHolder, AicOrgansHolder);
+  //deployer.deploy(BaseAicOrgansHolder);
+  //deployer.link(BaseAicOrgansHolder, AicOrgansHolder);
   deployer.link(ArrayUtils, AicOrgansHolder);
-  deployer.link(BaseAicOrgansHolder, AicOrgansHolderProxy);
+ // deployer.link(BaseAicOrgansHolder, AicOrgansHolderProxy);
   deployer.link(StringUtils, AicOrgansHolderProxy);
   deployer.link(ArrayUtils, AicOrgansHolderProxy);
   deployer.deploy(AicOrgansHolder);
