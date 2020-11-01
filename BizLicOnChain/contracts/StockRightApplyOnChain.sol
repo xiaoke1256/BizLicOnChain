@@ -36,7 +36,11 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 		require(bytes(investorCetfHash).length>0);
         require(bytes(transferorCetfHash).length>0);
 		//出在让方存这个股东，且账号就是操作人。
-		//require(stockHolders[uniScId][transferorCetfHash].investorAccount==tx.origin);
+		bool sucess;
+        bytes memory result;
+		(sucess,result)= stockHolderContract.call(abi.encodeWithSignature("checkStockHoldersAccount(string,string,address)",uniScId,transferorCetfHash,tx.origin));
+		require(sucess,'Remote invork fail!');
+		require(abi.decode(result,(bool)),'You are not the stock Holder!');
 		//把所有的申请案号拿出来取其最大者。
 		require(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
 		stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;

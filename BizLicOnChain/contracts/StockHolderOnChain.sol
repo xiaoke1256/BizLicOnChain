@@ -170,7 +170,11 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
 		return s;
 	}
     
-    //查看交易中的股权（申请案）
-    
+	/**
+     检查股东的账号
+	 */
+    function checkStockHoldersAccount(string memory uniScId,string memory investorCetfHash,address account)public returns(bool) {
+		return stockHolders[uniScId][investorCetfHash].investorAccount == account;
+	}
 
 }
