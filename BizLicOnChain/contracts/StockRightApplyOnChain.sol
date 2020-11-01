@@ -34,7 +34,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 		require(bytes(uniScId).length>0);
         require(bytes(transferorCetfHash).length>0);
 		//出在让方存这个股东，且账号就是操作人。
-		//require(stockHolders[uniScId][transferorCetfHash].investorAccount==tx.origin);
+		require(stockHolders[uniScId][transferorCetfHash].investorAccount==tx.origin);
 		//把所有的申请案号拿出来取其最大者。
 		require(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
 		stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
