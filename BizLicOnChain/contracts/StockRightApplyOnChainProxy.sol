@@ -76,7 +76,7 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
 	/** 
      获取Keys
      */
-	function getStockRightApplyKeysBy(string memory uniScId) public returns (string memory){
+	function getStockRightApplyKeysByUniScId(string memory uniScId) public returns (string memory){
 		string memory s = '[';
         for(uint64 i = 0;i<stockRightApplyKeys[uniScId].length;i++){
             if(i>0){
@@ -85,6 +85,36 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
             s=StringUtils.concat(s,"'",stockRightApplyKeys[uniScId][i],"'");
         }
         s=StringUtils.concat(s,"]");
+        return s;
+	}
+
+    /** 
+     获取Keys
+     */
+	function getStockRightApply(string memory uniScId,string memory investorCetfHash) public returns (string memory){
+		string memory s = '{';
+		string memory uniScId = stockRightApplys[uniScId][investorCetfHash].uniScId;
+        string memory transferorCetfHash = stockRightApplys[uniScId][investorCetfHash].transferorCetfHash;
+		string memory investorName = stockRightApplys[uniScId][investorCetfHash].investorName;
+		uint price = stockRightApplys[uniScId][investorCetfHash].price;
+		address investorAccount = stockRightApplys[uniScId][investorCetfHash].investorAccount;
+		string memory stockRightDetail = stockRightApplys[uniScId][investorCetfHash].stockRightDetail;
+		bytes32 merkel = stockRightApplys[uniScId][investorCetfHash].merkel;
+		uint cptAmt = stockRightApplys[uniScId][investorCetfHash].cptAmt;
+		string memory isSuccess = stockRightApplys[uniScId][investorCetfHash].isSuccess;
+		string memory status = stockRightApplys[uniScId][investorCetfHash].status;
+		s=StringUtils.concat(s,"uniScId:'",uniScId,"'");
+		s=StringUtils.concat(s,"investorCetfHash:'",investorCetfHash,"'");
+		s=StringUtils.concat(s,",transferorCetfHash:'",transferorCetfHash,"'");
+		s=StringUtils.concat(s,",investorName:'",investorName,"'");
+		s=StringUtils.concat(s,",price:'",StringUtils.uint2str(price),"'");
+		s=StringUtils.concat(s,",investorAccount:'",StringUtils.address2str(investorAccount),"'");
+		s=StringUtils.concat(s,",stockRightDetail:'",stockRightDetail,"'");
+		s=StringUtils.concat(s,",merkel:'",StringUtils.bytes32ToString(merkel),"'");
+		s=StringUtils.concat(s,",cptAmt:'",StringUtils.uint2str(cptAmt),"'");
+		s=StringUtils.concat(s,",isSuccess:'",isSuccess,"'");
+		s=StringUtils.concat(s,",status:'",status,"'");
+		s=StringUtils.concat(s,"}");
         return s;
 	}
 }
