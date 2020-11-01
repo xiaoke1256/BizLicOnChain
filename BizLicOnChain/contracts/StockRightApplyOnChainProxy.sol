@@ -93,8 +93,9 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
      */
 	function getStockRightApply(string memory uniScId,string memory investorCetfHash) public returns (string memory){
 		string memory s = '{';
-		string memory uniScId = stockRightApplys[uniScId][investorCetfHash].uniScId;
+		string memory lUniScId = stockRightApplys[uniScId][investorCetfHash].uniScId;
         string memory transferorCetfHash = stockRightApplys[uniScId][investorCetfHash].transferorCetfHash;
+		string memory lInvestorCetfHash = stockRightApplys[uniScId][investorCetfHash].investorCetfHash;
 		string memory investorName = stockRightApplys[uniScId][investorCetfHash].investorName;
 		uint price = stockRightApplys[uniScId][investorCetfHash].price;
 		address investorAccount = stockRightApplys[uniScId][investorCetfHash].investorAccount;
@@ -103,8 +104,8 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
 		uint cptAmt = stockRightApplys[uniScId][investorCetfHash].cptAmt;
 		string memory isSuccess = stockRightApplys[uniScId][investorCetfHash].isSuccess;
 		string memory status = stockRightApplys[uniScId][investorCetfHash].status;
-		s=StringUtils.concat(s,"uniScId:'",uniScId,"'");
-		s=StringUtils.concat(s,"investorCetfHash:'",investorCetfHash,"'");
+		s=StringUtils.concat(s,"uniScId:'",lUniScId,"'");
+		s=StringUtils.concat(s,"investorCetfHash:'",lInvestorCetfHash,"'");
 		s=StringUtils.concat(s,",transferorCetfHash:'",transferorCetfHash,"'");
 		s=StringUtils.concat(s,",investorName:'",investorName,"'");
 		s=StringUtils.concat(s,",price:'",StringUtils.uint2str(price),"'");

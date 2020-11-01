@@ -3,6 +3,7 @@ pragma solidity ^0.6.0;
 import { AicOrgansHolderProxy } from "./AicOrgansHolderProxy.sol";
 import { BaseStockRightApplyOnChain } from "./BaseStockRightApplyOnChain.sol";
 import { ArrayUtils } from "./ArrayUtils.sol";
+import { StringUtils } from "./StringUtils.sol";
 
 contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
     constructor() public{
@@ -32,9 +33,10 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 	function startStockTransfer(string memory uniScId,string memory transferorCetfHash,string memory investorName,
 			string memory investorCetfHash,bytes32 merkel,uint cptAmt,uint price)public returns (bool){
 		require(bytes(uniScId).length>0);
+		require(bytes(investorCetfHash).length>0);
         require(bytes(transferorCetfHash).length>0);
 		//出在让方存这个股东，且账号就是操作人。
-		require(stockHolders[uniScId][transferorCetfHash].investorAccount==tx.origin);
+		//require(stockHolders[uniScId][transferorCetfHash].investorAccount==tx.origin);
 		//把所有的申请案号拿出来取其最大者。
 		require(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
 		stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
@@ -45,6 +47,24 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 		stockRightApplys[uniScId][investorCetfHash].price=price;
 		stockRightApplys[uniScId][investorCetfHash].status='待董事会确认';
 		stockRightApplyKeys[uniScId].push(investorCetfHash);
+		return true;
+	}
+
+	/**
+      设置新股东账号
+	  uniScId 统一社会信用码
+      investorCetfHash 新股东身份证件信息
+      investorAccount 新股东账号
+    */
+	function setNewStockHolderAccount(string memory uniScId,string memory investorCetfHash,address investorAccount) public returns (bool){
+        require(bytes(uniScId).length>0);
+        require(bytes(investorCetfHash).length>0);
+		//出在让方存这个股东，且账号就是操作人。
+		string memory transferorCetfHash = stockRightApplys[uniScId][investorCetfHash].transferorCetfHash;
+		//require(stockHolders[uniScId][transferorCetfHash].investorAccount==tx.origin);
+		//状态是否正确
+        require(StringUtils.equals(stockRightApplys[uniScId][investorCetfHash].status,'待董事会确认'),'This apply at the wrong state.');
+		stockRightApplys[uniScId][investorCetfHash].investorAccount=investorAccount;
 		return true;
 	}
     

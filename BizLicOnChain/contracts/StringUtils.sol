@@ -107,5 +107,20 @@ library StringUtils {
         }
         return concat("0x",string(bstr));
     }
+
+	/**
+	 * 判断字符串是否相等
+	 */
+	function equals(string memory str1,string memory str2) internal pure returns (bool){
+	    if(bytes(str1).length != bytes(str2).length){
+	        return false;
+	    }
+	    for (uint i = 0; i < bytes(str1).length; i ++) {
+	        if(bytes(str1)[i] != bytes(str2)[i]) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
 	  
 }

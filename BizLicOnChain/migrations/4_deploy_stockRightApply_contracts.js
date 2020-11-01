@@ -18,8 +18,8 @@ module.exports = function(deployer) {
 	 // deployer.link(BaseStockRightApplyOnChain, StockRightApplyOnChain);
 	  deployer.link(AicOrgansHolderProxy, StockRightApplyOnChain);
 	  deployer.link(ArrayUtils, StockRightApplyOnChain);
-	  //deployer.link(IntUtils, StockHolderOnChain);
-	  // deployer.link(StringUtils, StockHolderOnChain);
+	  //deployer.link(IntUtils, StockRightApplyOnChain);
+	  deployer.link(StringUtils, StockRightApplyOnChain);
 	  
 	  //deployer.link(BaseStockRightApplyOnChain, StockRightApplyOnChainProxy);
 	  deployer.link(StringUtils, StockRightApplyOnChainProxy);
