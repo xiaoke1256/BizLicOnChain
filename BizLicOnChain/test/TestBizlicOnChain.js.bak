@@ -48,3 +48,4 @@ applyProxy.initialize(applyInstance.address,stockHolderProxy.address);
 let merkel = web3.utils.keccak256('李老四',web3.utils.keccak256("身份证:310104197606123212"),2000000);
 applyProxy.startStockTransfer('123100008654367537',web3.utils.keccak256("身份证:310104198802233432"),'李老四',web3.utils.keccak256("身份证:310104197606123212"),merkel,2000000,web3.utils.toWei('150','ether'),{from:accounts[2]});
 
+applyProxy.getStockRightApplyKeysBy.call('123100008654367537');

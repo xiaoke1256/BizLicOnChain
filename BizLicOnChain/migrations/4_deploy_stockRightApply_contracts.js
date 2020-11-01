@@ -1,5 +1,5 @@
 const ArrayUtils = artifacts.require("ArrayUtils");
-//const StringUtils = artifacts.require("StringUtils");
+const StringUtils = artifacts.require("StringUtils");
 //const IntUtils = artifacts.require("IntUtils");
 
 const AicOrgansHolderProxy = artifacts.require("AicOrgansHolderProxy");
@@ -22,6 +22,7 @@ module.exports = function(deployer) {
 	  // deployer.link(StringUtils, StockHolderOnChain);
 	  
 	  //deployer.link(BaseStockRightApplyOnChain, StockRightApplyOnChainProxy);
+	  deployer.link(StringUtils, StockRightApplyOnChainProxy);
 	  deployer.link(StockHolderOnChainProxy, StockRightApplyOnChainProxy);
 	  
 	  let stockHolderProxy = null;

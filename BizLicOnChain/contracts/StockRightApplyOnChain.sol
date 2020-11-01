@@ -44,6 +44,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 		stockRightApplys[uniScId][investorCetfHash].cptAmt=cptAmt;
 		stockRightApplys[uniScId][investorCetfHash].price=price;
 		stockRightApplys[uniScId][investorCetfHash].status='待董事会确认';
+		stockRightApplyKeys[uniScId].push(investorCetfHash);
 		return true;
 	}
     
@@ -52,5 +53,6 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
     //受让方出资
     
     //工商局备案(市监局操作)
+
 
 }

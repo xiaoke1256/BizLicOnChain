@@ -3,6 +3,8 @@ pragma solidity ^0.6.0;
 import { StockHolderOnChainProxy } from "./StockHolderOnChainProxy.sol";
 import { BaseStockRightApplyOnChain } from "./BaseStockRightApplyOnChain.sol";
 
+import { StringUtils } from "./StringUtils.sol";
+
 
 contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
     constructor() public{
@@ -69,5 +71,20 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
 	
 	function isInited() public view returns(bool){
 	    return _initialized;
+	}
+
+	/** 
+     获取Keys
+     */
+	function getStockRightApplyKeysBy(string memory uniScId) public returns (string memory){
+		string memory s = '[';
+        for(uint64 i = 0;i<stockRightApplyKeys[uniScId].length;i++){
+            if(i>0){
+                s=StringUtils.concat(s,",");
+            }
+            s=StringUtils.concat(s,"'",stockRightApplyKeys[uniScId][i],"'");
+        }
+        s=StringUtils.concat(s,"]");
+        return s;
 	}
 }

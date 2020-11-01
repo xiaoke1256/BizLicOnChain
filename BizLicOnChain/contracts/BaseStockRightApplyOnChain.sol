@@ -22,12 +22,12 @@ contract BaseStockRightApplyOnChain {
     address creator;
     
     /**
-     * 股权申请的Map，其中key是组织机构代码.
+     * 股权申请的Map，其中key是统一社会信用码.
 	 * value mapping 的结构如下：key是新股东的身份证件号，value申请信息。
      */
     mapping(string => mapping(string =>StockRightApply)) stockRightApplys;
 	/**
-	 * 申请案号的Map，其中key是组织机构代码.
+	 * 申请案号的Map，其中key是统一社会信用码.
 	 */
 	mapping(string => string[]) stockRightApplyKeys;
     
