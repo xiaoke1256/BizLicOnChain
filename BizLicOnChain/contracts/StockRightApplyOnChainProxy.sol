@@ -75,6 +75,15 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
         return (sucess && bytesToBool(result));
 	}
 	
+	//受让方出资
+	function payForStock(string memory uniScId,string memory investorCetfHash)public payable returns (bool){
+		require(_initialized,"The contract has not inited!");
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("payForStock(string,string)",uniScId,investorCetfHash));
+        return (sucess && bytesToBool(result));
+	}
+	
 	/**
      * 把字节数组转成布尔型
      */

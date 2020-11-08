@@ -55,5 +55,6 @@ applyProxy.getStockRightApply.call('123100008654367537',web3.utils.keccak256("�
 //设置出让方账号，
 applyProxy.setNewStockHolderAccount('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"),accounts[3],{from:accounts[2]});
 //董事会确认转让
-applyProxy.comfirmByDirectors('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"))；
-
+applyProxy.comfirmByDirectors('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"));
+//支付
+applyProxy.payForStock('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"),{from:accounts[3],value:web3.utils.toWei('150','ether')})
