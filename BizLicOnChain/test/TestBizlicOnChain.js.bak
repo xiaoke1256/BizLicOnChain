@@ -7,8 +7,12 @@ let organProxy = await AicOrgansHolderProxy.deployed()
 //organProxy.getAllOrganCodes.call()
 
 let proxy = await BizLicOnChainProxy.deployed()
-//组装股权设立股权的合约
+//设立股权的合约
 let stockHolderProxy = await StockHolderOnChainProxy.deployed()
+//组装股权申请合约
+let applyProxy = await StockRightApplyOnChainProxy.deployed()
+let applyInstance = await StockRightApplyOnChain.deployed();
+applyProxy.initialize(applyInstance.address,stockHolderProxy.address);
 
 await proxy.getAdmins.call()
 
@@ -42,11 +46,14 @@ stockHolderProxy.putStockHolderAccount('123100008654367537',web3.utils.keccak256
 stockHolderProxy.getStockHolders.call('123100008654367537')
 
 //股权交易
-let applyProxy = await StockRightApplyOnChainProxy.deployed()
-let applyInstance = await StockRightApplyOnChain.deployed();
-applyProxy.initialize(applyInstance.address,stockHolderProxy.address);
+
 let merkel = web3.utils.keccak256('李老四',web3.utils.keccak256("身份证:310104197606123212"),2000000);
 applyProxy.startStockTransfer('123100008654367537',web3.utils.keccak256("身份证:310104198802233432"),'李老四',web3.utils.keccak256("身份证:310104197606123212"),merkel,2000000,web3.utils.toWei('150','ether'),{from:accounts[2]});
 
 applyProxy.getStockRightApplyKeysByUniScId.call('123100008654367537');
 applyProxy.getStockRightApply.call('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"));
+//设置出让方账号，
+applyProxy.setNewStockHolderAccount('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"),accounts[3],{from:accounts[2]});
+//董事会确认转让
+applyProxy.comfirmByDirectors('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"))；
+

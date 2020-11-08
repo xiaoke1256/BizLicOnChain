@@ -73,8 +73,28 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 	}
     
     //出让方公司的董事会确认转让
+	function comfirmByDirectors(string memory uniScId,string memory investorCetfHash) public returns (bool){
+		require(bytes(uniScId).length>0);
+        require(bytes(investorCetfHash).length>0);
+		//TODO 检查当前账号就是公司的董事会账号
+		//状态是否正确
+		require(StringUtils.equals(stockRightApplys[uniScId][investorCetfHash].status,'待董事会确认'),'This apply at the wrong state.');
+		stockRightApplys[uniScId][investorCetfHash].status='待付款';
+		return true;
+	}
     
     //受让方出资
+	function payForStock(string memory uniScId,string memory investorCetfHash)public payable returns (bool){
+		require(bytes(uniScId).length>0);
+        require(bytes(investorCetfHash).length>0);
+		require(msg.value>0);
+		//检查出资额
+		require(msg.value>=stockRightApplys[uniScId][investorCetfHash].price);
+		stockRightApplys[uniScId][investorCetfHash].price=msg.value;//把实际支付金额放到price中
+		stockRightApplys[uniScId][investorCetfHash].status='发证机关备案';
+		return true;
+	}
+	
     
     //工商局备案(市监局操作)
 

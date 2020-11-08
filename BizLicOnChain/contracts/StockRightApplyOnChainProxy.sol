@@ -52,6 +52,30 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
 	}
 	
 	/**
+      设置新股东账号
+	  uniScId 统一社会信用码
+      investorCetfHash 新股东身份证件信息
+      investorAccount 新股东账号
+    */
+	function setNewStockHolderAccount(string memory uniScId,string memory investorCetfHash,address investorAccount) public returns (bool){
+		require(_initialized,"The contract has not inited!");
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("setNewStockHolderAccount(string,string,address)",uniScId,
+			investorCetfHash,investorAccount));
+        return (sucess && bytesToBool(result));
+	}
+	
+	 //出让方公司的董事会确认转让
+	function comfirmByDirectors(string memory uniScId,string memory investorCetfHash) public returns (bool){
+		require(_initialized,"The contract has not inited!");
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("comfirmByDirectors(string,string)",uniScId,investorCetfHash));
+        return (sucess && bytesToBool(result));
+	}
+	
+	/**
      * 把字节数组转成布尔型
      */
     function bytesToBool(bytes memory b) private pure returns(bool){
