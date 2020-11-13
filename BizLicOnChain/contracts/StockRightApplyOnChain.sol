@@ -72,7 +72,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 		return true;
 	}
     
-    //出让方公司的董事会确认转让
+    //出让方公司的董事会确认转让（TODO 董事会可以驳回）
 	function comfirmByDirectors(string memory uniScId,string memory investorCetfHash) public returns (bool){
 		require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
@@ -91,7 +91,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 		//检查出资额
 		require(msg.value>=stockRightApplys[uniScId][investorCetfHash].price);
 		stockRightApplys[uniScId][investorCetfHash].price=msg.value;//把实际支付金额放到price中
-		stockRightApplys[uniScId][investorCetfHash].status='发证机关备案';
+		stockRightApplys[uniScId][investorCetfHash].status='待发证机关备案';
 		return true;
 	}
 	

@@ -87,7 +87,7 @@ library StringUtils {
             bstr[k--] = numEle[i % 10];
             i /= 10;
         }
-        c = concat("0x",string(bstr));
+        c = string(bstr);
     }
 	
 	function bytes32ToString(bytes32 x) internal pure returns (string memory) { 
