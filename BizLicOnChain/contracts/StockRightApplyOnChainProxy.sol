@@ -57,7 +57,7 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
       investorCetfHash 新股东身份证件信息
       investorAccount 新股东账号
     */
-	function setNewStockHolderAccount(string memory uniScId,string memory investorCetfHash,address investorAccount) public returns (bool){
+	function setNewStockHolderAccount(string memory uniScId,string memory investorCetfHash,address payable investorAccount) public returns (bool){
 		require(_initialized,"The contract has not inited!");
         bool sucess;
         bytes memory result;

@@ -7,7 +7,7 @@ contract BaseStockHolderOnChain {
     struct StockHolder{
         string uniScId;//统一社会信用码
         string investorName;//股东姓名
-        address investorAccount;//股东账号
+        address payable investorAccount;//股东账号
         string investorCetfHash;//身份证件信息
         string stockRightDetail;//股权详情
         bytes32 merkel;//默克尔值

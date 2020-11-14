@@ -61,7 +61,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
      * stockRightDetail 出资详情
      * cptAmt 出资额（人民币元）
      */
-    function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,address investorAccount,string memory stockRightDetail,uint cptAmt) public onlyAdmin returns (bool){
+    function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,address payable investorAccount,string memory stockRightDetail,uint cptAmt) public onlyAdmin returns (bool){
 		require(uint160(investorAccount)>0);
 
 		if(!ArrayUtils.contains(stockHoldersKeys[uniScId],investorCetfHash)){
@@ -74,7 +74,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
 	/**
      * 修改股东的股权交易地址
      */
-	function putStockHolderAccount(string memory uniScId,string memory investorCetfHash,address investorAccount) public onlyAdmin returns (bool){
+	function putStockHolderAccount(string memory uniScId,string memory investorCetfHash,address payable investorAccount) public onlyAdmin returns (bool){
 		require(bytes(uniScId).length>0);
 		require(bytes(investorCetfHash).length>0);
 		require(uint160(investorAccount)>0);

@@ -67,7 +67,7 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
      * uniScId 统一社会信用码
      * investorName 股东姓名
      */
-    function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,address investorAccount,string memory stockRightDetail,uint cptAmt) public returns (bool){
+    function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,address payable investorAccount,string memory stockRightDetail,uint cptAmt) public returns (bool){
     	require(_initialized);
 		require(uint160(currentVersion)>0,'currentVersion is Empty!');
         bool sucess;
@@ -81,7 +81,7 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
 	/**
      * 修改股东的股权交易地址
      */
-	function putStockHolderAccount(string memory uniScId,string memory investorCetfHash,address investorAccount) public returns (bool){
+	function putStockHolderAccount(string memory uniScId,string memory investorCetfHash,address payable investorAccount) public returns (bool){
 		require(_initialized);
 		require(uint160(currentVersion)>0,'currentVersion is Empty!');
         bool sucess;
