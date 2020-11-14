@@ -61,3 +61,6 @@ applyProxy.comfirmByDirectors('123100008654367537',web3.utils.keccak256("身份�
 web3.eth.sendTransaction({from: accounts[0], to: accounts[3], value: web3.utils.toWei('60','ether')});
 //再支付
 applyProxy.payForStock('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"),{from:accounts[3],value:web3.utils.toWei('150','ether')})
+
+//退回转账
+applyProxy.backUp('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"),false,'测试');

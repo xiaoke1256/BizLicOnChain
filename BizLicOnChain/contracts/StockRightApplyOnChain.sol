@@ -88,6 +88,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 	function payForStock(string memory uniScId,string memory investorCetfHash)public payable returns (bool){
 		require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
+        //TODO 检查合约状态
 		require(msg.value>0);
 		//检查出资额
 		require(msg.value>=stockRightApplys[uniScId][investorCetfHash].price);
