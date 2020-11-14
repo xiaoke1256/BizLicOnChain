@@ -85,6 +85,21 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
 	}
 	
 	/**
+     * 工商局备案(市监局操作)
+     * uniScId 统一社会信用码
+     * investorCetfHash 受让方股东身份证件信息
+     * isPass 是否审核通过
+     * reason 审核不通过原因
+     */
+    function backUp(string memory uniScId,string memory investorCetfHash,bool isPass,string memory reason)public returns (bool){
+    	require(_initialized,"The contract has not inited!");
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("backUp(string,string,bool,string)",uniScId,investorCetfHash,isPass,reason));
+        return (sucess && bytesToBool(result));
+    }
+	
+	/**
      * 把字节数组转成布尔型
      */
     function bytesToBool(bytes memory b) private pure returns(bool){

@@ -19,7 +19,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 		_;
     }
 
-       /**
+    /**
 	 *发起股权转让
 	 * uniScId 统一社会信用码
 	 * transferorCetfHash 出让方股东身份证件信息
@@ -60,7 +60,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
       investorCetfHash 新股东身份证件信息
       investorAccount 新股东账号
     */
-	function setNewStockHolderAccount(string memory uniScId,string memory investorCetfHash,address investorAccount) public returns (bool){
+	function setNewStockHolderAccount(string memory uniScId,string memory investorCetfHash,address payable investorAccount) public returns (bool){
         require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
 		//出在让方存这个股东，且账号就是操作人。
@@ -76,6 +76,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 	function comfirmByDirectors(string memory uniScId,string memory investorCetfHash) public returns (bool){
 		require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
+        require(stockRightApplys[uniScId][investorCetfHash].investorAccount==address(0),'必须设置新股东账号。');
 		//TODO 检查当前账号就是公司的董事会账号
 		//状态是否正确
 		require(StringUtils.equals(stockRightApplys[uniScId][investorCetfHash].status,'待董事会确认'),'This apply at the wrong state.');
@@ -96,7 +97,34 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 	}
 	
     
-    //工商局备案(市监局操作)
+    /**
+     * 工商局备案(市监局操作)
+     * uniScId 统一社会信用码
+     * investorCetfHash 受让方股东身份证件信息
+     * isPass 是否审核通过
+     * reason 审核不通过原因
+     */
+    function backUp(string memory uniScId,string memory investorCetfHash,bool isPass,string memory reason)public onlyAdmin returns (bool){
+    	require(bytes(uniScId).length>0);
+        require(bytes(investorCetfHash).length>0);
+        if(isPass){
+        	//调用stockHolderContract创建新的股权人
+        	//旧的股权人扣除一定的股权。
+        	//如果扣完则删除旧的股权人。
+        	//申请案设置成完成。
+        	//把以太币支付给股权出让方
+        }else{
+        	//检查一下以太币够不够
+        	require(address(this).balance>=stockRightApplys[uniScId][investorCetfHash].price,'The balace of the contract is not enough.');
+        	//申请案设置成完成（失败）
+        	stockRightApplys[uniScId][investorCetfHash].isSuccess='0';
+        	stockRightApplys[uniScId][investorCetfHash].status='结束';
+        	stockRightApplys[uniScId][investorCetfHash].failReason=reason;
+        	//把以太币支退给股权受让方
+        	stockRightApplys[uniScId][investorCetfHash].investorAccount.transfer(stockRightApplys[uniScId][investorCetfHash].price);
+        }
+    	return true;
+    }
 
 
 }
