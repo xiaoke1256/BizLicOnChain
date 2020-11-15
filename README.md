@@ -165,7 +165,7 @@ BizLicOnChain
 ### 8. 按装 truffle
 
 &ensp;&ensp;&ensp;&ensp;
-先安装node.js,确保控制台上输入`node -v`命令后可以打印出版本好。然后输入以下命令就可以安装truffle.
+先安装node.js,确保控制台上输入`node -v`命令后可以打印出版本号。然后输入以下命令就可以安装truffle.
 ```
 npm -g install truffle
 ```
