@@ -108,6 +108,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
     function backUp(string memory uniScId,string memory investorCetfHash,bool isPass,string memory reason)public onlyAdmin returns (bool){
     	require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
+        require(StringUtils.equals(stockRightApplys[uniScId][investorCetfHash].status,'待发证机关备案'));
         if(isPass){
         	//调用stockHolderContract创建新的股权人
         	//旧的股权人扣除一定的股权。

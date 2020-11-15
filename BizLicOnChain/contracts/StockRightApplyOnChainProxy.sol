@@ -96,7 +96,9 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("backUp(string,string,bool,string)",uniScId,investorCetfHash,isPass,reason));
-        return (sucess && bytesToBool(result));
+        require(sucess,'远程调用失败.');
+        require(bytesToBool(result),'调用远程函数逻辑出错，请检查一下参数,及余额.');
+        return bytesToBool(result);
     }
 	
 	/**
