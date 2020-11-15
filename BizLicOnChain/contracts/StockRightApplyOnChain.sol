@@ -121,10 +121,17 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 				//调用增资函数
 				(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("increCpt(string,string,string,uint256)",uniScId,investorCetfHash,'',stockRightApplys[uniScId][investorCetfHash].cptAmt));
 				require(sucess,'Remote invork fail!');
-				require(abi.decode(result,(bool)),'You are not the stock Holder!');
+				require(abi.decode(result,(bool)),'something wrong when invork the  increCpt.');
 			}else{
 				//调用创建新股东。
-				//putStockHolder
+				(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("putStockHolder(string,string,string,address,string,uint256)"
+					,uniScId,investorCetfHash
+					,stockRightApplys[uniScId][investorCetfHash].investorName
+					,stockRightApplys[uniScId][investorCetfHash].investorAccount
+					,''
+					,stockRightApplys[uniScId][investorCetfHash].cptAmt));
+				require(sucess,'Remote invork fail!');
+				require(abi.decode(result,(bool)),'something wrong when invork the  increCpt.');					
 			}
         	//旧的股权人扣除一定的股权。
         	//如果扣完则删除旧的股权人。
