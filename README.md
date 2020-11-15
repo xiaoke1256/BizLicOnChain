@@ -163,6 +163,13 @@ BizLicOnChain
 > eth.sendTransaction({from: acc0, to: acc1, value: amount})
 ```
 ### 8. 按装 truffle
+
+&ensp;&ensp;&ensp;&ensp;
+先安装node.js,确保控制台上输入`node -v`命令后可以打印出版本好。然后输入以下命令就可以安装truffle.
+```
+npm -g install truffle
+```
+
 &ensp;&ensp;&ensp;&ensp;
 安装完毕后，把私有链矿机的地址注册到truffle的配置文件中。即在truffle-config.js文件中增加如下内容：
 ```
