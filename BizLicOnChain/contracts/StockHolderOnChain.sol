@@ -169,6 +169,13 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
 		s=StringUtils.concat(s,']');
 		return s;
 	}
+	
+    /**
+	 * 查看现有股东的出资
+	 */
+	function getStockHolderCptAmt(string memory uniScId,string memory investorCetfHash) public view returns (uint){
+		return stockHolders[uniScId][investorCetfHash].cptAmt;
+	}
     
 	/**
      检查股东的账号

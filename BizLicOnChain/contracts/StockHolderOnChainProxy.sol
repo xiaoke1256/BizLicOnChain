@@ -143,6 +143,18 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
 		return abi.decode(result,(bool));
 	}
 	
+	 /**
+	 * 查看现有股东的出资
+	 */
+	function getStockHolderCptAmt(string memory uniScId,string memory investorCetfHash) public returns (uint){
+		require(_initialized);
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("getStockHolderCptAmt(string,string)",uniScId,investorCetfHash));
+		require(sucess,'remote invork fail!');
+        return abi.decode(result,(uint));
+	}
+	
     /**
      * 把字节数组转成布尔型
      */

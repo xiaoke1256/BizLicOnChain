@@ -111,9 +111,26 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
         require(StringUtils.equals(stockRightApplys[uniScId][investorCetfHash].status,'待发证机关备案'));
         if(isPass){
         	//调用stockHolderContract创建新的股权人
+        	//先检查新股东是否已存在。
+        	bool sucess;
+        	bytes memory result;
+        	(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("getStockHolderCptAmt(string,string)",uniScId,investorCetfHash));
+        	require(sucess,'Remote invork fail!');
+			uint newCptAmt = abi.decode(result,(uint));
+			if(newCptAmt>0){//大于0表示新股东已存在
+				//调用增资函数
+				(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("increCpt(string,string,string,uint256)",uniScId,investorCetfHash,'',stockRightApplys[uniScId][investorCetfHash].cptAmt));
+				require(sucess,'Remote invork fail!');
+				require(abi.decode(result,(bool)),'You are not the stock Holder!');
+			}else{
+				//调用创建新股东。
+				//putStockHolder
+			}
         	//旧的股权人扣除一定的股权。
         	//如果扣完则删除旧的股权人。
         	//申请案设置成完成。
+        	stockRightApplys[uniScId][investorCetfHash].isSuccess='1';
+        	stockRightApplys[uniScId][investorCetfHash].status='结束';
         	//把以太币支付给股权出让方
         }else{
         	//检查一下以太币够不够
