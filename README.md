@@ -169,6 +169,7 @@ BizLicOnChain
 ```
 npm -g install truffle
 ```
+如果安装过程种发生网络问题，请选用cnpm.
 
 &ensp;&ensp;&ensp;&ensp;
 安装完毕后，把私有链矿机的地址注册到truffle的配置文件中。即在truffle-config.js文件中增加如下内容：
