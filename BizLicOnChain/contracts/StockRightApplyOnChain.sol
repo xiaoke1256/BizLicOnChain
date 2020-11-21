@@ -109,6 +109,8 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
     	require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
         require(StringUtils.equals(stockRightApplys[uniScId][investorCetfHash].status,'待发证机关备案'));
+        //检查一下以太币够不够
+        require(address(this).balance>=stockRightApplys[uniScId][investorCetfHash].price,'The balace of the contract is not enough.');
         if(isPass){
         	//调用stockHolderContract创建新的股权人
         	//先检查新股东是否已存在。
@@ -133,6 +135,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 				require(sucess,'Remote invork fail!');
 				require(abi.decode(result,(bool)),'something wrong when invork the  increCpt.');					
 			}
+			//先把旧的股权人的账号记下来。
         	//旧的股权人扣除一定的股权。
         	//如果扣完则删除旧的股权人。
         	//申请案设置成完成。
@@ -140,8 +143,6 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
         	stockRightApplys[uniScId][investorCetfHash].status='结束';
         	//把以太币支付给股权出让方
         }else{
-        	//检查一下以太币够不够
-        	require(address(this).balance>=stockRightApplys[uniScId][investorCetfHash].price,'The balace of the contract is not enough.');
         	//申请案设置成完成（失败）
         	stockRightApplys[uniScId][investorCetfHash].isSuccess='0';
         	stockRightApplys[uniScId][investorCetfHash].status='结束';
