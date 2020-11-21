@@ -132,7 +132,7 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
 	}
 
 	/**
-		检查股东账号
+	 *	检查股东账号
 	 */
 	function checkStockHoldersAccount(string memory uniScId,string memory investorCetfHash,address account)public returns(bool) {
 		require(_initialized);
@@ -141,6 +141,18 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("checkStockHoldersAccount(string,string,address)",uniScId,investorCetfHash,account));
 		require(sucess,'remote invork fail!');
 		return abi.decode(result,(bool));
+	}
+	
+	/**
+	 * 获取股东账号
+	 */
+	function getStockHoldersAccount(string memory uniScId,string memory investorCetfHash)public returns(address) {
+		require(_initialized);
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("getStockHoldersAccount(string,string)",uniScId,investorCetfHash));
+		require(sucess,'remote invork fail!');
+		return abi.decode(result,(address));
 	}
 	
 	 /**
