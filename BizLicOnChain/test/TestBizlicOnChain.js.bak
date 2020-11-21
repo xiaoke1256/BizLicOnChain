@@ -52,7 +52,7 @@ applyProxy.startStockTransfer('123100008654367537',web3.utils.keccak256("身份�
 
 applyProxy.getStockRightApplyKeysByUniScId.call('123100008654367537');
 applyProxy.getStockRightApply.call('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"));
-//设置出让方账号，
+//设置受让方账号，
 applyProxy.setNewStockHolderAccount('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"),accounts[3],{from:accounts[2]});
 //董事会确认转让
 applyProxy.comfirmByDirectors('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"));
@@ -68,5 +68,7 @@ applyProxy.payForStock('123100008654367537',web3.utils.keccak256("身份证:3101
 applyProxy.backUp('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"),true,'');
 //查一下余额
 web3.eth.getBalance(accounts[3]);
+
+web3.eth.getBalance(accounts[2]);
 
 web3.eth.getBalance(applyProxy.address);

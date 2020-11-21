@@ -33,7 +33,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
     	require(bytes(uniScId).length>0);
     	require(bytes(investorName).length>0);
     	require(bytes(investorCetfHash).length>0);
-		require(bytes(stockRightDetail).length>0);
+		//require(bytes(stockRightDetail).length>0);
 		require(cptAmt>0);
 
 		if(!ArrayUtils.contains(stockHoldersKeys[uniScId],investorCetfHash)){
