@@ -146,11 +146,14 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 			//检查一下账号是否为空
         	//旧的股权人扣除一定的股权。如果扣完则删除旧的股权人。
         	(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("increCpt(string,string,string,int256)",uniScId,transferorCetfHash,'',-stockRightApplys[uniScId][investorCetfHash].cptAmt));
+<<<<<<< HEAD
         	if(!sucess){
         		//远程调用失败
         		string memory msg = string(result);
         		require(sucess,msg);
         	}
+=======
+>>>>>>> branch 'master' of https://github.com/xiaoke1256/BizLicOnChain.git
         	require(sucess,'Remote invork fail!');
         	require(abi.decode(result,(bool)),'something wrong when invork the  increCpt.');
         	//申请案设置成完成。
