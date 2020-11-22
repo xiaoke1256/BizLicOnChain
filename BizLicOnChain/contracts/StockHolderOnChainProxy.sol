@@ -56,7 +56,7 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolder(string,string,string,string,uint256)",uniScId,investorCetfHash,investorName,stockRightDetail,cptAmt));
-        require(sucess,'remote invork fail!');
+        require(sucess,'remote invork fail when putStockHolder!');
 		require(bytesToBool(result),'return wrong');
 		return (sucess && bytesToBool(result));
     }
@@ -73,7 +73,7 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolder(string,string,string,address,string,uint256)",uniScId,investorCetfHash,investorName,investorAccount,stockRightDetail,cptAmt));
-        require(sucess,'remote invork fail!');
+        require(sucess,'remote invork fail when putStockHolder!');
 		require(bytesToBool(result),'return wrong');
 		return (sucess && bytesToBool(result));
     }
@@ -87,7 +87,7 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolderAccount(string,string,address)",uniScId,investorCetfHash,investorAccount));
-        require(sucess,'remote invork fail!');
+        require(sucess,'remote invork fail when putStockHolder!');
 		require(bytesToBool(result),'return wrong');
 		return (sucess && bytesToBool(result));
 	}
@@ -151,7 +151,7 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("getStockHoldersAccount(string,string)",uniScId,investorCetfHash));
-		require(sucess,'remote invork fail!');
+		require(sucess,'remote invork fail when getStockHoldersAccount!');
 		return abi.decode(result,(address));
 	}
 	
@@ -163,7 +163,7 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("getStockHolderCptAmt(string,string)",uniScId,investorCetfHash));
-		require(sucess,'remote invork fail!');
+		require(sucess,'remote invork fail when getStockHolderCptAmt!');
         return abi.decode(result,(uint));
 	}
 	

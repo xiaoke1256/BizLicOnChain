@@ -108,7 +108,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
     function backUp(string memory uniScId,string memory investorCetfHash,bool isPass,string memory reason)public onlyAdmin returns (bool){
     	require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
-        require( !isPass && bytes(reason).length>0 ,'审核不通过则需要提供审核不通过的理由.');
+        require( isPass || bytes(reason).length>0 ,'审核不通过则需要提供审核不通过的理由.');
         require(StringUtils.equals(stockRightApplys[uniScId][investorCetfHash].status,'待发证机关备案'));
         //检查一下以太币够不够
         require(address(this).balance>=stockRightApplys[uniScId][investorCetfHash].price,'The balace of the contract is not enough.');
@@ -122,7 +122,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 			uint newCptAmt = abi.decode(result,(uint));
 			if(newCptAmt>0){//大于0表示新股东已存在
 				//调用增资函数
-				(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("increCpt(string,string,string,uint256)",uniScId,investorCetfHash,'',stockRightApplys[uniScId][investorCetfHash].cptAmt));
+				(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("increCpt(string,string,string,int256)",uniScId,investorCetfHash,'',stockRightApplys[uniScId][investorCetfHash].cptAmt));
 				require(sucess,'Remote invork fail!');
 				require(abi.decode(result,(bool)),'something wrong when invork the  increCpt.');
 			}else{
@@ -138,12 +138,13 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 				require(abi.decode(result,(bool)),'something wrong when invork the  increCpt.');					
 			}
 			//先把旧的股权人的账号记下来。
-			(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("getStockHoldersAccount(string,string)",uniScId,investorCetfHash));
+			string memory transferorCetfHash = stockRightApplys[uniScId][investorCetfHash].transferorCetfHash;
+			(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("getStockHoldersAccount(string,string)",uniScId,transferorCetfHash));
         	require(sucess,'Remote invork fail!');
 			address payable oldInverstCount = abi.decode(result,(address));
+			//检查一下账号是否为空
         	//旧的股权人扣除一定的股权。如果扣完则删除旧的股权人。
-        	string memory transferorCetfHash = stockRightApplys[uniScId][investorCetfHash].transferorCetfHash;
-        	(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("increCpt(string,string,string,uint256)",uniScId,transferorCetfHash,'',-stockRightApplys[uniScId][investorCetfHash].cptAmt));
+        	(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("increCpt(string,string,string,int256)",uniScId,transferorCetfHash,'',-stockRightApplys[uniScId][investorCetfHash].cptAmt));
         	require(sucess,'Remote invork fail!');
         	require(abi.decode(result,(bool)),'something wrong when invork the  increCpt.');
         	//申请案设置成完成。
