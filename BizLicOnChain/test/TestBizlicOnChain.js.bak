@@ -64,11 +64,14 @@ applyProxy.payForStock('123100008654367537',web3.utils.keccak256("身份证:3101
 
 //退回转账
 //applyProxy.backUp('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"),false,'测试');
+
+//审核之前的账号:
+web3.eth.getBalance(accounts[3]);
+web3.eth.getBalance(accounts[2]);
 //审核通过
 applyProxy.backUp('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"),true,'');
 //查一下余额
 web3.eth.getBalance(accounts[3]);
-
 web3.eth.getBalance(accounts[2]);
 
 web3.eth.getBalance(applyProxy.address);
