@@ -107,8 +107,8 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("increCpt(string,string,string,int256)",uniScId,investorCetfHash,stockRightDetail,amt));
         if(!sucess){
         	//远程调用失败
-        	string memory msg = string(result);
-        	require(sucess,msg);
+        	string memory errorMsg = string(result);
+        	require(sucess,errorMsg);
         }
         require(bytesToBool(result),'调用远程函数逻辑出错，请检查一下参数,及余额.');
         return bytesToBool(result);

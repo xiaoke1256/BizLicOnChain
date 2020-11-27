@@ -148,8 +148,8 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
         	(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("increCpt(string,string,string,int256)",uniScId,transferorCetfHash,'',-stockRightApplys[uniScId][investorCetfHash].cptAmt));
         	if(!sucess){
         		//远程调用失败
-        		string memory msg = string(result);
-        		require(sucess,msg);
+        		string memory errorMsg = string(result);
+        		require(sucess,errorMsg);
         	}
         	require(sucess,'Remote invork fail!');
         	require(abi.decode(result,(bool)),'something wrong when invork the  increCpt.');
