@@ -1,5 +1,7 @@
 pragma solidity ^0.6.0;
 
+import { StringUtils } from "./StringUtils.sol";
+
 /**
  * 数组计算工具类
  */
@@ -109,15 +111,7 @@ library ArrayUtils {
 	 * 判断字符串是否相等
 	 */
 	function stringEquals(string memory str1,string memory str2) private pure returns (bool){
-	    if(bytes(str1).length != bytes(str2).length){
-	        return false;
-	    }
-	    for (uint i = 0; i < bytes(str1).length; i ++) {
-	        if(bytes(str1)[i] != bytes(str2)[i]) {
-	            return false;
-	        }
-	    }
-	    return true;
+	    return StringUtils.equals(str1,str2);
 	}
 	
 	 /**
