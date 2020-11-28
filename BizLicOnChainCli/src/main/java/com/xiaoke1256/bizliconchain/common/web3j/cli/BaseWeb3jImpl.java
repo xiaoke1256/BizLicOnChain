@@ -193,6 +193,8 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
         DefaultFunctionReturnDecoder rd = new DefaultFunctionReturnDecoder();
         @SuppressWarnings("unchecked")
 		List<Type> results = rd.decodeFunctionResult(response.getResult(), Arrays.asList(TypeReference.makeTypeReference("string")));
+        if(results.isEmpty())
+        	return null;
         return results.get(0).toString();
     }
     
