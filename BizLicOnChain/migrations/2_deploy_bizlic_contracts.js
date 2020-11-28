@@ -19,6 +19,7 @@ module.exports = function(deployer) {
   
   //deployer.deploy(BaseAicOrgansHolder);
   //deployer.link(BaseAicOrgansHolder, AicOrgansHolder);
+  deployer.link(StringUtils, ArrayUtils);
   deployer.link(ArrayUtils, AicOrgansHolder);
  // deployer.link(BaseAicOrgansHolder, AicOrgansHolderProxy);
   deployer.link(StringUtils, AicOrgansHolderProxy);
