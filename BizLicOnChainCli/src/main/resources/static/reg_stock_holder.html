@@ -8,6 +8,22 @@
   <script type="text/javascript" src="js/date_format.js" ></script>
   <script type="text/javascript">
   	$(function(){
+  		
+  		//加载所有uniscid
+		$.get('uniScIds',{},function(resp){
+			if(resp.code!='00'){
+				console.log('查询失败');
+				alert('查询失败');
+				return;
+			}
+			var ids = resp.data;
+			var s = '';
+			for(var i in ids){
+				s += '<a class="uniScIdLink" href="#">'+ids[i]+'</a><br>';
+			}
+			$('#uniscids_div').html(s);
+		},'json');
+  		
   		$('#submitBtn').click(function(){
   			if($('[name=uniScId]').val().length==0){
   				alert("请填写统一社会信用码。");
@@ -56,41 +72,47 @@
 </head>
 <body>
 	<div id="content" class="content">
-		<form name="investorForm" id="investorForm" method="post">
-		<table class="formTable">
-			<tr>
-				<th>统一社会信用码:</th>
-				<td><input name="uniScId" maxLength="18" ></td>
-			</tr>
-			<tr>
-				<th>股东姓名:</th>
-				<td><input name="investorName" maxLength="180" ></td>
-			</tr>
-			<tr>
-				<th>股东证件类型:</th>
-				<td>
-					<select name="investorCertfType" >
-						<option value="身份证" >身份证</option>
-						<option value="居留证" >居留证</option>
-						<option value="军官证" >军官证</option>
-						<option value="中国护照" >中国护照</option>
-						<option value="外国或地区护照" >外国或地区护照</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>股东身份证号:</th>
-				<td><input name="investorCertfNo" maxLength="20" ></td>
-			</tr>
-			<tr>
-				<th>投资金额:</th>
-				<td><input name="regCpt"  maxLength="20" >元</td>
-			</tr>
-		</table>
-		<button id="submitBtn" type="button" >提交</button>
-		</form>
+		<div style="width:75%" class="floatLeft">
+			<form name="investorForm" id="investorForm" method="post">
+			<table class="formTable">
+				<tr>
+					<th>统一社会信用码:</th>
+					<td><input name="uniScId" maxLength="18" ></td>
+				</tr>
+				<tr>
+					<th>股东姓名:</th>
+					<td><input name="investorName" maxLength="180" ></td>
+				</tr>
+				<tr>
+					<th>股东证件类型:</th>
+					<td>
+						<select name="investorCertfType" >
+							<option value="身份证" >身份证</option>
+							<option value="居留证" >居留证</option>
+							<option value="军官证" >军官证</option>
+							<option value="中国护照" >中国护照</option>
+							<option value="外国或地区护照" >外国或地区护照</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>股东身份证号:</th>
+					<td><input name="investorCertfNo" maxLength="20" ></td>
+				</tr>
+				<tr>
+					<th>投资金额:</th>
+					<td><input name="regCpt"  maxLength="20" >元</td>
+				</tr>
+			</table>
+			<button id="submitBtn" type="button" >提交</button>
+			</form>
+		</div>
+		<div style="width:24%" class="floatRight" >
+			<div class="subTitle"> 现有企业的统一社会信用码</div>
+			<div id="uniscids_div" >
+			</div>
+		</div>
+		<div class="clear"></div>
 	</div>
-	
-	
 </body>
 </html>
