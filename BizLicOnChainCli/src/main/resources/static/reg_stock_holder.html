@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>bizlic on chain welcome!</title>
+  <link rel="stylesheet" type="text/css" title="default" href="css/style.css" >
+  <script type="text/javascript" src="js/jquery.min.js" ></script>
+  <script type="text/javascript" src="js/date_format.js" ></script>
+  <script type="text/javascript">
+  	$(function(){
+  		$('#submitBtn').click(function(){
+  			if($('[name=uniScId]').val().length==0){
+  				alert("请填写统一社会信用码。");
+  				return false;
+  			}
+  			if($('[name=uniScId]').val().length!=18){
+  				alert("统一社会信用码的长度是18位。");
+  				return false;
+  			}
+  			if($('[name=investorName]').val().length==0){
+  				alert("请填写股东姓名。");
+  				return false;
+  			}
+  			if($('[name=investorIdCard]').val().length==0){
+  				alert("请填写股东身份证号。");
+  				return false;
+  			}
+  			if($('[name=regCpt]').val().length==0){
+  				alert("请填写投资金额。");
+  				return false;
+  			}
+  			if(isNaN($('[name=regCpt]').val())){
+  				alert("投资金额必须是数字。");
+  				return false;
+  			}
+  			
+  			var data = {
+  				uniScId:$('[name=uniScId]').val(),
+  				investorName:$('[name=investorName]').val(),
+  				investorIdCard:$('[name=investorIdCard]').val(),
+  				regCpt:$('[name=regCpt]').val()
+  			}
+
+  			$.post('bizlic',data,function(resp){
+  				alert(resp.msg);
+  			},'json');
+  			
+  		});
+  		
+  		
+  		//核准时间
+  		var today = new Date();
+  		$('[name=provDate]').val(today.format("yyyy-MM-dd"));
+  	});
+  </script>
+</head>
+<body>
+	<div id="content" class="content">
+		<form name="investorForm" id="investorForm" method="post">
+		<table class="formTable">
+			<tr>
+				<th>统一社会信用码:</th>
+				<td><input name="uniScId" maxLength="18" ></td>
+			</tr>
+			<tr>
+				<th>股东姓名:</th>
+				<td><input name="investorName" maxLength="180" ></td>
+			</tr>
+			<tr>
+				<th>股东身份证号:</th>
+				<td><input name="investorIdCard" maxLength="20" ></td>
+			</tr>
+			<tr>
+				<th>投资金额:</th>
+				<td><input name="regCpt"  maxLength="20" >元</td>
+			</tr>
+		</table>
+		<button id="submitBtn" type="button" >提交</button>
+		</form>
+	</div>
+	
+	
+</body>
+</html>
