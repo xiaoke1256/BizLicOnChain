@@ -119,8 +119,8 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
         	for(uint i = result.length-4;i<result.length;i++){
         		result[i]=0x0;
         	}
-        	string memory msg = abi.decode(result,(string));
-        	require(sucess,msg);
+        	string memory errMsg = abi.decode(result,(string));
+        	require(sucess,errMsg);
         }
         return (sucess && bytesToBool(result));
     }
