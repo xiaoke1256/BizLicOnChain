@@ -66,6 +66,9 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("addAdmin(address)",admin));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
         return (sucess && bytesToBool(result));
     }
     
@@ -77,6 +80,9 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
        bool sucess;
        bytes memory result;
        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeAdmin(address)",admin));
+       if(!sucess){
+       	  require(sucess,parseErrMsg(result));
+       }
        return (sucess && bytesToBool(result));
     }
     
@@ -104,6 +110,9 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,address)",organCode,organName,publicKey));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
         return (sucess && bytesToBool(result));
     }
     
