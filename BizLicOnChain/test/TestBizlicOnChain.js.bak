@@ -5,6 +5,7 @@ let organProxy = await AicOrgansHolderProxy.deployed()
 //organProxy.regestOrgan("310000000","上海市市场监督局",accounts[1])
 //organProxy.getOrgan.call('310000000')
 //organProxy.getAllOrganCodes.call()
+//organProxy.removeOrgan("310000000");
 
 let proxy = await BizLicOnChainProxy.deployed()
 //设立股权的合约

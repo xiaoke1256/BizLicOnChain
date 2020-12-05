@@ -112,6 +112,16 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeOrgan(string)",organCode));
+        if(!sucess){
+        	for(uint64 i = 0;i<result.length-4;i++){
+	        	result[i]=result[i+4];
+	    	}
+        	for(uint i = result.length-4;i<result.length;i++){
+        		result[i]=0x0;
+        	}
+        	string memory msg = abi.decode(result,(string));
+        	require(sucess,msg);
+        }
         return (sucess && bytesToBool(result));
     }
     
