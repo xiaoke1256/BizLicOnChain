@@ -113,14 +113,7 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeOrgan(string)",organCode));
         if(!sucess){
-        	for(uint64 i = 0;i<result.length-4;i++){
-	        	result[i]=result[i+4];
-	    	}
-        	for(uint i = result.length-4;i<result.length;i++){
-        		result[i]=0x0;
-        	}
-        	string memory errMsg = abi.decode(result,(string));
-        	require(sucess,errMsg);
+        	require(sucess,parseErrMsg(result));
         }
         return (sucess && bytesToBool(result));
     }
@@ -176,6 +169,23 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
 	        number = uint8(number + uint8(b[i])*(2**(8*(b.length-(i+1)))));
 	    }
 	    return number;
+	}
+	
+	/**
+	 * 解析异常信息。
+	 */
+	function parseErrMsg(bytes memory b) private pure returns(string memory){
+		if(b.length==0){
+			return '';
+		}
+		require(b.length<2**64,"The Array is out of bound.");
+		for(uint64 i = 0;i<b.length-4;i++){
+        	b[i]=b[i+4];
+    	}
+    	for(uint i = b.length-4;i<b.length;i++){
+    		b[i]=0x0;
+    	}
+    	return abi.decode(b,(string));
 	}
 
 }
