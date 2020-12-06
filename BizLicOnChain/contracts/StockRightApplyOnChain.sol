@@ -169,5 +169,47 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
     	return true;
     }
 
+	/**
+	 * 获取股东持有的股权（以人民币计）
+	 */
+	function getStockHolderCptAmt(string memory uniScId,string memory investorCetfHash) private returns (uint){
+		bool sucess;
+    	bytes memory result;
+    	(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("getStockHolderCptAmt(string,string)",uniScId,investorCetfHash));
+    	if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+		return abi.decode(result,(uint));
+	}
+	
+	/**
+	 * 增减资
+	 */
+	function increCpt(string memory uniScId,string memory investorCetfHash,string memory stockRightDetail,int256 amt) private returns (bool){
+		bool sucess;
+    	bytes memory result;
+		(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("increCpt(string,string,string,int256)",uniScId,investorCetfHash,stockRightDetail,amt));
+		if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+		return abi.decode(result,(bool));
+	}
+	
+	/**
+	 * 解析异常信息。
+	 */
+	function parseErrMsg(bytes memory b) private pure returns(string memory){
+		if(b.length==0){
+			return '';
+		}
+		require(b.length<2**64,"The Array is out of bound.");
+		for(uint64 i = 0;i<b.length-4;i++){
+        	b[i]=b[i+4];
+    	}
+    	for(uint i = b.length-4;i<b.length;i++){
+    		b[i]=0x0;
+    	}
+    	return abi.decode(b,(string));
+	}
 
 }
