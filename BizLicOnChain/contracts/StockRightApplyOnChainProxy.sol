@@ -48,7 +48,10 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("startStockTransfer(string,string,string,string,bytes32,uint256,uint256)",uniScId,
 			transferorCetfHash,investorName,investorCetfHash,merkel,cptAmt,price));
-        return (sucess && bytesToBool(result));
+		if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+        return bytesToBool(result);
 	}
 	
 	/**
@@ -63,7 +66,10 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("setNewStockHolderAccount(string,string,address)",uniScId,
 			investorCetfHash,investorAccount));
-        return (sucess && bytesToBool(result));
+		if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+        return bytesToBool(result);
 	}
 	
 	 //出让方公司的董事会确认转让
@@ -72,7 +78,10 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("comfirmByDirectors(string,string)",uniScId,investorCetfHash));
-        return (sucess && bytesToBool(result));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+        return bytesToBool(result);
 	}
 	
 	//受让方出资
@@ -81,7 +90,10 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("payForStock(string,string)",uniScId,investorCetfHash));
-        return (sucess && bytesToBool(result));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+        return bytesToBool(result);
 	}
 	
 	/**
@@ -97,11 +109,8 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("backUp(string,string,bool,string)",uniScId,investorCetfHash,isPass,reason));
         if(!sucess){
-        	//远程调用失败
-        	string memory errorMsg = string(result);
-        	require(sucess,errorMsg);
+        	require(sucess,parseErrMsg(result));
         }
-        require(bytesToBool(result),'调用远程函数逻辑出错，请检查一下参数,及余额.');
         return bytesToBool(result);
     }
 	
@@ -109,26 +118,15 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
      * 把字节数组转成布尔型
      */
     function bytesToBool(bytes memory b) private pure returns(bool){
-        return bytesToUint(b)!=0;
+        return abi.decode(b,(bool));
     }
-    
-    /**
-     * 把字节数组转成整数
-     */
-    function bytesToUint(bytes memory b) private pure returns (uint8){
-	    uint8 number = 0;
-	    for(uint64 i= 0; i<b.length; i++){
-	        number = uint8(number + uint8(b[i])*(2**(8*(b.length-(i+1)))));
-	    }
-	    return number;
-	}
 	
 	function isInited() public view returns(bool){
 	    return _initialized;
 	}
 
 	/** 
-     获取Keys
+             获取Keys
      */
 	function getStockRightApplyKeysByUniScId(string memory uniScId) public returns (string memory){
 		string memory s = '[';
@@ -171,5 +169,22 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
 		s=StringUtils.concat(s,",status:'",status,"'");
 		s=StringUtils.concat(s,"}");
         return s;
+	}
+	
+	/**
+	 * 解析异常信息。
+	 */
+	function parseErrMsg(bytes memory b) private pure returns(string memory){
+		if(b.length==0){
+			return '';
+		}
+		require(b.length<2**64,"The Array is out of bound.");
+		for(uint64 i = 0;i<b.length-4;i++){
+        	b[i]=b[i+4];
+    	}
+    	for(uint i = b.length-4;i<b.length;i++){
+    		b[i]=0x0;
+    	}
+    	return abi.decode(b,(string));
 	}
 }
