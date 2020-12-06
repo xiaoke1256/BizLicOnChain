@@ -177,7 +177,7 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
      * 把字节数组转成布尔型
      */
     function bytesToBool(bytes memory b) private pure returns(bool){
-        return bytesToUint(b)!=0;
+        return abi.decode(result,(bool));
     }
     
     /**
