@@ -52,13 +52,13 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
      */
     function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,string memory stockRightDetail,uint cptAmt) public returns (bool){
 		require(_initialized);
-		require(uint160(currentVersion)>0,'currentVersion is Empty!');
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolder(string,string,string,string,uint256)",uniScId,investorCetfHash,investorName,stockRightDetail,cptAmt));
-        require(sucess,'remote invork fail when putStockHolder!');
-		require(bytesToBool(result),'return wrong');
-		return (sucess && bytesToBool(result));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+		return bytesToBool(result);
     }
     
     /**
@@ -69,13 +69,13 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
      */
     function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,address payable investorAccount,string memory stockRightDetail,uint cptAmt) public returns (bool){
     	require(_initialized);
-		require(uint160(currentVersion)>0,'currentVersion is Empty!');
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolder(string,string,string,address,string,uint256)",uniScId,investorCetfHash,investorName,investorAccount,stockRightDetail,cptAmt));
-        require(sucess,'remote invork fail when putStockHolder!');
-		require(bytesToBool(result),'return wrong');
-		return (sucess && bytesToBool(result));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+		return bytesToBool(result);
     }
 
 	/**
@@ -83,12 +83,12 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
      */
 	function putStockHolderAccount(string memory uniScId,string memory investorCetfHash,address payable investorAccount) public returns (bool){
 		require(_initialized);
-		require(uint160(currentVersion)>0,'currentVersion is Empty!');
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolderAccount(string,string,address)",uniScId,investorCetfHash,investorAccount));
-        require(sucess,'remote invork fail when putStockHolder!');
-		require(bytesToBool(result),'return wrong');
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
 		return (sucess && bytesToBool(result));
 	}
     
@@ -106,11 +106,8 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("increCpt(string,string,string,int256)",uniScId,investorCetfHash,stockRightDetail,amt));
         if(!sucess){
-        	//远程调用失败
-        	string memory errorMsg = string(result);
-        	require(sucess,errorMsg);
+        	require(sucess,parseErrMsg(result));
         }
-        require(bytesToBool(result),'调用远程函数逻辑出错，请检查一下参数,及余额.');
         return bytesToBool(result);
     }
 	
@@ -122,7 +119,10 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeStockHolder(string,string)",uniScId,investorCetfHash));
-        return (sucess && bytesToBool(result));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+        return bytesToBool(result);
     }
 	
 	/**
@@ -133,7 +133,9 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("getStockHolders(string)",uniScId));
-		require(sucess,'remote invork fail!');
+		if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
         return abi.decode(result,(string));
 	}
 
@@ -145,7 +147,9 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("checkStockHoldersAccount(string,string,address)",uniScId,investorCetfHash,account));
-		require(sucess,'remote invork fail!');
+		if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
 		return abi.decode(result,(bool));
 	}
 	
@@ -157,7 +161,9 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("getStockHoldersAccount(string,string)",uniScId,investorCetfHash));
-		require(sucess,'remote invork fail when getStockHoldersAccount!');
+		if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
 		return abi.decode(result,(address));
 	}
 	
@@ -169,7 +175,9 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("getStockHolderCptAmt(string,string)",uniScId,investorCetfHash));
-		require(sucess,'remote invork fail when getStockHolderCptAmt!');
+		if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
         return abi.decode(result,(uint));
 	}
 	
@@ -177,18 +185,24 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
      * 把字节数组转成布尔型
      */
     function bytesToBool(bytes memory b) private pure returns(bool){
-        return abi.decode(result,(bool));
+        return abi.decode(b,(bool));
     }
     
     /**
-     * 把字节数组转成整数
-     */
-    function bytesToUint(bytes memory b) private pure returns (uint8){
-	    uint8 number = 0;
-	    for(uint64 i= 0; i<b.length; i++){
-	        number = uint8(number + uint8(b[i])*(2**(8*(b.length-(i+1)))));
-	    }
-	    return number;
+	 * 解析异常信息。
+	 */
+	function parseErrMsg(bytes memory b) private pure returns(string memory){
+		if(b.length==0){
+			return '';
+		}
+		require(b.length<2**64,"The Array is out of bound.");
+		for(uint64 i = 0;i<b.length-4;i++){
+        	b[i]=b[i+4];
+    	}
+    	for(uint i = b.length-4;i<b.length;i++){
+    		b[i]=0x0;
+    	}
+    	return abi.decode(b,(string));
 	}
 
 }
