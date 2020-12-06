@@ -196,6 +196,38 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 	}
 	
 	/**
+	 * 创建新股东
+	 */
+	function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,address investorAccount,string memory stockRightDetail,uint256 amt)private returns (bool){
+		bool sucess;
+    	bytes memory result;
+		(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("putStockHolder(string,string,string,address,string,uint256)"
+					,uniScId
+					,investorCetfHash
+					,investorName
+					,investorAccount
+					,stockRightDetail
+					,amt));
+		if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+		return abi.decode(result,(bool));
+	}
+	
+	/**
+	 * 获取旧股东的账号
+	 */
+	function getStockHoldersAccount(string memory uniScId,string memory transferorCetfHash) private returns (address){
+		bool sucess;
+    	bytes memory result;
+    	(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("getStockHoldersAccount(string,string)",uniScId,transferorCetfHash));
+    	if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+		return abi.decode(result,(address));
+	}
+	
+	/**
 	 * 解析异常信息。
 	 */
 	function parseErrMsg(bytes memory b) private pure returns(string memory){
