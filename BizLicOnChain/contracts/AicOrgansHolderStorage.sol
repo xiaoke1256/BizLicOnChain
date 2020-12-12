@@ -3,7 +3,7 @@ pragma solidity ^0.6.0;
 import { BaseAicOrgansHolder } from "./BaseAicOrgansHolder.sol";
 
 contract AicOrgansHolderProxy is BaseAicOrgansHolder {
-    /**存储合约的地址*/
+    /**代理合约的地址*/
     address proxy;
     /**逻辑合约的地址*/
     address logic;
@@ -21,5 +21,19 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
     modifier onlyCreator() {
        require(msg.sender == creator);
        _;
+    }
+    
+    /**
+            设置代理合约的地址
+    */
+    function setProxy(address proxyAddress) public onlyCreator returns(bool){
+    	proxy = proxyAddress;
+    }
+    
+    /**
+            设置逻辑合约的地址
+    */
+    function setLogic(address logicAddress) public onlyCreator returns(bool){
+    	logic = logicAddress;
     }
 }
