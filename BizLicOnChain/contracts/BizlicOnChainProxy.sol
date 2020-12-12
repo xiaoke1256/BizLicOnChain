@@ -219,19 +219,8 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
      * 把字节数组转成布尔型
      */
     function bytesToBool(bytes memory b) private pure returns(bool){
-        return bytesToUint(b)!=0;
+        return abi.decode(b,(bool));
     }
-    
-    /**
-     * 把字节数组转成整数
-     */
-    function bytesToUint(bytes memory b) private pure returns (uint8){
-	    uint8 number = 0;
-	    for(uint64 i= 0; i<b.length; i++){
-	        number = uint8(number + uint8(b[i])*(2**(8*(b.length-(i+1)))));
-	    }
-	    return number;
-	}
 	
 	/**
 	 * 获取所有的企业社会信用码
