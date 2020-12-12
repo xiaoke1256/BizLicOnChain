@@ -98,9 +98,9 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
      * investorNo 股东编号
      * investorCetfHash 股东身份信息（用于核对）
      * stockRightDetail 增减资,肯定会引起股权详情的变化
-     * amt 增资额度，可以为负
+     * amt 增资额度，可以为负 FIXME:应当用uint?
      */
-    function increCpt(string memory uniScId,string memory investorCetfHash,string memory stockRightDetail,int amt)public onlyAdmin returns (bool){
+    function increCpt(string memory uniScId,string memory investorCetfHash,string memory stockRightDetail,uint amt)public onlyAdmin returns (bool){
         require(bytes(uniScId).length>0,'uniScId can not be empty.');
     	require(bytes(investorCetfHash).length>0,'investorCetfHash can not be empty.');
     	//require(bytes(stockRightDetail).length>0,'stockRightDetail can not be empty.');
@@ -109,13 +109,13 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
         //要求stockHolders中这条记录已经存在。
         require(bytes(stockHolders[uniScId][investorCetfHash].investorCetfHash).length>0,'The investor does not exist.');
         //余额必须大于0
-        require(int(stockHolders[uniScId][investorCetfHash].cptAmt)+amt>=0,'The balance is not enough!');
-        if(int(stockHolders[uniScId][investorCetfHash].cptAmt)+amt==0){
+        require(stockHolders[uniScId][investorCetfHash].cptAmt+amt>=0,'The balance is not enough!');
+        if(stockHolders[uniScId][investorCetfHash].cptAmt+amt==0){
             //取消股权
             return removeStockHolder(uniScId,investorCetfHash);
         }
         
-        stockHolders[uniScId][investorCetfHash].cptAmt=uint(int(stockHolders[uniScId][investorCetfHash].cptAmt)+amt);
+        stockHolders[uniScId][investorCetfHash].cptAmt=stockHolders[uniScId][investorCetfHash].cptAmt+amt;
         if(bytes(stockRightDetail).length>0)
         	stockHolders[uniScId][investorCetfHash].stockRightDetail=stockRightDetail;
         //TODO 投资金额变化肯定会造成整个企业的注册资金变化。

@@ -100,11 +100,11 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
      * stockRightDetail 增减资,肯定会引起股权详情的变化
      * amt 增资额度，可以为负 
      */
-    function increCpt(string memory uniScId,string memory investorCetfHash,string memory stockRightDetail,int amt) public returns (bool){
+    function increCpt(string memory uniScId,string memory investorCetfHash,string memory stockRightDetail,uint amt) public returns (bool){
     	require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("increCpt(string,string,string,int256)",uniScId,investorCetfHash,stockRightDetail,amt));
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("increCpt(string,string,string,uint256)",uniScId,investorCetfHash,stockRightDetail,amt));
         if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
