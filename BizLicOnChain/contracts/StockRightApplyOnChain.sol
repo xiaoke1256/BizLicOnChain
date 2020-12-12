@@ -44,7 +44,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
 		//把所有的申请案号拿出来取其最大者。
 		require(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
 		stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
-		//stockRightApplys[uniScId][investorCetfHash].transferorCetfHash=transferorCetfHash;
+		stockRightApplys[uniScId][investorCetfHash].transferorCetfHash=transferorCetfHash;
 		stockRightApplys[uniScId][investorCetfHash].investorName=investorName;
 		stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
 		stockRightApplys[uniScId][investorCetfHash].merkel=merkel;
