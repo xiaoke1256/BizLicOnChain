@@ -65,7 +65,7 @@ contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
         require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
 		//出在让方存这个股东，且账号就是操作人。
-		string memory transferorCetfHash = stockRightApplys[uniScId][investorCetfHash].transferorCetfHash;
+		//string memory transferorCetfHash = stockRightApplys[uniScId][investorCetfHash].transferorCetfHash;
 		//require(stockHolders[uniScId][transferorCetfHash].investorAccount==tx.origin);
 		//状态是否正确
         require(StringUtils.equals(stockRightApplys[uniScId][investorCetfHash].status,'待董事会确认'),'This apply at the wrong state.');
