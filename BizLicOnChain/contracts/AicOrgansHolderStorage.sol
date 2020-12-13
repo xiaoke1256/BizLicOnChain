@@ -74,4 +74,18 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
     function getAdmins() public view isInitialized returns(address[] memory admins){
         return administrators;
     }
+    
+    /**
+     * 新增或修改一个发证机关
+     */
+    function putOrgan(string memory organCode,string memory organName,address publicKey) public isInitialized returns (bool) {
+        aicOrgans[organCode].organCode = organCode;
+        aicOrgans[organCode].organName = organName;
+        aicOrgans[organCode].publicKey = publicKey;
+        aicOrgans[organCode].isUsed = true;
+        if(!ArrayUtils.contains(aicOrganCodes,organCode)){
+        	aicOrganCodes.push(organCode);
+        }
+        return true;
+    }
 }
