@@ -9,7 +9,7 @@ contract BaseAicOrgansHolder {
         string organCode;//机关代码
         string organName;//机关名称
         address publicKey;//公钥
-        bool isUserd;
+        bool isUsed;
     }
     
     address creator;

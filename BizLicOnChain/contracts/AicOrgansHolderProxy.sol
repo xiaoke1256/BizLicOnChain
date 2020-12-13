@@ -133,7 +133,7 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
      */
     function getOrgan(string memory organCode) public view returns(string memory) {
         require(_initialized);
-        if(!aicOrgans[organCode].isUserd){
+        if(!aicOrgans[organCode].isUsed){
             return "null";
         }
         string[] memory strArr = new string[](7);

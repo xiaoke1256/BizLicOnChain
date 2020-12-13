@@ -72,7 +72,7 @@ contract AicOrgansHolder is BaseAicOrgansHolder {
         aicOrgans[organCode].organCode = organCode;
         aicOrgans[organCode].organName = organName;
         aicOrgans[organCode].publicKey = publicKey;
-        aicOrgans[organCode].isUserd = true;
+        aicOrgans[organCode].isUsed = true;
         
         aicOrganCodes.push(organCode);
         return true;
