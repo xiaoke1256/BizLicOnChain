@@ -49,9 +49,25 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
     }
     
     /**
+     	只允许逻辑合约来调用
+     */
+    modifier onlyLogic() {
+    	require(logic == msg.sender,'only logic contract can invoke this function.');
+    	_;
+    }
+    
+    /**
+     	只允许逻辑合约或代理来调用
+     */
+    modifier onlyLogicOrProxy() {
+    	require(logic == msg.sender || proxy == msg.sender ,'only logic contract can invoke this function.');
+    	_;
+    }
+    
+    /**
      * 添加一个管理员
      */
-    function addAdmin(address admin) public isInitialized returns (bool) {
+    function addAdmin(address admin) public onlyLogic returns (bool) {
         if(!ArrayUtils.contains(administrators,admin)){
             administrators.push(admin);
         }
@@ -61,7 +77,7 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
      /**
      * 删除一个管理员
      */
-    function removeAdmin(address admin) public isInitialized returns (bool) {
+    function removeAdmin(address admin) public onlyLogic returns (bool) {
        // 从 administrators中删除指定的管理员
        require(administrators.length>1,"At least one administrator exist in this System!");
        ArrayUtils.remove(administrators,admin);
@@ -71,14 +87,14 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
      /**
      * 获取所有的管理员
      */
-    function getAdmins() public view isInitialized returns(address[] memory admins){
+    function getAdmins() public view onlyLogicOrProxy returns(address[] memory admins){
         return administrators;
     }
     
     /**
      * 新增或修改一个发证机关
      */
-    function putOrgan(string memory organCode,string memory organName,address publicKey) public isInitialized returns (bool) {
+    function putOrgan(string memory organCode,string memory organName,address publicKey) public onlyLogic returns (bool) {
         aicOrgans[organCode].organCode = organCode;
         aicOrgans[organCode].organName = organName;
         aicOrgans[organCode].publicKey = publicKey;
