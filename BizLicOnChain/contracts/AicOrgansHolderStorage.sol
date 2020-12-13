@@ -2,6 +2,8 @@ pragma solidity ^0.6.0;
 
 import { BaseAicOrgansHolder } from "./BaseAicOrgansHolder.sol";
 
+import { ArrayUtils } from "./ArrayUtils.sol";
+
 contract AicOrgansHolderProxy is BaseAicOrgansHolder {
     /**代理合约的地址*/
     address proxy;
@@ -41,8 +43,35 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
            是否已完成初始化？
     */
     modifier isInitialized() {
-    	require(proxy != address(0),'proxy contract'a adress must be set.');
-    	require(logic != address(0),'logic contract'a adress must be set.');
+    	require(proxy != address(0),'proxy contract\'s adress must be set.');
+    	require(logic != address(0),'logic contract\'s adress must be set.');
     	_;
+    }
+    
+    /**
+     * 添加一个管理员
+     */
+    function addAdmin(address admin) public isInitialized returns (bool) {
+        if(!ArrayUtils.contains(administrators,admin)){
+            administrators.push(admin);
+        }
+        return true;
+    }
+    
+     /**
+     * 删除一个管理员
+     */
+    function removeAdmin(address admin) public isInitialized returns (bool) {
+       // 从 administrators中删除指定的管理员
+       require(administrators.length>1,"At least one administrator exist in this System!");
+       ArrayUtils.remove(administrators,admin);
+       return true;
+    }
+    
+     /**
+     * 获取所有的管理员
+     */
+    function getAdmins() public view isInitialized returns(address[] memory admins){
+        return administrators;
     }
 }
