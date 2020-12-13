@@ -19,7 +19,7 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
            仅创建本合约的地址才可以调用
      */
     modifier onlyCreator() {
-       require(msg.sender == creator);
+       require(msg.sender == creator,'only creator can use this function.');
        _;
     }
     
@@ -35,5 +35,14 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
     */
     function setLogic(address logicAddress) public onlyCreator returns(bool){
     	logic = logicAddress;
+    }
+    
+    /**
+           是否已完成初始化？
+    */
+    modifier isInitialized() {
+    	require(proxy != address(0),'proxy contract'a adress must be set.');
+    	require(logic != address(0),'logic contract'a adress must be set.');
+    	_;
     }
 }
