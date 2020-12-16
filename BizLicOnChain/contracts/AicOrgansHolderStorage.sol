@@ -1,10 +1,12 @@
 pragma solidity ^0.6.0;
 
+pragma experimental ABIEncoderV2;
+
 import { BaseAicOrgansHolder } from "./BaseAicOrgansHolder.sol";
 
 import { ArrayUtils } from "./ArrayUtils.sol";
 
-contract AicOrgansHolderProxy is BaseAicOrgansHolder {
+contract AicOrgansHolderStorage is BaseAicOrgansHolder {
     /**代理合约的地址*/
     address proxy;
     /**逻辑合约的地址*/
@@ -104,4 +106,49 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
         }
         return true;
     }
+    
+    /** 获取所有发证机关编号 */
+    function getAllOrganCodes() public view onlyLogic returns(string[] memory){
+    	return aicOrganCodes;
+    }
+    
+    //以下设置各个字段
+    function setOrganCode(string memory organCode) public onlyLogic returns (bool) {
+    	aicOrgans[organCode].organCode = organCode;
+    	aicOrgans[organCode].isUsed = true;
+    	if(!ArrayUtils.contains(aicOrganCodes,organCode)){
+        	aicOrganCodes.push(organCode);
+        }
+        return true;
+    }
+    
+    function setOrganName(string memory organCode,string memory organName) public onlyLogic returns (bool) {
+    	aicOrgans[organCode].organName = organName;
+    	aicOrgans[organCode].isUsed = true;
+    	if(!ArrayUtils.contains(aicOrganCodes,organCode)){
+        	aicOrganCodes.push(organCode);
+        }
+        return true;
+    }
+    
+    function setPublicKey(string memory organCode,address publicKey) public onlyLogic returns (bool) {
+    	aicOrgans[organCode].publicKey = publicKey;
+    	aicOrgans[organCode].isUsed = true;
+    	if(!ArrayUtils.contains(aicOrganCodes,organCode)){
+        	aicOrganCodes.push(organCode);
+        }
+        return true;
+    }
+    
+    /**
+     * 删除一个发证机关
+     */
+    function removeOrgan(string memory organCode) public onlyLogic returns (bool) {
+        require(bytes(organCode).length>0);
+        delete aicOrgans[organCode];
+        ArrayUtils.remove(aicOrganCodes,organCode);
+        return true;
+    }
+    
+    //以下获取各个字段
 }
