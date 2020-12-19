@@ -151,4 +151,11 @@ contract AicOrgansHolderStorage is BaseAicOrgansHolder {
     }
     
     //以下获取各个字段
+    function getOrganName(string memory organCode) public view onlyLogic returns (string memory) {
+    	return aicOrgans[organCode].organName;
+    }
+    
+    function getPublicKey(string memory organCode) public view onlyLogic returns (address) {
+    	return aicOrgans[organCode].publicKey;
+    }
 }
