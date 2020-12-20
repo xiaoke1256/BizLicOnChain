@@ -6,11 +6,11 @@ import { StringUtils } from "./StringUtils.sol";
  * 数组计算工具类
  */
 library ArrayUtils {
-    
-    /**
+	
+	/**
      * 判断数组中是否包含指定元素
      */
-	function contains(address[] storage array,address target) internal view returns (bool){
+	function contains(address[] memory array,address target) internal view returns (bool){
 	    require(array.length<2**64,"The Array is out of bound.");
 	    for(uint64 i=0;i< array.length;i++){
             if(array[i] == target){

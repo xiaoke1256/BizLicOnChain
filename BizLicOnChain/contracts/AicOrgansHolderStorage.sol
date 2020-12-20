@@ -70,7 +70,7 @@ contract AicOrgansHolderStorage is BaseAicOrgansHolder {
      * 添加一个管理员
      */
     function addAdmin(address admin) public onlyLogic returns (bool) {
-        if(!ArrayUtils.contains(administrators,admin)){
+        if(!ArrayUtils.contains(getAdmins(),admin)){
             administrators.push(admin);
         }
         return true;

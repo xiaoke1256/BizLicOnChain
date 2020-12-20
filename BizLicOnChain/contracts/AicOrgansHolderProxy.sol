@@ -99,7 +99,8 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
 	 */
 	function isAdmin(address a) public view returns(bool){
 		require(_initialized);
-		return ArrayUtils.contains(administrators,a);
+		//return ArrayUtils.contains(administrators,a);
+		return false;
 	}
     
     /**
