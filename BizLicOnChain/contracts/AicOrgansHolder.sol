@@ -8,6 +8,12 @@ contract AicOrgansHolder /*is BaseAicOrgansHolder*/ {
 	address creator;
 	
 	address storageContract;
+    /**
+     * 逻辑合约地址(占位用)
+     */
+    address logicVersion;
+    
+    bool internal _initialized = false;
     
     constructor() public{
         creator = msg.sender;
@@ -29,6 +35,7 @@ contract AicOrgansHolder /*is BaseAicOrgansHolder*/ {
         if(!sucess){
             require(sucess,parseErrMsg(result));
         }
+        _initialized = true;
     }
     
 	/**

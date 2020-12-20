@@ -6,14 +6,20 @@ import { StringUtils } from "./StringUtils.sol";
 
 import { ArrayUtils } from "./ArrayUtils.sol";
 
-contract AicOrgansHolderProxy is BaseAicOrgansHolder {
-    
-    bool internal _initialized = false;
-    
+contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
+
+	address creator;
+	
+	address storageContract;
+	
     /**
      * 逻辑合约地址
      */
-    address currentVersion;
+    address logicVersion;
+    
+    bool internal _initialized = false;
+    
+  
     
     modifier onlyCreator() {
         require(msg.sender == creator);
@@ -30,11 +36,14 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
     /**
      * 初始化合约
      */
-    function initialize(address newVersion) public onlyCreator{
+    function initialize(address newVersion,address storage) public onlyCreator{
         require(!_initialized);
-        currentVersion = newVersion;
         bool sucess;
-        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("initialize()"));
+        storageContract = storage;
+        (sucess,)= storageContract.call(abi.encodeWithSignature("setProxy(address)",address(this)));
+         require(sucess,'Fail to execute initialize function.');//初始化合约
+        logicVersion = newVersion;
+        (sucess,)= logicVersion.delegatecall(abi.encodeWithSignature("initialize(address)",storageContract));
         require(sucess,'Fail to execute initialize function.');//初始化合约
         _initialized = true;
     }
@@ -42,9 +51,12 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
     /**
      * 合约版本变更
      */
-    function changeContract(address newVersion) public onlyCreator{
+    function changeLogic(address newVersion) public onlyCreator{
         require(_initialized);
-        currentVersion = newVersion;
+        logicVersion = newVersion;
+        //要把逻辑合约地址通知存储合约
+        (sucess,)= storageContract.call(abi.encodeWithSignature("setLogic(address)",logicVersion));
+         require(sucess,'Fail to execute initialize function.');//初始化合约
     }
     
     /**
@@ -53,7 +65,7 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
     function reloadData(address oldVersion) public onlyCreator{
         require(_initialized);
 		bool sucess;
-        (sucess,)= currentVersion.delegatecall(abi.encodeWithSignature("reloadData(address)",oldVersion));
+        (sucess,)= logicVersion.delegatecall(abi.encodeWithSignature("reloadData(address)",oldVersion));
         require(sucess);
     }
     
@@ -65,7 +77,7 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
         require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("addAdmin(address)",admin));
+        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("addAdmin(address)",admin));
         if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
@@ -79,7 +91,7 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
        require(_initialized);
        bool sucess;
        bytes memory result;
-       (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeAdmin(address)",admin));
+       (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("removeAdmin(address)",admin));
        if(!sucess){
        	  require(sucess,parseErrMsg(result));
        }
@@ -91,7 +103,7 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
      */
     function getAdmins() public view returns(address[] memory admins){
         require(_initialized,'Has not inited.');
-        return administrators;//BizlicOnChain(currentVersion).getAdmins();
+        return administrators;//BizlicOnChain(logicVersion).getAdmins();
     }
 	
 	/**
@@ -110,7 +122,7 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
         require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,address)",organCode,organName,publicKey));
+        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,address)",organCode,organName,publicKey));
         if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
@@ -121,7 +133,7 @@ contract AicOrgansHolderProxy is BaseAicOrgansHolder {
         require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeOrgan(string)",organCode));
+        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("removeOrgan(string)",organCode));
         if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
