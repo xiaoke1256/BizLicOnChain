@@ -36,10 +36,10 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
     /**
      * 初始化合约
      */
-    function initialize(address newVersion,address storage) public onlyCreator{
+    function initialize(address newVersion,address store) public onlyCreator{
         require(!_initialized);
         bool sucess;
-        storageContract = storage;
+        storageContract = store;
         (sucess,)= storageContract.call(abi.encodeWithSignature("setProxy(address)",address(this)));
          require(sucess,'Fail to execute initialize function.');//初始化合约
         logicVersion = newVersion;
@@ -55,6 +55,7 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
         require(_initialized);
         logicVersion = newVersion;
         //要把逻辑合约地址通知存储合约
+        bool sucess;
         (sucess,)= storageContract.call(abi.encodeWithSignature("setLogic(address)",logicVersion));
          require(sucess,'Fail to execute initialize function.');//初始化合约
     }
@@ -101,9 +102,15 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
     /**
      * 获取所有的管理员
      */
-    function getAdmins() public view returns(address[] memory admins){
+    function getAdmins() public returns(address[] memory admins){
         require(_initialized,'Has not inited.');
-        return administrators;//BizlicOnChain(logicVersion).getAdmins();
+        bool sucess;
+        bytes memory result;
+        (sucess,result) = logicVersion.delegatecall(abi.encodeWithSignature("getAdmins()"));
+        if(!sucess){
+       	   require(sucess,parseErrMsg(result));
+        }
+        return abi.decode(result,(address[]));
     }
 	
 	/**
@@ -163,16 +170,15 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
     /**
      * 获取所有的发证机关
      */
-    function getAllOrganCodes() public view returns(string memory){
-        string memory s = '[';
-        for(uint64 i = 0;i<aicOrganCodes.length;i++){
-            if(i>0){
-                s=StringUtils.concat(s,",");
-            }
-            s=StringUtils.concat(s,"'",aicOrganCodes[i],"'");
+    function getAllOrganCodes() public view returns(string[] memory){
+    	require(_initialized);
+        bool sucess;
+        bytes memory result;
+        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("getAllOrganCodes()"));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
         }
-        s=StringUtils.concat(s,"]");
-        return s;
+        return abi.decode(result,(string[]));
     }
 
 	 /**

@@ -6,7 +6,9 @@ const EncryptUtils = artifacts.require("EncryptUtils");
 
 const BaseAicOrgansHolder = artifacts.require("BaseAicOrgansHolder");
 const AicOrgansHolder = artifacts.require("AicOrgansHolder");
+const AicOrgansHolderStorage = artifacts.require("AicOrgansHolderStorage");
 const AicOrgansHolderProxy = artifacts.require("AicOrgansHolderProxy");
+
 
 const BaseBizLicOnChain = artifacts.require("BaseBizLicOnChain");
 const BizLicOnChain = artifacts.require("BizLicOnChain");
@@ -20,10 +22,15 @@ module.exports = function(deployer) {
   //deployer.deploy(BaseAicOrgansHolder);
   //deployer.link(BaseAicOrgansHolder, AicOrgansHolder);
   deployer.link(StringUtils, ArrayUtils);
+  
+  deployer.link(BaseAicOrgansHolder,AicOrgansHolderStorage);
+  deployer.link(ArrayUtils,AicOrgansHolderStorage);
   deployer.link(ArrayUtils, AicOrgansHolder);
  // deployer.link(BaseAicOrgansHolder, AicOrgansHolderProxy);
   deployer.link(StringUtils, AicOrgansHolderProxy);
   deployer.link(ArrayUtils, AicOrgansHolderProxy);
+  
+  deployer.deploy(AicOrgansHolderStorage);
   deployer.deploy(AicOrgansHolder);
   deployer.deploy(AicOrgansHolderProxy);
   
