@@ -158,4 +158,8 @@ contract AicOrgansHolderStorage is BaseAicOrgansHolder {
     function getPublicKey(string memory organCode) public view onlyLogic returns (address) {
     	return aicOrgans[organCode].publicKey;
     }
+    
+    function getIsUsed(string memory organCode) public view onlyLogic returns (bool) {
+    	return aicOrgans[organCode].isUsed;
+    }
 }

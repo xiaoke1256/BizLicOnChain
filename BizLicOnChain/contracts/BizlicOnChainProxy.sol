@@ -1,4 +1,5 @@
 pragma solidity ^0.6.0;
+pragma experimental ABIEncoderV2;
 
 import { BaseBizLicOnChain } from "./BaseBizLicOnChain.sol";
 
@@ -120,7 +121,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     /**
      * 获取所有的管理员
      */
-    function getAdmins() public view returns(address[] memory admins){
+    function getAdmins() public returns(address[] memory admins){
         require(_initialized);
         return AicOrgansHolderProxy(aicOrganHolder).getAdmins();
     }
@@ -148,7 +149,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     /**
      * 获取指定发证机关
      */
-    function getOrgan(string memory organCode) public view returns(string memory) {
+    function getOrgan(string memory organCode) public returns(string memory) {
         require(_initialized);
 		//bool sucess;
         //bytes memory result;
@@ -161,7 +162,7 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
     /**
      * 获取所有的发证机关
      */
-    function getAllOrganCodes() public view returns(string memory){
+    function getAllOrganCodes() public returns(string[] memory){
 		//bool sucess;
         //bytes memory result;
 		return AicOrgansHolderProxy(aicOrganHolder).getAllOrganCodes();

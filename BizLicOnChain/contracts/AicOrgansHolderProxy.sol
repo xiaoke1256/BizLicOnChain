@@ -1,4 +1,5 @@
 pragma solidity ^0.6.0;
+pragma experimental ABIEncoderV2;
 
 import { BaseAicOrgansHolder } from "./BaseAicOrgansHolder.sol";
 
@@ -147,22 +148,55 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
         return (sucess && bytesToBool(result));
     }
     
+
+    function getOrganName(string memory organCode) private returns (string memory) {
+    	bool sucess;
+        bytes memory result;
+        (sucess,result) = storageContract.call(abi.encodeWithSignature("getOrganName(string)",organCode));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+        return abi.decode(result,(string));
+    }
+    
+    function getIsUsed(string memory organCode) private returns (bool) {
+    	bool sucess;
+        bytes memory result;
+        (sucess,result) = storageContract.call(abi.encodeWithSignature("getIsUsed(string)",organCode));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+        return abi.decode(result,(bool));
+    }
+    
+    function getPublicKey(string memory organCode) private returns (address) {
+    	bool sucess;
+        bytes memory result;
+        (sucess,result) = storageContract.call(abi.encodeWithSignature("getOrganName(string)",organCode));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+        return abi.decode(result,(address));
+    }
+    
     
     /**
      * 获取所有发证机关
      */
-    function getOrgan(string memory organCode) public view returns(string memory) {
+    function getOrgan(string memory organCode) public returns(string memory) {
         require(_initialized);
-        if(!aicOrgans[organCode].isUsed){
+        if(!getIsUsed(organCode)){
             return "null";
         }
+        string memory organName = getOrganName(organCode);
+        address publicKey = getPublicKey(organCode);
         string[] memory strArr = new string[](7);
         strArr[0]="{organCode:'";
         strArr[1]=organCode;
         strArr[2]="',organName:'";
-        strArr[3]=aicOrgans[organCode].organName;
+        strArr[3]=organName;
         strArr[4]="',publicKey:'";
-        strArr[5]=StringUtils.address2str(aicOrgans[organCode].publicKey);
+        strArr[5]=StringUtils.address2str(publicKey);
         strArr[6]="'}";
         return StringUtils.concat(strArr);
     }
@@ -170,11 +204,11 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
     /**
      * 获取所有的发证机关
      */
-    function getAllOrganCodes() public view returns(string[] memory){
+    function getAllOrganCodes() public returns(string[] memory){
     	require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("getAllOrganCodes()"));
+        (sucess,result)= storageContract.call(abi.encodeWithSignature("getAllOrganCodes()"));
         if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
