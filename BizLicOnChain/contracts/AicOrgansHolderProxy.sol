@@ -62,6 +62,11 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
     }
     
     /**
+     * TODO 更换存储合约
+     */
+     
+    
+    /**
      * 将老版本数据加载过来
      */
     function reloadData(address oldVersion) public onlyCreator{

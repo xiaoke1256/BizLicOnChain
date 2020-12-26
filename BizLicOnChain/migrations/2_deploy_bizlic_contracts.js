@@ -49,6 +49,7 @@ module.exports = function(deployer) {
   
   //组装发证机关合约
   let organInstance = null;
+  let organStorage = null;
   let organProxy = null;
   let bizlicInstance = null;
   let bizlicProxy = null;
@@ -56,10 +57,13 @@ module.exports = function(deployer) {
 	  return AicOrgansHolder.deployed();
   }).then(function(instance){
 	  organInstance = instance;
+	  return AicOrgansHolderStorage.deployed();
+  }).then(function(instance){
+	  organStorage = instance;
 	  return AicOrgansHolderProxy.deployed();
   }).then(function(instance){
 	  organProxy = instance;
-	  organProxy.initialize(organInstance.address);
+	  organProxy.initialize(organInstance.address,organStorage.address);
 	  web3.eth.getAccounts().then(function(accounts){
 		  organProxy.addAdmin(accounts[1]);
 		  organProxy.regestOrgan("310000000","上海市市场监督局",accounts[1]);
