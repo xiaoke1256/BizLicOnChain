@@ -1,9 +1,8 @@
 pragma solidity ^0.6.0;
 
 import { ArrayUtils } from "./ArrayUtils.sol";
-import { BaseAicOrgansHolder } from "./BaseAicOrgansHolder.sol";
 
-contract AicOrgansHolder /*is BaseAicOrgansHolder*/ {
+contract AicOrgansHolder {
 
 	address creator;
 	

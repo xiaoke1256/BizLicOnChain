@@ -40,12 +40,17 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
     function initialize(address newVersion,address store) public onlyCreator{
         require(!_initialized);
         bool sucess;
+        bytes memory result;
         storageContract = store;
-        (sucess,)= storageContract.call(abi.encodeWithSignature("setProxy(address)",address(this)));
-         require(sucess,'Fail to execute initialize function.');//初始化合约
+        (sucess,result)= storageContract.call(abi.encodeWithSignature("setProxy(address)",address(this)));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));//初始化合约
+        }
         logicVersion = newVersion;
-        (sucess,)= logicVersion.delegatecall(abi.encodeWithSignature("initialize(address)",storageContract));
-        require(sucess,'Fail to execute initialize function.');//初始化合约
+        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("initialize(address)",storageContract));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));//初始化合约
+        }
         _initialized = true;
     }
     
@@ -58,7 +63,7 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
         //要把逻辑合约地址通知存储合约
         bool sucess;
         (sucess,)= storageContract.call(abi.encodeWithSignature("setLogic(address)",logicVersion));
-         require(sucess,'Fail to execute initialize function.');//初始化合约
+         require(sucess,'Fail to execute changeLogic function.');//初始化合约
     }
     
     /**
