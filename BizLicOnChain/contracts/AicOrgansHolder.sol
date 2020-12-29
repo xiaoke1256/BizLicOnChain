@@ -22,8 +22,8 @@ contract AicOrgansHolder {
      * 初始化合约(用delegatecall来调用)
      */
     function initialize() external {
-        require(creator == tx.origin);
-        require(storageContract != address(0));
+        require(creator == tx.origin,'Only creator can invoke the initialize function.');
+        require(storageContract != address(0),'The storageContract\'s address can not be empty.');
         bool sucess;
         bytes memory result;
         (sucess,result)= storageContract.call(abi.encodeWithSignature("setLogic(address)",address(this)));
