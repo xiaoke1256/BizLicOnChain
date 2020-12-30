@@ -30,7 +30,7 @@ contract AicOrgansHolder {
         if(!sucess){
             require(sucess,parseErrMsg(result));
         }
-        (sucess,result)= storageContract.call(abi.encodeWithSignature("addAdmin(address)",address(this)));
+        (sucess,result)= storageContract.call(abi.encodeWithSignature("addAdmin(address)",tx.origin));
         if(!sucess){
             require(sucess,parseErrMsg(result));
         }

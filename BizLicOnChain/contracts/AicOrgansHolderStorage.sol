@@ -23,7 +23,7 @@ contract AicOrgansHolderStorage is BaseAicOrgansHolder {
            仅创建本合约的地址才可以调用
      */
     modifier onlyCreator() {
-       require(tx.origin == creator,'only creator can use this function.');
+       require(tx.origin == creator,'Only creator can use this function.');
        _;
     }
     

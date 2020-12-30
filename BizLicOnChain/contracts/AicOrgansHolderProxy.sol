@@ -23,7 +23,7 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
   
     
     modifier onlyCreator() {
-        require(msg.sender == creator);
+        require(msg.sender == creator,'Only creator can excute this function');
         _;
     }
 	
@@ -38,7 +38,7 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
      * 初始化合约
      */
     function initialize(address newVersion,address store) public onlyCreator{
-        require(!_initialized);
+        require(!_initialized,'Has inited!');
         bool sucess;
         bytes memory result;
         storageContract = store;
@@ -47,7 +47,7 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
         	require(sucess,parseErrMsg(result));//初始化合约
         }
         logicVersion = newVersion;
-        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("initialize(address)",storageContract));
+        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("initialize()"));
         if(!sucess){
         	require(sucess,parseErrMsg(result));//初始化合约
         }
