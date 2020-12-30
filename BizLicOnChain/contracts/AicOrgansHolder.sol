@@ -48,9 +48,6 @@ contract AicOrgansHolder {
      * 仅管理员才可以执行此
      */
     modifier onlyAdmin() {
-    	bool sucess;
-        bytes memory result;
-    	(sucess,result)= storageContract.call(abi.encodeWithSignature("getAdmins()"));
         address[] memory administrators = getAdmins();
         //tx.origin 是合约的发起方，而msg.sender是上一级调用者的地址
 		require(ArrayUtils.contains(administrators,tx.origin),"Unauthorized operation!");
@@ -93,6 +90,9 @@ contract AicOrgansHolder {
         bool sucess;
         bytes memory result;
     	(sucess,result)= storageContract.call(abi.encodeWithSignature("getAdmins()"));
+    	if(!sucess){
+           require(sucess,parseErrMsg(result));
+        }
         return abi.decode(result,(address[]));
     }
 	

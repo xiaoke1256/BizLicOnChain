@@ -137,7 +137,7 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
      * 注册一个发证机关
      */
     function regestOrgan(string memory organCode,string memory organName,address publicKey) public returns(bool){
-        require(_initialized);
+        require(_initialized,'Has not inited!');
         bool sucess;
         bytes memory result;
         (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("regestOrgan(string,string,address)",organCode,organName,publicKey));
