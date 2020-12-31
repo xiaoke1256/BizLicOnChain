@@ -2,6 +2,8 @@ pragma solidity ^0.6.0;
 
 import { ArrayUtils } from "./ArrayUtils.sol";
 
+import { StringUtils } from "./StringUtils.sol";
+
 contract AicOrgansHolder {
 
 	address creator;
@@ -101,9 +103,12 @@ contract AicOrgansHolder {
      * 注册一个发证机关
      */
     function regestOrgan(string memory organCode,string memory organName,address publicKey) public onlyAdmin returns (bool) {
+     	require(_initialized,'AicOrgansHolder has not inited.');
+     	require(storageContract != address(0),'The storage contract has not set.');
         bool sucess;
         bytes memory result;
-        (sucess,result)= storageContract.call(abi.encodeWithSignature("putOrgan(string,string ,address)",organCode,organName,publicKey));
+        (sucess,result)= storageContract.call(abi.encodeWithSignature("putOrgan(string,string,address)",organCode,organName,publicKey));
+        require(1!=1,StringUtils.address2str(storageContract));
         if(!sucess){
         	 require(sucess,parseErrMsg(result));
         }

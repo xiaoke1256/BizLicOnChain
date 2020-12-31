@@ -144,6 +144,7 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
         if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
+        require(1!=1,'BBBBB');
         return (sucess && bytesToBool(result));
     }
     

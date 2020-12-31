@@ -5,6 +5,7 @@ pragma experimental ABIEncoderV2;
 import { BaseAicOrgansHolder } from "./BaseAicOrgansHolder.sol";
 
 import { ArrayUtils } from "./ArrayUtils.sol";
+import { StringUtils } from "./StringUtils.sol";
 
 contract AicOrgansHolderStorage is BaseAicOrgansHolder {
     /**代理合约的地址*/
@@ -97,10 +98,12 @@ contract AicOrgansHolderStorage is BaseAicOrgansHolder {
      * 新增或修改一个发证机关
      */
     function putOrgan(string memory organCode,string memory organName,address publicKey) public onlyLogic returns (bool) {
+    	require(1!=1,'EEEE');
         aicOrgans[organCode].organCode = organCode;
         aicOrgans[organCode].organName = organName;
         aicOrgans[organCode].publicKey = publicKey;
         aicOrgans[organCode].isUsed = true;
+        require(1!=1,'FFFF');
         if(!ArrayUtils.contains(aicOrganCodes,organCode)){
         	aicOrganCodes.push(organCode);
         }
