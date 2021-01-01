@@ -107,8 +107,7 @@ contract AicOrgansHolder {
      	require(storageContract != address(0),'The storage contract has not set.');
         bool sucess;
         bytes memory result;
-        (sucess,result)= storageContract.call(abi.encodeWithSignature("putOrgan(string,string,address)",organCode,organName,publicKey));
-        require(1!=1,StringUtils.address2str(storageContract));
+        (sucess,result)= storageContract.call(abi.encodeWithSignature('putOrgan(string,string,address)',organCode,organName,publicKey));
         if(!sucess){
         	 require(sucess,parseErrMsg(result));
         }

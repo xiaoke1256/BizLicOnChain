@@ -113,7 +113,7 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
     /**
      * 获取所有的管理员
      */
-    function getAdmins() public returns(address[] memory admins){
+    function getAdmins() public returns(address[] memory){
         require(_initialized,'Has not inited.');
         bool sucess;
         bytes memory result;
@@ -127,10 +127,9 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
 	/**
 	 * 确定某地址是否是管理员
 	 */
-	function isAdmin(address a) public view returns(bool){
+	function isAdmin(address a) public returns(bool){
 		require(_initialized);
-		//return ArrayUtils.contains(administrators,a);
-		return false;
+		return ArrayUtils.contains(getAdmins(),a);
 	}
     
     /**
@@ -144,7 +143,6 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
         if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
-        require(1!=1,'BBBBB');
         return (sucess && bytesToBool(result));
     }
     

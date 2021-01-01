@@ -98,18 +98,17 @@ contract AicOrgansHolderStorage is BaseAicOrgansHolder {
      * 新增或修改一个发证机关
      */
     function putOrgan(string memory organCode,string memory organName,address publicKey) public onlyLogic returns (bool) {
-    	require(1!=1,'EEEE');
         aicOrgans[organCode].organCode = organCode;
         aicOrgans[organCode].organName = organName;
         aicOrgans[organCode].publicKey = publicKey;
         aicOrgans[organCode].isUsed = true;
-        require(1!=1,'FFFF');
+        
         if(!ArrayUtils.contains(aicOrganCodes,organCode)){
         	aicOrganCodes.push(organCode);
         }
         return true;
     }
-    
+
     /** 获取所有发证机关编号 */
     function getAllOrganCodes() public view onlyLogic returns(string[] memory){
     	return aicOrganCodes;
