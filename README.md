@@ -167,7 +167,7 @@ BizLicOnChain
 &ensp;&ensp;&ensp;&ensp;
 先安装node.js,确保控制台上输入`node -v`命令后可以打印出版本号。然后输入以下命令就可以安装truffle.
 ```
-npm -g install truffle
+npm -g install truffle@5.1.22
 ```
 如果安装过程种发生网络问题，请选用cnpm.如有必要安装一下Ethereum TestRPC:
 ```
