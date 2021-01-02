@@ -67,10 +67,22 @@ contract AicOrgansHolderProxy /*is BaseAicOrgansHolder*/ {
     }
     
     /**
-     * TODO 更换存储合约
+     * 更换存储合约
      */
-     
-    
+    function changeStorage(address store) public onlyCreator{
+    	require(_initialized);
+    	storageContract = store;
+    	bool sucess;
+        bytes memory result;
+        (sucess,result)= storageContract.call(abi.encodeWithSignature("setProxy(address)",address(this)));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));//初始化合约
+        }
+        (sucess,result)= storageContract.call(abi.encodeWithSignature("setLogic(address)",logicVersion));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));//初始化合约
+        }
+    }
     /**
      * 将老版本数据加载过来
      */
