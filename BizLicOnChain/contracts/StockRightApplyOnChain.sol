@@ -5,7 +5,34 @@ import { BaseStockRightApplyOnChain } from "./BaseStockRightApplyOnChain.sol";
 import { ArrayUtils } from "./ArrayUtils.sol";
 import { StringUtils } from "./StringUtils.sol";
 
-contract StockRightApplyOnChain is BaseStockRightApplyOnChain {
+contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
+
+	/**
+             存储合约版本
+    */
+    address storageContract;
+    
+    /**
+     * 逻辑合约地址(占位用)
+     */
+    address logicVersion;
+
+    /**
+     * 市监局信息的管理合约地址
+     */
+    address aicOrganHolder;
+    
+    /**
+     * 管理股东的合约地址
+     */
+    address stockHolderContract;
+    
+     /**
+     * 是否初始化
+     */
+    bool internal _initialized = false;
+
+
     constructor() public{
         creator = msg.sender;
     }
