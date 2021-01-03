@@ -199,4 +199,43 @@ contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
     }
     
     //get
+    function getTransferorCetfHash(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (string memory){
+    	return stockRightApplys[uniScId][investorCetfHash].transferorCetfHash;
+    }
+    
+    function getInvestorName(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (string memory){
+    	return stockRightApplys[uniScId][investorCetfHash].investorName;
+    }
+    
+    function getMerkel(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (bytes32){
+    	return stockRightApplys[uniScId][investorCetfHash].merkel;
+    }
+    
+    function getCptAmt(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (uint){
+    	return stockRightApplys[uniScId][investorCetfHash].cptAmt;
+    }
+    
+    function getPrice(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (uint){
+    	return stockRightApplys[uniScId][investorCetfHash].price;
+    }
+    
+    function getStatus(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (string memory){
+    	return stockRightApplys[uniScId][investorCetfHash].status;
+    }
+    
+    function setInvestorAccount(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (address payable){
+    	return stockRightApplys[uniScId][investorCetfHash].investorAccount;
+    }
+    
+    function setStockRightDetail(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (string memory){
+    	return stockRightApplys[uniScId][investorCetfHash].stockRightDetail;
+    }
+    
+    function getIsSuccess(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (string memory){
+    	return stockRightApplys[uniScId][investorCetfHash].isSuccess;
+    }
+    
+    function setFailReason(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (string memory){
+    	return stockRightApplys[uniScId][investorCetfHash].failReason;
+    }
 }
