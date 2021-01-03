@@ -78,19 +78,125 @@ contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
 		stockRightApplys[uniScId][investorCetfHash].cptAmt=cptAmt;
 		stockRightApplys[uniScId][investorCetfHash].price=price;
 		stockRightApplys[uniScId][investorCetfHash].status=status;
-		stockRightApplyKeys[uniScId].push(investorCetfHash);
+		stockRightApplys[uniScId][investorCetfHash].investorAccount=investorAccount;
+		stockRightApplys[uniScId][investorCetfHash].stockRightDetail=stockRightDetail;
+		stockRightApplys[uniScId][investorCetfHash].isSuccess=isSuccess;
+		stockRightApplys[uniScId][investorCetfHash].failReason=failReason;
+		if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
+			stockRightApplyKeys[uniScId].push(investorCetfHash);
+		}
 		return true;
     }
     
     /**
      * 删除一个申请案
      */
-     function removeStockRightApply(string memory uniScId,string memory investorCetfHash)  public onlyLogic returns (bool){
+     function removeStockRightApply(string memory uniScId,string memory investorCetfHash) public onlyLogic returns (bool){
      	delete stockRightApplys[uniScId][investorCetfHash];
      	ArrayUtils.remove(stockRightApplyKeys[uniScId],investorCetfHash);
      	return true;
      }
      
     //set
+    function setTransferorCetfHash(string memory uniScId,string memory investorCetfHash,string memory transferorCetfHash) public onlyLogic returns (bool){
+    	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
+    	stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+    	stockRightApplys[uniScId][investorCetfHash].transferorCetfHash=transferorCetfHash;
+    	if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
+			stockRightApplyKeys[uniScId].push(investorCetfHash);
+		}
+    	return true;
+    }
+    
+    function setInvestorName(string memory uniScId,string memory investorCetfHash,string memory investorName) public onlyLogic returns (bool){
+    	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
+    	stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+    	stockRightApplys[uniScId][investorCetfHash].investorName=investorName;
+    	if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
+			stockRightApplyKeys[uniScId].push(investorCetfHash);
+		}
+    	return true;
+    }
+    
+    function setMerkel(string memory uniScId,string memory investorCetfHash,bytes32 merkel) public onlyLogic returns (bool){
+    	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
+    	stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+    	stockRightApplys[uniScId][investorCetfHash].merkel=merkel;
+    	if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
+			stockRightApplyKeys[uniScId].push(investorCetfHash);
+		}
+    	return true;
+    }
+    
+    function setCptAmt(string memory uniScId,string memory investorCetfHash,uint cptAmt) public onlyLogic returns (bool){
+    	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
+    	stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+    	stockRightApplys[uniScId][investorCetfHash].cptAmt=cptAmt;
+    	if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
+			stockRightApplyKeys[uniScId].push(investorCetfHash);
+		}
+    	return true;
+    }
+    
+    function setPrice(string memory uniScId,string memory investorCetfHash,uint price) public onlyLogic returns (bool){
+    	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
+    	stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+    	stockRightApplys[uniScId][investorCetfHash].price=price;
+    	if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
+			stockRightApplyKeys[uniScId].push(investorCetfHash);
+		}
+    	return true;
+    }
+    
+    function setStatus(string memory uniScId,string memory investorCetfHash,string memory status) public onlyLogic returns (bool){
+    	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
+    	stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+    	stockRightApplys[uniScId][investorCetfHash].status=status;
+    	if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
+			stockRightApplyKeys[uniScId].push(investorCetfHash);
+		}
+    	return true;
+    }
+    
+    function setInvestorAccount(string memory uniScId,string memory investorCetfHash,address payable investorAccount) public onlyLogic returns (bool){
+    	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
+    	stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+    	stockRightApplys[uniScId][investorCetfHash].investorAccount=investorAccount;
+    	if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
+			stockRightApplyKeys[uniScId].push(investorCetfHash);
+		}
+    	return true;
+    }
+    
+    function setStockRightDetail(string memory uniScId,string memory investorCetfHash,string memory stockRightDetail) public onlyLogic returns (bool){
+    	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
+    	stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+    	stockRightApplys[uniScId][investorCetfHash].stockRightDetail=stockRightDetail;
+    	if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
+			stockRightApplyKeys[uniScId].push(investorCetfHash);
+		}
+    	return true;
+    }
+    
+    function setIsSuccess(string memory uniScId,string memory investorCetfHash,string memory isSuccess) public onlyLogic returns (bool){
+    	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
+    	stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+    	stockRightApplys[uniScId][investorCetfHash].isSuccess=isSuccess;
+    	if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
+			stockRightApplyKeys[uniScId].push(investorCetfHash);
+		}
+    	return true;
+    }
+    
+    function setFailReason(string memory uniScId,string memory investorCetfHash,string memory failReason) public onlyLogic returns (bool){
+    	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
+    	stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+    	stockRightApplys[uniScId][investorCetfHash].failReason=failReason;
+    	if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
+			stockRightApplyKeys[uniScId].push(investorCetfHash);
+		}
+    	return true;
+    }
+    
     //get
 }
