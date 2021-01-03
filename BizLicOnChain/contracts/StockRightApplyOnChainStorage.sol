@@ -60,7 +60,23 @@ contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
     	_;
     }
     
-    //put
+    /**
+     * 新增或修改一个申请案
+     */
+    function putStockRightApply(string uniScId,string transferorCetfHash,string investorName,uint price,address payable investorAccount,
+    		string investorCetfHash,string stockRightDetail,bytes32 merkel,uint cptAmt,string isSuccess,
+    		string status,string failReason) public onlyLogic returns (bool) {
+    	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
+		stockRightApplys[uniScId][investorCetfHash].transferorCetfHash=transferorCetfHash;
+		stockRightApplys[uniScId][investorCetfHash].investorName=investorName;
+		stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
+		stockRightApplys[uniScId][investorCetfHash].merkel=merkel;
+		stockRightApplys[uniScId][investorCetfHash].cptAmt=cptAmt;
+		stockRightApplys[uniScId][investorCetfHash].price=price;
+		stockRightApplys[uniScId][investorCetfHash].status=status;
+		stockRightApplyKeys[uniScId].push(investorCetfHash);
+		return true;
+    }
     //set
     //get
 }
