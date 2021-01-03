@@ -1,30 +1,66 @@
 pragma solidity ^0.6.0;
 
 contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
-	 /*
-     * 股权申请。（还处于流程中的股权）
-     */
-    struct StockRightApply{
-        string uniScId;//统一社会信用码
-		string transferorCetfHash;//出让方身份证件的Hash值
-        string investorName;//新股东姓名
-        uint price;//价格（以太币,wei）
-        address payable investorAccount;//新股东账号
-        string investorCetfHash;//新股东身份证件信息
-        string stockRightDetail;//股权详情
-        bytes32 merkel;//默克尔值（新股东姓名、新股东身份证件、转让份额三者加起来的默克尔值）
-        uint cptAmt;//转让额度
-        string isSuccess;//是否交易成功'0'否'1'是
-        string status;//状态 “开始”、“待董事会确认”，“待付款”，“发证机关备案”，“结束”（成功或失败）。
-        string failReason; //失败原因
-    }
+	 /**代理合约的地址*/
+    address proxy;
+    /**逻辑合约的地址*/
+    address logic;
+    
     /**
-     * 股权申请的Map，其中key是统一社会信用码.
-	 * value mapping 的结构如下：key是新股东的身份证件号，value申请信息。
-     */
-    mapping(string => mapping(string =>StockRightApply)) stockRightApplys;
-	/**
-	 * 申请案号的Map，其中key是统一社会信用码.
+	 * 创建合约
 	 */
-	mapping(string => string[]) stockRightApplyKeys;
+    constructor() public{
+        creator = msg.sender;
+    }
+    
+    /**
+           仅创建本合约的地址才可以调用
+     */
+    modifier onlyCreator() {
+       require(tx.origin == creator,'Only creator can use this function.');
+       _;
+    }
+    
+    /**
+            设置代理合约的地址
+    */
+    function setProxy(address proxyAddress) public onlyCreator returns(bool){
+    	proxy = proxyAddress;
+    }
+    
+    /**
+            设置逻辑合约的地址
+    */
+    function setLogic(address logicAddress) public onlyCreator returns(bool){
+    	logic = logicAddress;
+    }
+    
+    /**
+           是否已完成初始化？
+    */
+    modifier isInitialized() {
+    	require(proxy != address(0),'proxy contract\'s adress must be set.');
+    	require(logic != address(0),'logic contract\'s adress must be set.');
+    	_;
+    }
+    
+    /**
+     	只允许逻辑合约来调用
+     */
+    modifier onlyLogic() {
+    	require(logic == msg.sender,'only logic contract can invoke this function.');
+    	_;
+    }
+    
+    /**
+     	只允许逻辑合约或代理来调用
+     */
+    modifier onlyLogicOrProxy() {
+    	require(logic == msg.sender || proxy == msg.sender ,'only logic contract can invoke this function.');
+    	_;
+    }
+    
+    //put
+    //set
+    //get
 }

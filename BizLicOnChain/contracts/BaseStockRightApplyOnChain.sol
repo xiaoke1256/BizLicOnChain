@@ -35,21 +35,21 @@ contract BaseStockRightApplyOnChain {
     /**
      * 市监局信息的管理合约地址
      */
-    address aicOrganHolder;
+//    address aicOrganHolder;
     
     /**
      * 管理股东的合约地址
      */
-    address stockHolderContract;
+//    address stockHolderContract;
     
     /**
      * 合约版本
      */
-    address currentVersion;
+//    address currentVersion;
     
      /**
      * 是否初始化
      */
-    bool internal _initialized = false;
+ //   bool internal _initialized = false;
 
 }
