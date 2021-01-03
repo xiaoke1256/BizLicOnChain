@@ -1,5 +1,9 @@
 pragma solidity ^0.6.0;
 
+import { ArrayUtils } from "./ArrayUtils.sol";
+
+import { BaseStockRightApplyOnChain } from "./BaseStockRightApplyOnChain.sol";
+
 contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
 	 /**代理合约的地址*/
     address proxy;
@@ -63,9 +67,9 @@ contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
     /**
      * 新增或修改一个申请案
      */
-    function putStockRightApply(string uniScId,string transferorCetfHash,string investorName,uint price,address payable investorAccount,
-    		string investorCetfHash,string stockRightDetail,bytes32 merkel,uint cptAmt,string isSuccess,
-    		string status,string failReason) public onlyLogic returns (bool) {
+    function putStockRightApply(string memory uniScId,string memory transferorCetfHash,string memory investorName,uint price,address payable investorAccount,
+    		string memory investorCetfHash,string memory stockRightDetail,bytes32 merkel,uint cptAmt,string memory isSuccess,
+    		string memory status,string memory failReason) public onlyLogic returns (bool) {
     	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
 		stockRightApplys[uniScId][investorCetfHash].transferorCetfHash=transferorCetfHash;
 		stockRightApplys[uniScId][investorCetfHash].investorName=investorName;
@@ -77,6 +81,16 @@ contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
 		stockRightApplyKeys[uniScId].push(investorCetfHash);
 		return true;
     }
+    
+    /**
+     * 删除一个申请案
+     */
+     function removeStockRightApply(string memory uniScId,string memory investorCetfHash)  public onlyLogic returns (bool){
+     	delete stockRightApplys[uniScId][investorCetfHash];
+     	ArrayUtils.remove(stockRightApplyKeys[uniScId],investorCetfHash);
+     	return true;
+     }
+     
     //set
     //get
 }
