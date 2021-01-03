@@ -69,7 +69,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		require(sucess,'Remote invork fail!');
 		require(abi.decode(result,(bool)),'You are not the stock Holder!');
 		//把所有的申请案号拿出来取其最大者。
-		require(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
+		require(!ArrayUtils.contains(getStockRightApplyKeys(),investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
 		stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
 		stockRightApplys[uniScId][investorCetfHash].transferorCetfHash=transferorCetfHash;
 		stockRightApplys[uniScId][investorCetfHash].investorName=investorName;
@@ -81,6 +81,16 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		stockRightApplyKeys[uniScId].push(investorCetfHash);
 		return true;
 	}
+	
+	function getStockRightApplyKeys(string memory uniScId)private returns (string[] memory){
+		bool sucess;
+        bytes memory result;
+		(sucess,result) = storageContract.call(abi.encodeWithSignature("getStockRightApplyKeys(string)",uniScId));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+    	return abi.decode(result,(string[]));
+    }
 
 	/**
       设置新股东账号
