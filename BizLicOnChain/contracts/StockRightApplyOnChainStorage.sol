@@ -235,7 +235,14 @@ contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
     	return stockRightApplys[uniScId][investorCetfHash].isSuccess;
     }
     
-    function setFailReason(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (string memory){
+    function getFailReason(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (string memory){
     	return stockRightApplys[uniScId][investorCetfHash].failReason;
+    }
+    
+    /**
+            获取某企业下正在进行的申请案
+    */
+    function getStockRightApplyKeys(string memory uniScId)public view onlyLogicOrProxy returns (string[] memory){
+    	return stockRightApplyKeys[uniScId];
     }
 }
