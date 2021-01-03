@@ -1,3 +1,5 @@
+pragma solidity ^0.6.0;
+
 contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
 	 /*
      * 股权申请。（还处于流程中的股权）
