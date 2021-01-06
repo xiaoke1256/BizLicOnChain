@@ -70,18 +70,14 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		require(abi.decode(result,(bool)),'You are not the stock Holder!');
 		//把所有的申请案号拿出来取其最大者。
 		require(!ArrayUtils.contains(getStockRightApplyKeys(),investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
-		stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
-		stockRightApplys[uniScId][investorCetfHash].transferorCetfHash=transferorCetfHash;
-		stockRightApplys[uniScId][investorCetfHash].investorName=investorName;
-		stockRightApplys[uniScId][investorCetfHash].investorCetfHash=investorCetfHash;
-		stockRightApplys[uniScId][investorCetfHash].merkel=merkel;
-		stockRightApplys[uniScId][investorCetfHash].cptAmt=cptAmt;
-		stockRightApplys[uniScId][investorCetfHash].price=price;
-		stockRightApplys[uniScId][investorCetfHash].status='待董事会确认';
-		stockRightApplyKeys[uniScId].push(investorCetfHash);
+		storageContract.call(abi.encodeWithSignature("putStockRightApply(string,string,string,uint256,address,string,string,bytes32,uint256,string,string,string)",
+			uniScId,transferorCetfHash,investorName,price,address(0),investorCetfHash,'',merkel,cptAmt,'','待董事会确认',''));
 		return true;
 	}
 	
+	/**
+	 *
+	 */
 	function getStockRightApplyKeys(string memory uniScId)private returns (string[] memory){
 		bool sucess;
         bytes memory result;
