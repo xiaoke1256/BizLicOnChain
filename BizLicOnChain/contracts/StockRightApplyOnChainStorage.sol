@@ -223,11 +223,11 @@ contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
     	return stockRightApplys[uniScId][investorCetfHash].status;
     }
     
-    function setInvestorAccount(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (address payable){
+    function getInvestorAccount(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (address payable){
     	return stockRightApplys[uniScId][investorCetfHash].investorAccount;
     }
     
-    function setStockRightDetail(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (string memory){
+    function getStockRightDetail(string memory uniScId,string memory investorCetfHash) public view onlyLogicOrProxy returns (string memory){
     	return stockRightApplys[uniScId][investorCetfHash].stockRightDetail;
     }
     

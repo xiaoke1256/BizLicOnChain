@@ -100,9 +100,19 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		//出在让方存这个股东，且账号就是操作人。
 		//string memory transferorCetfHash = stockRightApplys[uniScId][investorCetfHash].transferorCetfHash;
 		//require(stockHolders[uniScId][transferorCetfHash].investorAccount==tx.origin);
+		bool sucess;
+        bytes memory result;
 		//状态是否正确
-        require(StringUtils.equals(stockRightApplys[uniScId][investorCetfHash].status,'待董事会确认'),'This apply at the wrong state.');
-		stockRightApplys[uniScId][investorCetfHash].investorAccount=investorAccount;
+		(sucess,result) =storageContract.call(abi.encodeWithSignature("getStatus(string,string)",uniScId,investorCetfHash));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		string memory applyStatus = abi.decode(result,(string));
+        require(StringUtils.equals(applyStatus,'待董事会确认'),'This apply at the wrong state.');
+        (sucess,result) = storageContract.call(abi.encodeWithSignature("setInvestorAccount(string,string,address)",uniScId,investorCetfHash,investorAccount));
+        if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
 		return true;
 	}
     
