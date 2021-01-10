@@ -120,11 +120,27 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 	function comfirmByDirectors(string memory uniScId,string memory investorCetfHash) public returns (bool){
 		require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
-        require(stockRightApplys[uniScId][investorCetfHash].investorAccount!=address(0),'必须设置新股东账号。');
+        bool sucess;
+        bytes memory result;
+        (sucess,result) = storageContract.call(abi.encodeWithSignature("getInvestorAccount(string,string)",uniScId,investorCetfHash));
+        if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		address investorAccount = abi.decode(result,(address));
+        require(investorAccount!=address(0),'必须设置新股东账号。');
 		//TODO 检查当前账号就是公司的董事会账号
 		//状态是否正确
-		require(StringUtils.equals(stockRightApplys[uniScId][investorCetfHash].status,'待董事会确认'),'This apply at the wrong state.');
-		stockRightApplys[uniScId][investorCetfHash].status='待付款';
+		//状态是否正确
+		(sucess,result) =storageContract.call(abi.encodeWithSignature("getStatus(string,string)",uniScId,investorCetfHash));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		string memory applyStatus = abi.decode(result,(string));
+		require(StringUtils.equals(applyStatus,'待董事会确认'),'This apply at the wrong state.');
+		(sucess,result) = storageContract.call(abi.encodeWithSignature("setStatus(string,string,string)",uniScId,investorCetfHash,'待付款'));
+        if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
 		return true;
 	}
     
