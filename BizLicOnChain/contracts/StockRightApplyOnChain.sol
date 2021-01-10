@@ -151,9 +151,23 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
         //TODO 检查合约状态
 		require(msg.value>0);
 		//检查出资额
-		require(msg.value>=stockRightApplys[uniScId][investorCetfHash].price);
-		stockRightApplys[uniScId][investorCetfHash].price=msg.value;//把实际支付金额放到price中
-		stockRightApplys[uniScId][investorCetfHash].status='待发证机关备案';
+		(sucess,result) = storageContract.call(abi.encodeWithSignature("getPrice(string,string)",uniScId,investorCetfHash));
+		 if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		uint price = abi.decode(result,(uint));
+		require(msg.value>=price);
+		if(msg.value>price){
+			//把实际支付金额放到price中
+			(sucess,result) = storageContract.call(abi.encodeWithSignature("setPrice(string,string,uint254)",uniScId,investorCetfHash,price));
+			 if(!sucess){
+				require(sucess,parseErrMsg(result));
+			}
+		}
+		(sucess,result) = storageContract.call(abi.encodeWithSignature("setStatus(string,string,string)",uniScId,investorCetfHash,'待发证机关备案'));
+        if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
 		return true;
 	}
 	
