@@ -225,7 +225,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
     	return true;
     }
     
-    function setSuccessAndResult(string memory uniScId,string memory investorCetfHash,string memory isSuccess,string memory status,string memory reason){
+    function setSuccessAndResult(string memory uniScId,string memory investorCetfHash,string memory isSuccess,string memory status,string memory reason)private {
     	bool sucess;
         bytes memory result;
     	(sucess,result) = storageContract.call(abi.encodeWithSignature("setIsSuccess(string,string,string)",uniScId,investorCetfHash,isSuccess));
@@ -242,7 +242,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		}
     }
     
-    function getTransferorCetfHash(string memory uniScId,string memory investorCetfHash)public returns (string memory){
+    function getTransferorCetfHash(string memory uniScId,string memory investorCetfHash)private returns (string memory){
     	bool sucess;
         bytes memory result;
     	(sucess,result) = storageContract.call(abi.encodeWithSignature("getTransferorCetfHash(string,string)",uniScId,investorCetfHash));
@@ -253,7 +253,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		return transferorCetfHash;
     }
     
-    function getInvestorAccount(string memory uniScId,string memory investorCetfHash)public returns (address payable){
+    function getInvestorAccount(string memory uniScId,string memory investorCetfHash)private returns (address payable){
     	bool sucess;
         bytes memory result;
     	(sucess,result) = storageContract.call(abi.encodeWithSignature("getInvestorAccount(string,string)",uniScId,investorCetfHash));
@@ -264,7 +264,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		return investorAccount;
     }
     
-    function getInvestorName(string memory uniScId,string memory investorCetfHash)public returns (string memory){
+    function getInvestorName(string memory uniScId,string memory investorCetfHash)private returns (string memory){
     	bool sucess;
         bytes memory result;
     	(sucess,result) = storageContract.call(abi.encodeWithSignature("getInvestorName(string,string)",uniScId,investorCetfHash));
@@ -275,7 +275,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		return investorName;
     }
     
-    function getCptAmt(string memory uniScId,string memory investorCetfHash)public returns (uint){
+    function getCptAmt(string memory uniScId,string memory investorCetfHash)private returns (uint){
     	bool sucess;
         bytes memory result;
     	(sucess,result) = storageContract.call(abi.encodeWithSignature("getCptAmt(string,string)",uniScId,investorCetfHash));
@@ -286,7 +286,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		return cptAmt;
     }
     
-    function getApplyStatus(string memory uniScId,string memory investorCetfHash) public returns (string memory){
+    function getApplyStatus(string memory uniScId,string memory investorCetfHash) private returns (string memory){
     	bool sucess;
         bytes memory result;
     	(sucess,result) = storageContract.call(abi.encodeWithSignature("getStatus(string,string)",uniScId,investorCetfHash));
@@ -297,7 +297,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		return status;
     }
     
-    function getApplyPrice(string memory uniScId,string memory investorCetfHash) public returns (uint){
+    function getApplyPrice(string memory uniScId,string memory investorCetfHash) private returns (uint){
     	bool sucess;
         bytes memory result;
     	(sucess,result) = storageContract.call(abi.encodeWithSignature("getPrice(string,string)",uniScId,investorCetfHash));
