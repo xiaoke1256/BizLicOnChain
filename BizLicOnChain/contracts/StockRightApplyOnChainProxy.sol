@@ -1,4 +1,5 @@
 pragma solidity ^0.6.0;
+pragma experimental ABIEncoderV2;
 
 import { StockHolderOnChainProxy } from "./StockHolderOnChainProxy.sol";
 import { BaseStockRightApplyOnChain } from "./BaseStockRightApplyOnChain.sol";
@@ -6,7 +7,33 @@ import { BaseStockRightApplyOnChain } from "./BaseStockRightApplyOnChain.sol";
 import { StringUtils } from "./StringUtils.sol";
 
 
-contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
+contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
+
+	/**
+             存储合约版本
+    */
+    address storageContract;
+    
+    /**
+     * 逻辑合约地址(占位用)
+     */
+    address logicVersion;
+
+    /**
+     * 市监局信息的管理合约地址
+     */
+    address aicOrganHolder;
+    
+    /**
+     * 管理股东的合约地址
+     */
+    address stockHolderContract;
+    
+    /**
+     * 是否初始化
+     */
+    bool internal _initialized = false;
+    
     constructor() public{
         creator = msg.sender;
     }
@@ -21,9 +48,21 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
      * newVersion 合约新版本
      * bizLicContract 管理营业执照的合约
      */
-    function initialize(address newVersion,address newStockHolderContract) public onlyCreator returns (bool){
+    function initialize(address newLogic,address newStorage,address newStockHolderContract) public onlyCreator returns (bool){
         require(!_initialized,"The contract has inited!");
-        currentVersion = newVersion;
+        bool sucess;
+        bytes memory result;
+        currentVersion = newLogic;
+        storageContract = newStorage;
+        (sucess,result)= storageContract.call(abi.encodeWithSignature("setProxy(address)",address(this)));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));//初始化合约
+        }
+        (sucess,result)= storageContract.call(abi.encodeWithSignature("setLogic(address)",currentVersion));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));//初始化合约
+        }
+        
         stockHolderContract = newStockHolderContract;
         aicOrganHolder = StockHolderOnChainProxy(stockHolderContract).getAicOrganHolder();
         _initialized = true;
@@ -128,34 +167,33 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
 	/** 
              获取Keys
      */
-	function getStockRightApplyKeysByUniScId(string memory uniScId) public returns (string memory){
-		string memory s = '[';
-        for(uint64 i = 0;i<stockRightApplyKeys[uniScId].length;i++){
-            if(i>0){
-                s=StringUtils.concat(s,",");
-            }
-            s=StringUtils.concat(s,"'",stockRightApplyKeys[uniScId][i],"'");
+	function getStockRightApplyKeysByUniScId(string memory uniScId) public returns (string[] memory){
+		bool sucess;
+        bytes memory result;
+		(sucess,result)= storageContract.all(abi.encodeWithSignature("getStockRightApplyKeys(string)",uniScId));
+		 if(!sucess){
+        	require(sucess,parseErrMsg(result));
         }
-        s=StringUtils.concat(s,"]");
-        return s;
+        string[] memory stockRightApplyKeys = abi.decode(result,(string[]));
+        return stockRightApplyKeys;
 	}
 
     /** 
-     获取Keys
+     申请案详情
      */
 	function getStockRightApply(string memory uniScId,string memory investorCetfHash) public returns (string memory){
 		string memory s = '{';
-		string memory lUniScId = stockRightApplys[uniScId][investorCetfHash].uniScId;
-        string memory transferorCetfHash = stockRightApplys[uniScId][investorCetfHash].transferorCetfHash;
-		string memory lInvestorCetfHash = stockRightApplys[uniScId][investorCetfHash].investorCetfHash;
-		string memory investorName = stockRightApplys[uniScId][investorCetfHash].investorName;
-		uint price = stockRightApplys[uniScId][investorCetfHash].price;
-		address investorAccount = stockRightApplys[uniScId][investorCetfHash].investorAccount;
-		string memory stockRightDetail = stockRightApplys[uniScId][investorCetfHash].stockRightDetail;
-		bytes32 merkel = stockRightApplys[uniScId][investorCetfHash].merkel;
-		uint cptAmt = stockRightApplys[uniScId][investorCetfHash].cptAmt;
-		string memory isSuccess = stockRightApplys[uniScId][investorCetfHash].isSuccess;
-		string memory status = stockRightApplys[uniScId][investorCetfHash].status;
+		string memory lUniScId = uniScId;
+        string memory transferorCetfHash = getTransferorCetfHash(uniScId,investorCetfHash);
+		string memory lInvestorCetfHash = investorCetfHash;
+		string memory investorName = getInvestorName(uniScId,investorCetfHash);
+		uint price = getApplyPrice(uniScId,investorCetfHash);
+		address investorAccount = getInvestorAccount(uniScId,investorCetfHash);
+		string memory stockRightDetail = getStockRightDetail(uniScId,investorCetfHash);
+		bytes32 merkel = getMerkel(uniScId,investorCetfHash);
+		uint cptAmt = getCptAmt(uniScId,investorCetfHash);
+		string memory isSuccess = getIsSuccess(uniScId,investorCetfHash);
+		string memory status = getApplyStatus(uniScId,investorCetfHash);
 		s=StringUtils.concat(s,"uniScId:'",lUniScId,"'");
 		s=StringUtils.concat(s,"investorCetfHash:'",lInvestorCetfHash,"'");
 		s=StringUtils.concat(s,",transferorCetfHash:'",transferorCetfHash,"'");
@@ -170,6 +208,105 @@ contract StockRightApplyOnChainProxy is BaseStockRightApplyOnChain {
 		s=StringUtils.concat(s,"}");
         return s;
 	}
+	
+	 function getTransferorCetfHash(string memory uniScId,string memory investorCetfHash)private returns (string memory){
+    	bool sucess;
+        bytes memory result;
+    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getTransferorCetfHash(string,string)",uniScId,investorCetfHash));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		string memory transferorCetfHash = abi.decode(result,(string));
+		return transferorCetfHash;
+    }
+    
+    function getInvestorAccount(string memory uniScId,string memory investorCetfHash)private returns (address payable){
+    	bool sucess;
+        bytes memory result;
+    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getInvestorAccount(string,string)",uniScId,investorCetfHash));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		address payable investorAccount = abi.decode(result,(address));
+		return investorAccount;
+    }
+    
+    function getInvestorName(string memory uniScId,string memory investorCetfHash)private returns (string memory){
+    	bool sucess;
+        bytes memory result;
+    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getInvestorName(string,string)",uniScId,investorCetfHash));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		string memory investorName = abi.decode(result,(string));
+		return investorName;
+    }
+    
+    function getCptAmt(string memory uniScId,string memory investorCetfHash)private returns (uint){
+    	bool sucess;
+        bytes memory result;
+    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getCptAmt(string,string)",uniScId,investorCetfHash));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		uint cptAmt = abi.decode(result,(uint));
+		return cptAmt;
+    }
+    
+    function getApplyStatus(string memory uniScId,string memory investorCetfHash) private returns (string memory){
+    	bool sucess;
+        bytes memory result;
+    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getStatus(string,string)",uniScId,investorCetfHash));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		string memory status = abi.decode(result,(string));
+		return status;
+    }
+    
+    function getStockRightDetail(string memory uniScId,string memory investorCetfHash) private returns (string memory){
+    	bool sucess;
+        bytes memory result;
+    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getStockRightDetail(string,string)",uniScId,investorCetfHash));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		string memory status = abi.decode(result,(string));
+		return status;
+    }
+    
+    function getMerkel(string memory uniScId,string memory investorCetfHash) private returns (bytes32){
+    	bool sucess;
+        bytes memory result;
+    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getMerkel(string,string)",uniScId,investorCetfHash));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		string memory status = abi.decode(result,(bytes32));
+		return status;
+    }
+    
+    function getIsSuccess(string memory uniScId,string memory investorCetfHash) private returns (string memory){
+    	bool sucess;
+        bytes memory result;
+    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getIsSuccess(string,string)",uniScId,investorCetfHash));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		string memory status = abi.decode(result,(string));
+		return status;
+    }
+    
+    function getApplyPrice(string memory uniScId,string memory investorCetfHash) private returns (uint){
+    	bool sucess;
+        bytes memory result;
+    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getPrice(string,string)",uniScId,investorCetfHash));
+		if(!sucess){
+			require(sucess,parseErrMsg(result));
+		}
+		uint price = abi.decode(result,(uint));
+		return price;
+    }
 	
 	/**
 	 * 解析异常信息。
