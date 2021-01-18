@@ -45,9 +45,9 @@ module.exports = function(deployer) {
 		  console.log('stockRightApplyInstance:'+stockRightApplyInstance.address);
 		  console.log('stockHolderProxy:'+stockHolderProxy.address);
 		  var result = stockRightApplyProxy.initialize(stockRightApplyInstance.address,stockHolderProxy.address);
-		  result.then(function(value){
-			  console.log('the init result is.'+value);
-		  });
+//		  result.then(function(value){
+//			  console.log('the init result is.'+value);
+//		  });
 		  console.log('stockRightApplyProxy inited.'+result);
 		  stockRightApplyProxy.isInited().then(function(value){
 			  console.log('is inited?'+value);
