@@ -2,7 +2,6 @@ pragma solidity ^0.6.0;
 pragma experimental ABIEncoderV2;
 
 import { AicOrgansHolderProxy } from "./AicOrgansHolderProxy.sol";
-import { BaseStockRightApplyOnChain } from "./BaseStockRightApplyOnChain.sol";
 import { ArrayUtils } from "./ArrayUtils.sol";
 import { StringUtils } from "./StringUtils.sol";
 
