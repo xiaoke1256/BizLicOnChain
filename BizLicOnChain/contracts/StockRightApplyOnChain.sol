@@ -6,6 +6,7 @@ import { ArrayUtils } from "./ArrayUtils.sol";
 import { StringUtils } from "./StringUtils.sol";
 
 contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
+	address creator;
 
 	/**
              存储合约版本
@@ -69,7 +70,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		require(sucess,'Remote invork fail!');
 		require(abi.decode(result,(bool)),'You are not the stock Holder!');
 		//把所有的申请案号拿出来取其最大者。
-		require(!ArrayUtils.contains(getStockRightApplyKeys(),investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
+		require(!ArrayUtils.contains(getStockRightApplyKeys(uniScId),investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
 		storageContract.call(abi.encodeWithSignature("putStockRightApply(string,string,string,uint256,address,string,string,bytes32,uint256,string,string,string)",
 			uniScId,transferorCetfHash,investorName,price,address(0),investorCetfHash,'',merkel,cptAmt,'','待董事会确认',''));
 		return true;
@@ -212,14 +213,14 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
         	//申请案设置成完成。
         	setSuccessAndResult(uniScId,investorCetfHash,'1','结束','');
         	//把以太币支付给股权出让方
-        	uint applyPrice = getApplyPrice(uniScId,investorCetfHash);
+        	//uint applyPrice = getApplyPrice(uniScId,investorCetfHash);
         	oldInverstCount.transfer(applyPrice);
         }else{
         	//申请案设置成完成（失败）
         	setSuccessAndResult(uniScId,investorCetfHash,'0','结束',reason);
         	//把以太币支退给股权受让方
         	address payable investorAccount = getInvestorAccount(uniScId,investorCetfHash);
-        	uint applyPrice = getApplyPrice(uniScId,investorCetfHash);
+        	//uint applyPrice = getApplyPrice(uniScId,investorCetfHash);
         	investorAccount.transfer(applyPrice);
         }
     	return true;

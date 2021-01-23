@@ -8,6 +8,8 @@ import { StringUtils } from "./StringUtils.sol";
 
 contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 
+	address creator;
+
 	/**
              存储合约版本
     */
@@ -51,13 +53,13 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
         require(!_initialized,"The contract has inited!");
         bool sucess;
         bytes memory result;
-        currentVersion = newLogic;
+        logicVersion = newLogic;
         storageContract = newStorage;
         (sucess,result)= storageContract.call(abi.encodeWithSignature("setProxy(address)",address(this)));
         if(!sucess){
         	require(sucess,parseErrMsg(result));//初始化合约
         }
-        (sucess,result)= storageContract.call(abi.encodeWithSignature("setLogic(address)",currentVersion));
+        (sucess,result)= storageContract.call(abi.encodeWithSignature("setLogic(address)",logicVersion));
         if(!sucess){
         	require(sucess,parseErrMsg(result));//初始化合约
         }
@@ -84,7 +86,7 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 		require(_initialized,"The contract has not inited!");
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("startStockTransfer(string,string,string,string,bytes32,uint256,uint256)",uniScId,
+        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("startStockTransfer(string,string,string,string,bytes32,uint256,uint256)",uniScId,
 			transferorCetfHash,investorName,investorCetfHash,merkel,cptAmt,price));
 		if(!sucess){
         	require(sucess,parseErrMsg(result));
@@ -102,7 +104,7 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 		require(_initialized,"The contract has not inited!");
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("setNewStockHolderAccount(string,string,address)",uniScId,
+        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("setNewStockHolderAccount(string,string,address)",uniScId,
 			investorCetfHash,investorAccount));
 		if(!sucess){
         	require(sucess,parseErrMsg(result));
@@ -115,7 +117,7 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 		require(_initialized,"The contract has not inited!");
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("comfirmByDirectors(string,string)",uniScId,investorCetfHash));
+        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("comfirmByDirectors(string,string)",uniScId,investorCetfHash));
         if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
@@ -127,7 +129,7 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 		require(_initialized,"The contract has not inited!");
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("payForStock(string,string)",uniScId,investorCetfHash));
+        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("payForStock(string,string)",uniScId,investorCetfHash));
         if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
@@ -145,7 +147,7 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
     	require(_initialized,"The contract has not inited!");
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("backUp(string,string,bool,string)",uniScId,investorCetfHash,isPass,reason));
+        (sucess,result)= logicVersion.delegatecall(abi.encodeWithSignature("backUp(string,string,bool,string)",uniScId,investorCetfHash,isPass,reason));
         if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
