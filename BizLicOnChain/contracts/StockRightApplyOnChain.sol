@@ -70,9 +70,11 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		require(sucess,'Remote invork fail!');
 		require(abi.decode(result,(bool)),'You are not the stock Holder!');
 		//把所有的申请案号拿出来取其最大者。
-		require(!ArrayUtils.contains(getStockRightApplyKeys(uniScId),investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
-		storageContract.call(abi.encodeWithSignature("putStockRightApply(string,string,string,uint256,address,string,string,bytes32,uint256,string,string,string)",
+		require(!contains(getStockRightApplyKeys(uniScId),investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
+		(sucess,result) = storageContract.call(abi.encodeWithSignature("putStockRightApply(string,string,string,uint256,address,string,string,bytes32,uint256,string,string,string)",
 			uniScId,transferorCetfHash,investorName,price,address(0),investorCetfHash,'',merkel,cptAmt,'','待董事会确认',''));
+		require(sucess,'Remote invork fail!');
+		require(abi.decode(result,(bool)),'Some thing wrong when invoke putStockRightApply method!');
 		return true;
 	}
 	
@@ -366,6 +368,19 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
         	require(sucess,parseErrMsg(result));
         }
 		return abi.decode(result,(address));
+	}
+	
+	/**
+	 * 判断数组中是否包含某元素
+	 */
+	function contains(string[] memory array,string memory target) private view returns (bool){
+	    require(array.length<2**64,"The Array is out of bound.");
+	    for(uint64 i=0;i< array.length;i++){
+            if(StringUtils.equals(array[i],target)){
+                return true;
+            } 
+        }
+        return false;
 	}
 	
 	/**

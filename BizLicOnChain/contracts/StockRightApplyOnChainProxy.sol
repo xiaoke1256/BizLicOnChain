@@ -171,7 +171,7 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 	function getStockRightApplyKeysByUniScId(string memory uniScId) public returns (string[] memory){
 		bool sucess;
         bytes memory result;
-		(sucess,result)= storageContract.all(abi.encodeWithSignature("getStockRightApplyKeys(string)",uniScId));
+		(sucess,result)= storageContract.call(abi.encodeWithSignature("getStockRightApplyKeys(string)",uniScId));
 		 if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
@@ -283,8 +283,8 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 		if(!sucess){
 			require(sucess,parseErrMsg(result));
 		}
-		string memory status = abi.decode(result,(bytes32));
-		return status;
+		bytes32 merkel = abi.decode(result,(bytes32));
+		return merkel;
     }
     
     function getIsSuccess(string memory uniScId,string memory investorCetfHash) private returns (string memory){
@@ -294,8 +294,8 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 		if(!sucess){
 			require(sucess,parseErrMsg(result));
 		}
-		string memory status = abi.decode(result,(string));
-		return status;
+		string memory isSuccess = abi.decode(result,(string));
+		return isSuccess;
     }
     
     function getApplyPrice(string memory uniScId,string memory investorCetfHash) private returns (uint){
