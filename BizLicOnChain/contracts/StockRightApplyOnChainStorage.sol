@@ -68,9 +68,14 @@ contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
     /**
      * 新增或修改一个申请案
      */
+   
     function putStockRightApply(string memory uniScId,string memory transferorCetfHash,string memory investorName,uint price,address payable investorAccount,
-    		string memory investorCetfHash,string memory stockRightDetail,bytes32 merkel,uint cptAmt,string memory isSuccess,
-    		string memory status,string memory failReason) public onlyLogic returns (bool) {
+    		string memory investorCetfHash,string memory stockRightDetail,bytes32 merkel,uint cptAmt) public onlyLogic returns (bool) {
+    	bool isNew = false;
+    	if(bytes(stockRightApplys[uniScId][investorCetfHash].status).length==0){
+    		//表示原本就不存在
+    		isNew = true;
+    	}
     	stockRightApplys[uniScId][investorCetfHash].uniScId=uniScId;
 		stockRightApplys[uniScId][investorCetfHash].transferorCetfHash=transferorCetfHash;
 		stockRightApplys[uniScId][investorCetfHash].investorName=investorName;
@@ -78,11 +83,13 @@ contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
 		stockRightApplys[uniScId][investorCetfHash].merkel=merkel;
 		stockRightApplys[uniScId][investorCetfHash].cptAmt=cptAmt;
 		stockRightApplys[uniScId][investorCetfHash].price=price;
-		stockRightApplys[uniScId][investorCetfHash].status=status;
 		stockRightApplys[uniScId][investorCetfHash].investorAccount=investorAccount;
 		stockRightApplys[uniScId][investorCetfHash].stockRightDetail=stockRightDetail;
-		stockRightApplys[uniScId][investorCetfHash].isSuccess=isSuccess;
-		stockRightApplys[uniScId][investorCetfHash].failReason=failReason;
+		if(isNew){
+			stockRightApplys[uniScId][investorCetfHash].status='待董事会确认';
+			stockRightApplys[uniScId][investorCetfHash].isSuccess='';
+			stockRightApplys[uniScId][investorCetfHash].failReason='';
+		}
 		if(!ArrayUtils.contains(stockRightApplyKeys[uniScId],investorCetfHash)){
 			stockRightApplyKeys[uniScId].push(investorCetfHash);
 		}

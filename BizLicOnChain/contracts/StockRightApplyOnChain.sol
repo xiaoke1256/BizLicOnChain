@@ -71,8 +71,8 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		require(abi.decode(result,(bool)),'You are not the stock Holder!');
 		//把所有的申请案号拿出来取其最大者。
 		require(!contains(getStockRightApplyKeys(uniScId),investorCetfHash),'This investor are in apply flow,please finish the flow then start this flow.');
-		(sucess,result) = storageContract.call(abi.encodeWithSignature("putStockRightApply(string,string,string,uint256,address,string,string,bytes32,uint256,string,string,string)",
-			uniScId,transferorCetfHash,investorName,price,address(0),investorCetfHash,'',merkel,cptAmt,'','待董事会确认',''));
+		(sucess,result) = storageContract.call(abi.encodeWithSignature("putStockRightApply(string,string,string,uint256,address,string,string,bytes32,uint256)",
+			uniScId,transferorCetfHash,investorName,price,address(0),investorCetfHash,'',merkel,cptAmt));
 		require(sucess,'Remote invork fail!');
 		require(abi.decode(result,(bool)),'Some thing wrong when invoke putStockRightApply method!');
 		return true;
