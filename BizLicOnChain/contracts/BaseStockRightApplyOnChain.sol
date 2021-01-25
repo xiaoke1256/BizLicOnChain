@@ -32,6 +32,7 @@ contract BaseStockRightApplyOnChain {
 	 */
 	mapping(string => string[]) stockRightApplyKeys;
     
+    //以下准备废除
     /**
      * 市监局信息的管理合约地址
      */
@@ -50,6 +51,6 @@ contract BaseStockRightApplyOnChain {
      /**
      * 是否初始化
      */
-    bool internal _initialized = false;
+   bool internal _initialized = false;
 
 }
