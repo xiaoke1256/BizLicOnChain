@@ -13,8 +13,8 @@ let proxy = await BizLicOnChainProxy.deployed()
 let stockHolderProxy = await StockHolderOnChainProxy.deployed()
 //组装股权申请合约
 let applyProxy = await StockRightApplyOnChainProxy.deployed()
-let applyInstance = await StockRightApplyOnChain.deployed();
-applyProxy.initialize(applyInstance.address,stockHolderProxy.address);
+//let applyInstance = await StockRightApplyOnChain.deployed();
+//applyProxy.initialize(applyInstance.address,stockHolderProxy.address);
 
 await proxy.getAdmins.call()
 
@@ -68,6 +68,7 @@ applyProxy.payForStock('123100008654367537',web3.utils.keccak256("身份证:3101
 //applyProxy.backUp('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"),false,'测试');
 
 //审核之前的账号:
+web3.eth.getBalance(applyProxy.address)
 web3.eth.getBalance(accounts[3]);
 web3.eth.getBalance(accounts[2]);
 //审核通过

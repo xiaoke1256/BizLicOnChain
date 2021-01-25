@@ -58,9 +58,9 @@ module.exports = function(deployer) {
 //			  console.log('the init result is.'+value);
 //		  });
 		  console.log('stockRightApplyProxy inited.'+result);
-		  stockRightApplyProxy.isInited().then(function(value){
-			  console.log('is inited?'+value);
-		  });
+		  //stockRightApplyProxy.isInited().then(function(value){
+		  //  console.log('is inited?'+value);
+		  //});
 		  
 	  })
 	  
