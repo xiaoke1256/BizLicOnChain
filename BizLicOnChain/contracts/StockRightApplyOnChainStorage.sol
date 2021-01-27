@@ -54,29 +54,13 @@ contract StockRightApplyOnChainStorage is BaseStockRightApplyOnChain {
     }
     
     /**
-     	只允许逻辑合约来调用
-     */
-    modifier onlyLogic() {
-    	require(logic == msg.sender,StringUtils.concat('only logic contract can invoke this function.',StringUtils.address2str(logic),':',StringUtils.address2str(msg.sender)));
-    	_;
-    }
-    
-    /**
      	只允许代理合约或代理来调用
      */
     modifier onlyProxy() {
     	require(proxy == msg.sender ,'only proxy contract can invoke this function.');
     	_;
     }
-    
-    /**
-     	只允许逻辑合约或代理来调用
-     */
-    modifier onlyLogicOrProxy() {
-    	require(logic == msg.sender || proxy == msg.sender ,'only logic or proxy contract can invoke this function.');
-    	_;
-    }
-    
+   
     /**
      * 新增或修改一个申请案
      */
