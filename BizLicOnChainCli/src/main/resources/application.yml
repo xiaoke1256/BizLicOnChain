@@ -11,7 +11,7 @@ server:
 
 contract:
   #ctAddr: "0x85EA9e5229306D7D73ED41CBE427F241D6717e5B"  #合约地址
-  ctAddr: "0x278E3b3840eAf71CD876428F5479c223e2EDCf3D" #合约地址
+  ctAddr: "0x5655Ea8e96AF442d9E7620B5E16Aab4830075E0d" #合约地址
   startAddr:  "************************************"   #顶级节点地址（好像没用到）
   #sendAddr:  "0xaefe184653e506426daab8369504ce3a2d95b68c"   #from地址
   sendAddr:  "0x88f189d467250ab1b527ab5cb82aea5bf1987adb"   #dev 环境下的
