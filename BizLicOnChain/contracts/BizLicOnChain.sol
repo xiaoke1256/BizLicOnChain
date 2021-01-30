@@ -86,7 +86,9 @@ contract BizLicOnChain is BaseBizLicOnChain {
         bizLics[uniScId].licContent = licContent;
         bizLics[uniScId].sign = sign;
         
-        uniScIds.push(uniScId);
+        if(!ArrayUtils.contains(uniScIds,uniScId)){
+        	uniScIds.push(uniScId);
+        }
         return true;
     }
     
