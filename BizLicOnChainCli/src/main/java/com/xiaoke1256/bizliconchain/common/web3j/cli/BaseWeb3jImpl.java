@@ -119,6 +119,9 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
             hash = ethSendTransaction.getTransactionHash();
             LOG.info(JSONObject.toJSONString(ethSendTransaction));
+            if(ethSendTransaction.getError()!=null) {
+            	throw new RuntimeException(ethSendTransaction.getError().getMessage());
+            }
             //看看到底成功了没有
             /* TODO 以下用其他方法来解决，比如现将hexValue保存到数据库，然后定时轮询来更新后续状态。
             Thread.sleep(20000);//以太坊平均出块时间是17.16
@@ -164,6 +167,9 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                 DefaultBlockParameterName.LATEST)
                 .sendAsync().get();
         if(HexUtil.parse(response.getValue()).intValue() == 0) {
+        	LOG.error("response.getResult():"+response.getResult());
+        	LOG.error("Jsonrpc:"+response.getJsonrpc());
+        	LOG.error("RawResponse:"+response.getRawResponse());
         	LOG.error("RevertReason:"+response.getRevertReason());
         	return false;
         }  
