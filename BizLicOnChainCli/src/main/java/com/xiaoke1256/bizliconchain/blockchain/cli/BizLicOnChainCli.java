@@ -21,6 +21,7 @@ import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Utf8String;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.xiaoke1256.bizliconchain.bo.Bizlic;
 import com.xiaoke1256.bizliconchain.common.encrypt.ECDSASecp256k1;
 import com.xiaoke1256.bizliconchain.common.web3j.cli.IBaseWeb3j;
@@ -86,7 +87,7 @@ public class BizLicOnChainCli {
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(bizlic.getUniScId()));
 		inputParameters.add(new Utf8String(bizlic.getOrganCode()));
-		String licContent = JSON.toJSONString(bizlic);
+		String licContent = JSON.toJSONString(bizlic,SerializerFeature.WriteDateUseDateFormat);
 		inputParameters.add(new Utf8String(licContent)); 
 		LOG.info("bizlic:"+licContent);
 		try {
