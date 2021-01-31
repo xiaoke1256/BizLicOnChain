@@ -184,7 +184,10 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putLic(string,string,string,string)",uniScId,organCode,licContent,sign));
-        return (sucess && bytesToBool(result));
+        if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+        return bytesToBool(result);
     }
     
      /**
@@ -197,7 +200,10 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("removeLic(string)",uniScId));
-        return sucess && bytesToBool(result);
+         if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+        return bytesToBool(result);
     }
     
     /**
@@ -236,6 +242,23 @@ contract BizLicOnChainProxy is BaseBizLicOnChain {
         }
         s=StringUtils.concat(s,"]");
         return s;
+	}
+	
+	 /**
+	 * 解析异常信息。
+	 */
+	function parseErrMsg(bytes memory b) private pure returns(string memory){
+		if(b.length==0){
+			return '';
+		}
+		require(b.length<2**64,"The Array is out of bound.");
+		for(uint64 i = 0;i<b.length-4;i++){
+        	b[i]=b[i+4];
+    	}
+    	for(uint i = b.length-4;i<b.length;i++){
+    		b[i]=0x0;
+    	}
+    	return abi.decode(b,(string));
 	}
     
 }
