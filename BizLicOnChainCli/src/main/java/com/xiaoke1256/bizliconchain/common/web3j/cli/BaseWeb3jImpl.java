@@ -166,6 +166,17 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                 Transaction.createEthCallTransaction(from, contractAddress, encodedFunction),
                 DefaultBlockParameterName.LATEST)
                 .sendAsync().get();
+        LOG.info("response.getError():"+response.getError());
+        if(response.getError()!=null) {
+        	LOG.info("response.getError().getMessage():"+response.getError().getMessage());
+        	LOG.info("response.getError().getCode():"+response.getError().getCode());
+        	LOG.info("response.getError().getData():"+response.getError().getData());
+        	return false;
+        }
+        if(response.getRevertReason()!=null && response.getRevertReason().length()>0) {
+        	LOG.info("response.getRevertReason():"+response.getRevertReason());
+        	return false;
+        }
         if(HexUtil.parse(response.getValue()).intValue() == 0) {
         	LOG.error("response.getResult():"+response.getResult());
         	LOG.error("Jsonrpc:"+response.getJsonrpc());
