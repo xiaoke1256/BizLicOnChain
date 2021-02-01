@@ -7,6 +7,16 @@ spring:
     #时间格式的统一处理
     date-format: 'yyyy-MM-dd HH:mm:ss'
     time-zone: 'GMT+8'
+  #嵌入式数据库
+  datasource:
+    drive-class-name: org.h2.Driver
+    url: jdbc:h2:/H2DB/eth-log
+    username: sa
+    password: sa
+    
+mybatis:
+  mapperLocations: classpath*:com/xiaoke1256/bizliconchain/common/dao/*Mapper.xml
+  configLocation: classpath:sqlMapConfig.xml
     
 server:
   context-path: "/bizlic"
