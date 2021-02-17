@@ -9,16 +9,11 @@ spring:
     time-zone: 'GMT+8'
   #嵌入式数据库
   datasource:
+    type-name: org.apache.commons.dbcp.BasicDataSource
     drive-class-name: org.h2.Driver
     url: jdbc:h2:file:~/eth-log;AUTO_SERVER=TRUE
     username: sa
     password: sa
-    
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: none
-    show-sql: true
     
 mybatis:
   mapperLocations: classpath*:com/xiaoke1256/bizliconchain/common/dao/*Mapper.xml
