@@ -124,7 +124,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             }
             //看看到底成功了没有
             /* TODO 以下用其他方法来解决，比如现将hexValue保存到数据库，然后定时轮询来更新后续状态。
-            Thread.sleep(20000);//以太坊平均出块时间是17.16
+            Thread.sleep(20000);//以太坊平均出块时间是17.16s
             EthGetTransactionReceipt ethGetTransactionReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
             if(ethGetTransactionReceipt.getTransactionReceipt().isPresent()) {
             	String status = ethGetTransactionReceipt.getTransactionReceipt().get().getStatus();

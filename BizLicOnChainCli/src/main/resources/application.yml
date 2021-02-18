@@ -10,7 +10,7 @@ spring:
   #嵌入式数据库
   datasource:
     drive-class-name: org.h2.Driver
-    url: jdbc:h2:file:~/eth-log;AUTO_SERVER=TRUE
+    url: jdbc:h2:file:~/h2/eth-log;AUTO_SERVER=TRUE
     username: sa
     password: sa
     schema: classpath:init_sql/schema.sql
