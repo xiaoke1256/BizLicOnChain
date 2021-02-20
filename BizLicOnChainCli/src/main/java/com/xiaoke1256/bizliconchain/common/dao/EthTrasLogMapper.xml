@@ -20,4 +20,23 @@
     select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG from ETH_TRAS_LOG where id = #{logId}
   </select>
   
+  <insert id="saveLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" keyProperty="logId" useGeneratedKeys="true" >
+  	insert into ETH_TRAS_LOG (NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG) 
+  	values (#{nonce},#{contractAddress},#{method},#{bizKey},#{trasHash},#{trasStatus},#{status},#{gasPrice},#{gasUsed},#{errMsg})
+  </insert>
+  
+  <update id="updateLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" >
+    update ETH_TRAS_LOG set
+      NONCE = #{nonce},
+      CONTRACT_ADDRESS = #{contractAddress},
+      METHOD = #{method},
+      BIZ_KEY = #{bizKey},
+      TRAS_HASH = #{trasHash},
+      TRAS_STATUS = #{trasStatus},
+      STATUS = #{status},
+      GAS_PRICE = #{gasPrice},
+      GAS_USED = #{gasUsed,
+      ERR_MSG = #{errMsg}
+    where LOG_ID = #{logId}
+  </update>
 </mapper>

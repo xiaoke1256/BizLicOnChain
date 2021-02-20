@@ -8,4 +8,8 @@ import com.xiaoke1256.bizliconchain.common.bo.EthTrasLog;
 @Repository
 public interface EthTrasLogMapper {
 	public EthTrasLog getEthTrasLog(Integer logId);
+	
+	public void saveLog(EthTrasLog log);
+	
+	public void updateLog(EthTrasLog log);
 }
