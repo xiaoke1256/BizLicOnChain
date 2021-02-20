@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoke1256.bizliconchain.common.dao.EthTrasLogMapper">
+ 
+  <resultMap id="BaseLogMap" type="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog">
+    <result column="LOG_ID" jdbcType="BIGINT" property="logId" />
+    <result column="NONCE" jdbcType="VARCHAR" property="nonce" />
+    <result column="CONTRACT_ADDRESS" jdbcType="VARCHAR" property="contractAddress" />
+    <result column="METHOD" jdbcType="VARCHAR" property="method" />
+    <result column="BIZ_KEY" jdbcType="VARCHAR" property="bizKey" />
+    <result column="TRAS_HASH" jdbcType="VARCHAR" property="trasHash" />
+    <result column="TRAS_STATUS" jdbcType="VARCHAR" property="trasStatus" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="GAS_PRICE" jdbcType="BIGINT" property="gasPrice" />
+    <result column="GAS_USED" jdbcType="BIGINT" property="gasUsed" />
+    <result column="ERR_MSG" jdbcType="VARCHAR" property="errMsg" />
+  </resultMap>
+ 
+  <select id="getEthTrasLog" resultType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog">
+    select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG from ETH_TRAS_LOG where id = #{logId}
+  </select>
+  
+</mapper>
