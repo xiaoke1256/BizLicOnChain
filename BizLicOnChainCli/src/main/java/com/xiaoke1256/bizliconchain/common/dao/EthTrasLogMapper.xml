@@ -14,15 +14,18 @@
     <result column="GAS_PRICE" jdbcType="BIGINT" property="gasPrice" />
     <result column="GAS_USED" jdbcType="BIGINT" property="gasUsed" />
     <result column="ERR_MSG" jdbcType="VARCHAR" property="errMsg" />
+    <result column="INSERT_TIME" jdbcType="TIMESTAMP" property="insertTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="FINISH_TIME" jdbcType="TIMESTAMP" property="finishTime" />
   </resultMap>
  
   <select id="getEthTrasLog" resultType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog">
-    select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG from ETH_TRAS_LOG where id = #{logId}
+    select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME from ETH_TRAS_LOG where id = #{logId}
   </select>
   
   <insert id="saveLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" keyProperty="logId" useGeneratedKeys="true" >
-  	insert into ETH_TRAS_LOG (NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG) 
-  	values (#{nonce},#{contractAddress},#{method},#{bizKey},#{trasHash},#{trasStatus},#{status},#{gasPrice},#{gasUsed},#{errMsg})
+  	insert into ETH_TRAS_LOG (NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME) 
+  	values (#{nonce},#{contractAddress},#{method},#{bizKey},#{trasHash},#{trasStatus},#{status},#{gasPrice},#{gasUsed},#{errMsg},#{insertTime},#{updateTime},#{finishTime})
   </insert>
   
   <update id="updateLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" >
@@ -37,6 +40,53 @@
       GAS_PRICE = #{gasPrice},
       GAS_USED = #{gasUsed,
       ERR_MSG = #{errMsg}
+      INSERT_TIME = #{insertTime}
+      UPDATE_TIME = #{updateTime}
+      FINISH_TIME = #{finishTime}
     where LOG_ID = #{logId}
   </update>
+  
+  <select id="searchLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLogSearchCondition" resultType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" >
+  	select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME from ETH_TRAS_LOG 
+  	where 1=1
+  	<if test="nonce != null and nonce != '' ">
+  		and NONCE = #{nonce}
+  	</if>
+  	<if test="contractAddress != null and contractAddress != '' ">
+  		and CONTRACT_ADDRESS = #{contractAddress}
+  	</if>
+  	<if test="method != null and method != '' ">
+  		and method = #{method}
+  	</if>
+  	<if test="bizKey != null and bizKey != '' ">
+  		and BIZ_KEY = #{bizKey}
+  	</if>
+  	<if test="trasHash != null and trasHash != '' ">
+  		and TRAS_HASH = #{trasHash}
+  	</if>
+  	<if test="trasStatus != null and trasStatus != '' ">
+  		and TRAS_STATUS = #{trasStatus}
+  	</if>
+  	<if test="status != null and status != '' ">
+  		and STATUS = #{status}
+  	</if>
+  	<if test="gasPrice != null and gasPrice != '' ">
+  		and GAS_PRICE = #{gasPrice}
+  	</if>
+  	<if test="gasUsed != null and gasUsed != '' ">
+  		and GAS_USED = #{gasUsed}
+  	</if>
+  	<if test="errMsg != null and errMsg != '' "><!-- TODO 后续要改成like -->
+  		and ERR_MSG = #{errMsg}
+  	</if>
+  	<if test="insertTime != null and insertTime != '' ">
+  		and INSERT_TIME = #{insertTime}
+  	</if>
+  	<if test="updateTime != null and updateTime != '' ">
+  		and UPDATE_TIME = #{updateTime}
+  	</if>
+  	<if test="finishTime != null and finishTime != '' ">
+  		and FINISH_TIME = #{finishTime}
+  	</if>
+  </select>
 </mapper>

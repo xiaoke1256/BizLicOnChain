@@ -1,10 +1,6 @@
 package com.xiaoke1256.bizliconchain.common.bo;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-
-public class EthTrasLog {
-	private Long logId;
+public class EthTrasLogSearchCondition {
     private String nonce;
     private String contractAddress;
     private String method;
@@ -12,17 +8,6 @@ public class EthTrasLog {
     private String trasHash;
     private String trasStatus;
     private String status;
-    private BigDecimal gasPrice;
-    private BigDecimal gasUsed;
-    private Timestamp insertTime;
-    private Timestamp updateTime;
-    private Timestamp finishTime;
-	public Long getLogId() {
-		return logId;
-	}
-	public void setLogId(Long logId) {
-		this.logId = logId;
-	}
 	public String getNonce() {
 		return nonce;
 	}
@@ -65,36 +50,6 @@ public class EthTrasLog {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public BigDecimal getGasPrice() {
-		return gasPrice;
-	}
-	public void setGasPrice(BigDecimal gasPrice) {
-		this.gasPrice = gasPrice;
-	}
-	public BigDecimal getGasUsed() {
-		return gasUsed;
-	}
-	public void setGasUsed(BigDecimal gasUsed) {
-		this.gasUsed = gasUsed;
-	}
-	public Timestamp getInsertTime() {
-		return insertTime;
-	}
-	public void setInsertTime(Timestamp insertTime) {
-		this.insertTime = insertTime;
-	}
-	public Timestamp getUpdateTime() {
-		return updateTime;
-	}
-	public void setUpdateTime(Timestamp updateTime) {
-		this.updateTime = updateTime;
-	}
-	public Timestamp getFinishTime() {
-		return finishTime;
-	}
-	public void setFinishTime(Timestamp finishTime) {
-		this.finishTime = finishTime;
-	}
-	
-
+    
+    
 }
