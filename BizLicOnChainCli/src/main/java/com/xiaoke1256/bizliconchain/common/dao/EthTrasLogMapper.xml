@@ -38,10 +38,10 @@
       TRAS_STATUS = #{trasStatus},
       STATUS = #{status},
       GAS_PRICE = #{gasPrice},
-      GAS_USED = #{gasUsed,
-      ERR_MSG = #{errMsg}
-      INSERT_TIME = #{insertTime}
-      UPDATE_TIME = #{updateTime}
+      GAS_USED = #{gasUsed},
+      ERR_MSG = #{errMsg},
+      INSERT_TIME = #{insertTime},
+      UPDATE_TIME = #{updateTime},
       FINISH_TIME = #{finishTime}
     where LOG_ID = #{logId}
   </update>
@@ -70,23 +70,37 @@
   	<if test="status != null and status != '' ">
   		and STATUS = #{status}
   	</if>
-  	<if test="gasPrice != null and gasPrice != '' ">
-  		and GAS_PRICE = #{gasPrice}
+  	<if test="errMsg != null and errMsg != '' "><!-- TODO 后续要改成like -->
+  		and ERR_MSG like '%'||#{errMsg}||'%'
   	</if>
-  	<if test="gasUsed != null and gasUsed != '' ">
-  		and GAS_USED = #{gasUsed}
+  </select>
+  
+  <select id="countLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLogSearchCondition" resultType="int" >
+  	select count(*) from ETH_TRAS_LOG 
+  	where 1=1
+  	<if test="nonce != null and nonce != '' ">
+  		and NONCE = #{nonce}
+  	</if>
+  	<if test="contractAddress != null and contractAddress != '' ">
+  		and CONTRACT_ADDRESS = #{contractAddress}
+  	</if>
+  	<if test="method != null and method != '' ">
+  		and method = #{method}
+  	</if>
+  	<if test="bizKey != null and bizKey != '' ">
+  		and BIZ_KEY = #{bizKey}
+  	</if>
+  	<if test="trasHash != null and trasHash != '' ">
+  		and TRAS_HASH = #{trasHash}
+  	</if>
+  	<if test="trasStatus != null and trasStatus != '' ">
+  		and TRAS_STATUS = #{trasStatus}
+  	</if>
+  	<if test="status != null and status != '' ">
+  		and STATUS = #{status}
   	</if>
   	<if test="errMsg != null and errMsg != '' "><!-- TODO 后续要改成like -->
-  		and ERR_MSG = #{errMsg}
-  	</if>
-  	<if test="insertTime != null and insertTime != '' ">
-  		and INSERT_TIME = #{insertTime}
-  	</if>
-  	<if test="updateTime != null and updateTime != '' ">
-  		and UPDATE_TIME = #{updateTime}
-  	</if>
-  	<if test="finishTime != null and finishTime != '' ">
-  		and FINISH_TIME = #{finishTime}
+  		and ERR_MSG like '%'||#{errMsg}||'%'
   	</if>
   </select>
 </mapper>

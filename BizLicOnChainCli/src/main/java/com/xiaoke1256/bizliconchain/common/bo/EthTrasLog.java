@@ -14,6 +14,7 @@ public class EthTrasLog {
     private String status;
     private BigDecimal gasPrice;
     private BigDecimal gasUsed;
+    private String errMsg;
     private Timestamp insertTime;
     private Timestamp updateTime;
     private Timestamp finishTime;
@@ -76,6 +77,12 @@ public class EthTrasLog {
 	}
 	public void setGasUsed(BigDecimal gasUsed) {
 		this.gasUsed = gasUsed;
+	}
+	public String getErrMsg() {
+		return errMsg;
+	}
+	public void setErrMsg(String errMsg) {
+		this.errMsg = errMsg;
 	}
 	public Timestamp getInsertTime() {
 		return insertTime;

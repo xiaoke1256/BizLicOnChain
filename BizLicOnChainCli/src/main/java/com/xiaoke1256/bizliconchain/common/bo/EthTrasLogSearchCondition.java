@@ -8,6 +8,7 @@ public class EthTrasLogSearchCondition {
     private String trasHash;
     private String trasStatus;
     private String status;
+    private String errMsg;
 	public String getNonce() {
 		return nonce;
 	}
@@ -49,6 +50,12 @@ public class EthTrasLogSearchCondition {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getErrMsg() {
+		return errMsg;
+	}
+	public void setErrMsg(String errMsg) {
+		this.errMsg = errMsg;
 	}
     
     

@@ -17,4 +17,6 @@ public interface EthTrasLogMapper {
 	public void updateLog(EthTrasLog log);
 	
 	public List<EthTrasLog> searchLog(EthTrasLogSearchCondition searchCondition);
+	
+	public Integer countLog(EthTrasLogSearchCondition searchCondition);
 }
