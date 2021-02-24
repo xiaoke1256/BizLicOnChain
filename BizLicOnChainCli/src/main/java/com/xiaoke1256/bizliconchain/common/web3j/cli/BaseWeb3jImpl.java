@@ -1,10 +1,13 @@
 package com.xiaoke1256.bizliconchain.common.web3j.cli;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xiaoke1256.bizliconchain.common.bo.EthTrasLog;
+import com.xiaoke1256.bizliconchain.common.service.EthTrasLogService;
 import com.xiaoke1256.bizliconchain.common.util.HexUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.DefaultFunctionReturnDecoder;
@@ -26,6 +29,7 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,6 +49,8 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
 
     private static final Logger LOG = LoggerFactory.getLogger(BaseWeb3jImpl.class);
 
+    @Autowired
+    private EthTrasLogService ethTrasLogService;
 
     static Web3j web3j;
 
@@ -68,12 +74,12 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
     /**
      * 调用合约（进行检查）
      */
-    public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters) {
+    public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters,String bizKey) {
     	try {
     		if(!queryTransfer(fromAddr,contractAddress,method,inputParameters)) {
     			throw new RuntimeException("Something wrong happen when excute the contract , please check the input paramters.");
     		}
-    		return transact(fromAddr,fromPrivateKey,contractAddress,method,gasPrice,gasLimit,inputParameters);
+    		return transact(fromAddr,fromPrivateKey,contractAddress,method,gasPrice,gasLimit,inputParameters,bizKey);
     	}catch(Exception e) {
     		throw new RuntimeException(e);
     	}
@@ -82,10 +88,11 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
     /**
      * 调用合约（不进行检查）
      */
-    public String transact(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters) {
+    public String transact(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters,String bizKey) {
         EthSendTransaction ethSendTransaction = null;
         BigInteger nonce = BigInteger.ZERO;
         String hash = null;
+        EthTrasLog log = null;
         try {
             EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(
                     fromAddr,
@@ -118,8 +125,13 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             //ethSendTransaction = web3j.ethSendRawTransaction(hexValue).send();
             ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
             hash = ethSendTransaction.getTransactionHash();
+            LOG.info("contractAddress:{}",contractAddress);
+            LOG.info("bizKey:{}");
+            LOG.info("trasHash:{}",hash);
             LOG.info(JSONObject.toJSONString(ethSendTransaction));
+            log = ethTrasLogService.saveLog(nonce.toString(), contractAddress, method, bizKey, hash,gasPrice);
             if(ethSendTransaction.getError()!=null) {
+            	ethTrasLogService.modifyError(log,ethSendTransaction.getError().getMessage());
             	throw new RuntimeException(ethSendTransaction.getError().getMessage());
             }
             //看看到底成功了没有
@@ -141,6 +153,12 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                 LOG.info("参数：gasPrice = " + gasPrice);
                 LOG.info("参数：gasLimit = " + gasLimit);
                 LOG.info("参数：inputParameters = " + JSONObject.toJSONString(inputParameters));
+                if(log!=null) {
+                	String errMsg = null;
+                	if(ethSendTransaction.getError()!=null)
+                		errMsg = ethSendTransaction.getError().getMessage();
+                	ethTrasLogService.modifyError(log,errMsg);
+                }
             }
             throw new RuntimeException(e);
         }

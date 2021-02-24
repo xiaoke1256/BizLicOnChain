@@ -96,7 +96,7 @@ public class BizLicOnChainCli {
 		} catch (InvalidKeyException | NoSuchAlgorithmException | SignatureException | UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
-		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "putLic", gasPrice, gasLimit, inputParameters );
+		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "putLic", gasPrice, gasLimit, inputParameters,bizlic.getUniScId() );
 	}
 	
 	/**
@@ -137,8 +137,9 @@ public class BizLicOnChainCli {
 	 * @param uniScId
 	 */
 	public void removeLic(String uniScId) {
+		@SuppressWarnings("rawtypes")
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(uniScId));
-		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "removeLic", gasPrice, gasLimit, inputParameters);
+		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "removeLic", gasPrice, gasLimit, inputParameters,uniScId);
 	}
 }

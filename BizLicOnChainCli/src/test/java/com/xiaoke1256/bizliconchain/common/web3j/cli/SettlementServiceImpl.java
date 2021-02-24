@@ -52,7 +52,7 @@ public class SettlementServiceImpl  {
         try {
              
             List<Type> inputParameters = Arrays.asList( );
-            iBaseWeb3j.transact(sendAddr,sendAddrPk,ctAddr,"month_name", CT_GAS_PRICE, CT_GAS_LIMIT,inputParameters);
+            iBaseWeb3j.transact(sendAddr,sendAddrPk,ctAddr,"month_name", CT_GAS_PRICE, CT_GAS_LIMIT,inputParameters,null);
         }catch (Exception ex){
 
             LOG.error("发生异常",ex);

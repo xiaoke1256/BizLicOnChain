@@ -1,6 +1,6 @@
 package com.xiaoke1256.bizliconchain.common.bo;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 public class EthTrasLog {
@@ -11,9 +11,13 @@ public class EthTrasLog {
     private String bizKey;
     private String trasHash;
     private String trasStatus;
+    /**
+     * 本系统自定义的STATUS(S:成功;C:已提交;E:错误)
+     */
     private String status;
-    private BigDecimal gasPrice;
-    private BigDecimal gasUsed;
+    private BigInteger gasPrice;
+    private BigInteger gasUsed;
+    private BigInteger gasLimit;
     private String errMsg;
     private Timestamp insertTime;
     private Timestamp updateTime;
@@ -66,16 +70,23 @@ public class EthTrasLog {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public BigDecimal getGasPrice() {
+	public BigInteger getGasPrice() {
 		return gasPrice;
 	}
-	public void setGasPrice(BigDecimal gasPrice) {
+	public void setGasPrice(BigInteger gasPrice) {
 		this.gasPrice = gasPrice;
 	}
-	public BigDecimal getGasUsed() {
+	
+	public BigInteger getGasLimit() {
+		return gasLimit;
+	}
+	public void setGasLimit(BigInteger gasLimit) {
+		this.gasLimit = gasLimit;
+	}
+	public BigInteger getGasUsed() {
 		return gasUsed;
 	}
-	public void setGasUsed(BigDecimal gasUsed) {
+	public void setGasUsed(BigInteger gasUsed) {
 		this.gasUsed = gasUsed;
 	}
 	public String getErrMsg() {

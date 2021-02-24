@@ -11,8 +11,9 @@
     <result column="TRAS_HASH" jdbcType="VARCHAR" property="trasHash" />
     <result column="TRAS_STATUS" jdbcType="VARCHAR" property="trasStatus" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
-    <result column="GAS_PRICE" jdbcType="BIGINT" property="gasPrice" />
-    <result column="GAS_USED" jdbcType="BIGINT" property="gasUsed" />
+    <result column="GAS_PRICE" jdbcType="DECIMAL" property="gasPrice" />
+    <result column="GAS_USED" jdbcType="DECIMAL" property="gasUsed" />
+    <result column="GAS_LIMIT" jdbcType="DECIMAL" property="gasLimit" />
     <result column="ERR_MSG" jdbcType="VARCHAR" property="errMsg" />
     <result column="INSERT_TIME" jdbcType="TIMESTAMP" property="insertTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
