@@ -131,6 +131,10 @@ BizLicOnChain
 ### 5. 创建账户
 
  &ensp;&ensp;&ensp;&ensp;
+ 查看所有账户：
+ ```
+ > eth.accounts;
+ ```
  设置挖矿地址：
 ```
 > miner.setEtherbase('用户地址')
