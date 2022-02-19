@@ -133,7 +133,7 @@ BizLicOnChain
  &ensp;&ensp;&ensp;&ensp;
  查看所有账户：
  ```
- > eth.accounts;
+ > eth.accounts
  ```
  &ensp;&ensp;&ensp;&ensp;
  设置挖矿地址：
