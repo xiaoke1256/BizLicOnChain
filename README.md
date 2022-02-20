@@ -149,6 +149,11 @@ BizLicOnChain
 ### 6. 开始挖矿
 
  &ensp;&ensp;&ensp;&ensp;
+ 查看挖矿状态：
+ ```
+ eth.mining
+ ```
+ &ensp;&ensp;&ensp;&ensp;
  键入以下命令，开始挖矿：
  ```
  miner.start(1)
