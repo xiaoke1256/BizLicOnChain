@@ -111,7 +111,7 @@ BizLicOnChain
  &ensp;&ensp;&ensp;&ensp;
  也可以以dev模式启动一个私有链，在这种模式下仅当有事务提交时才会进行挖矿。以下命令就是以dev模式启动私有链：
  ```
- geth --datadir "data1" --networkid 123 --dev --rpc --rpcapi "db,eth,net,web3,miner,personal" --targetgaslimit 10500000 console 2>>log
+ geth --datadir "data1" --networkid 123 --dev --rpc --rpcapi "db,eth,net,web3,miner,personal" --targetgaslimit 10500000 --allow-insecure-unlock console 2>>log
  ```
  注意，dev模式会自动生成一个默认账号，不能使用原有的账号（或keystore文件），如果需要用多个账号就要用`personal.newAccount("******")`命令创建。如果将默认账号中的以太币转账至其他账号的话是不用输入密码的。
  
