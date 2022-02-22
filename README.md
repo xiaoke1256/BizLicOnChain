@@ -104,14 +104,14 @@ BizLicOnChain
  &ensp;&ensp;&ensp;&ensp;
  进入geth控制台的命令如下：
  ```
- geth --datadir "data" --networkid 123 --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpcapi "eth,miner,net,personal,web3" -rpccorsdomain "*" --targetgaslimit 10500000 --nodiscover --ipcdisable console 2>>geth.log
+ geth --datadir "data" --networkid 123 --rpc --rpcaddr 0.0.0.0 --rpcport 8545 --rpcapi "eth,miner,net,personal,web3" -rpccorsdomain "*" --targetgaslimit 10500000 --nodiscover --ipcdisable --allow-insecure-unlock console 2>>geth.log
  ```
  其中“--targetgaslimit 10500000” 参数的目的是，在挖矿的过程中将gaslimit扩充到10500000。
  
  &ensp;&ensp;&ensp;&ensp;
  也可以以dev模式启动一个私有链，在这种模式下仅当有事务提交时才会进行挖矿。以下命令就是以dev模式启动私有链：
  ```
- geth --datadir "data1" --networkid 123 --dev --rpc --rpcapi "db,eth,net,web3,miner,personal" --targetgaslimit 10500000 console 2>>log
+ geth --datadir "data1" --networkid 123 --dev --rpc --rpcapi "db,eth,net,web3,miner,personal" --targetgaslimit 10500000 --allow-insecure-unlock console 2>>log
  ```
  注意，dev模式会自动生成一个默认账号，不能使用原有的账号（或keystore文件），如果需要用多个账号就要用`personal.newAccount("******")`命令创建。如果将默认账号中的以太币转账至其他账号的话是不用输入密码的。
  
@@ -131,6 +131,11 @@ BizLicOnChain
 ### 5. 创建账户
 
  &ensp;&ensp;&ensp;&ensp;
+ 查看所有账户：
+ ```
+ > eth.accounts
+ ```
+ &ensp;&ensp;&ensp;&ensp;
  设置挖矿地址：
 ```
 > miner.setEtherbase('用户地址')
@@ -143,6 +148,11 @@ BizLicOnChain
 
 ### 6. 开始挖矿
 
+ &ensp;&ensp;&ensp;&ensp;
+ 查看挖矿状态：
+ ```
+ eth.mining
+ ```
  &ensp;&ensp;&ensp;&ensp;
  键入以下命令，开始挖矿：
  ```
