@@ -170,12 +170,12 @@ BizLicOnChain
 &ensp;&ensp;&ensp;&ensp;
 先解除账户锁定：
 ```
-> personal.unlockAccount(acc0)
+> personal.unlockAccount(eth.accounts[0])
 ```
  &ensp;&ensp;&ensp;&ensp;
  转账命令如下：
 ```
-> eth.sendTransaction({from: acc0, to: acc1, value: amount})
+> eth.sendTransaction({from: eth.accounts[0], to: eth.accounts[2], value: amount})
 ```
 ### 8. 按装 truffle
 
