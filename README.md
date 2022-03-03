@@ -136,6 +136,11 @@ BizLicOnChain
  > eth.accounts
  ```
  &ensp;&ensp;&ensp;&ensp;
+ 创建账户：
+ ```
+ > personal.newAccount("******")
+ ```
+ &ensp;&ensp;&ensp;&ensp;
  设置挖矿地址：
 ```
 > miner.setEtherbase('用户地址')
