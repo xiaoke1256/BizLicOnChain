@@ -29,12 +29,12 @@ server:
 
 contract:
   #ctAddr: "0x85EA9e5229306D7D73ED41CBE427F241D6717e5B"  #合约地址
-  ctAddr: "0x1B32FD0031436723ADf77E855B4442a3bFD6A6a9" #合约地址
+  ctAddr: "0xD82B98DD97F47B0d91BC3B4560cf1D78a47999cF" #合约地址
   startAddr:  "************************************"   #顶级节点地址（好像没用到）
   #sendAddr:  "0xaefe184653e506426daab8369504ce3a2d95b68c"   #from地址
-  sendAddr:  "0x88f189d467250ab1b527ab5cb82aea5bf1987adb"   #dev 环境下的
+  sendAddr:  "0xb4efc357764a1eeb07695f8784209e8e316c222f"   #dev 环境下的
   #sendAddrPk:  "e08736ed03b3d08d2e07ce89600d33664656f4f4073875cda78a476607d36570"  #私钥
-  sendAddrPk:  "ef53cf43b0edc75d9e68cb1652e4b8d1d7e10aafa5a895ce5b32bd5b514cecc2"   #dev 环境下的私钥。
+  sendAddrPk:  "02277d3de6287ac1bb4dfda7d5d3cf87ee0f4fe6343f2bcd20ca7a04cc6c7a49"   #dev 环境下的私钥。
   gasPrice: 20000000000 # Gas Price越高，交易优先级越高，打包交易速度越快。
   gasLimit: 1500000  # Gas Limit 是用户愿意为执行某个操作或确认交易支付的最大Gas量（最少21,000）
   isAddGas: false #是否启用按当前市价进行加权矿工费用
