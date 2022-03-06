@@ -104,4 +104,11 @@
   		and ERR_MSG like '%'||#{errMsg}||'%'
   	</if>
   </select>
+  
+  <select id="queryUnFeedback" resultType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" >
+    select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME 
+    from ETH_TRAS_LOG 
+  	where 1=1 and STATUS = 'C'
+  	order by LOG_ID
+  </select>
 </mapper>

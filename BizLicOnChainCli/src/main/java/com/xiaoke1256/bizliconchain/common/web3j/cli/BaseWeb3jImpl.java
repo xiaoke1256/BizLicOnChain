@@ -129,13 +129,13 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             LOG.info("bizKey:{}");
             LOG.info("trasHash:{}",hash);
             LOG.info(JSONObject.toJSONString(ethSendTransaction));
-            log = ethTrasLogService.saveLog(nonce.toString(), contractAddress, method, bizKey, hash,gasPrice);
+            log = ethTrasLogService.saveLog(nonce.toString(), contractAddress, method, bizKey, hash,gasPrice,gasLimit);
             if(ethSendTransaction.getError()!=null) {
             	ethTrasLogService.modifyError(log,ethSendTransaction.getError().getMessage());
             	throw new RuntimeException(ethSendTransaction.getError().getMessage());
             }
             //看看到底成功了没有
-            /* TODO 以下用其他方法来解决，比如现将hexValue保存到数据库，然后定时轮询来更新后续状态。
+            /* 以下用其他方法来解决，比如现将hexValue保存到数据库，然后定时轮询来更新后续状态。
             Thread.sleep(20000);//以太坊平均出块时间是17.16s
             EthGetTransactionReceipt ethGetTransactionReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
             if(ethGetTransactionReceipt.getTransactionReceipt().isPresent()) {

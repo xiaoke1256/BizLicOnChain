@@ -1,6 +1,5 @@
 package com.xiaoke1256.bizliconchain.common.service;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
@@ -35,7 +34,7 @@ public class EthTrasLogService {
 		ethTrasLogMapper.saveLog(log);
 	}
 	
-	public EthTrasLog saveLog(String nonce,String contractAddress,String method,String bizKey,String trasHash,BigInteger gasPrice) {
+	public EthTrasLog saveLog(String nonce,String contractAddress,String method,String bizKey,String trasHash,BigInteger gasPrice,BigInteger gasLimit) {
 		EthTrasLog log = new EthTrasLog();
 		log.setNonce(nonce);
 		log.setContractAddress(contractAddress);
@@ -44,6 +43,7 @@ public class EthTrasLogService {
 		log.setTrasHash(trasHash);
 		log.setStatus(STATUS_COMMITED);
 		log.setGasPrice(gasPrice);
+		log.setGasLimit(gasLimit);
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 		log.setInsertTime(now);
 		log.setUpdateTime(now);
@@ -67,5 +67,10 @@ public class EthTrasLogService {
 		log.setFinishTime(new Timestamp(System.currentTimeMillis()));
 		log.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		ethTrasLogMapper.updateLog(log);
+	}
+	
+	@Transactional(readOnly=true)
+	public List<EthTrasLog> queryUnFeedback(){
+		return ethTrasLogMapper.queryUnFeedback();
 	}
 }

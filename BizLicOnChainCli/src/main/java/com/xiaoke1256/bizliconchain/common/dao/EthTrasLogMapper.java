@@ -19,4 +19,6 @@ public interface EthTrasLogMapper {
 	public List<EthTrasLog> searchLog(EthTrasLogSearchCondition searchCondition);
 	
 	public Integer countLog(EthTrasLogSearchCondition searchCondition);
+	
+	public List<EthTrasLog> queryUnFeedback();
 }
