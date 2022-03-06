@@ -18,6 +18,7 @@ import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 
 import com.xiaoke1256.bizliconchain.common.bo.EthTrasLog;
+import com.xiaoke1256.bizliconchain.common.util.HexUtil;
 
 /**
  * 定时任务，用于反馈一个交易的执行结果，因为以太坊的事务都是异步反馈的
@@ -60,6 +61,11 @@ public class EthTrasLogFeedbackService {
 	        	LOG.info("gasUsed:"+gasUsed);
 	        	LOG.info("blockNumber:"+blockNumber);
 	        	log.setTrasStatus(status);
+	        	if(HexUtil.parse(status).intValue()==1) {
+	        		log.setStatus("S");
+	        	}else {
+	        		log.setStatus("E");
+	        	}
 	        	log.setGasUsed(gasUsed);
 	        	log.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 	        	ethTrasLogService.updateLog(log);
