@@ -1,5 +1,6 @@
 package com.xiaoke1256.bizliconchain.common.service;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameter;
+import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 
@@ -60,6 +63,14 @@ public class EthTrasLogFeedbackService {
 	        	LOG.info("status:"+status);//1为成功 0为失败
 	        	LOG.info("gasUsed:"+gasUsed);
 	        	LOG.info("blockNumber:"+blockNumber);
+	        	try {
+	                EthBlock ethBlock = web3j.ethGetBlockByNumber(DefaultBlockParameter.valueOf(blockNumber), false).send();
+	                Timestamp timestamp = new Timestamp(ethBlock.getBlock().getTimestamp().longValue());
+	                log.setFinishTime(timestamp);
+	            } catch (IOException e) {
+	                LOG.warn("Block timestamp get failure,block number is {}", blockNumber);
+	                LOG.error("Block timestamp get failure,{}", e);
+	            }
 	        	log.setTrasStatus(status);
 	        	if(HexUtil.parse(status).intValue()==1) {
 	        		log.setStatus("S");
