@@ -50,29 +50,29 @@
   <select id="searchLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLogSearchCondition" resultType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" >
   	select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME from ETH_TRAS_LOG 
   	where 1=1
-  	<if test="nonce != null and nonce != '' ">
-  		and NONCE = #{nonce}
+  	<if test="condition.nonce != null and condition.nonce != '' ">
+  		and NONCE = #{condition.nonce}
   	</if>
-  	<if test="contractAddress != null and contractAddress != '' ">
-  		and CONTRACT_ADDRESS = #{contractAddress}
+  	<if test="condition.contractAddress != null and condition.contractAddress != '' ">
+  		and CONTRACT_ADDRESS = #{condition.contractAddress}
   	</if>
-  	<if test="method != null and method != '' ">
-  		and method = #{method}
+  	<if test="condition.method != null and condition.method != '' ">
+  		and method = #{condition.method}
   	</if>
-  	<if test="bizKey != null and bizKey != '' ">
-  		and BIZ_KEY = #{bizKey}
+  	<if test="condition.bizKey != null and condition.bizKey != '' ">
+  		and BIZ_KEY = #{condition.bizKey}
   	</if>
-  	<if test="trasHash != null and trasHash != '' ">
-  		and TRAS_HASH = #{trasHash}
+  	<if test="condition.trasHash != null and condition.trasHash != '' ">
+  		and TRAS_HASH = #{condition.trasHash}
   	</if>
-  	<if test="trasStatus != null and trasStatus != '' ">
-  		and TRAS_STATUS = #{trasStatus}
+  	<if test="condition.trasStatus != null and condition.trasStatus != '' ">
+  		and TRAS_STATUS = #{condition.trasStatus}
   	</if>
-  	<if test="status != null and status != '' ">
-  		and STATUS = #{status}
+  	<if test="condition.status != null and condition.status != '' ">
+  		and STATUS = #{condition.status}
   	</if>
-  	<if test="errMsg != null and errMsg != '' "><!-- TODO 后续要改成like -->
-  		and ERR_MSG like '%'||#{errMsg}||'%'
+  	<if test="condition.errMsg != null and condition.errMsg != '' "><!-- TODO 后续要改成like -->
+  		and ERR_MSG like '%'||#{condition.errMsg}||'%'
   	</if>
   	order by UPDATE_TIME desc
   	<if test="pageSize>0">
@@ -83,29 +83,29 @@
   <select id="countLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLogSearchCondition" resultType="int" >
   	select count(*) from ETH_TRAS_LOG 
   	where 1=1
-  	<if test="nonce != null and nonce != '' ">
-  		and NONCE = #{nonce}
+  	<if test="condition.nonce != null and condition.nonce != '' ">
+  		and NONCE = #{condition.nonce}
   	</if>
-  	<if test="contractAddress != null and contractAddress != '' ">
-  		and CONTRACT_ADDRESS = #{contractAddress}
+  	<if test="condition.contractAddress != null and condition.contractAddress != '' ">
+  		and CONTRACT_ADDRESS = #{condition.contractAddress}
   	</if>
-  	<if test="method != null and method != '' ">
-  		and method = #{method}
+  	<if test="condition.method != null and condition.method != '' ">
+  		and method = #{condition.method}
   	</if>
-  	<if test="bizKey != null and bizKey != '' ">
-  		and BIZ_KEY = #{bizKey}
+  	<if test="condition.bizKey != null and condition.bizKey != '' ">
+  		and BIZ_KEY = #{condition.bizKey}
   	</if>
-  	<if test="trasHash != null and trasHash != '' ">
-  		and TRAS_HASH = #{trasHash}
+  	<if test="condition.trasHash != null and condition.trasHash != '' ">
+  		and TRAS_HASH = #{condition.trasHash}
   	</if>
-  	<if test="trasStatus != null and trasStatus != '' ">
-  		and TRAS_STATUS = #{trasStatus}
+  	<if test="condition.trasStatus != null and condition.trasStatus != '' ">
+  		and TRAS_STATUS = #{condition.trasStatus}
   	</if>
-  	<if test="status != null and status != '' ">
-  		and STATUS = #{status}
+  	<if test="condition.status != null and condition.status != '' ">
+  		and STATUS = #{condition.status}
   	</if>
-  	<if test="errMsg != null and errMsg != '' "><!-- TODO 后续要改成like -->
-  		and ERR_MSG like '%'||#{errMsg}||'%'
+  	<if test="condition.errMsg != null and condition.errMsg != '' "><!-- TODO 后续要改成like -->
+  		and ERR_MSG like '%'||#{condition.errMsg}||'%'
   	</if>
   </select>
   

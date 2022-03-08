@@ -17,9 +17,9 @@ public interface EthTrasLogMapper {
 	
 	public void updateLog(EthTrasLog log);
 	
-	public List<EthTrasLog> searchLog(EthTrasLogSearchCondition searchCondition,@Param("fromIndex") int fromIndex,@Param("pageSize") int pageSize);
+	public List<EthTrasLog> searchLog(@Param("condition")EthTrasLogSearchCondition searchCondition,@Param("fromIndex") int fromIndex,@Param("pageSize") int pageSize);
 	
-	public Integer countLog(EthTrasLogSearchCondition searchCondition);
+	public Integer countLog(@Param("condition")EthTrasLogSearchCondition searchCondition);
 	
 	public List<EthTrasLog> queryUnFeedback();
 }

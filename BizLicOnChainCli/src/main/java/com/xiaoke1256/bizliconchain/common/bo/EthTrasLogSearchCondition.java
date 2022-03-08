@@ -1,6 +1,6 @@
 package com.xiaoke1256.bizliconchain.common.bo;
 
-public class EthTrasLogSearchCondition {
+public class EthTrasLogSearchCondition extends SearchCondition {
     private String nonce;
     private String contractAddress;
     private String method;

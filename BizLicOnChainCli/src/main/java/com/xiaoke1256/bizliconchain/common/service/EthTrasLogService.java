@@ -58,9 +58,16 @@ public class EthTrasLogService {
 	
 	@Transactional(readOnly=true)
 	public List<EthTrasLog> searchLog(EthTrasLogSearchCondition condition){
+		if(condition.getPageNo()<=0) {
+			condition.setPageNo(1);
+		}
+		if(condition.getPageSize()<=0) {
+			condition.setPageSize(10);
+		}
 		Integer total = ethTrasLogMapper.countLog(condition);
-		int pageNo = (total/10);
-		return ethTrasLogMapper.searchLog(condition,0,10);
+		condition.setTotal(total);
+		int firstIndex = (condition.getPageNo()-1)*condition.getPageSize();
+		return ethTrasLogMapper.searchLog(condition,firstIndex,condition.getPageSize());
 	}
 	
 	public void modifyError(EthTrasLog log,String errMsg) {
