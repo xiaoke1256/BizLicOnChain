@@ -58,7 +58,9 @@ public class EthTrasLogService {
 	
 	@Transactional(readOnly=true)
 	public List<EthTrasLog> searchLog(EthTrasLogSearchCondition condition){
-		return ethTrasLogMapper.searchLog(condition);
+		Integer total = ethTrasLogMapper.countLog(condition);
+		int pageNo = (total/10);
+		return ethTrasLogMapper.searchLog(condition,0,10);
 	}
 	
 	public void modifyError(EthTrasLog log,String errMsg) {

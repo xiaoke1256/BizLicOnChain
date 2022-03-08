@@ -2,6 +2,7 @@ package com.xiaoke1256.bizliconchain.common.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xiaoke1256.bizliconchain.common.bo.EthTrasLog;
@@ -16,7 +17,7 @@ public interface EthTrasLogMapper {
 	
 	public void updateLog(EthTrasLog log);
 	
-	public List<EthTrasLog> searchLog(EthTrasLogSearchCondition searchCondition);
+	public List<EthTrasLog> searchLog(EthTrasLogSearchCondition searchCondition,@Param("fromIndex") int fromIndex,@Param("pageSize") int pageSize);
 	
 	public Integer countLog(EthTrasLogSearchCondition searchCondition);
 	
