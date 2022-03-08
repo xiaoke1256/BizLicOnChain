@@ -1,6 +1,8 @@
 package com.xiaoke1256.bizliconchain.common.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,9 @@ public class EthTrasLogController {
 	@RequestMapping(value="/search", method = {RequestMethod.POST,RequestMethod.GET})
 	public RespMsg searchLogs(EthTrasLogSearchCondition condition) {
 		List<EthTrasLog> result = ethTrasLogService.searchLog(condition);
+		Map<String,Object> ret = new HashMap<>();
+		ret.put("rows", result);
+		ret.put("total", condition.getTotal());
 		return new RespMsg("00","Success!",result);
 	}
 }

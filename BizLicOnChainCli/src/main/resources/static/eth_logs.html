@@ -12,15 +12,17 @@
    #iTable th{border-left:1px solid #000;border-top:1px solid #000}
   </style>
   <script type="text/javascript">
+  var pageNo = 1;
+  var pageSize = 10
   $(function(){
 	  
 	 var searchLogs = function(){
-		 $.get('ethLogs/search',{},function(resp){
+		 $.get('ethLogs/search',{pageNo:pageNo,pageSize:pageSize},function(resp){
 			if(resp.code!='00'){
 				console.log('查询失败');
 				return;
 			}
-			var logs = resp.data;
+			var logs = resp.data.rows;
 			var s = '';
 			for(var i in logs){
 				var log = logs[i];
@@ -42,6 +44,12 @@
 				s += '</tr>';
 			}
 			$('#iTable').append($(s));
+			var total = resp.data.total;
+			var totalPage = total/pageSize;
+			if(total%pageSize>0){
+			  totalPage+=1;
+			}
+			$('#pageInfo').html('totalPage:'+totalPage);
 		},'json');
 	}
 	
@@ -59,6 +67,7 @@
 	    <th>insertTime</th><th>updateTime</th><th>finishTime</th>
 	  </tr>
 	</table>
+	<div id="pageInfo" style="width:100%">dddd</div>
   </div>
 </body>
 </html>
