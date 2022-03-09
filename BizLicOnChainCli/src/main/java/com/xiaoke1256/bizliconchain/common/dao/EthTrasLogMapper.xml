@@ -25,8 +25,8 @@
   </select>
   
   <insert id="saveLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" keyProperty="logId" useGeneratedKeys="true" >
-  	insert into ETH_TRAS_LOG (NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME) 
-  	values (#{nonce},#{contractAddress},#{method},#{bizKey},#{trasHash},#{trasStatus},#{status},#{gasPrice},#{gasUsed},#{errMsg},#{insertTime},#{updateTime},#{finishTime})
+  	insert into ETH_TRAS_LOG (NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,GAS_LIMIT,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME) 
+  	values (#{nonce},#{contractAddress},#{method},#{bizKey},#{trasHash},#{trasStatus},#{status},#{gasPrice},#{gasUsed},#{gasLimit},#{errMsg},#{insertTime},#{updateTime},#{finishTime})
   </insert>
   
   <update id="updateLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" >
@@ -39,7 +39,8 @@
       TRAS_STATUS = #{trasStatus},
       STATUS = #{status},
       GAS_PRICE = #{gasPrice},
-      GAS_USED = #{gasUsed},
+      GAS_LIMIT = #{gasUsed},
+      GAS_USED = #{gasLimit},
       ERR_MSG = #{errMsg},
       INSERT_TIME = #{insertTime},
       UPDATE_TIME = #{updateTime},
