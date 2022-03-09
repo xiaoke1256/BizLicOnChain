@@ -60,6 +60,10 @@ public class EthTrasLogFeedbackService {
 	        	String status = ethGetTransactionReceipt.getTransactionReceipt().get().getStatus();
 	        	BigInteger gasUsed = ethGetTransactionReceipt.getTransactionReceipt().get().getGasUsed();
 	        	BigInteger blockNumber = ethGetTransactionReceipt.getTransactionReceipt().get().getBlockNumber();
+	        	if(gasUsed == null) {
+	        	  LOG.error("used 怎么可能是空？");//gasUsed 是重要的核算依据不能是空。
+	        	  continue;
+	        	}
 	        	LOG.info("status:"+status);//1为成功 0为失败
 	        	LOG.info("gasUsed:"+gasUsed);
 	        	LOG.info("blockNumber:"+blockNumber);

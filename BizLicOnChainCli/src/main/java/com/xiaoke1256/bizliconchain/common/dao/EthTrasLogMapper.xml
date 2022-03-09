@@ -21,7 +21,7 @@
   </resultMap>
  
   <select id="getEthTrasLog" resultType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog">
-    select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME from ETH_TRAS_LOG where id = #{logId}
+    select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,GAS_LIMIT,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME from ETH_TRAS_LOG where id = #{logId}
   </select>
   
   <insert id="saveLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" keyProperty="logId" useGeneratedKeys="true" >
@@ -49,7 +49,7 @@
   </update>
   
   <select id="searchLog" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLogSearchCondition" resultType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" >
-  	select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME from ETH_TRAS_LOG 
+  	select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,GAS_LIMIT,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME from ETH_TRAS_LOG 
   	where 1=1
   	<if test="condition.nonce != null and condition.nonce != '' ">
   		and NONCE = #{condition.nonce}
@@ -111,7 +111,7 @@
   </select>
   
   <select id="queryUnFeedback" resultType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" >
-    select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME 
+    select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_LIMIT,GAS_USED,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME 
     from ETH_TRAS_LOG 
   	where 1=1 and STATUS = 'C'
   	order by LOG_ID
