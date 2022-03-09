@@ -26,6 +26,6 @@ public class EthTrasLogController {
 		Map<String,Object> ret = new HashMap<>();
 		ret.put("rows", result);
 		ret.put("total", condition.getTotal());
-		return new RespMsg("00","Success!",result);
+		return new RespMsg("00","Success!",ret);
 	}
 }

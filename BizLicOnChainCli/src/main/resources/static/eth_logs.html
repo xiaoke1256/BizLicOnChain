@@ -13,9 +13,10 @@
   </style>
   <script type="text/javascript">
   var pageNo = 1;
-  var pageSize = 10
+  var pageSize = 10;
+  var totalPage = 0;
   $(function(){
-	  
+	 
 	 var searchLogs = function(){
 		 $.get('ethLogs/search',{pageNo:pageNo,pageSize:pageSize},function(resp){
 			if(resp.code!='00'){
@@ -45,14 +46,45 @@
 			}
 			$('#iTable').append($(s));
 			var total = resp.data.total;
-			var totalPage = total/pageSize;
+			totalPage = Math.floor(total/pageSize);
 			if(total%pageSize>0){
 			  totalPage+=1;
 			}
-			$('#pageInfo').html('totalPage:'+totalPage);
+			var p = ' '+pageNo+'/'+totalPage+' ';
+			if(pageNo>1){
+			  p = ' <a href="#" id="toFirstPage" >first</a> | <a href="#" id="toPrevPage" >prev</a> |' +p;
+			}
+			if(pageNo<totalPage){
+			  p += '| <a href="#" id="toNextPage" >next</a> | <a href="#" id="toLastPage" >last</a>';
+			}
+			$('#pageInfo').html(p);
 		},'json');
 	}
+	 
+    //上一页
+    $('#pageInfo').on('click','#toPrevPage',function(){
+    	pageNo--;
+    	searchLogs();
+    });
+    
+    //首页
+    $('#pageInfo').on('click','#toFirstPage',function(){
+    	pageNo=0;
+    	searchLogs();
+    });
 	
+    //下一页
+    $('#pageInfo').on('click','#toNextPage',function(){
+    	pageNo++;
+    	searchLogs();
+    });
+    
+    //尾页
+    $('#pageInfo').on('click','#toLastPage',function(){
+    	pageNo = totalPage;
+    	searchLogs();
+    });
+    
 	searchLogs();
   });
   </script>
@@ -67,7 +99,7 @@
 	    <th>insertTime</th><th>updateTime</th><th>finishTime</th>
 	  </tr>
 	</table>
-	<div id="pageInfo" style="width:100%">dddd</div>
+	<div id="pageInfo" style="width:100%"></div>
   </div>
 </body>
 </html>
