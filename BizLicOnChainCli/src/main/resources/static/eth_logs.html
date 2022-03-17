@@ -25,6 +25,7 @@
 			}
 			var logs = resp.data.rows;
 			var s = '';
+			$('#iTable tr:gt(0)').remove();
 			for(var i in logs){
 				var log = logs[i];
 				s += '<tr>';
