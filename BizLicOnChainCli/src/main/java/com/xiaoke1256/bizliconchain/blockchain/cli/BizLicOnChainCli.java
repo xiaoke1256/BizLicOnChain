@@ -1,7 +1,6 @@
 package com.xiaoke1256.bizliconchain.blockchain.cli;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -22,12 +21,13 @@ import org.web3j.abi.datatypes.Utf8String;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.xiaoke1256.bizliconchain.blockchain.common.BaseCli;
 import com.xiaoke1256.bizliconchain.bo.Bizlic;
 import com.xiaoke1256.bizliconchain.common.encrypt.ECDSASecp256k1;
 import com.xiaoke1256.bizliconchain.common.web3j.cli.IBaseWeb3j;
 
 @Service
-public class BizLicOnChainCli {
+public class BizLicOnChainCli extends BaseCli {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(BizLicOnChainCli.class);
 	 
@@ -37,34 +37,10 @@ public class BizLicOnChainCli {
 	private IBaseWeb3j baseWeb3j;
 	
 	/**
-	 * from地址
-	 */
-	@Value("${contract.sendAddr}")
-	private String fromAddr;
-	
-	/**
-	 * from地址私钥
-	 */
-	@Value("${contract.sendAddrPk}")
-	private String fromPrivateKey;
-	
-	/**
 	 * 合约地址
 	 */
 	@Value("${contract.ctAddr}")
 	private String contractAddress;
-
-	/**
-	 * gas价格
-	 */
-	@Value("${contract.gasPrice}")
-	private BigInteger gasPrice;
-	 
-	/**
-	 * gas限额
-	 */
-	@Value("${contract.gasLimit}")
-	private BigInteger gasLimit;
 	
 	@PostConstruct
 	public void init() {
