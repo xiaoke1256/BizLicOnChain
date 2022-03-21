@@ -1,6 +1,8 @@
 package com.xiaoke1256.bizliconchain.bo;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.List;
 
 /**
  * 股东表
@@ -16,16 +18,27 @@ public class StockHolder {
 	private String investorName;	
 	/** 股东账号 */
 	private String investorAccount;	
+	/**  */
+	private String investorCetfType;
+	
+	private String investorCetfNo;
+	
 	/**
 	 * 股东身份证件,有身份证件类型（身份证、居留证、军官证、中国护照、外国或地区护照）
 	 * 和证件号码组成，由冒号(:)分隔。
 	 * 本字段需要加密，区块链中仅保存其Hash值。
 	 */
 	private String investorCetfHash;
+//	/**
+//	 * 股权详情。json方式给出，描述出资方式和份额。举例如下：“[{invtType:'货币',amt:200000},{invtType:'知识产权',amt:100000}]”。
+//	 */
+//	private String stockRightDetail;
+	
 	/**
-	 * 股权详情。json方式给出，描述出资方式和份额。举例如下：“[{invtType:'货币',amt:200000},{invtType:'知识产权',amt:100000}]”。
+	 * 股权详情。举例如下：“[{invtType:'货币',amt:200000},{invtType:'知识产权',amt:100000}]”。
 	 */
-	private String stockRightDetail;	
+	private List<StockRightItem> stockRightItems;
+	
 	/**
 	 * 股东姓名、股东账号、股东身份证件三者加起来的默克尔值;
 	 */
@@ -33,7 +46,7 @@ public class StockHolder {
 	/**
 	 * 出资额度（人民币元）
 	 */
-	private BigDecimal cptAmt;
+	private BigInteger cptAmt;
 	public String getUniScId() {
 		return uniScId;
 	}
@@ -64,11 +77,11 @@ public class StockHolder {
 	public void setInvestorCetfHash(String investorCetfHash) {
 		this.investorCetfHash = investorCetfHash;
 	}
-	public String getStockRightDetail() {
-		return stockRightDetail;
+	public List<StockRightItem> getStockRightItems() {
+		return stockRightItems;
 	}
-	public void setStockRightDetail(String stockRightDetail) {
-		this.stockRightDetail = stockRightDetail;
+	public void setStockRightItems(List<StockRightItem> stockRightItems) {
+		this.stockRightItems = stockRightItems;
 	}
 	public String getMerkel() {
 		return merkel;
@@ -76,11 +89,23 @@ public class StockHolder {
 	public void setMerkel(String merkel) {
 		this.merkel = merkel;
 	}
-	public BigDecimal getCptAmt() {
+	public BigInteger getCptAmt() {
 		return cptAmt;
 	}
-	public void setCptAmt(BigDecimal cptAmt) {
+	public void setCptAmt(BigInteger cptAmt) {
 		this.cptAmt = cptAmt;
+	}
+	public String getInvestorCetfType() {
+		return investorCetfType;
+	}
+	public void setInvestorCetfType(String investorCetfType) {
+		this.investorCetfType = investorCetfType;
+	}
+	public String getInvestorCetfNo() {
+		return investorCetfNo;
+	}
+	public void setInvestorCetfNo(String investorCetfNo) {
+		this.investorCetfNo = investorCetfNo;
 	}	
 	
 	
