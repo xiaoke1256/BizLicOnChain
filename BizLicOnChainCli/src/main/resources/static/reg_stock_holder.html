@@ -63,6 +63,9 @@
   			
   		});
   		
+  		$('#addBtn').click(function(){
+  		  $('#itemsTable').append($('<tr><td></td><td></td><td></td></tr>'));
+  		});
   		
   		//核准时间
   		var today = new Date();
@@ -104,11 +107,11 @@
 					<td><input name="cptAmt"  maxLength="20" >元</td>
 				</tr>
 			</table>
-			<table class="formTable">
+			<table class="formTable" id="itemsTable" >
 			    <tr>
 					<th>投资方式</th>
 					<th>资金额</th>
-					<th><button>+</button></th>
+					<th><button id="addBtn">+</button></th>
 				</tr>
 			</table>
 			<button id="submitBtn" type="button" >提交</button>
