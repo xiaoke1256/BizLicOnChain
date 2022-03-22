@@ -1,6 +1,5 @@
 package com.xiaoke1256.bizliconchain.bo;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -23,12 +22,12 @@ public class StockHolder {
 	
 	private String investorCetfNo;
 	
-	/**
-	 * 股东身份证件,有身份证件类型（身份证、居留证、军官证、中国护照、外国或地区护照）
-	 * 和证件号码组成，由冒号(:)分隔。
-	 * 本字段需要加密，区块链中仅保存其Hash值。
-	 */
-	private String investorCetfHash;
+//	/**
+//	 * 股东身份证件,有身份证件类型（身份证、居留证、军官证、中国护照、外国或地区护照）
+//	 * 和证件号码组成，由冒号(:)分隔。
+//	 * 本字段需要加密，区块链中仅保存其Hash值。
+//	 */
+//	private String investorCetfHash;
 //	/**
 //	 * 股权详情。json方式给出，描述出资方式和份额。举例如下：“[{invtType:'货币',amt:200000},{invtType:'知识产权',amt:100000}]”。
 //	 */
@@ -71,12 +70,12 @@ public class StockHolder {
 	public void setInvestorAccount(String investorAccount) {
 		this.investorAccount = investorAccount;
 	}
-	public String getInvestorCetfHash() {
-		return investorCetfHash;
-	}
-	public void setInvestorCetfHash(String investorCetfHash) {
-		this.investorCetfHash = investorCetfHash;
-	}
+//	public String getInvestorCetfHash() {
+//		return investorCetfHash;
+//	}
+//	public void setInvestorCetfHash(String investorCetfHash) {
+//		this.investorCetfHash = investorCetfHash;
+//	}
 	public List<StockRightItem> getStockRightItems() {
 		return stockRightItems;
 	}

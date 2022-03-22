@@ -45,7 +45,7 @@
   				alert("请填写投资金额。");
   				return false;
   			}
-  			if(isNaN($('[name=regCpt]').val())){
+  			if(isNaN($('[name=cptAmt]').val())){
   				alert("投资金额必须是数字。");
   				return false;
   			}
@@ -53,11 +53,11 @@
   			var data = {
   				uniScId:$('[name=uniScId]').val(),
   				investorName:$('[name=investorName]').val(),
+  				investorName:$('[name=investorCetfType]').val(),
   				investorIdCard:$('[name=investorIdCard]').val(),
-  				regCpt:$('[name=regCpt]').val()
-  			}
-
-  			$.post('bizlic',data,function(resp){
+  				cptAmt:$('[name=cptAmt]').val()
+  			};
+  			$.post('/bizlic/stockHolder',data,function(resp){
   				alert(resp.msg);
   			},'json');
   			
@@ -101,7 +101,14 @@
 				</tr>
 				<tr>
 					<th>投资金额:</th>
-					<td><input name="regCpt"  maxLength="20" >元</td>
+					<td><input name="cptAmt"  maxLength="20" >元</td>
+				</tr>
+			</table>
+			<table class="formTable">
+			    <tr>
+					<th>投资方式</th>
+					<th>资金额</th>
+					<th><button>+</button></th>
 				</tr>
 			</table>
 			<button id="submitBtn" type="button" >提交</button>

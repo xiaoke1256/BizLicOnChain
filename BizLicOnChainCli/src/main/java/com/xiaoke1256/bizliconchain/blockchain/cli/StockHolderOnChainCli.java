@@ -29,7 +29,7 @@ public class StockHolderOnChainCli extends BaseCli {
 	private String contractAddress;
 	
 	public void sendStockHolder(StockHolder stockHolder) {
-		//@SuppressWarnings("rawtypes")
+		@SuppressWarnings("rawtypes")
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(stockHolder.getUniScId()));
 		inputParameters.add(new Utf8String(Hash.sha3String(stockHolder.getInvestorCetfType()+":"+stockHolder.getInvestorCetfNo())));
