@@ -88,9 +88,17 @@
   				cptAmt:$('[name=cptAmt]').val(),
   				stockRightItems:stockRightItems
   			};
-  			$.post('bizlic/stockHolder',data,function(resp){
-  				alert(resp.msg);
-  			},'json');
+
+  			$.ajax({
+  				url : "bizlic/stockHolder",
+  				type : "POST",
+  				contentType : 'application/json',
+  				dataType : 'json',
+  				data :JSON.stringify(data),
+  				success : function(data) {
+  					alert(resp.msg);
+  				}
+  			});
   			
   		});
   		
