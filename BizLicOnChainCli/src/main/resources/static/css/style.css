@@ -10,7 +10,7 @@ html,body,div{
 .center {
 	margin: 2px auto
 }
-.formTable{
+.formTable,.listTable{
 	margin: 2px auto;
 	text-align:center;
 }
