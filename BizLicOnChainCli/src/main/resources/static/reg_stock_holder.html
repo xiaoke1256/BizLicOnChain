@@ -2,6 +2,9 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0"> 
   <title>bizlic on chain welcome!</title>
   <link rel="stylesheet" type="text/css" title="default" href="css/style.css" >
   <script type="text/javascript" src="js/jquery.min.js" ></script>
@@ -104,7 +107,8 @@
   		
   		$('#addBtn').click(function(){
   		  $('#itemsTable').append($('<tr><td><select name="invtType"><option value="货币" >货币</option><option value="知识产权" >知识产权</option></select></td>'
-  				  +'<td><input name="amt"/>元</td><td></td></tr>'));
+  				  +'<td><input name="amt"/>元</td>'
+  				  +'<td><button class="remove" type="button" >-</button></td></tr>'));
   		});
   		
   		//核准时间

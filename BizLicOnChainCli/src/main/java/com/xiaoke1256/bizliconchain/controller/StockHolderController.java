@@ -17,7 +17,7 @@ public class StockHolderController {
 	private StockHolderOnChainCli stockHolderOnChainCli;
 	
 	/**
-	 * 新增或修改一个营业职照
+	 * 新增或修改一个股东
 	 */
 	@RequestMapping(value = "/bizlic/stockHolder", method =RequestMethod.POST)
 	public RespMsg putStockHolder(@RequestBody StockHolder stockHolder) {
@@ -29,5 +29,14 @@ public class StockHolderController {
 			e.printStackTrace();
 			return new RespMsg("99",e.getMessage());
 		}
+	}
+	
+	/**
+	 * 查某个企业下的所有股东
+	 * @param uniScId
+	 * @return
+	 */
+	public RespMsg getStockHolders(String uniScId) {
+		return null;
 	}
 }
