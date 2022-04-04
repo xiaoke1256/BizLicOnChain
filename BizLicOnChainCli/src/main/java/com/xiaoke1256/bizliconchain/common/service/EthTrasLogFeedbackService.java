@@ -80,6 +80,9 @@ public class EthTrasLogFeedbackService {
 	        		log.setStatus("S");
 	        	}else {
 	        		log.setStatus("E");
+	        		LOG.info("ethGetTransactionReceipt.getRawResponse():"+ethGetTransactionReceipt.getRawResponse());
+	            	//LOG.info("response.getResult().getCumulativeGasUsedRaw():"+ethGetTransactionReceipt.getResult().getCumulativeGasUsedRaw());
+	            	log.setErrMsg(ethGetTransactionReceipt.getRawResponse());
 	        	}
 	        	log.setGasUsed(gasUsed);
 	        	log.setUpdateTime(new Timestamp(System.currentTimeMillis()));

@@ -33,7 +33,7 @@
   		<appender-ref ref="STDOUT"/>  
     	<appender-ref ref="file_log"/>  
   	</logger>
-  	<logger name="com.xiaoke1256" level="INFO" additivity="false">  
+  	<logger name="com.xiaoke1256" level="DEBUG" additivity="false">  
     	<appender-ref ref="STDOUT"/>  
     	<appender-ref ref="file_log"/>  
   	</logger>  

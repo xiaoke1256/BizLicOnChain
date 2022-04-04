@@ -30,11 +30,11 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
      * cptAmt 出资额（人民币元）
      */
     function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,string memory stockRightDetail,uint cptAmt) public onlyAdmin returns (bool){
-    	require(bytes(uniScId).length>0);
-    	require(bytes(investorName).length>0);
-    	require(bytes(investorCetfHash).length>0);
+    	require(bytes(uniScId).length>0,'UniScId can not be empty!');
+    	require(bytes(investorName).length>0,'InvestorName can not be empty!');
+    	require(bytes(investorCetfHash).length>0,'InvestorCetfHash can not be empty!');
 		//require(bytes(stockRightDetail).length>0);
-		require(cptAmt>0);
+		require(cptAmt>0,'cptAmt must larger than 0!');
 
 		if(!ArrayUtils.contains(stockHoldersKeys[uniScId],investorCetfHash)){
 			stockHoldersKeys[uniScId].push(investorCetfHash);

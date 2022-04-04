@@ -125,7 +125,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
             hash = ethSendTransaction.getTransactionHash();
             LOG.info("contractAddress:{}",contractAddress);
-            LOG.info("bizKey:{}");
+            LOG.info("bizKey:{}",bizKey);
             LOG.info("trasHash:{}",hash);
             LOG.info(JSONObject.toJSONString(ethSendTransaction));
             log = ethTrasLogService.saveLog(nonce.toString(), contractAddress, method, bizKey, hash,gasPrice,gasLimit);
@@ -195,6 +195,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
         	return false;
         }
         if(HexUtil.parse(response.getValue()).intValue() == 0) {
+        	LOG.error("response.getValue():"+response.getValue());
         	LOG.error("response.getResult():"+response.getResult());
         	LOG.error("Jsonrpc:"+response.getJsonrpc());
         	LOG.error("RawResponse:"+response.getRawResponse());
