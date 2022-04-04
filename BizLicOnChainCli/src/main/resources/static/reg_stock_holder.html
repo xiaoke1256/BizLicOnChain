@@ -111,6 +111,10 @@
   				  +'<td><button class="remove" type="button" >-</button></td></tr>'));
   		});
   		
+  		$('#itemsTable').on('click','button.remove',function(){
+  			$(this).parent().parent().remove();
+  		});
+  		
   		//核准时间
   		var today = new Date();
   		$('[name=provDate]').val(today.format("yyyy-MM-dd"));
