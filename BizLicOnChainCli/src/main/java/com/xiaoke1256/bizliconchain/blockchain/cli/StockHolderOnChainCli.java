@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.web3j.abi.datatypes.Int;
 import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.crypto.Hash;
 
@@ -45,7 +45,7 @@ public class StockHolderOnChainCli extends BaseCli {
 		inputParameters.add(new Utf8String(Hash.sha3String(stockHolder.getInvestorCetfType()+":"+stockHolder.getInvestorCetfNo())));
 		inputParameters.add(new Utf8String(stockHolder.getInvestorName()));
 		inputParameters.add(new Utf8String(JSON.toJSONString(stockHolder.getStockRightItems())));
-		inputParameters.add(new Int(stockHolder.getCptAmt()));
+		inputParameters.add(new Uint(stockHolder.getCptAmt()));
 		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "putStockHolder", gasPrice, gasLimit, inputParameters,stockHolder.getUniScId()+"-"+stockHolder.getInvestorCetfType()+":"+stockHolder.getInvestorCetfNo() );
 	}
 
