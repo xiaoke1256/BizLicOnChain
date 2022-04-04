@@ -51,7 +51,8 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
      * investorName 股东姓名
      */
     function putStockHolder(string memory uniScId,string memory investorCetfHash,string memory investorName,string memory stockRightDetail,uint cptAmt) public returns (bool){
-		require(_initialized);
+		require(_initialized,'has not inited.');
+
         bool sucess;
         bytes memory result;
         (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("putStockHolder(string,string,string,string,uint256)",uniScId,investorCetfHash,investorName,stockRightDetail,cptAmt));
