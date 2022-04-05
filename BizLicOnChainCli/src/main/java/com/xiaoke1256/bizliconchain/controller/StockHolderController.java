@@ -1,5 +1,7 @@
 package com.xiaoke1256.bizliconchain.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +39,12 @@ public class StockHolderController {
 	 * @return
 	 */
 	public RespMsg getStockHolders(String uniScId) {
-		return null;
+		try {
+			List<StockHolder> stockHolders = stockHolderOnChainCli.getStockHolders(uniScId);
+			return new RespMsg("00","Success!",stockHolders);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new RespMsg("99",e.getMessage());
+		}
 	}
 }

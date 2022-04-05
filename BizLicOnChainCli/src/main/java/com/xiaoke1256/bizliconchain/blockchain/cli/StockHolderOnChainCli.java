@@ -2,6 +2,7 @@ package com.xiaoke1256.bizliconchain.blockchain.cli;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,10 @@ public class StockHolderOnChainCli extends BaseCli {
 	@Value("${contract.stockCtAddr}")
 	private String contractAddress;
 	
+	/**
+	 * 注册一个股东
+	 * @param stockHolder
+	 */
 	public void sendStockHolder(StockHolder stockHolder) {
 		@SuppressWarnings("rawtypes")
 		List<Type> inputParameters = new ArrayList<Type>();
@@ -47,6 +52,23 @@ public class StockHolderOnChainCli extends BaseCli {
 		inputParameters.add(new Utf8String(JSON.toJSONString(stockHolder.getStockRightItems())));
 		inputParameters.add(new Uint(stockHolder.getCptAmt()));
 		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "putStockHolder", gasPrice, gasLimit, inputParameters,stockHolder.getUniScId()+"-"+stockHolder.getInvestorCetfType()+":"+stockHolder.getInvestorCetfNo() );
+	}
+	
+	/**
+	 * 查一家企业下的所有股东
+	 * @param uniScId
+	 * @return
+	 */
+	public List<StockHolder> getStockHolders(String uniScId) {
+		List<Type> inputParameters = new ArrayList<Type>();
+		inputParameters.add(new Utf8String(uniScId));
+		String resultJson = null;
+		try {
+			resultJson = baseWeb3j.queryToString(fromAddr, contractAddress, "getStockHolders", inputParameters);
+		} catch (ClassNotFoundException | InterruptedException | ExecutionException e) {
+			throw new RuntimeException(e);
+		}
+		return JSON.parseArray(resultJson, StockHolder.class);
 	}
 
 }
