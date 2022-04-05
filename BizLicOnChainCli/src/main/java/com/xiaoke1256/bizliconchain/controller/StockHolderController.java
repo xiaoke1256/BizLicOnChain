@@ -3,6 +3,7 @@ package com.xiaoke1256.bizliconchain.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +39,8 @@ public class StockHolderController {
 	 * @param uniScId
 	 * @return
 	 */
-	public RespMsg getStockHolders(String uniScId) {
+	@RequestMapping(value = "/bizlic/{uniScId}/stockHolder", method =RequestMethod.GET)
+	public RespMsg getStockHolders(@PathVariable("uniScId") String uniScId) {
 		try {
 			List<StockHolder> stockHolders = stockHolderOnChainCli.getStockHolders(uniScId);
 			return new RespMsg("00","Success!",stockHolders);

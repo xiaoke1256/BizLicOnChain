@@ -7,6 +7,11 @@
   <meta http-equiv="expires" content="0"> 
   <title>bizlic on chain welcome!</title>
   <link rel="stylesheet" type="text/css" title="default" href="css/style.css" >
+  <style type="text/css">
+     #listTable {border-right:1px solid #000;border-bottom:1px solid #000}
+     #listTable td{border-left:1px solid #000;border-top:1px solid #000}
+     #listTable th{border-left:1px solid #000;border-top:1px solid #000}
+  </style>
   <script type="text/javascript" src="js/jquery.min.js" ></script>
   <script type="text/javascript" src="js/date_format.js" ></script>
   <script type="text/javascript">
@@ -31,6 +36,29 @@
   				$('#provDate').text(bizLic.provDate);//TODO 日期格式问题。
   				$('#limitTo').text(bizLic.limitTo);
   				$('#issueOrgan').text(bizLic.issueOrgan);
+  			},'json');
+  			
+  			$.get('bizlic/'+$('[name=uniScId]').val()+'/stockHolder',{},function(resp){
+  				if(resp.code!='00'){
+  					alert('查询失败');
+  					return;
+  				}
+  				$('#listTable').find('tr:gt(0)').remove();
+  				var inverstors = resp.data;
+  				var s = '';
+  				for(var i in inverstors){
+  					var inverstor = inverstors[i];
+  					var items = inverstor.stockRightItems;
+  					var itemStr = '';
+  					for(var j in items){
+  						var item = items[j]
+  						itemStr+=item.invtType+':'+item.amt+'元 <br/>'
+  					}
+  					s+='<tr><td>'+inverstor.investorName+'</td><td>'
+  						+inverstor.cptAmt+'</td><td>'
+  						+itemStr+'</td></tr>'
+  				}
+  				$('#listTable').append($(s));
   			},'json');
   			
   		});
@@ -96,6 +124,12 @@
 						<div id="issueOrgan"></div>
 					</td>
 				</tr>
+			</table>
+			
+			<table id="listTable" style="width:75%" class="listTable" border="0" cellspacing="0" cellpadding="0">
+			  <tr>
+			    <th>股东名称</th><th>投资额(元)</th><th>投资方式</th>
+			  </tr>
 			</table>
 		</div>
 		<div style="width:24%" class="floatRight" >

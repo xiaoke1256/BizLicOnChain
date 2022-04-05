@@ -11,8 +11,8 @@ import java.util.List;
 public class StockHolder {
 	/** 所在企业的统一社会信用码*/
 	private String uniScId;
-	/** 股东编号（股东编号和统一社会信用码两个字段可以唯一定位一个股东。） */
-	private String investorNo;	
+//	/** 股东编号（股东编号和统一社会信用码两个字段可以唯一定位一个股东。） */
+//	private String investorNo;	
 	/** 股东姓名 */
 	private String investorName;	
 	/** 股东账号 */
@@ -28,10 +28,11 @@ public class StockHolder {
 //	 * 本字段需要加密，区块链中仅保存其Hash值。
 //	 */
 //	private String investorCetfHash;
-//	/**
-//	 * 股权详情。json方式给出，描述出资方式和份额。举例如下：“[{invtType:'货币',amt:200000},{invtType:'知识产权',amt:100000}]”。
-//	 */
-//	private String stockRightDetail;
+	
+	/**
+	 * 股权详情。json方式给出，描述出资方式和份额。举例如下：“[{invtType:'货币',amt:200000},{invtType:'知识产权',amt:100000}]”。
+	 */
+	private String stockRightDetail;
 	
 	/**
 	 * 股权详情。举例如下：“[{invtType:'货币',amt:200000},{invtType:'知识产权',amt:100000}]”。
@@ -51,12 +52,6 @@ public class StockHolder {
 	}
 	public void setUniScId(String uniScId) {
 		this.uniScId = uniScId;
-	}
-	public String getInvestorNo() {
-		return investorNo;
-	}
-	public void setInvestorNo(String investorNo) {
-		this.investorNo = investorNo;
 	}
 	public String getInvestorName() {
 		return investorName;
@@ -105,6 +100,12 @@ public class StockHolder {
 	}
 	public void setInvestorCetfNo(String investorCetfNo) {
 		this.investorCetfNo = investorCetfNo;
+	}
+	public String getStockRightDetail() {
+		return stockRightDetail;
+	}
+	public void setStockRightDetail(String stockRightDetail) {
+		this.stockRightDetail = stockRightDetail;
 	}	
 	
 	
