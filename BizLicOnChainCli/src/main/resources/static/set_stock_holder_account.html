@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0"> 
+  <title>bizlic on chain welcome!</title>
+  <link rel="stylesheet" type="text/css" title="default" href="css/style.css" >
+  <style type="text/css">
+     #listTable {border-right:1px solid #000;border-bottom:1px solid #000}
+     #listTable td{border-left:1px solid #000;border-top:1px solid #000}
+     #listTable th{border-left:1px solid #000;border-top:1px solid #000}
+  </style>
+  <script type="text/javascript" src="js/jquery.min.js" ></script>
+  <script type="text/javascript" src="js/date_format.js" ></script>
+  <script type="text/javascript">
+  	$(function(){
+  		
+  		//加载所有uniscid
+		$.get('uniScIds',{},function(resp){
+			if(resp.code!='00'){
+				console.log('查询失败');
+				alert('查询失败');
+				return;
+			}
+			var ids = resp.data;
+			var s = '';
+			for(var i in ids){
+				s += '<a class="uniScIdLink" href="#">'+ids[i]+'</a><br>';
+			}
+			$('#uniscids_div').html(s);
+		},'json');
+  		
+  		$('#submitBtn').click(function(){
+  			if($('[name=uniScId]').val().length==0){
+  				alert("请填写统一社会信用码。");
+  				return false;
+  			}
+  			if($('[name=uniScId]').val().length!=18){
+  				alert("统一社会信用码的长度是18位。");
+  				return false;
+  			}
+  			if($('[name=investorName]').val().length==0){
+  				alert("请填写股东姓名。");
+  				return false;
+  			}
+  			if($('[name=investorCetfNo]').val().length==0){
+  				alert("请填写股东身份证号。");
+  				return false;
+  			}
+  			if($('[name=cptAmt]').val().length==0){
+  				alert("请填写投资金额。");
+  				return false;
+  			}
+  			if(isNaN($('[name=cptAmt]').val())){
+  				alert("投资金额必须是数字。");
+  				return false;
+  			}
+  			if($('#itemsTable tr').length<=1){
+  				alert('投资方式必填');
+  			}
+  			var checkPass = true;
+  			$('[name=cptAmt]').each(function(){
+  				var value = $(this).val();
+  				if(!value){
+  					alert("资金额必填。");
+  					checkPass = false;
+  					return;
+  				}
+  				if(isNaN(value)){
+  					alert("资金额必须是数字。");
+  					checkPass = false;
+  					return;
+  				}
+  			});
+  			if(!checkPass){
+  				return;
+  			}
+  			
+  			var stockRightItems = [];
+  			$('#itemsTable tr').each(function(){
+  				if($(this).find('[name=invtType]').length==0){
+  					return;
+  				}
+  				var invtType = $(this).find('[name=invtType]').val();
+  				var amt = parseInt($(this).find('[name=amt]').val());
+  				stockRightItems.push({invtType:invtType,amt:amt});
+  			});
+  			
+  			var data = {
+  				uniScId:$('[name=uniScId]').val(),
+  				investorName:$('[name=investorName]').val(),
+  				investorCetfType:$('[name=investorCetfType]').val(),
+  				investorCetfNo:$('[name=investorCetfNo]').val(),
+  				cptAmt:$('[name=cptAmt]').val(),
+  				stockRightItems:stockRightItems
+  			};
+
+  			$.ajax({
+  				url : "bizlic/stockHolder",
+  				type : "POST",
+  				contentType : 'application/json',
+  				dataType : 'json',
+  				data :JSON.stringify(data),
+  				success : function(resp) {
+  					alert(resp.msg);
+  				}
+  			});
+  			
+  		});
+  		
+  		$('#addBtn').click(function(){
+  		  $('#itemsTable').append($('<tr><td><select name="invtType"><option value="货币" >货币</option><option value="知识产权" >知识产权</option></select></td>'
+  				  +'<td><input name="amt"/>元</td>'
+  				  +'<td><button class="remove" type="button" >-</button></td></tr>'));
+  		});
+  		
+  		$('#itemsTable').on('click','button.remove',function(){
+  			$(this).parent().parent().remove();
+  		});
+  		
+  		//核准时间
+  		var today = new Date();
+  		$('[name=provDate]').val(today.format("yyyy-MM-dd"));
+  	});
+  </script>
+</head>
+<body>
+	<div id="content" class="content">
+		<div style="width:75%" class="floatLeft">
+			<form name="investorForm" id="investorForm" method="post">
+			<table class="formTable">
+				<tr>
+					<th>统一社会信用码:</th>
+					<td><input name="uniScId" maxLength="18" ></td><td><button id="searchBtn" type="button" >查询股东</button></td>
+				</tr>
+			</table>
+			
+			<table id="listTable" style="width:75%" class="listTable" border="0" cellspacing="0" cellpadding="0">
+			  <tr>
+			    <th>股东名称</th><th>投资额(元)</th><th>投资方式</th>
+			  </tr>
+			</table>
+			
+			</form>
+		</div>
+		<div style="width:24%" class="floatRight" >
+			<div class="subTitle"> 现有企业的统一社会信用码</div>
+			<div id="uniscids_div" >
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>
