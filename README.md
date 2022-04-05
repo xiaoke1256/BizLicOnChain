@@ -78,7 +78,6 @@ BizLicOnChain
  |属性名|解释|
  |-----|----|
  |uniScId|所在企业的统一社会信用码|
- |investorNo|股东编号（股东编号和统一社会信用码两个字段可以唯一定位一个股东。）|
  |investorName|股东姓名|
  |investorAccount|股东账号|
  |investorCetfHash|股东身份证件,有身份证件类型（身份证、居留证、军官证、中国护照、外国或地区护照）和证件号码组成，由冒号(:)分隔。本字段需要加密，区块链中仅保存其Hash值。|
