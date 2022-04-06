@@ -65,6 +65,7 @@
   		});
   		
   		$('#listTable').on('click','a.setAccountLink',function(){
+  			var investorName = $(this).parent().prev().prev().html();
   			var newAccount = prompt('请输入该股的新账号新地址：');
   			//触发刷新
   			$('#searchBtn').click();
