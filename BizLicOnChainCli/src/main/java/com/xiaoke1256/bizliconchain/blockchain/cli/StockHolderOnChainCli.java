@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionMessage.ItemsBuilder;
 import org.springframework.stereotype.Service;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
@@ -79,6 +78,14 @@ public class StockHolderOnChainCli extends BaseCli {
 			stockHolder.setStockRightDetail(null);
 		}
 		return stockHolders;
+	}
+	
+	public void putStockHolderAccount(String uniScId,String investorCetfHash,String investorAccount) {
+		List<Type> inputParameters = new ArrayList<Type>();
+		inputParameters.add(new Utf8String(uniScId));
+		inputParameters.add(new Utf8String(investorCetfHash));
+		inputParameters.add(new Utf8String(investorAccount));
+		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "putStockHolderAccount", gasPrice, gasLimit, inputParameters,uniScId+"-"+investorCetfHash);
 	}
 
 }

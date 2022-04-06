@@ -49,4 +49,20 @@ public class StockHolderController {
 			return new RespMsg("99",e.getMessage());
 		}
 	}
+	
+	/**
+	 * 设置某股东的账号
+	 * @param uniScId
+	 * @return
+	 */
+	@RequestMapping(value = "/bizlic/{uniScId}/stockHolder/{investorCetfHash}", method =RequestMethod.POST)
+	public RespMsg getStockHolders(@PathVariable("uniScId") String uniScId,@PathVariable("investorCetfHash")String investorCetfHash,String investorAccount) {
+		try {
+			stockHolderOnChainCli.putStockHolderAccount(uniScId, investorCetfHash, investorAccount);
+			return new RespMsg("00","Success!");
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new RespMsg("99",e.getMessage());
+		}
+	}
 }
