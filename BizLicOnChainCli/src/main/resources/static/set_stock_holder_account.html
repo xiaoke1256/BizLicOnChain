@@ -55,6 +55,7 @@
   						itemStr+=item.invtType+':'+item.amt+'元 <br/>'
   					}
   					s+='<tr><td>'+inverstor.investorName+'</td>'
+  						+'<td>'+inverstor.investorCetfHash+'</td>'
   						+'<td>'+inverstor.cptAmt+'</td>'
   						+'<td><a href="#" class="setAccountLink" >'+inverstor.investorAccount+'</a></td>'
   						+'<td>'+itemStr+'</td></tr>'
@@ -65,10 +66,20 @@
   		});
   		
   		$('#listTable').on('click','a.setAccountLink',function(){
-  			var investorName = $(this).parent().prev().prev().html();
+  			var investorName = $(this).parent().prev().prev().prev().html();
+  			var investorCetfHash = $(this).parent().prev().prev().html();
   			var newAccount = prompt('请输入该股的新账号新地址：');
-  			//触发刷新
-  			$('#searchBtn').click();
+  			if($.trim(newAccount)==''){
+  				return;
+  			}
+  			$.post('bizlic/'+$('[name=uniScId]').val()+'/stockHolder/'+investorCetfHash,{investorAccount:newAccount},function(resp){
+  				if(resp.code!='00'){
+  					alert('设置失败');
+  					return;
+  				}
+  				$('#searchBtn').click();
+  			});
+  			
   		});
   		
   	});
@@ -87,7 +98,7 @@
 			
 			<table id="listTable" style="width:75%" class="listTable" border="0" cellspacing="0" cellpadding="0">
 			  <tr>
-			    <th>股东名称</th><th>投资额(元)</th><th>账号</th><th>投资方式</th>
+			    <th>股东名称</th><th>股东身份标识(加密后)</th><th>投资额(元)</th><th>账号</th><th>投资方式</th>
 			  </tr>
 			</table>
 			
