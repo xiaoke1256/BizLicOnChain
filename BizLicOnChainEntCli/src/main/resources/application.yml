@@ -1,0 +1,43 @@
+spring:
+  profiles:
+    active: "dev"
+  application:
+    name: "bizlic-ent-web"
+  jackson:
+    #时间格式的统一处理
+    date-format: 'yyyy-MM-dd HH:mm:ss'
+    time-zone: 'GMT+8'
+  #嵌入式数据库
+#  datasource:
+#    drive-class-name: org.h2.Driver
+#    url: jdbc:h2:file:~/h2/eth-log;AUTO_SERVER=TRUE
+#    username: sa
+#    password: sa
+#    schema: classpath:init_sql/schema.sql
+#    initialization-mode: always
+#    continue-on-error: false
+#    sql-script-encoding: utf-8
+    
+#mybatis:
+#  mapperLocations: classpath*:com/xiaoke1256/bizliconchain/common/dao/*Mapper.xml
+#  configLocation: classpath:sqlMapConfig.xml
+    
+server:
+  context-path: "/stockAdmin"
+  servlet-path: "/"
+  port: 8081
+
+contract:
+  #ctAddr: "0x85EA9e5229306D7D73ED41CBE427F241D6717e5B"  #合约地址
+  ctAddr: "0x0284F69AEF4fC89446Ce3F4Bd98dEf0365d93f0b" #合约地址（注册公司的合约）
+  stockCtAddr: "0x9Ec798ba4b1964abb1074958c325d8AFcFD11f7E" #合约地址（注册股权的合约）
+  startAddr:  "************************************"   #顶级节点地址（好像没用到）
+  #sendAddr:  "0xaefe184653e506426daab8369504ce3a2d95b68c"   #from地址
+  sendAddr:  "0xb4efc357764a1eeb07695f8784209e8e316c222f"   #dev 环境下的
+  #sendAddrPk:  "e08736ed03b3d08d2e07ce89600d33664656f4f4073875cda78a476607d36570"  #私钥
+  sendAddrPk:  "02277d3de6287ac1bb4dfda7d5d3cf87ee0f4fe6343f2bcd20ca7a04cc6c7a49"   #dev 环境下的私钥。
+  gasPrice: 10000000000 # Gas Price越高，交易优先级越高，打包交易速度越快。默认情况下是20gw
+  gasLimit: 1500000  # Gas Limit 是用户愿意为执行某个操作或确认交易支付的最大Gas量（最少21,000）
+  isAddGas: false #是否启用按当前市价进行加权矿工费用
+  addGas:   2000000000 #所增加费用
+  url: "http://localhost:8545/" #正式网 or 测试网
