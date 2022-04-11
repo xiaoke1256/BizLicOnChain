@@ -8,15 +8,15 @@ spring:
     date-format: 'yyyy-MM-dd HH:mm:ss'
     time-zone: 'GMT+8'
   #嵌入式数据库
-#  datasource:
-#    drive-class-name: org.h2.Driver
-#    url: jdbc:h2:file:~/h2/eth-log;AUTO_SERVER=TRUE
-#    username: sa
-#    password: sa
-#    schema: classpath:init_sql/schema.sql
-#    initialization-mode: always
-#    continue-on-error: false
-#    sql-script-encoding: utf-8
+  datasource:
+    drive-class-name: org.h2.Driver
+    url: jdbc:h2:file:~/h2/investor_admin;AUTO_SERVER=TRUE
+    username: sa
+    password: sa
+    schema: classpath:init_sql/schema.sql
+    initialization-mode: always
+    continue-on-error: false
+    sql-script-encoding: utf-8
     
 #mybatis:
 #  mapperLocations: classpath*:com/xiaoke1256/bizliconchain/common/dao/*Mapper.xml
