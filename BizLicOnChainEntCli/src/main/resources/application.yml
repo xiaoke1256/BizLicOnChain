@@ -18,9 +18,9 @@ spring:
     continue-on-error: false
     sql-script-encoding: utf-8
     
-#mybatis:
-#  mapperLocations: classpath*:com/xiaoke1256/bizliconchain/common/dao/*Mapper.xml
-#  configLocation: classpath:sqlMapConfig.xml
+mybatis:
+  mapperLocations: classpath*:com/xiaoke1256/**/dao/*Mapper.xml
+  configLocation: classpath:sqlMapConfig.xml
     
 server:
   context-path: "/stockAdmin"

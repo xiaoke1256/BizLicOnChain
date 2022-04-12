@@ -10,9 +10,9 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
-@SpringBootApplication(exclude={HibernateJpaAutoConfiguration.class})
+@SpringBootApplication(scanBasePackages= {"com.xiaoke1256"},exclude={HibernateJpaAutoConfiguration.class})
 @EnableAutoConfiguration
-@MapperScan("com.xiaoke1256.bizliconchain.**.dao")
+@MapperScan("com.xiaoke1256.**.dao")
 public class SpringbootApplication extends SpringBootServletInitializer {
 	
 	@Override

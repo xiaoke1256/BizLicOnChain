@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoke1256.investoradmin.dao.StockHolderMapper">
+ 
+  <resultMap id="BaseMap" type="com.xiaoke1256.investoradmin.bo.StockHolder">
+    <result column="STOCK_HOLDER_ID" jdbcType="BIGINT" property="stockHolderId" />
+    <result column="INVESTOR_NAME" jdbcType="VARCHAR" property="investorName" />
+    <result column="ETH_ACCOUNT" jdbcType="VARCHAR" property="ethAccount" />
+    <result column="ETH_PRIVATE_KEY" jdbcType="VARCHAR" property="ethPrivateKey" />
+    <result column="INVESTOR_CETF_TYPE" jdbcType="VARCHAR" property="investorCetfType" />
+    <result column="INVESTOR_CETF_NO" jdbcType="VARCHAR" property="investorCetfNo" />
+    <result column="INVESTOR_CETF_HASH" jdbcType="VARCHAR" property="investorCetfHash" />
+    <result column="CPT_AMT" jdbcType="DECIMAL" property="cptAmt" />
+    <result column="INSERT_TIME" jdbcType="TIMESTAMP" property="insertTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+ 
+  <select id="getStockHolder" resultMap="BaseMap">
+    select STOCK_HOLDER_ID,INVESTOR_NAME,ETH_ACCOUNT,ETH_PRIVATE_KEY,INVESTOR_CETF_TYPE,INVESTOR_CETF_NO,INVESTOR_CETF_HASH,CPT_AMT,INSERT_TIME,UPDATE_TIME 
+    from STOCK_HOLDER where STOCK_HOLDER_ID = #{stockHolderId}
+  </select>
+  
+  <insert id="saveStockHolder" parameterType="com.xiaoke1256.investoradmin.bo.StockHolder" keyProperty="stockHolderId" useGeneratedKeys="true" >
+  	insert into STOCK_HOLDER (STOCK_HOLDER_ID,INVESTOR_NAME,ETH_ACCOUNT,ETH_PRIVATE_KEY,INVESTOR_CETF_TYPE,INVESTOR_CETF_NO,INVESTOR_CETF_HASH,CPT_AMT,INSERT_TIME,UPDATE_TIME) 
+  	values (#{stockHolderId},#{investorName},#{ethAccount},#{ethPrivateKey},#{investorCetfType},#{investorCetfNo},#{investorCetfHash},#{cptAmt},#{insertTime},#{updateTime})
+  </insert>
+  
+  <update id="updateStockHolder" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" >
+    update STOCK_HOLDER set
+      STOCK_HOLDER_ID = #{stockHolderId},
+      INVESTOR_NAME = #{investorName},
+      ETH_ACCOUNT = #{ethAccount},
+      ETH_PRIVATE_KEY = #{ethPrivateKey},
+      INVESTOR_CETF_TYPE = #{investorCetfType},
+      INVESTOR_CETF_NO = #{investorCetfNo},
+      INVESTOR_CETF_HASH = #{investorCetfHash},
+      CPT_AMT = #{cptAmt},
+      INSERT_TIME = #{insertTime},
+      UPDATE_TIME = #{updateTime}
+    where STOCK_HOLDER_ID = #{stockHolderId}
+  </update>
+  
+
+</mapper>
