@@ -1,4 +1,4 @@
-package com.xiaoke1256.bizliconchain.ent;
+package com.xiaoke1256.investoradmin;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
