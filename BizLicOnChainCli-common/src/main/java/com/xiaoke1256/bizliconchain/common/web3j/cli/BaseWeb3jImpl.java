@@ -21,13 +21,17 @@ import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthCall;
+import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +40,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.annotation.PostConstruct;
+import javax.xml.ws.Response;
 
 /**
  * @Datetime: 2020/6/23   10:36
@@ -233,6 +238,12 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
         	return null;
         return results.get(0).toString();
     }
+    
+    @Override
+    public BigInteger getBalance(String address) throws IOException {
+    	return web3j.ethGetBalance(address, null).send().getBalance();
+		
+	}
     
     
 }

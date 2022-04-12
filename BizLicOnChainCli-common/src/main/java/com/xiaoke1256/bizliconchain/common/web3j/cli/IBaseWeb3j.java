@@ -2,6 +2,7 @@ package com.xiaoke1256.bizliconchain.common.web3j.cli;
 
 import org.web3j.abi.datatypes.Type;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -44,5 +45,13 @@ public interface IBaseWeb3j {
      * @throws ClassNotFoundException 
      */
     public String queryToString(String from, String contractAddress, String method,List<Type> inputParameters) throws InterruptedException, ExecutionException, ClassNotFoundException;
+    
+    /**
+     * 查余额
+     * @param address
+     * @return
+     * @throws IOException
+     */
+	BigInteger getBalance(String address) throws IOException;
 }
 
