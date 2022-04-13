@@ -20,6 +20,7 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.methods.request.Transaction;
@@ -241,7 +242,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
     
     @Override
     public BigInteger getBalance(String address) throws IOException {
-    	return web3j.ethGetBalance(address, null).send().getBalance();
+    	return web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send().getBalance();
 		
 	}
     

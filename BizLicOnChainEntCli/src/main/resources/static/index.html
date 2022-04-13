@@ -8,6 +8,16 @@
   <title>bizlic on chain welcome!</title>
   <link rel="stylesheet" type="text/css" title="default" href="css/style.css" >
   <link rel="stylesheet" type="text/css" title="default" href="css/login.css" >
+  <script type="text/javascript" src="js/jquery.min.js" ></script>
+  <script type="text/javascript">
+  $(function(){
+	$('#loginBtn').click(function(){
+		loginUserName = $('[name=loginUserName]').val();
+		sessionStorage.setItem("loginUserName", loginUserName);
+		window.open('main.html','_self');
+	});
+  });
+  </script>
 </head>
 <body>
 	<header>
@@ -20,12 +30,12 @@
 	<div id="content" class="main_content">
 	  <div class="loginDiv" >
 		<form>
-		  <select>
+		  <select name="loginUserName">
 			<option value="admin" >admin</option>
 		  </select>
 		</form>
 		<div class="bottomButtons">
-		  <button type="button" >登录</button>
+		  <button id="loginBtn" type="button" >登录</button>
 		</div>
 	  </div>
 	</div>

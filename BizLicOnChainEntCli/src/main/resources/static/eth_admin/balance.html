@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0"> 
+  <base href="/stockAdmin/" />
+  <title>bizlic on chain welcome!</title>
+  <link rel="stylesheet" type="text/css" title="default" href="css/style.css" >
+  <style type="text/css">
+     #listTable {border-right:1px solid #000;border-bottom:1px solid #000}
+     #listTable td{border-left:1px solid #000;border-top:1px solid #000}
+     #listTable th{border-left:1px solid #000;border-top:1px solid #000}
+  </style>
+  <script type="text/javascript" src="js/jquery.min.js" ></script>
+  <script type="text/javascript" src="js/date_format.js" ></script>
+  <script type="text/javascript">
+  	$(function(){
+  	  var loginUserName = sessionStorage.getItem("loginUserName");
+  	  $('#userNameSpan').html(loginUserName+' 的账户余额:');
+  	  
+  	  $.get('eth/balance',{},function(num){
+  		$('#mun').html(num+' wei');
+  	  });
+  	});
+  </script>
+</head>
+<body>
+	<div id="content" class="content">
+	  <div style="width:300px;margin:0 auto">
+		<span id="userNameSpan" ></span><span id="mun" ></span>
+	  </div>
+	</div>
+</body>
+</html>
