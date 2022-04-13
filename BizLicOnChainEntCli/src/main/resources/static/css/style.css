@@ -1,0 +1,57 @@
+html,body,div{
+	font-size: 14px;
+}
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+html,body{
+	height:calc(100% - 2px);
+	margin:0;
+	padding:0;
+}
+
+.content {
+	text-align:center;
+	align:center;
+	margin: 2px auto;
+}
+.main_content{
+	height:calc(100% - 110px);
+}
+.center {
+	margin: 2px auto
+}
+.formTable,.listTable{
+	margin: 2px auto;
+	text-align:center;
+}
+
+.formTable th{
+	text-align:right;
+}
+.formTable td{
+	padding-left:10px;
+	text-align:left;
+}
+
+.formTable input,textarea{
+	width:260px;
+}
+.formTable textarea{
+	height:50px;
+}
+.floatLeft {
+	float:left;
+}
+.floatRight {
+	float:right;
+}
+.clear {
+	float:right;
+}
+.subTitle {
+	font:bold 16px/40px songti important
+}
