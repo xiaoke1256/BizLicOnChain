@@ -40,3 +40,6 @@ contract:
   isAddGas: false #是否启用按当前市价进行加权矿工费用
   addGas:   2000000000 #所增加费用
   url: "http://localhost:8545/" #正式网 or 测试网
+
+biz:
+  uniScId: "433224435435344564"
