@@ -11,6 +11,21 @@
   <script type="text/javascript" src="js/jquery.min.js" ></script>
   <script type="text/javascript">
   $(function(){
+	  $.get('stockHolder/all',{},function(resp){
+		if(resp.code){
+			alert('查询失败');
+			return;
+		}
+		$('#listTable').find('tr:gt(0)').remove();
+		var inverstors = resp;
+		var s = '';
+		for(var i in inverstors){
+			var inverstor = inverstors[i];
+			s+='<option  value="'+inverstor.stockHolderId+'" >'+inverstor.investorName+'</option>'
+		}
+		$('[name=loginUserName]').append($(s));
+	},'json');
+	  
 	$('#loginBtn').click(function(){
 		loginUserName = $('[name=loginUserName]').val();
 		sessionStorage.setItem("loginUserName", loginUserName);
