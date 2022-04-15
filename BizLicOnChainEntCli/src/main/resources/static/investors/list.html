@@ -12,7 +12,23 @@
   <script type="text/javascript" src="js/date_format.js" ></script>
   <script type="text/javascript">
   	$(function(){
-  		
+  		$.get('stockHolder/all',{},function(resp){
+  			if(resp.code){
+				alert('查询失败');
+				return;
+			}
+			$('#listTable').find('tr:gt(0)').remove();
+			var inverstors = resp;
+			var s = '';
+			for(var i in inverstors){
+				var inverstor = inverstors[i];
+				s+='<tr><td>'+inverstor.investorName+'</td>'
+					+'<td>'+inverstor.investorCetfHash+'</td>'
+					+'<td>'+inverstor.cptAmt+'</td>'
+					+'</tr>'
+			}
+			$('#listTable').append($(s));
+  		},'json');
   	});
   </script>
 </head>
