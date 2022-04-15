@@ -13,8 +13,8 @@
   <script type="text/javascript">
   	$(function(){
   		var loginUserName = sessionStorage.getItem("loginUserName");
-  		if(loginUserName!='admin'){
-  			$('#listTable').append($('<tr><td colspan="3">此功能仅管理员可操作</td></tr>'));
+  		if(loginUserName=='admin'){
+  			$('#listTable').append($('<tr><td colspan="4">此功能由股东操作</td></tr>'));
   			return ;
   		}
   		$.get('stockHolder/all',{},function(resp){
@@ -43,7 +43,7 @@
 		  <form name="investorForm" id="investorForm" method="post">
 			<table id="listTable" style="width:75%" class="listTable" border="0" cellspacing="0" cellpadding="0">
 			  <tr>
-			    <th>股东名称</th><th>股东身份信息</th><th>投资额(元)</th>
+			    <th>股东名称</th><th>股东身份信息</th><th>投资额(元)</th><th>操作</th>
 			  </tr>
 			</table>
 		  </form>
