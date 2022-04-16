@@ -34,7 +34,7 @@ create table if not exists STOCK_HOLDER(
 	primary key(STOCK_HOLDER_ID)
 );
 
--- 股权
+-- 股权申请
 create table if not exists STOCK_RIGHT_APPLY(
     APPLY_ID BIGINT NOT NULL auto_increment COMMENT '主键',
     NEW_INVESTOR_NAME VARCHAR(64) COMMENT '新股东姓名' ,
@@ -45,5 +45,7 @@ create table if not exists STOCK_RIGHT_APPLY(
     NEW_INVESTOR_CETF_NO VARCHAR(32) COMMENT '新股东身份证件号',
     NEW_INVESTOR_CETF_HASH VARCHAR(128) COMMENT '新股东身份证件,有效身份证件类型（身份证、居留证、军官证、中国护照、外国或地区护照）;和证件号码组成，由冒号(:)分隔。本字段需要加密',
     IS_ARCHIVED CHAR(1) COMMENT '是否归档',
+    INSERT_TIME TIMESTAMP COMMENT '插入时间',
+	UPDATE_TIME TIMESTAMP COMMENT '修改时间',
     primary key(APPLY_ID)
 );
