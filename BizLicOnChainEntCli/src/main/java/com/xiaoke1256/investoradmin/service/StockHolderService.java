@@ -20,7 +20,18 @@ public class StockHolderService {
 	 * 查询所有
 	 * @return
 	 */
+	@Transactional(readOnly=true)
 	public List<StockHolder> queryAll() {
 		return stockHolderDao.queryAll();
+	}
+	
+	/**
+	 * 按主键查询
+	 * @param id
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public StockHolder getById(Long id) {
+		return stockHolderDao.getStockHolder(id);
 	}
 }
