@@ -32,6 +32,18 @@
   		},'json');
   	});
   </script>
+  <style type="text/css">
+  #formTable {
+    margin-top:30px
+  }
+  #formTable input{
+    width:100%
+  }
+  .subTitle{
+    font-weight:bloder;
+    margin-top:5px;
+  }
+  </style>
 </head>
 <body>
 	<div id="content" class="content">
@@ -42,18 +54,35 @@
 			    <th>股东名称</th><th>股东身份信息</th><th>投资额(元)</th><th>操作</th>
 			  </tr>
 			</table>
-			<table id="formTable" style="width:75%" class="listTable" border="0" cellspacing="0" cellpadding="0">
+			
+			<table id="formTable" style="width:75%" class="formTable" border="0" cellspacing="0" cellpadding="0">
+			  <colgroup>
+			    <col width="10%" ></col>
+			    <col width="40%" ></col>
+			    <col width="10%" ></col>
+			    <col width="40%" ></col>
+			  </colgroup>
 			  <tr>
-			    <!--
-			    private BigInteger priceDecimal;
-	private BigInteger cptAmt;
-	private String newInvestorName;
-	private String newInvestorAccount;
-	private String newInvestorCetfType;
-	private String newInvestorCetfNo;
-	private String newInvestorCetfHash;
-	private String isArchived; 
-			     -->
+			    <th>转让额（元）</th><td><input name="cptAmt"/></td><th>以太币价格（wei）</th><td><input name="priceDecimal"/></td>
+			  </tr>
+			  <tr>
+			    <td class="center subTitle" colspan="4">受让方</td>
+			  </tr>
+			  <tr>
+			    <th>新股东名称</th><td><input name="newInvestorName"/></td><th></th><td></td>
+			  </tr>
+			  <tr>
+			    <th>身份证件类型</th>
+			    <td>
+			      <select name="newInvestorCetfType" >
+					<option value="身份证" >身份证</option>
+					<option value="居留证" >居留证</option>
+					<option value="军官证" >军官证</option>
+					<option value="中国护照" >中国护照</option>
+					<option value="外国或地区护照" >外国或地区护照</option>
+				  </select>
+			    </td>
+			    <th>身份证件号</th><td><input name="newInvestorCetfNo"/></td>
 			  </tr>
 			</table>
 		  </form>

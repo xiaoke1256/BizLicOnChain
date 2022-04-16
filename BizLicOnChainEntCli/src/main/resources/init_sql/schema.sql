@@ -37,6 +37,8 @@ create table if not exists STOCK_HOLDER(
 -- 股权申请
 create table if not exists STOCK_RIGHT_APPLY(
     APPLY_ID BIGINT NOT NULL auto_increment COMMENT '主键',
+    STOCK_HOLDER_ID BIGINT NOT NULL COMMENT '股东表主键',
+    TRANSFEROR_CETF_HASH VARCHAR(128) NOT NULL COMMENT '出让方身份证件的Hash值',
     NEW_INVESTOR_NAME VARCHAR(64) COMMENT '新股东姓名' ,
     PRICE DECIMAL(30) COMMENT '价格（以太币,wei）' ,
     CPT_AMT DECIMAL(25) COMMENT '转让额度(元)',

@@ -5,7 +5,8 @@ import java.util.Date;
 
 public class StockRightApply {
 	private Long applyId;
-
+	private Long stockHolderId;
+	private String transferorCetfHash;
 	private BigInteger priceDecimal;
 	private BigInteger cptAmt;
 	private String newInvestorName;
@@ -21,6 +22,18 @@ public class StockRightApply {
 	}
 	public void setApplyId(Long applyId) {
 		this.applyId = applyId;
+	}
+	public Long getStockHolderId() {
+		return stockHolderId;
+	}
+	public void setStockHolderId(Long stockHolderId) {
+		this.stockHolderId = stockHolderId;
+	}
+	public String getTransferorCetfHash() {
+		return transferorCetfHash;
+	}
+	public void setTransferorCetfHash(String transferorCetfHash) {
+		this.transferorCetfHash = transferorCetfHash;
 	}
 	public BigInteger getPriceDecimal() {
 		return priceDecimal;

@@ -22,6 +22,7 @@ html,body{
 	height:calc(100% - 110px);
 }
 .center {
+	text-align:center !important;
 	margin: 2px auto
 }
 .formTable,.listTable{
@@ -43,6 +44,10 @@ html,body{
 .formTable textarea{
 	height:50px;
 }
+.listTable {border-right:1px solid #000;border-bottom:1px solid #000}
+.listTable td{border-left:1px solid #000;border-top:1px solid #000}
+.listTable th{border-left:1px solid #000;border-top:1px solid #000}
+
 .floatLeft {
 	float:left;
 }
