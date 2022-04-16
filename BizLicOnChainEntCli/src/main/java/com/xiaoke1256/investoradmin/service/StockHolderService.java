@@ -34,4 +34,5 @@ public class StockHolderService {
 	public StockHolder getById(Long id) {
 		return stockHolderDao.getStockHolder(id);
 	}
+	
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoke1256.investoradmin.dao.StockRightApplyMapper">
+ 
+  <resultMap id="BaseMap" type="com.xiaoke1256.investoradmin.bo.StockRightApply">
+  	<result column="APPLY_ID" jdbcType="BIGINT" property="applyId" />
+    <result column="STOCK_HOLDER_ID" jdbcType="BIGINT" property="stockHolderId" />
+    <result column="TRANSFEROR_CETF_HASH" jdbcType="VARCHAR" property="transferorCetfHash" />
+    <result column="NEW_INVESTOR_NAME" jdbcType="VARCHAR" property="newInvestorName" />
+    <result column="PRICE" jdbcType="DECIMAL" property="price" />
+    <result column="CPT_AMT" jdbcType="DECIMAL" property="cptAmt" />
+    <result column="NEW_INVESTOR_ACCOUNT" jdbcType="VARCHAR" property="newInvestorAccount" />
+    <result column="NEW_INVESTOR_CETF_TYPE" jdbcType="VARCHAR" property="newInvestorCetfType" />
+    <result column="NEW_INVESTOR_CETF_NO" jdbcType="VARCHAR" property="newInvestorCetfNo" />
+    <result column="NEW_INVESTOR_CETF_HASH" jdbcType="VARCHAR" property="newInvestorCetfHash" />
+    <result column="IS_ARCHIVED" jdbcType="CHAR" property="isArchived" />
+    <result column="INSERT_TIME" jdbcType="TIMESTAMP" property="insertTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+ 
+  <select id="getApply" resultMap="BaseMap">
+    select APPLY_ID ,STOCK_HOLDER_ID ,TRANSFEROR_CETF_HASH ,NEW_INVESTOR_NAME ,PRICE ,CPT_AMT ,NEW_INVESTOR_ACCOUNT ,
+    	NEW_INVESTOR_CETF_TYPE ,NEW_INVESTOR_CETF_NO ,NEW_INVESTOR_CETF_HASH ,IS_ARCHIVED ,INSERT_TIME ,UPDATE_TIME
+    from STOCK_RIGHT_APPLY where APPLY_ID = #{applyId}
+  </select>
+  
+  <insert id="saveApply" parameterType="com.xiaoke1256.investoradmin.bo.StockRightApply" keyProperty="applyId" useGeneratedKeys="true" >
+  	insert into STOCK_RIGHT_APPLY (APPLY_ID ,STOCK_HOLDER_ID ,TRANSFEROR_CETF_HASH ,NEW_INVESTOR_NAME ,PRICE ,CPT_AMT ,NEW_INVESTOR_ACCOUNT ,
+    	NEW_INVESTOR_CETF_TYPE ,NEW_INVESTOR_CETF_NO ,NEW_INVESTOR_CETF_HASH ,IS_ARCHIVED ,INSERT_TIME ,UPDATE_TIME) 
+  	values (#{applyId},#{stockHolderId},#{transferorCetfHash},#{newInvestorName},#{price},#{cptAmt},#{newInvestorAccount},#{newInvestorCetfType},
+  		#{newInvestorCetfNo},#{newInvestorCetfHash},#{isArchived},#{insertTime},#{updateTime})
+  </insert>
+  
+  <update id="updateApply" parameterType="com.xiaoke1256.investoradmin.bo.StockRightApply" >
+    update STOCK_RIGHT_APPLY set
+      APPLY_ID = #{applyId},
+      STOCK_HOLDER_ID = #{stockHolderId},
+      TRANSFEROR_CETF_HASH = #{transferorCetfHash},
+      NEW_INVESTOR_NAME = #{newInvestorName},
+      PRICE = #{price},
+      CPT_AMT = #{cptAmt},
+      NEW_INVESTOR_ACCOUNT = #{newInvestorAccount},
+      NEW_INVESTOR_CETF_TYPE = #{newInvestorCetfType},
+      NEW_INVESTOR_CETF_NO = #{newInvestorCetfNo},
+      NEW_INVESTOR_CETF_HASH = #{newInvestorCetfHash},
+      IS_ARCHIVED = #{transferorCetfHash},
+      INSERT_TIME = #{insertTime},
+      UPDATE_TIME = #{updateTime}
+    where APPLY_ID = #{applyId}
+  </update>
+  
+  <select id="queryAll" resultMap="BaseMap">
+    select STOCK_RIGHT_APPLY (APPLY_ID ,STOCK_HOLDER_ID ,TRANSFEROR_CETF_HASH ,NEW_INVESTOR_NAME ,PRICE ,CPT_AMT ,NEW_INVESTOR_ACCOUNT ,
+    	NEW_INVESTOR_CETF_TYPE ,NEW_INVESTOR_CETF_NO ,NEW_INVESTOR_CETF_HASH ,IS_ARCHIVED ,INSERT_TIME ,UPDATE_TIME 
+    from STOCK_RIGHT_APPLY 
+    order by APPLY_ID
+  </select>
+</mapper>

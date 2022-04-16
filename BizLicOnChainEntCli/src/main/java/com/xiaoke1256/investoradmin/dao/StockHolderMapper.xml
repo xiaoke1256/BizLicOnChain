@@ -25,7 +25,7 @@
   	values (#{stockHolderId},#{investorName},#{ethAccount},#{ethPrivateKey},#{investorCetfType},#{investorCetfNo},#{investorCetfHash},#{cptAmt},#{insertTime},#{updateTime})
   </insert>
   
-  <update id="updateStockHolder" parameterType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog" >
+  <update id="updateStockHolder" parameterType="com.xiaoke1256.investoradmin.bo.StockHolder" >
     update STOCK_HOLDER set
       STOCK_HOLDER_ID = #{stockHolderId},
       INVESTOR_NAME = #{investorName},
