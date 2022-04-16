@@ -13,6 +13,9 @@
   <script type="text/javascript">
   	$(function(){
   		var loginUserName = sessionStorage.getItem("loginUserName");
+  		//股东
+  		var inverstor = null;
+  		
   		if(loginUserName=='admin'){
   			$('#listTable').append($('<tr><td colspan="4">此功能由股东操作</td></tr>'));
   			return ;
@@ -23,18 +26,55 @@
 				return;
 			}
 			$('#listTable').find('tr:gt(0)').remove();
-			var inverstor = resp;
+			inverstor = resp;
 			var s = '<tr><td>'+inverstor.investorName+'</td>'
 				+'<td>'+inverstor.investorCetfHash+'</td>'
 				+'<td>'+inverstor.cptAmt+'</td>'
 				+'</tr>'
 			$('#listTable').append($(s));
   		},'json');
+  		
+  		//提交按钮
+  		$('#submitBtn').click(function(){
+  		  if($.trim($('[name=cptAmt]').val())==''){
+  			alert("“转让额”必填");
+  			return;
+  		  }
+  		  if(isNaN($.trim($('[name=cptAmt]').val()))){
+  			alert("“转让额”必须是数字");
+  			return;
+  		  }
+  		  if(parseInt($.trim($('[name=cptAmt]').val()))>inverstor.cptAmt){
+  			alert("“转让额”必须小于等于股东拥有的股权。");
+  			return;
+  		  }
+  		  if($.trim($('[name=priceDecimal]').val())==''){
+  			alert("“以太币价格”必填");
+  			return;
+  		  }
+  		  if(isNaN($.trim($('[name=priceDecimal]').val()))){
+  			alert("“以太币价格”必须是数字");
+  			return;
+  		  }
+  		  if($.trim($('[name=newInvestorName]').val())==''){
+   			alert("“新股东名称”必填");
+     		return;
+     	  }
+  		  if($.trim($('[name=newInvestorCetfNo]').val())==''){
+   			alert("“新股东身份证号”必填");
+     		return;
+     	  }
+
+  		});
+  		
   	});
   </script>
   <style type="text/css">
   #formTable {
     margin-top:30px
+  }
+  #formTable td{
+   padding: 2px 0;
   }
   #formTable input{
     width:100%
@@ -51,7 +91,7 @@
 		  <form name="investorForm" id="investorForm" method="post">
 			<table id="listTable" style="width:75%" class="listTable" border="0" cellspacing="0" cellpadding="0">
 			  <tr>
-			    <th>股东名称</th><th>股东身份信息</th><th>投资额(元)</th><th>操作</th>
+			    <th>股东名称</th><th>股东身份信息</th><th>投资额(元)</th>
 			  </tr>
 			</table>
 			
@@ -82,10 +122,13 @@
 					<option value="外国或地区护照" >外国或地区护照</option>
 				  </select>
 			    </td>
-			    <th>身份证件号</th><td><input name="newInvestorCetfNo"/></td>
+			    <th>身份证件号</th><td><input maxLength="18" name="newInvestorCetfNo"/></td>
 			  </tr>
 			</table>
 		  </form>
+		</div>
+		<div style="margin-top:10px" >
+		  <button type="button" id="submitBtn" >提交</button>
 		</div>
 	</div>
 </body>
