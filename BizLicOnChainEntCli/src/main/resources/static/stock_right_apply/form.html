@@ -76,9 +76,11 @@
   				  priceDecimal:priceDecimal,
   				  newInvestorName:$('[name=newInvestorName]').val(),
   				  newInvestorCetfNo:$('[name=newInvestorCetfNo]').val()};
-		  $.post('stockHolder/apply/stockTransfer/start',apply,function(){
-			
-		  });
+		  $.post('stockHolder/apply/stockTransfer/start',apply,function(resp){
+			if(resp===true){
+			  alert("成功");
+			}
+		  },'json');
   		});
   		
   	});
