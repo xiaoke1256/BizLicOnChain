@@ -20,6 +20,10 @@
   			$('#listTable').append($('<tr><td colspan="4">此功能由股东操作</td></tr>'));
   			return ;
   		}
+  		if(!loginUserName){
+  			$('#listTable').append($('<tr><td colspan="4">请先登录</td></tr>'));
+  			return ;
+  		}
   		$.get('stockHolder/'+loginUserName,{},function(resp){
   			if(resp.code){
 				alert('查询失败');
@@ -48,6 +52,7 @@
   			alert("“转让额”必须小于等于股东拥有的股权。");
   			return;
   		  }
+  		  var cptAmt = parseInt($('[name=cptAmt]').val());
   		  if($.trim($('[name=priceDecimal]').val())==''){
   			alert("“以太币价格”必填");
   			return;
@@ -56,6 +61,7 @@
   			alert("“以太币价格”必须是数字");
   			return;
   		  }
+  		  var priceDecimal = parseInt($('[name=priceDecimal]').val());
   		  if($.trim($('[name=newInvestorName]').val())==''){
    			alert("“新股东名称”必填");
      		return;
@@ -64,7 +70,15 @@
    			alert("“新股东身份证号”必填");
      		return;
      	  }
-
+  		  var stockHolderId = parseInt(loginUserName);
+  		  var apply = {stockHolderId:stockHolderId,
+  				  cptAmt:cptAmt,
+  				  priceDecimal:priceDecimal,
+  				  newInvestorName:$('[name=newInvestorName]').val(),
+  				  newInvestorCetfNo:$('[name=newInvestorCetfNo]').val()};
+		  $.post('stockHolder/apply/stockTransfer/start',apply,function(){
+			
+		  });
   		});
   		
   	});

@@ -19,7 +19,7 @@ public class StockRightApplyCli extends BaseCli {
 	/**
 	 * 合约地址
 	 */
-	@Value("${contract.stockCtAddr}")
+	@Value("${contract.ctAddr}")
 	private String contractAddress;
 
 	public void startStockTransfer(String uniScId,StockHolder transferor,String investorName,String investorCetfHash,String merkel,BigInteger cptAmt,BigInteger price) {
