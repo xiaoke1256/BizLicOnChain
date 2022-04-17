@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.web3j.crypto.Hash;
-import org.web3j.utils.Numeric;
 
 import com.xiaoke1256.investoradmin.blockchain.cli.StockRightApplyCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
@@ -45,7 +44,7 @@ public class StockRightApplyService {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		String merkel = Numeric.toHexString(Hash.sha3(os.toByteArray()));
+		byte[] merkel = Hash.sha3(os.toByteArray());
 		stockRightApplyCli.startStockTransfer(uniScId, stockHolder, apply.getNewInvestorName(), 
 				apply.getNewInvestorCetfHash(), merkel, apply.getCptAmt(), apply.getPrice());
 	}

@@ -23,14 +23,14 @@ public class StockRightApplyCli extends BaseCli {
 	@Value("${contract.ctAddr}")
 	private String contractAddress;
 
-	public void startStockTransfer(String uniScId,StockHolder transferor,String investorName,String investorCetfHash,String merkel,BigInteger cptAmt,BigInteger price) {
+	public void startStockTransfer(String uniScId,StockHolder transferor,String investorName,String investorCetfHash,byte[] merkel,BigInteger cptAmt,BigInteger price) {
 		@SuppressWarnings("rawtypes")
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(uniScId));
 		inputParameters.add(new Utf8String(transferor.getInvestorCetfHash()));
 		inputParameters.add(new Utf8String(investorName));
 		inputParameters.add(new Utf8String(investorCetfHash));
-		inputParameters.add(new Bytes32(merkel.getBytes())); 
+		inputParameters.add(new Bytes32(merkel)); 
 		inputParameters.add(new Uint(cptAmt)); 
 		inputParameters.add(new Uint(price));
 		String fromAddr = transferor.getEthAccount();
