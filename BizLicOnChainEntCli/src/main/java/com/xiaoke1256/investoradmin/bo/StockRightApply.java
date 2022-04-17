@@ -7,7 +7,7 @@ public class StockRightApply {
 	private Long applyId;
 	private Long stockHolderId;
 	private String transferorCetfHash;
-	private BigInteger priceDecimal;
+	private BigInteger price;
 	private BigInteger cptAmt;
 	private String newInvestorName;
 	private String newInvestorAccount;
@@ -35,11 +35,11 @@ public class StockRightApply {
 	public void setTransferorCetfHash(String transferorCetfHash) {
 		this.transferorCetfHash = transferorCetfHash;
 	}
-	public BigInteger getPriceDecimal() {
-		return priceDecimal;
+	public BigInteger getPrice() {
+		return price;
 	}
-	public void setPriceDecimal(BigInteger priceDecimal) {
-		this.priceDecimal = priceDecimal;
+	public void setPrice(BigInteger price) {
+		this.price = price;
 	}
 	public BigInteger getCptAmt() {
 		return cptAmt;

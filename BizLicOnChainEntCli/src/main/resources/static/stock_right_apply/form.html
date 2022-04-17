@@ -73,7 +73,7 @@
   		  var stockHolderId = parseInt(loginUserName);
   		  var apply = {stockHolderId:stockHolderId,
   				  cptAmt:cptAmt,
-  				  priceDecimal:priceDecimal,
+  				  price:priceDecimal,
   				  newInvestorName:$('[name=newInvestorName]').val(),
   				  newInvestorCetfNo:$('[name=newInvestorCetfNo]').val()};
 		  $.post('stockHolder/apply/stockTransfer/start',apply,function(resp){

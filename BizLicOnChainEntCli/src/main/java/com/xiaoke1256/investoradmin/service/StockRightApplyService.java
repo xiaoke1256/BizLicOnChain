@@ -35,6 +35,7 @@ public class StockRightApplyService {
 		apply.setTransferorCetfHash(stockHolder.getInvestorCetfHash());
 		apply.setInsertTime(new Date());
 		apply.setUpdateTime(new Date());
+		apply.setNewInvestorCetfHash(Hash.sha3String(apply.getNewInvestorCetfType()+":"+apply.getNewInvestorCetfNo()));
 		stockRightApplyDao.saveApply(apply);
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
@@ -46,6 +47,6 @@ public class StockRightApplyService {
 		}
 		String merkel = Numeric.toHexString(Hash.sha3(os.toByteArray()));
 		stockRightApplyCli.startStockTransfer(uniScId, stockHolder, apply.getNewInvestorName(), 
-				apply.getNewInvestorCetfHash(), merkel, apply.getCptAmt(), apply.getPriceDecimal());
+				apply.getNewInvestorCetfHash(), merkel, apply.getCptAmt(), apply.getPrice());
 	}
 }
