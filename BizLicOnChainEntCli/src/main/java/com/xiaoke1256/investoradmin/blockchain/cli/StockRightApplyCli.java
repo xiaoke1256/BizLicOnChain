@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
@@ -12,6 +13,7 @@ import org.web3j.abi.datatypes.Utf8String;
 import com.xiaoke1256.bizliconchain.blockchain.common.BaseCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
 
+@Service
 public class StockRightApplyCli extends BaseCli {
 
 	/**
@@ -26,8 +28,7 @@ public class StockRightApplyCli extends BaseCli {
 		inputParameters.add(new Utf8String(uniScId));
 		inputParameters.add(new Utf8String(transferor.getInvestorCetfHash()));
 		inputParameters.add(new Utf8String(investorName));
-		inputParameters.add(new Utf8String(investorCetfHash)); 
-		//merkel 算法如下： web3.utils.keccak256('李老四',web3.utils.keccak256("身份证:310104197606123212"),2000000);
+		inputParameters.add(new Utf8String(investorCetfHash));
 		inputParameters.add(new Utf8String(merkel)); 
 		inputParameters.add(new Uint(cptAmt)); 
 		inputParameters.add(new Uint(price));
