@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
+import org.web3j.abi.datatypes.generated.Bytes32;
 
 import com.xiaoke1256.bizliconchain.blockchain.common.BaseCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
@@ -29,7 +30,7 @@ public class StockRightApplyCli extends BaseCli {
 		inputParameters.add(new Utf8String(transferor.getInvestorCetfHash()));
 		inputParameters.add(new Utf8String(investorName));
 		inputParameters.add(new Utf8String(investorCetfHash));
-		inputParameters.add(new Utf8String(merkel)); 
+		inputParameters.add(new Bytes32(merkel.getBytes())); 
 		inputParameters.add(new Uint(cptAmt)); 
 		inputParameters.add(new Uint(price));
 		String fromAddr = transferor.getEthAccount();
