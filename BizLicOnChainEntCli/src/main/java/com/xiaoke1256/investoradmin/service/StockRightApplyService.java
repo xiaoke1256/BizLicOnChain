@@ -30,10 +30,9 @@ public class StockRightApplyService {
 	@Value("${biz.uniScId}")
 	private String uniScId;
 	
-	void startStockTransfer(StockRightApply apply){
+	public void startStockTransfer(StockRightApply apply){
 		StockHolder stockHolder = stockHolderDao.getStockHolder(apply.getStockHolderId());
 		apply.setTransferorCetfHash(stockHolder.getInvestorCetfHash());
-		apply.setNewInvestorCetfHash(null);
 		apply.setInsertTime(new Date());
 		apply.setUpdateTime(new Date());
 		stockRightApplyDao.saveApply(apply);
