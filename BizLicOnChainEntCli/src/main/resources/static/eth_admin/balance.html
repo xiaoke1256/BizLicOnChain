@@ -20,11 +20,27 @@
   <script type="text/javascript">
   	$(function(){
   	  var loginUserName = sessionStorage.getItem("loginUserName");
-  	  $('#userNameSpan').html(loginUserName+' 的账户余额:');
+  	  if('admin'===loginUserName){
+  		$('#userNameSpan').html(loginUserName+' 的账户余额:');
+  		$.get('eth/balance',{},function(num){
+  	  	  $('#mun').html(num+' wei');
+  	  	});
+  		return;
+  	  }
+  	  $.get('stockHolder/'+loginUserName,{},function(resp){
+		if(resp.code){
+		  alert('查询失败');
+		  return;
+		}
+		inverstor = resp;
+		$('#userNameSpan').html(inverstor.investorName+' 的账户余额:');
+		$.get('eth/'+inverstor.ethAccount+'/balance',{},function(num){
+	  	  $('#mun').html(num+' wei');
+	  	});
+  	  },'json');
   	  
-  	  $.get('eth/balance',{},function(num){
-  		$('#mun').html(num+' wei');
-  	  });
+  	  
+  	  
   	});
   </script>
 </head>
