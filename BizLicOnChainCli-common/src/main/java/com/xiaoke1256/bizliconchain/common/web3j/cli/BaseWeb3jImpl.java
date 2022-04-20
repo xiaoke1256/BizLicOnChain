@@ -5,6 +5,7 @@ import com.xiaoke1256.bizliconchain.common.bo.EthTrasLog;
 import com.xiaoke1256.bizliconchain.common.service.EthTrasLogService;
 import com.xiaoke1256.bizliconchain.common.util.HexUtil;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,15 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthCall;
-import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +38,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.annotation.PostConstruct;
-import javax.xml.ws.Response;
 
 /**
  * @Datetime: 2020/6/23   10:36
@@ -80,6 +76,15 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
      * 调用合约（进行检查）
      */
     public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters,String bizKey) {
+    	if(StringUtils.isEmpty(fromAddr)) {
+    		throw new RuntimeException("From address cannot be empty.");
+    	}
+    	if(StringUtils.isEmpty(fromPrivateKey)) {
+    		throw new RuntimeException("From PrivateKey cannot be empty.");
+    	}
+    	if(StringUtils.isEmpty(fromPrivateKey)) {
+    		throw new RuntimeException("Contract address cannot be empty.");
+    	}
     	try {
     		if(!queryTransfer(fromAddr,contractAddress,method,inputParameters)) {
     			throw new RuntimeException("Something wrong happen when excute the contract , please check the input paramters.");
