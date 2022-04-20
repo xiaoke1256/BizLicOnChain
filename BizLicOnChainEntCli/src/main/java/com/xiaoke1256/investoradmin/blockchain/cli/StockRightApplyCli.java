@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.web3j.abi.datatypes.Type;
@@ -35,6 +36,9 @@ public class StockRightApplyCli extends BaseCli {
 		inputParameters.add(new Uint(price));
 		String fromAddr = transferor.getEthAccount();
 		String fromPrivateKey = transferor.getEthPrivateKey();
+		if(StringUtils.isEmpty(fromAddr) || StringUtils.isEmpty(fromPrivateKey) ) {
+			throw new RuntimeException("请先设置以太坊账号和密钥。");
+		}
 		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "startStockTransfer", gasPrice, gasLimit, inputParameters,uniScId+"_"+transferor.getInvestorCetfHash()+"_"+investorCetfHash );
 	}
 }
