@@ -236,7 +236,6 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                 Transaction.createEthCallTransaction(from, contractAddress, encodedFunction),
                 DefaultBlockParameterName.LATEST)
                 .sendAsync().get();
-        //用DefaultFunctionReturnDecoder解析返回值。
         DefaultFunctionReturnDecoder rd = new DefaultFunctionReturnDecoder();
         @SuppressWarnings("unchecked")
 		List<Type> results = rd.decodeFunctionResult(response.getResult(), Arrays.asList(TypeReference.makeTypeReference("string")));
