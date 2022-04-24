@@ -23,9 +23,11 @@ module.exports = function(deployer) {
 	  deployer.link(IntUtils, StockHolderOnChain);
 	  deployer.link(StringUtils, StockHolderOnChain);
 	  deployer.deploy(StockHolderOnChain);
+/*
 	  deployer.link(BaseStockHolderOnChain, StockHolderOnChainProxy);
 	  deployer.link(BizLicOnChainProxy, StockHolderOnChainProxy);
-	  deployer.deploy(StockHolderOnChainProxy);
+	  deployer.deploy(StockHolderOnChainProxy,{overwrite: false});
+*/
 	  
 	  let bizlicProxy = null;
 	  let stockHolderInstance = null;
@@ -40,7 +42,7 @@ module.exports = function(deployer) {
 		  return StockHolderOnChainProxy.deployed();
 	  }).then(function(instance){
 		  stockHolderProxy = instance;
-		  //stockHolderProxy.changeCurrentVersion(stockHolderInstance.address);
-		  stockHolderProxy.initialize(stockHolderInstance.address,bizlicProxy.address);
+		  stockHolderProxy.changeCurrentVersion(stockHolderInstance.address);
+		  //stockHolderProxy.initialize(stockHolderInstance.address,bizlicProxy.address);
 	  });
 };

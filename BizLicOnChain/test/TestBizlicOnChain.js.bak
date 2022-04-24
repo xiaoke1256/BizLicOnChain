@@ -44,13 +44,15 @@ proxy.getAllUniScIds.call();
 
 //测试设立股权
 stockHolderProxy.putStockHolder('123100008654367537',web3.utils.keccak256("身份证:310104198802233432"),'张老三','[{invtType:"货币",amt:2000000}]',2000000);
-stockHolderProxy.putStockHolderAccount('123100008654367537',web3.utils.keccak256("身份证:310104198802233432"),accounts[2]);
+stockHolderProxy.putStockHolderAccount('123100008654367537',web3.utils.keccak256("身份证:310104198802233432"),accounts[3]);
 stockHolderProxy.getStockHolders.call('123100008654367537')
 
 //股权交易
 
 let merkel = web3.utils.keccak256('李老四',web3.utils.keccak256("身份证:310104197606123212"),2000000);
 applyProxy.startStockTransfer('123100008654367537',web3.utils.keccak256("身份证:310104198802233432"),'李老四',web3.utils.keccak256("身份证:310104197606123212"),merkel,2000000,web3.utils.toWei('150','ether'),{from:accounts[2]});
+
+applyProxy.startStockTransfer.call('123100008654367537',web3.utils.keccak256("身份证:310104198802233432"),'李老四',web3.utils.keccak256("身份证:310104197606123212"),merkel,2000000,web3.utils.toWei('150','ether'),{from:accounts[2]});
 
 applyProxy.getStockRightApplyKeysByUniScId.call('123100008654367537');
 applyProxy.getStockRightApply.call('123100008654367537',web3.utils.keccak256("身份证:310104197606123212"));
