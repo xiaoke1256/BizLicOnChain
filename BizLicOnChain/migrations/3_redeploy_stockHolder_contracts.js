@@ -29,13 +29,15 @@ module.exports = function(deployer) {
 	  deployer.deploy(StockHolderOnChainProxy,{overwrite: false});
 */
 	  
-	  let bizlicProxy = null;
+	  //let bizlicProxy = null;
 	  let stockHolderInstance = null;
 	  let stockHolderProxy = null;
  	  deployer.then(function() {
+	/*
 		  return BizLicOnChainProxy.deployed();
 	  }).then(function(instance) {
 		  bizlicProxy = instance;
+    */
 		  return StockHolderOnChain.deployed();
 	  }).then(function(instance) {
 		  stockHolderInstance = instance;
