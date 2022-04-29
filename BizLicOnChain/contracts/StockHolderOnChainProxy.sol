@@ -35,6 +35,10 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
         currentVersion = newVersion;
     }
     
+    function getCurrentVersion() public view returns (address){
+        return currentVersion;
+    }
+    
     /**
      * 管理营业执照的合约版本发生变化
      */
