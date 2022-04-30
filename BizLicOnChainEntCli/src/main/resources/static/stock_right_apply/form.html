@@ -61,7 +61,7 @@
   			alert("“以太币价格”必须是数字");
   			return;
   		  }
-  		  var priceDecimal = parseInt($('[name=priceDecimal]').val());
+  		  var priceDecimal = $('[name=priceDecimal]').val();
   		  if($.trim($('[name=newInvestorName]').val())==''){
    			alert("“新股东名称”必填");
      		return;
