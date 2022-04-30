@@ -33,6 +33,7 @@ public class StockRightApplyService {
 	public void startStockTransfer(StockRightApply apply){
 		StockHolder stockHolder = stockHolderDao.getStockHolder(apply.getStockHolderId());
 		apply.setTransferorCetfHash(stockHolder.getInvestorCetfHash());
+		apply.setStatus("开始");
 		apply.setInsertTime(new Date());
 		apply.setUpdateTime(new Date());
 		apply.setNewInvestorCetfHash(Hash.sha3String(apply.getNewInvestorCetfType()+":"+apply.getNewInvestorCetfNo()));
