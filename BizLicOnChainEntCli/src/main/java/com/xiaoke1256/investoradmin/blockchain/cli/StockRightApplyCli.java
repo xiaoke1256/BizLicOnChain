@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.web3j.abi.datatypes.Type;
@@ -18,6 +20,7 @@ import com.xiaoke1256.investoradmin.bo.StockHolder;
 @Service
 public class StockRightApplyCli extends BaseCli {
 
+	private static final Logger LOG = LoggerFactory.getLogger(StockRightApplyCli.class);
 	/**
 	 * 合约地址
 	 */
@@ -36,6 +39,14 @@ public class StockRightApplyCli extends BaseCli {
 		inputParameters.add(new Uint(price));
 		String fromAddr = transferor.getEthAccount();
 		String fromPrivateKey = transferor.getEthPrivateKey();
+		LOG.info("uniScId:"+uniScId);
+		LOG.info("transferor.getInvestorCetfHash():"+transferor.getInvestorCetfHash());
+		LOG.info("investorName:"+investorName);
+		LOG.info("investorCetfHash:"+investorCetfHash);
+		LOG.info("merkel:"+merkel);
+		LOG.info("price:"+price);
+		LOG.info("fromAddr:"+fromAddr);
+		LOG.info("fromPrivateKey:"+fromPrivateKey);
 		if(StringUtils.isEmpty(fromAddr) || StringUtils.isEmpty(fromPrivateKey) ) {
 			throw new RuntimeException("请先设置以太坊账号和密钥。");
 		}
