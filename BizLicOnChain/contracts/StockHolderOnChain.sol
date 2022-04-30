@@ -182,7 +182,9 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
      * 检查股东的账号
 	 */
     function checkStockHoldersAccount(string memory uniScId,string memory investorCetfHash,address account)public returns(bool) {
-    	require(stockHolders[uniScId][investorCetfHash].investorAccount == account, StringUtils.concat('not equals :',StringUtils.address2str(stockHolders[uniScId][investorCetfHash].investorAccount),':',StringUtils.address2str(account)));
+        string memory s = StringUtils.concat('uniScId & investorCetfHash:',uniScId,':',investorCetfHash);
+        s = StringUtils.concat(s, '  not equals :');
+    	require(stockHolders[uniScId][investorCetfHash].investorAccount == account, StringUtils.concat(s,StringUtils.address2str(stockHolders[uniScId][investorCetfHash].investorAccount),':',StringUtils.address2str(account)));
 		return true;
 	}
 	
