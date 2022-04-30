@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0"> 
+  <title>bizlic on chain welcome!</title>
+  <link rel="stylesheet" type="text/css" title="default" href="css/style.css" >
+  <script type="text/javascript" src="js/jquery.min.js" ></script>
+  <script type="text/javascript" src="js/date_format.js" ></script>
+  <style type="text/css">
+   #iTable{border-right:1px solid #000;border-bottom:1px solid #000}
+   #iTable td{border-left:1px solid #000;border-top:1px solid #000}
+   #iTable th{border-left:1px solid #000;border-top:1px solid #000}
+  </style>
+  <script type="text/javascript">
+  var pageNo = 1;
+  var pageSize = 10;
+  var totalPage = 0;
+  $(function(){
+	 
+	 var searchLogs = function(){
+		 $.get('ethLogs/search',{pageNo:pageNo,pageSize:pageSize},function(resp){
+			if(resp.code!='00'){
+				console.log('查询失败');
+				return;
+			}
+			var logs = resp.data.rows;
+			var s = '';
+			$('#iTable tr:gt(0)').remove();
+			for(var i in logs){
+				var log = logs[i];
+				s += '<tr>';
+				s += '<td>'+log.logId+'</td>';
+				s += '<td>'+log.nonce+'</td>';
+				s += '<td>'+log.contractAddress+'</td>';
+				s += '<td>'+log.method+'</td>';
+				s += '<td>'+log.bizKey+'</td>';
+				s += '<td>'+log.trasHash+'</td>';
+				s += '<td>'+log.trasStatus+'</td>';
+				s += '<td>'+log.status+'</td>';
+				s += '<td>'+log.gasPrice+'</td>';
+				s += '<td>'+log.gasUsed+'</td>';
+				s += '<td>'+log.gasLimit+'</td>';
+				s += '<td>'+log.insertTime+'</td>';
+				s += '<td>'+log.updateTime+'</td>';
+				s += '<td>'+log.finishTime+'</td>';
+				s += '</tr>';
+			}
+			$('#iTable').append($(s));
+			var total = resp.data.total;
+			totalPage = Math.floor(total/pageSize);
+			if(total%pageSize>0){
+			  totalPage+=1;
+			}
+			var p = ' '+pageNo+'/'+totalPage+' ';
+			if(pageNo>1){
+			  p = ' <a href="#" id="toFirstPage" >first</a> | <a href="#" id="toPrevPage" >prev</a> |' +p;
+			}
+			if(pageNo<totalPage){
+			  p += '| <a href="#" id="toNextPage" >next</a> | <a href="#" id="toLastPage" >last</a>';
+			}
+			$('#pageInfo').html(p);
+		},'json');
+	}
+	 
+    //上一页
+    $('#pageInfo').on('click','#toPrevPage',function(){
+    	pageNo--;
+    	searchLogs();
+    });
+    
+    //首页
+    $('#pageInfo').on('click','#toFirstPage',function(){
+    	pageNo=1;
+    	searchLogs();
+    });
+	
+    //下一页
+    $('#pageInfo').on('click','#toNextPage',function(){
+    	pageNo++;
+    	searchLogs();
+    });
+    
+    //尾页
+    $('#pageInfo').on('click','#toLastPage',function(){
+    	pageNo = totalPage;
+    	searchLogs();
+    });
+    
+	searchLogs();
+  });
+  </script>
+</head>
+<body>
+  <div id="content" class="content">
+	<table id="iTable" style="width:100%" border="0" cellspacing="0" cellpadding="0" >
+	  <tr>
+	    <th>logId</th><th>nonce</th><th>contractAddress</th>
+	    <th>method</th><th>bizKey</th><th>trasHash</th><th>trasStatus</th>
+	    <th>status</th><th>gasPrice</th><th>gasUsed</th><th>gasLimit</th>
+	    <th>insertTime</th><th>updateTime</th><th>finishTime</th>
+	  </tr>
+	</table>
+	<div id="pageInfo" style="width:100%"></div>
+  </div>
+</body>
+</html>
