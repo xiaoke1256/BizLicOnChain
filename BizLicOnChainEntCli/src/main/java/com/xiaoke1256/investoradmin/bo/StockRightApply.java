@@ -15,6 +15,7 @@ public class StockRightApply {
 	private String newInvestorCetfNo;
 	private String newInvestorCetfHash;
 	private String isArchived;
+	private String status;
 	private Date insertTime;
 	private Date updateTime;
 	public Long getApplyId() {
@@ -82,6 +83,12 @@ public class StockRightApply {
 	}
 	public void setIsArchived(String isArchived) {
 		this.isArchived = isArchived;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public Date getInsertTime() {
 		return insertTime;

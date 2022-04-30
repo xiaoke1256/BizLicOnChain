@@ -14,13 +14,14 @@
     <result column="NEW_INVESTOR_CETF_NO" jdbcType="VARCHAR" property="newInvestorCetfNo" />
     <result column="NEW_INVESTOR_CETF_HASH" jdbcType="VARCHAR" property="newInvestorCetfHash" />
     <result column="IS_ARCHIVED" jdbcType="CHAR" property="isArchived" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
     <result column="INSERT_TIME" jdbcType="TIMESTAMP" property="insertTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
  
  <sql id="BaseCols">
    APPLY_ID ,STOCK_HOLDER_ID ,TRANSFEROR_CETF_HASH ,NEW_INVESTOR_NAME ,PRICE ,CPT_AMT ,NEW_INVESTOR_ACCOUNT ,
-    	NEW_INVESTOR_CETF_TYPE ,NEW_INVESTOR_CETF_NO ,NEW_INVESTOR_CETF_HASH ,IS_ARCHIVED ,INSERT_TIME ,UPDATE_TIME
+    	NEW_INVESTOR_CETF_TYPE ,NEW_INVESTOR_CETF_NO ,NEW_INVESTOR_CETF_HASH ,IS_ARCHIVED ,STATUS, INSERT_TIME ,UPDATE_TIME
  </sql>
  
   <select id="getApply" resultMap="BaseMap">
@@ -31,9 +32,9 @@
   
   <insert id="saveApply" parameterType="com.xiaoke1256.investoradmin.bo.StockRightApply" keyProperty="applyId" useGeneratedKeys="true" >
   	insert into STOCK_RIGHT_APPLY (APPLY_ID ,STOCK_HOLDER_ID ,TRANSFEROR_CETF_HASH ,NEW_INVESTOR_NAME ,PRICE ,CPT_AMT ,NEW_INVESTOR_ACCOUNT ,
-    	NEW_INVESTOR_CETF_TYPE ,NEW_INVESTOR_CETF_NO ,NEW_INVESTOR_CETF_HASH ,IS_ARCHIVED ,INSERT_TIME ,UPDATE_TIME) 
+    	NEW_INVESTOR_CETF_TYPE ,NEW_INVESTOR_CETF_NO ,NEW_INVESTOR_CETF_HASH ,IS_ARCHIVED, STATUS,INSERT_TIME ,UPDATE_TIME) 
   	values (#{applyId},#{stockHolderId},#{transferorCetfHash},#{newInvestorName},#{price},#{cptAmt},#{newInvestorAccount},#{newInvestorCetfType},
-  		#{newInvestorCetfNo},#{newInvestorCetfHash},#{isArchived},#{insertTime},#{updateTime})
+  		#{newInvestorCetfNo},#{newInvestorCetfHash},#{isArchived},#{status},#{insertTime},#{updateTime})
   </insert>
   
   <update id="updateApply" parameterType="com.xiaoke1256.investoradmin.bo.StockRightApply" >
@@ -49,6 +50,7 @@
       NEW_INVESTOR_CETF_NO = #{newInvestorCetfNo},
       NEW_INVESTOR_CETF_HASH = #{newInvestorCetfHash},
       IS_ARCHIVED = #{transferorCetfHash},
+      STATUS = #{status},
       INSERT_TIME = #{insertTime},
       UPDATE_TIME = #{updateTime}
     where APPLY_ID = #{applyId}
