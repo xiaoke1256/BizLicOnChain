@@ -15,4 +15,6 @@ public interface StockRightApplyMapper {
 	public void updateApply(StockRightApply apply);
 	
 	List<StockRightApply> queryAll();
+	
+	List<StockRightApply> queryByStockHolderId(Long stockHolderId);
 }

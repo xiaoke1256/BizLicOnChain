@@ -18,9 +18,14 @@
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
  
-  <select id="getApply" resultMap="BaseMap">
-    select APPLY_ID ,STOCK_HOLDER_ID ,TRANSFEROR_CETF_HASH ,NEW_INVESTOR_NAME ,PRICE ,CPT_AMT ,NEW_INVESTOR_ACCOUNT ,
+ <sql id="BaseCols">
+   APPLY_ID ,STOCK_HOLDER_ID ,TRANSFEROR_CETF_HASH ,NEW_INVESTOR_NAME ,PRICE ,CPT_AMT ,NEW_INVESTOR_ACCOUNT ,
     	NEW_INVESTOR_CETF_TYPE ,NEW_INVESTOR_CETF_NO ,NEW_INVESTOR_CETF_HASH ,IS_ARCHIVED ,INSERT_TIME ,UPDATE_TIME
+ </sql>
+ 
+  <select id="getApply" resultMap="BaseMap">
+    select 
+    <include refid="BaseCols"/>
     from STOCK_RIGHT_APPLY where APPLY_ID = #{applyId}
   </select>
   
@@ -50,9 +55,16 @@
   </update>
   
   <select id="queryAll" resultMap="BaseMap">
-    select STOCK_RIGHT_APPLY (APPLY_ID ,STOCK_HOLDER_ID ,TRANSFEROR_CETF_HASH ,NEW_INVESTOR_NAME ,PRICE ,CPT_AMT ,NEW_INVESTOR_ACCOUNT ,
-    	NEW_INVESTOR_CETF_TYPE ,NEW_INVESTOR_CETF_NO ,NEW_INVESTOR_CETF_HASH ,IS_ARCHIVED ,INSERT_TIME ,UPDATE_TIME 
+    select <include refid="BaseCols"/> 
     from STOCK_RIGHT_APPLY 
     order by APPLY_ID
   </select>
+  
+  <select id="queryByStockHolderId" resultMap="BaseMap">
+    select <include refid="BaseCols"/> 
+    from STOCK_RIGHT_APPLY 
+    where STOCK_HOLDER_ID = #{stockHolderId}
+    order by UPDATE_TIME desc
+  </select>
+  
 </mapper>

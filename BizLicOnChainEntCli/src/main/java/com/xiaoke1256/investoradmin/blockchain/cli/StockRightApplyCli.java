@@ -52,4 +52,5 @@ public class StockRightApplyCli extends BaseCli {
 		}
 		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "startStockTransfer", gasPrice, gasLimit, inputParameters,uniScId+"_"+transferor.getInvestorCetfHash()+"_"+investorCetfHash );
 	}
+	
 }

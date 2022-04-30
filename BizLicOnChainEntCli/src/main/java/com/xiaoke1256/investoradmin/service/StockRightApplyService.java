@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,5 +48,24 @@ public class StockRightApplyService {
 		byte[] merkel = Hash.sha3(os.toByteArray());
 		stockRightApplyCli.startStockTransfer(uniScId, stockHolder, apply.getNewInvestorName(), 
 				apply.getNewInvestorCetfHash(), merkel, apply.getCptAmt(), apply.getPrice());
+	}
+	
+	/**
+	 * 查全部
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public List<StockRightApply> queryAll(){
+		return stockRightApplyDao.queryAll();
+	}
+	
+	/**
+	 * 按股东查
+	 * @param stockHolderId
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public List<StockRightApply> queryByStockHolderId(Long stockHolderId){
+		return stockRightApplyDao.queryByStockHolderId(stockHolderId);
 	}
 }

@@ -1,6 +1,9 @@
 package com.xiaoke1256.investoradmin.contorller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,5 +26,10 @@ public class StockRightApplyController {
 		}
 		stockRightApplyService.startStockTransfer(apply);
 		return true;
+	}
+	
+	@GetMapping()
+	public List<StockRightApply> queryByStockHolderId(Long stockHolderId){
+		return stockRightApplyService.queryByStockHolderId(stockHolderId);
 	}
 }
