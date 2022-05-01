@@ -2,6 +2,7 @@ package com.xiaoke1256.investoradmin.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xiaoke1256.investoradmin.bo.StockRightApply;
@@ -16,5 +17,5 @@ public interface StockRightApplyMapper {
 	
 	List<StockRightApply> queryAll();
 	
-	List<StockRightApply> queryByStockHolderId(Long stockHolderId);
+	List<StockRightApply> queryByStockHolderId(@Param("stockHolderId")Long stockHolderId);
 }

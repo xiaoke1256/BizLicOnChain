@@ -57,7 +57,11 @@ public class StockRightApplyService {
 	 */
 	@Transactional(readOnly=true)
 	public List<StockRightApply> queryAll(){
-		return stockRightApplyDao.queryAll();
+		List<StockRightApply> applyList = stockRightApplyDao.queryAll();
+		for(StockRightApply apply:applyList) {
+			apply.setTransferor(stockHolderDao.getStockHolder(apply.getStockHolderId()));
+		}
+		return applyList;
 	}
 	
 	/**

@@ -13,24 +13,27 @@
   <script type="text/javascript">
   	$(function(){
   		var loginUserName = sessionStorage.getItem("loginUserName");
-  		if(loginUserName=='admin'){
-  			//查全部
-  		}else{
+  		var param = {};
+  		if(loginUserName!='admin'){
   			//查自己的
+  			param = {stockHolderId:loginUserName};
   		}
-  		$.get('stockHolder/all',{},function(resp){
+  		$.get('stockHolder/apply',{},function(resp){
   			if(resp.code){
 				alert('查询失败');
 				return;
 			}
 			$('#listTable').find('tr:gt(0)').remove();
-			var inverstors = resp;
+			var applys = resp;
 			var s = '';
-			for(var i in inverstors){
-				var inverstor = inverstors[i];
-				s+='<tr><td>'+inverstor.investorName+'</td>'
-					+'<td>'+inverstor.investorCetfHash+'</td>'
-					+'<td>'+inverstor.cptAmt+'</td>'
+			for(var i in applys){
+				var apply = applys[i];
+				s+='<tr><td>'+apply.transferor.investorName+'</td>'
+					+'<td>'+apply.newInvestorCetfType+':'+apply.newInvestorCetfNo+'</td>'
+					+'<td>'+apply.cptAmt+'</td>'
+					+'<td>'+apply.price+'</td>'
+					+'<td>'+apply.status+'</td>'
+					+'<td></td>'
 					+'</tr>'
 			}
 			$('#listTable').append($(s));
@@ -44,7 +47,7 @@
 		  <form name="investorForm" id="investorForm" method="post">
 			<table id="listTable" style="width:75%" class="listTable" border="0" cellspacing="0" cellpadding="0">
 			  <tr>
-			    <th>出让坊</th><th>新股东身份信息</th><th>转让额(元)</th><th>价格(wei)</th><th>状态</th><th>操作</th>
+			    <th>出让方</th><th>新股东身份信息</th><th>转让额(元)</th><th>价格(wei)</th><th>状态</th><th>操作</th>
 			  </tr>
 			</table>
 		  </form>

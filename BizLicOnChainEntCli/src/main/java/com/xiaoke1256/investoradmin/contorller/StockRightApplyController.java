@@ -30,6 +30,11 @@ public class StockRightApplyController {
 	
 	@GetMapping()
 	public List<StockRightApply> queryByStockHolderId(Long stockHolderId){
-		return stockRightApplyService.queryByStockHolderId(stockHolderId);
+		if(stockHolderId!=null) {
+			return stockRightApplyService.queryByStockHolderId(stockHolderId);
+		}else {
+			return stockRightApplyService.queryAll();
+		}
+		
 	}
 }

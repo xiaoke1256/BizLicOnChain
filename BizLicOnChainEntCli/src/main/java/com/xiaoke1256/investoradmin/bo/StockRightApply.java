@@ -18,6 +18,9 @@ public class StockRightApply {
 	private String status;
 	private Date insertTime;
 	private Date updateTime;
+	/**出让方*/
+	private StockHolder transferor;
+	
 	public Long getApplyId() {
 		return applyId;
 	}
@@ -101,6 +104,12 @@ public class StockRightApply {
 	}
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+	public StockHolder getTransferor() {
+		return transferor;
+	}
+	public void setTransferor(StockHolder transferor) {
+		this.transferor = transferor;
 	}
 	
 	
