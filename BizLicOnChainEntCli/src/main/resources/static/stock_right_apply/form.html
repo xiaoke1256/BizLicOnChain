@@ -75,6 +75,7 @@
   				  cptAmt:cptAmt,
   				  price:priceDecimal,
   				  newInvestorName:$('[name=newInvestorName]').val(),
+  				  newInvestorCetfType:$('[name=newInvestorCetfType]').val(),
   				  newInvestorCetfNo:$('[name=newInvestorCetfNo]').val()};
 		  $.post('stockHolder/apply/stockTransfer/start',apply,function(resp){
 			if(resp===true){
