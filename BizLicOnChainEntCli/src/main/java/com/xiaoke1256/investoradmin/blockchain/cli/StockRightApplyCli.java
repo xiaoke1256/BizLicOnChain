@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
@@ -51,6 +52,23 @@ public class StockRightApplyCli extends BaseCli {
 			throw new RuntimeException("请先设置以太坊账号和密钥。");
 		}
 		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "startStockTransfer", gasPrice, gasLimit, inputParameters,uniScId+"_"+transferor.getInvestorCetfHash()+"_"+investorCetfHash );
+	}
+	
+	/**
+	 * 设置股东账号
+	 */
+	public void setNewStockHolderAccount(String uniScId,StockHolder transferor,String investorCetfHash,String investorAccount) {
+		@SuppressWarnings("rawtypes")
+		List<Type> inputParameters = new ArrayList<Type>();
+		inputParameters.add(new Utf8String(uniScId));
+		inputParameters.add(new Utf8String(investorCetfHash));
+		inputParameters.add(new Address(investorAccount));
+		String fromAddr = transferor.getEthAccount();
+		String fromPrivateKey = transferor.getEthPrivateKey();
+		if(StringUtils.isEmpty(fromAddr) || StringUtils.isEmpty(fromPrivateKey) ) {
+			throw new RuntimeException("请先设置出让方以太坊账号和密钥。");
+		}
+		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "setNewStockHolderAccount", gasPrice, gasLimit, inputParameters,uniScId+"_"+transferor.getInvestorCetfHash()+"_"+investorCetfHash );
 	}
 	
 }

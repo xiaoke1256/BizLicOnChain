@@ -73,4 +73,14 @@ public class StockRightApplyService {
 	public List<StockRightApply> queryByStockHolderId(Long stockHolderId){
 		return stockRightApplyDao.queryByStockHolderId(stockHolderId);
 	}
+	
+	public void setNewStockHolderAccount(Long applyId,String newInvestorAccount){
+		StockRightApply apply = stockRightApplyDao.getApply(applyId);
+		StockHolder stockHolder = stockHolderDao.getStockHolder(apply.getStockHolderId());
+		apply.setNewInvestorAccount(newInvestorAccount);
+		apply.setStatus("设置账号-处理中");
+		apply.setUpdateTime(new Date());
+		stockRightApplyDao.updateApply(apply);
+		stockRightApplyCli.setNewStockHolderAccount(uniScId, stockHolder, apply.getNewInvestorCetfHash(), newInvestorAccount);
+	}
 }

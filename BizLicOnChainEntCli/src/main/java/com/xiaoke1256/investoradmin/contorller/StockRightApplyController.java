@@ -37,4 +37,10 @@ public class StockRightApplyController {
 		}
 		
 	}
+	
+	@PostMapping("stockTransfer/setAddress")
+	public Boolean setNewStockHolderAccount(Long stockHolderId){
+		
+		return true;
+	}
 }
