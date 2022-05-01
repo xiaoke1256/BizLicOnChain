@@ -40,18 +40,23 @@
   		},'json');
   		
   		function operHtml(apply) {
- 		  if(apply.status == '开始' && loginUserName == apply.transferor.stockHolderId ){
- 			return '<a>设置新股东账号</a>'
+ 		  if(apply.status == '待董事会确认' && loginUserName == apply.transferor.stockHolderId ){
+ 			return '<a ref="#" class="setAccountLink" applyId="'+apply.applyId+'" >设置新股东账号</a>'
  		  }
  		  return '';
   		}
+  		
+  		/* 设置新股东账号的操作 */	
+  		$('#applyForm').on('click','.setAccountLink',function(){
+  		  
+  		});
   	});
   </script>
 </head>
 <body>
 	<div id="content" class="content">
 		<div style="width:75%" class="center">
-		  <form name="investorForm" id="investorForm" method="post">
+		  <form name="applyForm" id="applyForm" method="post">
 			<table id="listTable" style="width:75%" class="listTable" border="0" cellspacing="0" cellpadding="0">
 			  <tr>
 			    <th>出让方</th><th>新股东身份信息</th><th>转让额(元)</th><th>价格(wei)</th><th>状态</th><th>操作</th>

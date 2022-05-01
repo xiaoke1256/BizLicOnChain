@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +20,11 @@ public class StockRightApplyController {
 	@Autowired
 	private StockRightApplyService stockRightApplyService;
 	
-	
+	/**
+	 * 发起股权转让流程
+	 * @param apply
+	 * @return
+	 */
 	@PostMapping(value = "stockTransfer/start")
 	public Boolean startStockTransfer(StockRightApply apply) {
 		if(apply.getStockHolderId()==null) {
@@ -38,9 +44,15 @@ public class StockRightApplyController {
 		
 	}
 	
-	@PostMapping("stockTransfer/setAddress")
-	public Boolean setNewStockHolderAccount(Long stockHolderId){
-		
+	/**
+	 * 设置新股东账号
+	 * @param applyId
+	 * @param newInvestorAccount
+	 * @return
+	 */
+	@PutMapping("stockTransfer/{applyId}/setAddress")
+	public Boolean setNewStockHolderAccount(@PathVariable("applyId") Long applyId,String newInvestorAccount){
+		stockRightApplyService.setNewStockHolderAccount(applyId, newInvestorAccount);
 		return true;
 	}
 }
