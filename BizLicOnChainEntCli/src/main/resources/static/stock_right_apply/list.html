@@ -31,13 +31,20 @@
 				s+='<tr><td>'+apply.transferor.investorName+'</td>'
 					+'<td>'+apply.newInvestorCetfType+':'+apply.newInvestorCetfNo+'</td>'
 					+'<td>'+apply.cptAmt+'</td>'
-					+'<td>'+apply.price+'</td>'
+					+'<td>'+apply.price.toLocaleString()+'</td>'
 					+'<td>'+apply.status+'</td>'
-					+'<td></td>'
+					+'<td>'+ operHtml(apply) +'</td>'
 					+'</tr>'
 			}
 			$('#listTable').append($(s));
   		},'json');
+  		
+  		function operHtml(apply) {
+ 		  if(apply.status == '开始' && loginUserName == apply.transferor.stockHolderId ){
+ 			return '<a>设置新股东账号</a>'
+ 		  }
+ 		  return '';
+  		}
   	});
   </script>
 </head>
