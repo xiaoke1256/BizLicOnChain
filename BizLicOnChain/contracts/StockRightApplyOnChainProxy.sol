@@ -70,6 +70,18 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 		return true;
     }
     
+     /**
+     * 版本发生变化
+     */
+    function changeCurrentVersion(address newVersion)public onlyCreator{
+        require(_initialized);
+        logicVersion = newVersion;
+    }
+    
+    function getCurrentVersion() public view returns (address){
+        return logicVersion;
+    }
+    
 	/**
 	 *发起股权转让
 	 * uniScId 统一社会信用码
