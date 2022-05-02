@@ -1,6 +1,9 @@
 package com.xiaoke1256.bizliconchain.common.web3j.cli;
 
 import org.web3j.abi.datatypes.Type;
+import org.web3j.protocol.websocket.events.LogNotification;
+
+import io.reactivex.functions.Consumer;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -53,5 +56,15 @@ public interface IBaseWeb3j {
      * @throws IOException
      */
 	BigInteger getBalance(String address) throws IOException;
+
+	/**
+	 * 注册事件监听
+	 * @param contractAddress
+	 * @param topic 类似 "ApplyStatusChange(string,string,string)"
+	 * @param onSuccess
+	 * @param onError
+	 */
+	void subscript(String contractAddress, String topic, Consumer<LogNotification> onSuccess,
+			Consumer<Throwable> onError);
 }
 
