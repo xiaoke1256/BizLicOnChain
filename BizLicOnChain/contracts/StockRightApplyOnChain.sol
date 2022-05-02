@@ -32,6 +32,9 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
      * 是否初始化
      */
     bool internal _initialized = false;
+    
+    
+    event SetNewStockHolderAccount(string indexed uniScId,string indexed investorCetfHash,address investorAccount);
 
 
     constructor() public{
@@ -118,6 +121,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
         if(!sucess){
 			require(sucess,parseErrMsg(result));
 		}
+		emit SetNewStockHolderAccount(uniScId,investorCetfHash,investorAccount);
 		return true;
 	}
     
