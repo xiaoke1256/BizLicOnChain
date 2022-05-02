@@ -13,42 +13,58 @@
   <script type="text/javascript">
   	$(function(){
   		var loginUserName = sessionStorage.getItem("loginUserName");
-  		var param = {};
-  		if(loginUserName!='admin'){
-  			//查自己的
-  			param = {stockHolderId:loginUserName};
+  		
+  		function search(){
+			var param = {};
+	  		if(loginUserName!='admin'){
+	  			//查自己的
+	  			param = {stockHolderId:loginUserName};
+	  		}
+	  		$.get('stockHolder/apply',param,function(resp){
+	  			if(resp.code){
+					alert('查询失败');
+					return;
+				}
+				$('#listTable').find('tr:gt(0)').remove();
+				var applys = resp;
+				var s = '';
+				for(var i in applys){
+					var apply = applys[i];
+					s+='<tr><td>'+apply.transferor.investorName+'</td>'
+						+'<td>'+apply.newInvestorCetfType+':'+apply.newInvestorCetfNo+'</td>'
+						+'<td>'+apply.cptAmt+'</td>'
+						+'<td>'+apply.price.toLocaleString()+'</td>'
+						+'<td>'+apply.status+'</td>'
+						+'<td>'+ operHtml(apply) +'</td>'
+						+'</tr>'
+				}
+				$('#listTable').append($(s));
+	  		},'json');
   		}
-  		$.get('stockHolder/apply',{},function(resp){
-  			if(resp.code){
-				alert('查询失败');
-				return;
-			}
-			$('#listTable').find('tr:gt(0)').remove();
-			var applys = resp;
-			var s = '';
-			for(var i in applys){
-				var apply = applys[i];
-				s+='<tr><td>'+apply.transferor.investorName+'</td>'
-					+'<td>'+apply.newInvestorCetfType+':'+apply.newInvestorCetfNo+'</td>'
-					+'<td>'+apply.cptAmt+'</td>'
-					+'<td>'+apply.price.toLocaleString()+'</td>'
-					+'<td>'+apply.status+'</td>'
-					+'<td>'+ operHtml(apply) +'</td>'
-					+'</tr>'
-			}
-			$('#listTable').append($(s));
-  		},'json');
+  		
+  		search();
   		
   		function operHtml(apply) {
  		  if(apply.status == '待董事会确认' && loginUserName == apply.transferor.stockHolderId ){
- 			return '<a ref="#" class="setAccountLink" applyId="'+apply.applyId+'" >设置新股东账号</a>'
+ 			return '<a href="#" class="setAccountLink" applyId="'+apply.applyId+'" >设置新股东账号</a>'
  		  }
  		  return '';
   		}
   		
   		/* 设置新股东账号的操作 */	
   		$('#applyForm').on('click','.setAccountLink',function(){
-  		  
+  			var newAccount = prompt('请输入该新股东的账号地址：');
+  			if (!newAccount){
+  				return;
+  			}
+  			var applyId = $(this).attr("applyId");
+  			$.post('stockHolder/apply/stockTransfer/'+applyId+'/setAddress',{newInvestorAccount:newAccount},function(resp){
+  				if(resp.code){
+  					alert('执行失败。');
+  					return;
+  				}
+  				search();
+  			},'json');
   		});
   	});
   </script>

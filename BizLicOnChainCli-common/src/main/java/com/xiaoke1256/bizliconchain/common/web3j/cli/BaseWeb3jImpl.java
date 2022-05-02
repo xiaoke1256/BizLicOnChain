@@ -262,6 +262,12 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
      */
     @Override
     public void subscript(String contractAddress,String topic ,Consumer<LogNotification> onSuccess,Consumer<Throwable> onError) {
+    	if(onError==null) {
+    		onError = (t)->{};
+    	}
+    	if(onSuccess==null) {
+    		onSuccess = (l)->{};
+    	}
     	web3j.logsNotifications(Arrays.asList(contractAddress), Arrays.asList(topic)).blockingSubscribe(onSuccess, onError);
     }
     

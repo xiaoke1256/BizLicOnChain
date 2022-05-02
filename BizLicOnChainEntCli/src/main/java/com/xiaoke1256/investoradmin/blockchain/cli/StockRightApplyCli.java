@@ -2,6 +2,7 @@ package com.xiaoke1256.investoradmin.blockchain.cli;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,9 +15,12 @@ import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Bytes32;
+import org.web3j.protocol.websocket.events.LogNotification;
 
 import com.xiaoke1256.bizliconchain.blockchain.common.BaseCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
+
+import io.reactivex.functions.Consumer;
 
 @Service
 public class StockRightApplyCli extends BaseCli {
@@ -27,6 +31,21 @@ public class StockRightApplyCli extends BaseCli {
 	 */
 	@Value("${contract.ctAddr}")
 	private String contractAddress;
+	
+	@Value("${biz.uniScId}")
+	private String uniScId;
+	
+    /**
+     * 注册事件监听
+     * @deprecated http 应用不支持注册。
+     * @param contractAddress
+     * @param topic 类似 "ApplyStatusChange(string,string,string)"
+     * @param onSuccess
+     * @param onError
+     */
+    public void subscript(String topic ,Consumer<LogNotification> onSuccess,Consumer<Throwable> onError) {
+    	baseWeb3j.subscript(contractAddress, topic, onSuccess, onError);
+    }
 
 	public void startStockTransfer(String uniScId,StockHolder transferor,String investorName,String investorCetfHash,byte[] merkel,BigInteger cptAmt,BigInteger price) {
 		@SuppressWarnings("rawtypes")

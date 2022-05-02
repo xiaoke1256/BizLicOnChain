@@ -49,7 +49,7 @@
       NEW_INVESTOR_CETF_TYPE = #{newInvestorCetfType},
       NEW_INVESTOR_CETF_NO = #{newInvestorCetfNo},
       NEW_INVESTOR_CETF_HASH = #{newInvestorCetfHash},
-      IS_ARCHIVED = #{transferorCetfHash},
+      IS_ARCHIVED = #{isArchived},
       STATUS = #{status},
       INSERT_TIME = #{insertTime},
       UPDATE_TIME = #{updateTime}
@@ -67,6 +67,13 @@
     from STOCK_RIGHT_APPLY 
     where STOCK_HOLDER_ID = #{stockHolderId}
     order by UPDATE_TIME desc
+  </select>
+  
+  <select id="getByInvestorCetfHashAndStatus" resultMap="BaseMap">
+    select <include refid="BaseCols"/> 
+    from STOCK_RIGHT_APPLY 
+    where NEW_INVESTOR_NAME = #{investorCetfHash}
+    and STATUS = #{status}
   </select>
   
 </mapper>

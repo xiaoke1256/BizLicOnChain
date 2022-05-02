@@ -6,6 +6,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,12 +23,16 @@ import com.xiaoke1256.investoradmin.dao.StockRightApplyMapper;
 @Service
 @Transactional
 public class StockRightApplyService {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(StockRightApplyService.class);
+	
 	@Autowired
 	private StockRightApplyMapper stockRightApplyDao;
 	@Autowired
 	private StockHolderMapper stockHolderDao;
 	@Autowired
 	private StockRightApplyCli stockRightApplyCli;
+	
 	@Value("${biz.uniScId}")
 	private String uniScId;
 	
@@ -49,6 +55,8 @@ public class StockRightApplyService {
 		byte[] merkel = Hash.sha3(os.toByteArray());
 		stockRightApplyCli.startStockTransfer(uniScId, stockHolder, apply.getNewInvestorName(), 
 				apply.getNewInvestorCetfHash(), merkel, apply.getCptAmt(), apply.getPrice());
+		
+		LOG.info("已提交");
 	}
 	
 	/**
@@ -71,7 +79,11 @@ public class StockRightApplyService {
 	 */
 	@Transactional(readOnly=true)
 	public List<StockRightApply> queryByStockHolderId(Long stockHolderId){
-		return stockRightApplyDao.queryByStockHolderId(stockHolderId);
+		List<StockRightApply> applyList =  stockRightApplyDao.queryByStockHolderId(stockHolderId);
+		for(StockRightApply apply:applyList) {
+			apply.setTransferor(stockHolderDao.getStockHolder(apply.getStockHolderId()));
+		}
+		return applyList;
 	}
 	
 	public void setNewStockHolderAccount(Long applyId,String newInvestorAccount){

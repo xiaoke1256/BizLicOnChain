@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
- * @Datetime: 2020/6/23   10:35
- * @Author: Xia rong tao
- * @title
+ *
  */
 
 public interface IBaseWeb3j {
@@ -58,7 +56,7 @@ public interface IBaseWeb3j {
 	BigInteger getBalance(String address) throws IOException;
 
 	/**
-	 * 注册事件监听
+	 * 注册事件监听（注意在Http服务中不可用）
 	 * @param contractAddress
 	 * @param topic 类似 "ApplyStatusChange(string,string,string)"
 	 * @param onSuccess

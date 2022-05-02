@@ -69,7 +69,7 @@
   		$('#listTable').on('click','a.setAccountLink',function(){
   			var investorName = $(this).parent().prev().prev().prev().html();
   			var investorCetfHash = $(this).parent().prev().prev().html();
-  			var newAccount = prompt('请输入该股的新账号新地址：');
+  			var newAccount = prompt('请输入该股的新账号地址：');
   			if($.trim(newAccount)==''){
   				return;
   			}

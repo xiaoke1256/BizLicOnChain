@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xiaoke1256.bizliconchain.common.exception.BizException;
@@ -50,8 +50,8 @@ public class StockRightApplyController {
 	 * @param newInvestorAccount
 	 * @return
 	 */
-	@PutMapping("stockTransfer/{applyId}/setAddress")
-	public Boolean setNewStockHolderAccount(@PathVariable("applyId") Long applyId,String newInvestorAccount){
+	@PostMapping(value ="stockTransfer/{applyId}/setAddress")
+	public Boolean setNewStockHolderAccount(@PathVariable("applyId") Long applyId,@RequestParam("newInvestorAccount") String newInvestorAccount){
 		stockRightApplyService.setNewStockHolderAccount(applyId, newInvestorAccount);
 		return true;
 	}
