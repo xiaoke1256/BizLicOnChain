@@ -124,6 +124,12 @@
     	<artifactId>blockchain-cli-common</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
 	</dependency>
+	
+	<dependency>
+	    <groupId>com.xiaoke_1256.bizliconchain</groupId>
+    	<artifactId>blockchain-cli-common-web</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+	</dependency>
     
   </dependencies>
   
