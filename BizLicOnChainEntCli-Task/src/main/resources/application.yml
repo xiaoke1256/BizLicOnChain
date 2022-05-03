@@ -1,0 +1,40 @@
+spring:
+  profiles:
+    active: "dev"
+  application:
+    name: "bizlic-ent-web-task"
+  jackson:
+    #时间格式的统一处理
+    date-format: 'yyyy-MM-dd HH:mm:ss'
+    time-zone: 'GMT+8'
+  #嵌入式数据库
+  datasource:
+    drive-class-name: org.h2.Driver
+    url: jdbc:h2:file:~/h2/investor_admin;AUTO_SERVER=TRUE
+    username: sa
+    password: sa
+    schema: classpath:init_sql/schema.sql
+    initialization-mode: always
+    continue-on-error: false
+    sql-script-encoding: utf-8
+    
+mybatis:
+  mapperLocations: classpath*:com/xiaoke1256/**/dao/*Mapper.xml
+  configLocation: classpath:sqlMapConfig.xml
+
+contract:
+  #ctAddr: "0x85EA9e5229306D7D73ED41CBE427F241D6717e5B"  #合约地址
+  ctAddr: "0xf2ae16A2490b70ede2560Bc2Fd38A98D22a4809A" #合约地址（申请股权合约）
+  startAddr:  "************************************"   #顶级节点地址（好像没用到）
+  #sendAddr:  "0xaefe184653e506426daab8369504ce3a2d95b68c"   #from地址(代表企业的)
+  sendAddr:  "0x5474a442745bdfd8a05445441cb67f451e76650a"   #dev 环境下的 from地址(代表企业的)
+  #sendAddrPk:  "e08736ed03b3d08d2e07ce89600d33664656f4f4073875cda78a476607d36570"  #私钥(代表企业的)
+  sendAddrPk:  "b8e3f832d7914dbcddec59342e8f366c46a4d7708d67211309fe3df41d05946b"   #dev 环境下的私钥(代表企业的)。
+  gasPrice: 10000000000 # Gas Price越高，交易优先级越高，打包交易速度越快。默认情况下是20gw
+  gasLimit: 1500000  # Gas Limit 是用户愿意为执行某个操作或确认交易支付的最大Gas量（最少21,000）
+  isAddGas: false #是否启用按当前市价进行加权矿工费用
+  addGas:   2000000000 #所增加费用
+  url: "http://localhost:8545/" #正式网 or 测试网
+
+biz:
+  uniScId: '433224435435344564'
