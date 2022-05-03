@@ -11,9 +11,9 @@
 	
   	<!-- 文件输出()每天保存一个文件，保存7天，超过1M的轮回 -->  
     <appender name="file_log" class="ch.qos.logback.core.rolling.RollingFileAppender">  
-        <file>/logs/BizLicOnChain/BizLicOnChain.log</file>  
+        <file>/logs/bizlic-onchain/ent-cli-task.log</file>  
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
-            <fileNamePattern>/logs/product-search/product-search-%d{yyyy-MM-dd_HH-mm}_%i.log</fileNamePattern>  
+            <fileNamePattern>/logs/bizlic-onchain/ent-cli-task-%d{yyyy-MM-dd_HH-mm}_%i.log</fileNamePattern>  
             <maxHistory>7</maxHistory>  
             <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">  
             	<maxFileSize>1MB</maxFileSize>   

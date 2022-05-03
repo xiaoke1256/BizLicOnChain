@@ -13,7 +13,6 @@ spring:
     url: jdbc:h2:file:~/h2/investor_admin;AUTO_SERVER=TRUE
     username: sa
     password: sa
-    schema: classpath:init_sql/schema.sql
     initialization-mode: always
     continue-on-error: false
     sql-script-encoding: utf-8
