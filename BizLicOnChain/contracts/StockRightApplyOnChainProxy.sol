@@ -194,7 +194,7 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
     /** 
      申请案详情
      */
-	function getStockRightApply(string memory uniScId,string memory investorCetfHash) public returns (string memory){
+	function getStockRightApply(string memory uniScId,string memory investorCetfHash) public view returns (string memory){
 		string memory s = '{';
 		string memory lUniScId = uniScId;
         string memory transferorCetfHash = getTransferorCetfHash(uniScId,investorCetfHash);
