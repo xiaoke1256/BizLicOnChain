@@ -102,11 +102,14 @@ public class StockRightApplyCli extends BaseCli {
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(uniScId));
 		inputParameters.add(new Utf8String(investorCetfHash));
-		String json = null;
+		String json;
 		try {
-			json = baseWeb3j.queryToString(fromAddr, fromPrivateKey, "getStockRightApply", inputParameters);
+			json = baseWeb3j.queryToString(fromAddr, contractAddress, "getStockRightApply", inputParameters);
 		} catch (ClassNotFoundException | InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
+		}
+		if(json==null) {
+			throw new NullPointerException();
 		}
 		return JSON.parseObject(json, StockRightApply.class);
 	}

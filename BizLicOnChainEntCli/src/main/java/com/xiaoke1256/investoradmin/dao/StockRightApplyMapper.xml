@@ -77,7 +77,7 @@
   </select>
   
   <!-- 查询待处理的申请 -->
-  <select id="queryAwait">
+  <select id="queryAwait" resultMap="BaseMap">
     select <include refid="BaseCols"/> 
     from STOCK_RIGHT_APPLY 
     where STATUS like '%-处理中' 

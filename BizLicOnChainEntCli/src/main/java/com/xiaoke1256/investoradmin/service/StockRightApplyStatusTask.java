@@ -38,7 +38,7 @@ public class StockRightApplyStatusTask {
 	public void dealStatusChange() {
 		List<StockRightApply> applys = stockRightApplyService.queryAwaitApply();
 		for(StockRightApply apply:applys) {
-			//getStockRightApply()
+			stockRightApplyService.dealStatusChange(apply);
 		}
 	}
 	
