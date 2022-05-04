@@ -95,4 +95,29 @@ public class StockRightApplyService {
 		stockRightApplyDao.updateApply(apply);
 		stockRightApplyCli.setNewStockHolderAccount(uniScId, stockHolder, apply.getNewInvestorCetfHash(), newInvestorAccount);
 	}
+	
+	/**
+	 * 查待处理的申请
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public List<StockRightApply> queryAwaitApply(){
+		return stockRightApplyDao.queryAwait();
+	}
+	
+	/**
+	 * 处理状态变更
+	 * @param apply
+	 */
+	public void dealStatusChange(StockRightApply apply) {
+		StockRightApply applyOnChain = stockRightApplyCli.getStockRightApply(uniScId,apply.getNewInvestorCetfHash());
+		if("设置账号-处理中".equals(apply.getStatus())) {
+			if(!applyOnChain.getNewInvestorAccount().equals(apply.getNewInvestorAccount())) {
+				apply.setNewInvestorAccount(applyOnChain.getNewInvestorAccount());
+				apply.setStatus("待董事会确认");
+				apply.setUpdateTime(new Date());
+				stockRightApplyDao.updateApply(apply);
+			}
+		}
+	}
 }

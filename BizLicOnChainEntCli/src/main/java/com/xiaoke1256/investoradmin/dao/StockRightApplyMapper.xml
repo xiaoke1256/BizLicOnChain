@@ -76,4 +76,12 @@
     and STATUS = #{status}
   </select>
   
+  <!-- 查询待处理的申请 -->
+  <select id="queryAwait">
+    select <include refid="BaseCols"/> 
+    from STOCK_RIGHT_APPLY 
+    where STATUS like '%-处理中' 
+    order by UPDATE_TIME limit 10
+  </select>
+  
 </mapper>

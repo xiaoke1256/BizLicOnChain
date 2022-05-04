@@ -20,4 +20,6 @@ public interface StockRightApplyMapper {
 	List<StockRightApply> queryByStockHolderId(@Param("stockHolderId")Long stockHolderId);
 	
 	StockRightApply getByInvestorCetfHashAndStatus(String investorCetfHash,String status);
+	
+	List<StockRightApply> queryAwait();
 }

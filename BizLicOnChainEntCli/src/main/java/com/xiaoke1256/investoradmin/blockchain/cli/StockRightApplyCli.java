@@ -2,8 +2,8 @@ package com.xiaoke1256.investoradmin.blockchain.cli;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -17,8 +17,10 @@ import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.protocol.websocket.events.LogNotification;
 
+import com.alibaba.fastjson.JSON;
 import com.xiaoke1256.bizliconchain.blockchain.common.BaseCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
+import com.xiaoke1256.investoradmin.bo.StockRightApply;
 
 import io.reactivex.functions.Consumer;
 
@@ -90,4 +92,22 @@ public class StockRightApplyCli extends BaseCli {
 		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "setNewStockHolderAccount", gasPrice, gasLimit, inputParameters,uniScId+"_"+transferor.getInvestorCetfHash()+"_"+investorCetfHash );
 	}
 	
+	/**
+	 * 获取申请
+	 * @param uniScId
+	 * @param investorCetfHash
+	 * @return
+	 */
+	public StockRightApply getStockRightApply(String uniScId,String investorCetfHash) {
+		List<Type> inputParameters = new ArrayList<Type>();
+		inputParameters.add(new Utf8String(uniScId));
+		inputParameters.add(new Utf8String(investorCetfHash));
+		String json = null;
+		try {
+			json = baseWeb3j.queryToString(fromAddr, fromPrivateKey, "getStockRightApply", inputParameters);
+		} catch (ClassNotFoundException | InterruptedException | ExecutionException e) {
+			throw new RuntimeException(e);
+		}
+		return JSON.parseObject(json, StockRightApply.class);
+	}
 }
