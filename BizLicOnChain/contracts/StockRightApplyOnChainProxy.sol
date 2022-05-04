@@ -3,6 +3,8 @@ pragma experimental ABIEncoderV2;
 
 import { StockHolderOnChainProxy } from "./StockHolderOnChainProxy.sol";
 
+import { StockRightApplyOnChainStorage } from "./StockRightApplyOnChainStorage.sol";
+
 import { StringUtils } from "./StringUtils.sol";
 
 
@@ -222,102 +224,111 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
         return s;
 	}
 	
-	 function getTransferorCetfHash(string memory uniScId,string memory investorCetfHash)private returns (string memory){
-    	bool sucess;
-        bytes memory result;
-    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getTransferorCetfHash(string,string)",uniScId,investorCetfHash));
-		if(!sucess){
-			require(sucess,parseErrMsg(result));
-		}
-		string memory transferorCetfHash = abi.decode(result,(string));
+	 function getTransferorCetfHash(string memory uniScId,string memory investorCetfHash)private view returns (string memory){
+    	//bool sucess;
+        //bytes memory result;
+    	//(sucess,result) = storageContract.call(abi.encodeWithSignature("getTransferorCetfHash(string,string)",uniScId,investorCetfHash));
+    	string memory transferorCetfHash = StockRightApplyOnChainStorage(storageContract).getTransferorCetfHash(uniScId,investorCetfHash);
+		//if(!sucess){
+		//	require(sucess,parseErrMsg(result));
+		//}
+		//string memory transferorCetfHash = abi.decode(result,(string));
 		return transferorCetfHash;
     }
     
-    function getInvestorAccount(string memory uniScId,string memory investorCetfHash)private returns (address payable){
-    	bool sucess;
-        bytes memory result;
-    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getInvestorAccount(string,string)",uniScId,investorCetfHash));
-		if(!sucess){
-			require(sucess,parseErrMsg(result));
-		}
-		address payable investorAccount = abi.decode(result,(address));
+    function getInvestorAccount(string memory uniScId,string memory investorCetfHash)private view returns (address payable){
+    	//bool sucess;
+        //bytes memory result;
+    	//(sucess,result) = storageContract.call(abi.encodeWithSignature("getInvestorAccount(string,string)",uniScId,investorCetfHash));
+    	address payable investorAccount = StockRightApplyOnChainStorage(storageContract).getInvestorAccount(uniScId,investorCetfHash);
+		//if(!sucess){
+		//	require(sucess,parseErrMsg(result));
+		//}
+		//address payable investorAccount = abi.decode(result,(address));
 		return investorAccount;
     }
     
-    function getInvestorName(string memory uniScId,string memory investorCetfHash)private returns (string memory){
-    	bool sucess;
-        bytes memory result;
-    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getInvestorName(string,string)",uniScId,investorCetfHash));
-		if(!sucess){
-			require(sucess,parseErrMsg(result));
-		}
-		string memory investorName = abi.decode(result,(string));
+    function getInvestorName(string memory uniScId,string memory investorCetfHash)private view returns (string memory){
+    	//bool sucess;
+        //bytes memory result;
+    	//(sucess,result) = storageContract.call(abi.encodeWithSignature("getInvestorName(string,string)",uniScId,investorCetfHash));
+    	string memory investorName = StockRightApplyOnChainStorage(storageContract).getInvestorName(uniScId,investorCetfHash);
+		//if(!sucess){
+		//	require(sucess,parseErrMsg(result));
+		//}
+		//string memory investorName = abi.decode(result,(string));
 		return investorName;
     }
     
-    function getCptAmt(string memory uniScId,string memory investorCetfHash)private returns (uint){
-    	bool sucess;
-        bytes memory result;
-    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getCptAmt(string,string)",uniScId,investorCetfHash));
-		if(!sucess){
-			require(sucess,parseErrMsg(result));
-		}
-		uint cptAmt = abi.decode(result,(uint));
+    function getCptAmt(string memory uniScId,string memory investorCetfHash)private view returns (uint){
+    	//bool sucess;
+        //bytes memory result;
+    	//(sucess,result) = storageContract.call(abi.encodeWithSignature("getCptAmt(string,string)",uniScId,investorCetfHash));
+    	uint cptAmt = StockRightApplyOnChainStorage(storageContract).getCptAmt(uniScId,investorCetfHash);
+		//if(!sucess){
+		//	require(sucess,parseErrMsg(result));
+		//}
+		//uint cptAmt = abi.decode(result,(uint));
 		return cptAmt;
     }
     
-    function getApplyStatus(string memory uniScId,string memory investorCetfHash) private returns (string memory){
-    	bool sucess;
-        bytes memory result;
-    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getStatus(string,string)",uniScId,investorCetfHash));
-		if(!sucess){
-			require(sucess,parseErrMsg(result));
-		}
-		string memory status = abi.decode(result,(string));
+    function getApplyStatus(string memory uniScId,string memory investorCetfHash) private view returns (string memory){
+    	//bool sucess;
+        //bytes memory result;
+    	//(sucess,result) = storageContract.call(abi.encodeWithSignature("getStatus(string,string)",uniScId,investorCetfHash));
+    	string memory status = StockRightApplyOnChainStorage(storageContract).getStatus(uniScId,investorCetfHash);
+		//if(!sucess){
+		//	require(sucess,parseErrMsg(result));
+		//}
+		//string memory status = abi.decode(result,(string));
 		return status;
     }
     
-    function getStockRightDetail(string memory uniScId,string memory investorCetfHash) private returns (string memory){
-    	bool sucess;
-        bytes memory result;
-    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getStockRightDetail(string,string)",uniScId,investorCetfHash));
-		if(!sucess){
-			require(sucess,parseErrMsg(result));
-		}
-		string memory status = abi.decode(result,(string));
-		return status;
+    function getStockRightDetail(string memory uniScId,string memory investorCetfHash) private view returns (string memory){
+    	//bool sucess;
+        //bytes memory result;
+    	//(sucess,result) = storageContract.call(abi.encodeWithSignature("getStockRightDetail(string,string)",uniScId,investorCetfHash));
+    	string memory detail = StockRightApplyOnChainStorage(storageContract).getStockRightDetail(uniScId,investorCetfHash);
+		//if(!sucess){
+		//	require(sucess,parseErrMsg(result));
+		//}
+		//string memory detail = abi.decode(result,(string));
+		return detail;
     }
     
-    function getMerkel(string memory uniScId,string memory investorCetfHash) private returns (bytes32){
-    	bool sucess;
-        bytes memory result;
-    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getMerkel(string,string)",uniScId,investorCetfHash));
-		if(!sucess){
-			require(sucess,parseErrMsg(result));
-		}
-		bytes32 merkel = abi.decode(result,(bytes32));
+    function getMerkel(string memory uniScId,string memory investorCetfHash) private view returns (bytes32){
+    	//bool sucess;
+        //bytes memory result;
+    	//(sucess,result) = storageContract.call(abi.encodeWithSignature("getMerkel(string,string)",uniScId,investorCetfHash));
+    	bytes32 merkel = StockRightApplyOnChainStorage(storageContract).getMerkel(uniScId,investorCetfHash);
+		//if(!sucess){
+		//	require(sucess,parseErrMsg(result));
+		//}
+		//bytes32 merkel = abi.decode(result,(bytes32));
 		return merkel;
     }
     
-    function getIsSuccess(string memory uniScId,string memory investorCetfHash) private returns (string memory){
-    	bool sucess;
-        bytes memory result;
-    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getIsSuccess(string,string)",uniScId,investorCetfHash));
-		if(!sucess){
-			require(sucess,parseErrMsg(result));
-		}
-		string memory isSuccess = abi.decode(result,(string));
+    function getIsSuccess(string memory uniScId,string memory investorCetfHash) private view returns (string memory){
+    	//bool sucess;
+        //bytes memory result;
+    	//(sucess,result) = storageContract.call(abi.encodeWithSignature("getIsSuccess(string,string)",uniScId,investorCetfHash));
+    	string memory isSuccess = StockRightApplyOnChainStorage(storageContract).getIsSuccess(uniScId,investorCetfHash);
+		//if(!sucess){
+		//	require(sucess,parseErrMsg(result));
+		//}
+		//string memory isSuccess = abi.decode(result,(string));
 		return isSuccess;
     }
     
-    function getApplyPrice(string memory uniScId,string memory investorCetfHash) private returns (uint){
-    	bool sucess;
-        bytes memory result;
-    	(sucess,result) = storageContract.call(abi.encodeWithSignature("getPrice(string,string)",uniScId,investorCetfHash));
-		if(!sucess){
-			require(sucess,parseErrMsg(result));
-		}
-		uint price = abi.decode(result,(uint));
+    function getApplyPrice(string memory uniScId,string memory investorCetfHash) private view returns (uint){
+    	//bool sucess;
+        //bytes memory result;
+    	//(sucess,result) = storageContract.call(abi.encodeWithSignature("getPrice(string,string)",uniScId,investorCetfHash));
+    	uint price = StockRightApplyOnChainStorage(storageContract).getPrice(uniScId,investorCetfHash);
+		//if(!sucess){
+		//	require(sucess,parseErrMsg(result));
+		//}
+		//uint price = abi.decode(result,(uint));
 		return price;
     }
 	
