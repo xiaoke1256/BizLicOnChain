@@ -46,13 +46,13 @@
   		
   		function operHtml(apply) {
  		  if(apply.status == '待董事会确认' && loginUserName == apply.transferor.stockHolderId ){
- 			return '<a href="#" class="setAccountLink" applyId="'+apply.applyId+'" >设置新股东账号</a>'
+ 			return '<a href="javascript:void(0)" class="setAccountLink" applyId="'+apply.applyId+'" >设置新股东账号</a>'
  		  }
  		  return '';
   		}
   		
   		/* 设置新股东账号的操作 */	
-  		$('#applyForm').on('click','.setAccountLink',function(){
+  		$('#applyForm').on('click','a.setAccountLink',function(){
   			var newAccount = prompt('请输入该新股东的账号地址：');
   			if (!newAccount){
   				return;
