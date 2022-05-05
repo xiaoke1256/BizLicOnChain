@@ -112,7 +112,7 @@ public class StockRightApplyService {
 	public void dealStatusChange(StockRightApply apply) {
 		StockRightApply applyOnChain = stockRightApplyCli.getStockRightApply(uniScId,apply.getNewInvestorCetfHash());
 		if("设置账号-处理中".equals(apply.getStatus())) {
-			if(applyOnChain.getNewInvestorAccount()==null || !applyOnChain.getNewInvestorAccount().equals(apply.getNewInvestorAccount())) {
+			if(apply.getNewInvestorAccount()==null && applyOnChain.getNewInvestorAccount()!=null || !applyOnChain.getNewInvestorAccount().equals(apply.getNewInvestorAccount())) {
 				apply.setNewInvestorAccount(applyOnChain.getNewInvestorAccount());
 				apply.setStatus("待董事会确认");
 				apply.setUpdateTime(new Date());
