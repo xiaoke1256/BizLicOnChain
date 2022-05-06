@@ -47,6 +47,8 @@
   		function operHtml(apply) {
  		  if(apply.status == '待董事会确认' && loginUserName == apply.transferor.stockHolderId ){
  			return '<a href="javascript:void(0)" class="setAccountLink" applyId="'+apply.applyId+'" >设置新股东账号</a>'
+ 		  }else if(apply.status == '待董事会确认' && loginUserName == 'admin'){
+ 			return '<a href="javascript:void(0)" class="comfirmByDirectors" applyId="'+apply.applyId+'" >董事会确认</a>'
  		  }
  		  return '';
   		}
@@ -65,6 +67,23 @@
   				}
   				search();
   			},'json');
+  		});
+  		
+  		/* 董事会确认 */	
+  		$('#applyForm').on('click','a.comfirmByDirectors',function(){
+  			if (!window.confirm('确认董事会已同意此次股权转让？')){
+  				return;
+  			}
+  			var applyId = $(this).attr("applyId");
+  			/*
+  			$.post('stockHolder/apply/stockTransfer/'+applyId+'/setAddress',{newInvestorAccount:newAccount},function(resp){
+  				if(resp.code){
+  					alert('执行失败。');
+  					return;
+  				}
+  				search();
+  			},'json');
+  			*/
   		});
   	});
   </script>
