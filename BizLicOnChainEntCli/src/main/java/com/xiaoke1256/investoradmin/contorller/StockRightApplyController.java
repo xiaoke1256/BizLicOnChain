@@ -55,4 +55,16 @@ public class StockRightApplyController {
 		stockRightApplyService.setNewStockHolderAccount(applyId, newInvestorAccount);
 		return true;
 	}
+	
+	/**
+	 * 董事会确认
+	 * @param applyId
+	 * @param newInvestorAccount
+	 * @return
+	 */
+	@PostMapping(value ="stockTransfer/{applyId}/comfirmByDirectors")
+	public Boolean comfirmByDirectors(@PathVariable("applyId") Long applyId){
+		stockRightApplyService.comfirmByDirectors(applyId);
+		return true;
+	}
 }

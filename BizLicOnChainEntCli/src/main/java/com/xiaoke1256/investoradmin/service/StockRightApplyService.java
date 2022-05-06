@@ -96,6 +96,14 @@ public class StockRightApplyService {
 		stockRightApplyCli.setNewStockHolderAccount(uniScId, stockHolder, apply.getNewInvestorCetfHash(), newInvestorAccount);
 	}
 	
+	public void comfirmByDirectors(Long applyId){
+		StockRightApply apply = stockRightApplyDao.getApply(applyId);
+		apply.setStatus("董事会确认-处理中");
+		apply.setUpdateTime(new Date());
+		stockRightApplyDao.updateApply(apply);
+		stockRightApplyCli.comfirmByDirectors(uniScId, apply.getNewInvestorCetfHash());
+	}
+	
 	/**
 	 * 查待处理的申请
 	 * @return
@@ -115,6 +123,13 @@ public class StockRightApplyService {
 			if(apply.getNewInvestorAccount()==null && applyOnChain.getNewInvestorAccount()!=null || !applyOnChain.getNewInvestorAccount().equals(apply.getNewInvestorAccount())) {
 				apply.setNewInvestorAccount(applyOnChain.getNewInvestorAccount());
 				apply.setStatus("待董事会确认");
+				apply.setUpdateTime(new Date());
+				stockRightApplyDao.updateApply(apply);
+			}
+		}
+		if("设置账号-处理中".equals(apply.getStatus())) {
+			if(!"待董事会确认".equals(applyOnChain.getStatus())) {
+				apply.setStatus(applyOnChain.getStatus());
 				apply.setUpdateTime(new Date());
 				stockRightApplyDao.updateApply(apply);
 			}
