@@ -75,15 +75,14 @@
   				return;
   			}
   			var applyId = $(this).attr("applyId");
-  			/*
-  			$.post('stockHolder/apply/stockTransfer/'+applyId+'/setAddress',{newInvestorAccount:newAccount},function(resp){
+  			$.post('stockHolder/apply/stockTransfer/'+applyId+'/comfirmByDirectors',{},function(resp){
   				if(resp.code){
   					alert('执行失败。');
   					return;
   				}
   				search();
   			},'json');
-  			*/
+  			
   		});
   	});
   </script>
