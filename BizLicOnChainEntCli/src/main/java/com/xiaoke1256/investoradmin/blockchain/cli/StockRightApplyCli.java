@@ -93,6 +93,22 @@ public class StockRightApplyCli extends BaseCli {
 	}
 	
 	/**
+	 * 董事会确认股权转让
+	 */
+	public void comfirmByDirectors(String uniScId,String investorCetfHash) {
+		@SuppressWarnings("rawtypes")
+		List<Type> inputParameters = new ArrayList<Type>();
+		inputParameters.add(new Utf8String(uniScId));
+		inputParameters.add(new Utf8String(investorCetfHash));
+		if(StringUtils.isEmpty(fromAddr) || StringUtils.isEmpty(fromPrivateKey) ) {
+			throw new RuntimeException("请先设置出让方以太坊账号和密钥。");
+		}
+		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "comfirmByDirectors", gasPrice, gasLimit, inputParameters,uniScId+"_"+investorCetfHash );
+	}
+	
+	
+	
+	/**
 	 * 获取申请
 	 * @param uniScId
 	 * @param investorCetfHash
