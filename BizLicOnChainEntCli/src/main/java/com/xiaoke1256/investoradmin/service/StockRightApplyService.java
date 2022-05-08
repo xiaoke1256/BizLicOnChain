@@ -113,6 +113,15 @@ public class StockRightApplyService {
 		stockRightApplyCli.comfirmByDirectors(uniScId, apply.getNewInvestorCetfHash());
 	}
 	
+	public void payForStock(Long applyId,String account,String privateKey){
+		StockRightApply apply = stockRightApplyDao.getApply(applyId);
+		apply.setStatus("付款-处理中");
+		apply.setUpdateTime(new Date());
+		stockRightApplyDao.updateApply(apply);
+		stockRightApplyCli.payForStock(uniScId, apply.getNewInvestorCetfHash(), account, privateKey, apply.getPrice());
+		//TODO 付款有可能会应为余额不够尔失败。
+	}
+	
 	/**
 	 * 查待处理的申请
 	 * @return
