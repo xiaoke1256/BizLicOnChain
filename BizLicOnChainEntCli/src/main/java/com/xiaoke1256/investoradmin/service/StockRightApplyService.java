@@ -127,7 +127,7 @@ public class StockRightApplyService {
 				stockRightApplyDao.updateApply(apply);
 			}
 		}
-		if("设置账号-处理中".equals(apply.getStatus())) {
+		if("董事会确认-处理中".equals(apply.getStatus())) {
 			if(!"待董事会确认".equals(applyOnChain.getStatus())) {
 				apply.setStatus(applyOnChain.getStatus());
 				apply.setUpdateTime(new Date());
