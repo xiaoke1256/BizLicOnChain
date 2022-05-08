@@ -153,6 +153,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
         //TODO 检查合约状态
+        //TODO 记录付款人账号（以便万一失败以太币原路退还）
 		require(msg.value>0);
 		bool sucess;
         bytes memory result;
