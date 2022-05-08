@@ -79,6 +79,13 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
      * 调用合约（进行检查）
      */
     public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters,String bizKey) {
+    	return transactWithCheck(fromAddr, fromPrivateKey, contractAddress, method, gasPrice, gasLimit,BigInteger.ZERO, inputParameters, bizKey);
+    }
+    
+    /**
+     * 调用合约（进行检查）
+     */
+    public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit,BigInteger value, List<Type> inputParameters,String bizKey) {
     	if(StringUtils.isEmpty(fromAddr)) {
     		throw new RuntimeException("From address cannot be empty.");
     	}
@@ -92,16 +99,23 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
     		if(!queryTransfer(fromAddr,contractAddress,method,inputParameters)) {
     			throw new RuntimeException("Something wrong happen when excute the contract , please check the input paramters.");
     		}
-    		return transact(fromAddr,fromPrivateKey,contractAddress,method,gasPrice,gasLimit,inputParameters,bizKey);
+    		return transact(fromAddr,fromPrivateKey,contractAddress,method,gasPrice,gasLimit,value,inputParameters,bizKey);
     	}catch(Exception e) {
     		throw new RuntimeException(e);
     	}
+    }
+    
+    /**
+     * 调用合约（不进行检查）
+     */
+    public String transact(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters,String bizKey) {
+    	return transact(fromAddr,fromPrivateKey, contractAddress, method, gasPrice, gasLimit,BigInteger.ZERO,inputParameters,bizKey);
     }
 
     /**
      * 调用合约（不进行检查）
      */
-    public String transact(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters,String bizKey) {
+    public String transact(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit,BigInteger value, List<Type> inputParameters,String bizKey) {
         EthSendTransaction ethSendTransaction = null;
         BigInteger nonce = BigInteger.ZERO;
         String hash = null;
@@ -131,7 +145,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
                     outputParameters);
             String encodedFunction = FunctionEncoder.encode(function);
             Credentials credentials = Credentials.create(fromPrivateKey);
-            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddress,BigInteger.ZERO,
+            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddress,value,
                     encodedFunction);
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
             String hexValue = Numeric.toHexString(signedMessage);
@@ -147,16 +161,6 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
             	ethTrasLogService.modifyError(log,ethSendTransaction.getError().getMessage());
             	throw new RuntimeException(ethSendTransaction.getError().getMessage());
             }
-            //看看到底成功了没有
-            /* 以下用其他方法来解决，比如现将hexValue保存到数据库，然后定时轮询来更新后续状态。
-            Thread.sleep(20000);//以太坊平均出块时间是17.16s
-            EthGetTransactionReceipt ethGetTransactionReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
-            if(ethGetTransactionReceipt.getTransactionReceipt().isPresent()) {
-            	String status = ethGetTransactionReceipt.getTransactionReceipt().get().getStatus();
-            	BigInteger gasUsed = ethGetTransactionReceipt.getTransactionReceipt().get().getGasUsed();
-            	LOG.info("status:"+status);
-            	LOG.info("gasUsed:"+gasUsed);
-            }*/
         } catch (Exception e) {
             if (null != ethSendTransaction) {
             	if(ethSendTransaction.getError()!=null)

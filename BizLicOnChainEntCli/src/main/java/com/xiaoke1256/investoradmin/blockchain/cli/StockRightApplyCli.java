@@ -106,7 +106,29 @@ public class StockRightApplyCli extends BaseCli {
 		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "comfirmByDirectors", gasPrice, gasLimit, inputParameters,uniScId+"_"+investorCetfHash );
 	}
 	
-	
+	/**
+	 * 支付
+	 * @param uniScId
+	 * @param investorCetfHash
+	 * @param account
+	 * @param privateKey
+	 * @param price 支付的以太币
+	 */
+	public void payForStock(String uniScId,String investorCetfHash,String account,String privateKey,BigInteger price) {
+		@SuppressWarnings("rawtypes")
+		List<Type> inputParameters = new ArrayList<Type>();
+		inputParameters.add(new Utf8String(uniScId));
+		inputParameters.add(new Utf8String(investorCetfHash));
+		String fromAddr = account;
+		String fromPrivateKey = privateKey;
+		if(StringUtils.isEmpty(fromAddr) ) {
+			throw new RuntimeException("账号不能为空。");
+		}
+		if(StringUtils.isEmpty(fromPrivateKey) ) {
+			throw new RuntimeException("密钥不能为空。");
+		}
+		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "payForStock", gasPrice, gasLimit, price , inputParameters,uniScId+"_"+investorCetfHash );
+	}
 	
 	/**
 	 * 获取申请
