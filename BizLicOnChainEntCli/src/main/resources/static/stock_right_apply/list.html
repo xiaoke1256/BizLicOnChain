@@ -15,11 +15,7 @@
   		var loginUserName = sessionStorage.getItem("loginUserName");
   		
   		function search(){
-			var param = {};
-	  		if(loginUserName!='admin'){
-	  			//查自己的
-	  			param = {stockHolderId:loginUserName};
-	  		}
+			var param = {stockHolderId:loginUserName};
 	  		$.get('stockHolder/apply',param,function(resp){
 	  			if(resp.code){
 					alert('查询失败');
@@ -49,6 +45,8 @@
  			return '<a href="javascript:void(0)" class="setAccountLink" applyId="'+apply.applyId+'" >设置新股东账号</a>'
  		  }else if(apply.status == '待董事会确认' && loginUserName == 'admin'){
  			return '<a href="javascript:void(0)" class="comfirmByDirectors" applyId="'+apply.applyId+'" >董事会确认</a>'
+ 		  }else if(apply.status == '待付款' && loginUserName == 'temp'){
+ 			return '<a href="javascript:void(0)" class="pay" applyId="'+apply.applyId+'" >付款</a>'
  		  }
  		  return '';
   		}

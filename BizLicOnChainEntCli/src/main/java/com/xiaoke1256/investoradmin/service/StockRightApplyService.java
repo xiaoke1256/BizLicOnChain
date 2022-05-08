@@ -79,7 +79,16 @@ public class StockRightApplyService {
 	 */
 	@Transactional(readOnly=true)
 	public List<StockRightApply> queryByStockHolderId(Long stockHolderId){
-		List<StockRightApply> applyList =  stockRightApplyDao.queryByStockHolderId(stockHolderId);
+		List<StockRightApply> applyList = stockRightApplyDao.queryByStockHolderId(stockHolderId);
+		for(StockRightApply apply:applyList) {
+			apply.setTransferor(stockHolderDao.getStockHolder(apply.getStockHolderId()));
+		}
+		return applyList;
+	}
+	
+	@Transactional(readOnly=true)
+	public List<StockRightApply> queryByStatus(String status){
+		List<StockRightApply> applyList = stockRightApplyDao.queryByStatus(status);
 		for(StockRightApply apply:applyList) {
 			apply.setTransferor(stockHolderDao.getStockHolder(apply.getStockHolderId()));
 		}

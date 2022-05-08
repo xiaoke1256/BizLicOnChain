@@ -22,4 +22,6 @@ public interface StockRightApplyMapper {
 	StockRightApply getByInvestorCetfHashAndStatus(String investorCetfHash,String status);
 	
 	List<StockRightApply> queryAwait();
+	
+	List<StockRightApply> queryByStatus(@Param("status")String status);
 }

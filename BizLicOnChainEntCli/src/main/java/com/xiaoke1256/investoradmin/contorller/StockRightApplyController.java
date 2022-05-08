@@ -1,5 +1,6 @@
 package com.xiaoke1256.investoradmin.contorller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,15 @@ public class StockRightApplyController {
 	}
 	
 	@GetMapping()
-	public List<StockRightApply> queryByStockHolderId(Long stockHolderId){
-		if(stockHolderId!=null) {
-			return stockRightApplyService.queryByStockHolderId(stockHolderId);
-		}else {
+	public List<StockRightApply> queryByStockHolderId(@RequestParam("stockHolderId")String strStockHolderId){
+		if("admin".equalsIgnoreCase(strStockHolderId)) {
 			return stockRightApplyService.queryAll();
+		}else if("temp".equalsIgnoreCase(strStockHolderId)) {
+			return stockRightApplyService.queryByStatus("待付款");
+		}else if(strStockHolderId!=null) {
+			return stockRightApplyService.queryByStockHolderId(Long.parseLong(strStockHolderId));
+		}else {
+			return new ArrayList<>();
 		}
 		
 	}

@@ -69,6 +69,13 @@
     order by UPDATE_TIME desc
   </select>
   
+  <select id="queryByStatus" resultMap="BaseMap">
+    select <include refid="BaseCols"/> 
+    from STOCK_RIGHT_APPLY 
+    where STATUS = #{status}
+    order by UPDATE_TIME desc
+  </select>
+  
   <select id="getByInvestorCetfHashAndStatus" resultMap="BaseMap">
     select <include refid="BaseCols"/> 
     from STOCK_RIGHT_APPLY 
