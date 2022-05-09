@@ -14,6 +14,8 @@
   	$(function(){
   		var loginUserName = sessionStorage.getItem("loginUserName");
   		
+  		$('.modal').hide();
+  		
   		function search(){
 			var param = {stockHolderId:loginUserName};
 	  		$.get('stockHolder/apply',param,function(resp){
@@ -82,6 +84,11 @@
   			},'json');
   			
   		});
+  		
+  		/* 弹出付款页面 */
+  		$('#applyForm').on('click','a.pay',function(){
+  			$('.modal').show();
+  		});
   	});
   </script>
 </head>
@@ -96,6 +103,18 @@
 			</table>
 		  </form>
 		</div>
+	</div>
+	
+	<div class="modal" >
+	  <div>
+		  <form name="payForm" id="payForm" method="post">
+		    <table id="listTable" class="formTable" border="0" cellspacing="0" cellpadding="0">
+		      <tr><th>受让方以太坊账号</th><td><input/></td></tr>
+		      <tr><th>受让方以太坊密钥</th><td><input/></td></tr>
+		    </table>
+		    <div> <button type="button" onclick="$('.modal').hide()" >关闭</button> </div>
+		  </form>
+	  </div>
 	</div>
 </body>
 </html>
