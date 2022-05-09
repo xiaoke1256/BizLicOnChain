@@ -48,7 +48,7 @@
  		  }else if(apply.status == '待董事会确认' && loginUserName == 'admin'){
  			return '<a href="javascript:void(0)" class="comfirmByDirectors" applyId="'+apply.applyId+'" >董事会确认</a>'
  		  }else if(apply.status == '待付款' && loginUserName == 'temp'){
- 			return '<a href="javascript:void(0)" class="pay" applyId="'+apply.applyId+'" >付款</a>'
+ 			return '<a href="javascript:void(0)" class="pay" account="'+apply.newInvestorAccount+'" applyId="'+apply.applyId+'" >付款</a>'
  		  }
  		  return '';
   		}
@@ -87,8 +87,20 @@
   		
   		/* 弹出付款页面 */
   		$('#applyForm').on('click','a.pay',function(){
+  			var account = $(this).attr('account');
+  			var applyId = $(this).attr("applyId");
+  			$('#payForm [name=applyId]').val(applyId);
+  			if(account!=null&&account!='null'){
+  				$('#payForm [name=account]').val(account);
+  			}
   			$('.modal').show();
   		});
+  		
+  		//付款按钮
+  		$('#payBtn').click(function(){
+  			var applyId = $('#payForm [name=applyId]').val();
+  		});
+  		
   	});
   </script>
 </head>
@@ -108,11 +120,15 @@
 	<div class="modal" >
 	  <div>
 		  <form name="payForm" id="payForm" method="post">
+		    <input type="hidden" name="applyId" value="" >
 		    <table id="listTable" class="formTable" border="0" cellspacing="0" cellpadding="0">
-		      <tr><th>受让方以太坊账号</th><td><input/></td></tr>
-		      <tr><th>受让方以太坊密钥</th><td><input/></td></tr>
+		      <tr><th>受让方以太坊账号</th><td><input name="account"/></td></tr>
+		      <tr><th>受让方以太坊密钥</th><td><input name="privateKey" /></td></tr>
 		    </table>
-		    <div> <button type="button" onclick="$('.modal').hide()" >关闭</button> </div>
+		    <div> 
+		      <button type="button" onclick="$('.modal').hide()" >关闭</button> 
+		      <button type="button" id="payBtn" >支付</button> 
+		    </div>
 		  </form>
 	  </div>
 	</div>
