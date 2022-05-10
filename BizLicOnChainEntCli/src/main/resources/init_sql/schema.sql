@@ -46,6 +46,7 @@ create table if not exists STOCK_RIGHT_APPLY(
     NEW_INVESTOR_CETF_TYPE VARCHAR(16) COMMENT '新股东身份证件类型,有效身份证件类型（身份证、居留证、军官证、中国护照、外国或地区护照）',
     NEW_INVESTOR_CETF_NO VARCHAR(32) COMMENT '新股东身份证件号',
     NEW_INVESTOR_CETF_HASH VARCHAR(128) COMMENT '新股东身份证件,有效身份证件类型（身份证、居留证、军官证、中国护照、外国或地区护照）;和证件号码组成，由冒号(:)分隔。本字段需要加密',
+    TRAS_HASH VARCHAR(70) COMMENT 'HASH',
     STATUS VARCHAR(32) COMMENT '状态',
     IS_ARCHIVED CHAR(1) COMMENT '是否归档',
     INSERT_TIME TIMESTAMP COMMENT '插入时间',

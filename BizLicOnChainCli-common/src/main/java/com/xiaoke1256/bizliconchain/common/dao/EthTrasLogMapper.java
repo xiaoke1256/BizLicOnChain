@@ -22,4 +22,6 @@ public interface EthTrasLogMapper {
 	public Integer countLog(@Param("condition")EthTrasLogSearchCondition searchCondition);
 	
 	public List<EthTrasLog> queryUnFeedback();
+	
+	public EthTrasLog getByTrasHash(String trasHash);
 }

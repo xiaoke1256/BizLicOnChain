@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.web3j.crypto.Hash;
 
+import com.xiaoke1256.bizliconchain.common.bo.EthTrasLog;
+import com.xiaoke1256.bizliconchain.common.dao.EthTrasLogMapper;
 import com.xiaoke1256.investoradmin.blockchain.cli.StockRightApplyCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
 import com.xiaoke1256.investoradmin.bo.StockRightApply;
@@ -32,6 +34,8 @@ public class StockRightApplyService {
 	private StockHolderMapper stockHolderDao;
 	@Autowired
 	private StockRightApplyCli stockRightApplyCli;
+	@Autowired
+	private EthTrasLogMapper ethTrasLogDao;
 	
 	@Value("${biz.uniScId}")
 	private String uniScId;
@@ -113,13 +117,16 @@ public class StockRightApplyService {
 		stockRightApplyCli.comfirmByDirectors(uniScId, apply.getNewInvestorCetfHash());
 	}
 	
+	
 	public void payForStock(Long applyId,String account,String privateKey){
 		StockRightApply apply = stockRightApplyDao.getApply(applyId);
 		apply.setStatus("付款-处理中");
 		apply.setUpdateTime(new Date());
 		stockRightApplyDao.updateApply(apply);
-		stockRightApplyCli.payForStock(uniScId, apply.getNewInvestorCetfHash(), account, privateKey, apply.getPrice());
-		//TODO 付款有可能会应为余额不够尔失败。
+		String hash = stockRightApplyCli.payForStock(uniScId, apply.getNewInvestorCetfHash(), account, privateKey, apply.getPrice());
+		apply.setTrasHash(hash);
+		apply.setUpdateTime(new Date());
+		stockRightApplyDao.updateApply(apply);
 	}
 	
 	/**
@@ -150,6 +157,23 @@ public class StockRightApplyService {
 				apply.setStatus(applyOnChain.getStatus());
 				apply.setUpdateTime(new Date());
 				stockRightApplyDao.updateApply(apply);
+			}
+		}
+		if("付款-处理中".equals(apply.getStatus())) {
+			if(!"待付款".equals(applyOnChain.getStatus())) {
+				apply.setStatus(applyOnChain.getStatus());
+				apply.setUpdateTime(new Date());
+				stockRightApplyDao.updateApply(apply);
+			}else {
+				String trasHash = apply.getTrasHash();
+				EthTrasLog log = ethTrasLogDao.getByTrasHash(trasHash);
+				if("E".equals(log.getStatus())) {
+					LOG.error("以太坊事务发生异常:"+log.getErrMsg());
+					//发生了错误
+					apply.setStatus("待付款");
+					apply.setUpdateTime(new Date());
+					stockRightApplyDao.updateApply(apply);
+				}
 			}
 		}
 	}

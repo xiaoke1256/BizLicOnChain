@@ -72,4 +72,14 @@ public class StockRightApplyController {
 		stockRightApplyService.comfirmByDirectors(applyId);
 		return true;
 	}
+	
+	/**
+	 * 支付
+	 * @param applyId
+	 */
+	@PostMapping(value ="stockTransfer/{applyId}/payForStock")
+	public Boolean payForStock(@PathVariable("applyId") Long applyId,String account, String privateKey){
+		stockRightApplyService.payForStock(applyId, account, privateKey);
+		return true;
+	}
 }

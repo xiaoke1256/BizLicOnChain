@@ -93,12 +93,31 @@
   			if(account!=null&&account!='null'){
   				$('#payForm [name=account]').val(account);
   			}
+  			$('#payForm [name=privateKey]').val('');
   			$('.modal').show();
   		});
   		
   		//付款按钮
   		$('#payBtn').click(function(){
   			var applyId = $('#payForm [name=applyId]').val();
+  			var account = $('#payForm [name=account]').val();
+  			var privateKey = $('#payForm [name=privateKey]').val();
+  			if(account==''){
+  				alert("受让方以太坊账号不能为空");
+  				return false;
+  			}
+  			if(privateKey==''){
+  				alert("受让方以太坊密钥不能为空");
+  				return false;
+  			}
+  			$.post('stockHolder/apply/stockTransfer/'+applyId+'/payForStock',{account:account,privateKey:privateKey},function(resp){
+  				if(resp.code){
+  					alert('执行失败。');
+  					return;
+  				}
+  				$('.modal').hide();
+  				search();
+  			},'json');
   		});
   		
   	});
@@ -122,12 +141,12 @@
 		  <form name="payForm" id="payForm" method="post">
 		    <input type="hidden" name="applyId" value="" >
 		    <table id="listTable" class="formTable" border="0" cellspacing="0" cellpadding="0">
-		      <tr><th>受让方以太坊账号</th><td><input name="account"/></td></tr>
-		      <tr><th>受让方以太坊密钥</th><td><input name="privateKey" /></td></tr>
+		      <tr><th>受让方以太坊账号</th><td><input style="width:310px" name="account"/></td></tr>
+		      <tr><th>受让方以太坊密钥</th><td><input style="width:310px" name="privateKey" /></td></tr>
 		    </table>
 		    <div> 
 		      <button type="button" onclick="$('.modal').hide()" >关闭</button> 
-		      <button type="button" id="payBtn" >支付</button> 
+		      <button type="button" id="payBtn" style="background-color:royalBlue;color:white" >支付</button> 
 		    </div>
 		  </form>
 	  </div>

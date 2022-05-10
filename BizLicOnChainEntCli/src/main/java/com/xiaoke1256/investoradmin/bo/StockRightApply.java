@@ -14,6 +14,7 @@ public class StockRightApply {
 	private String newInvestorCetfType;
 	private String newInvestorCetfNo;
 	private String newInvestorCetfHash;
+	private String trasHash;
 	private String isArchived;
 	private String status;
 	private Date insertTime;
@@ -80,6 +81,12 @@ public class StockRightApply {
 	}
 	public void setNewInvestorCetfHash(String newInvestorCetfHash) {
 		this.newInvestorCetfHash = newInvestorCetfHash;
+	}
+	public String getTrasHash() {
+		return trasHash;
+	}
+	public void setTrasHash(String trasHash) {
+		this.trasHash = trasHash;
 	}
 	public String getIsArchived() {
 		return isArchived;

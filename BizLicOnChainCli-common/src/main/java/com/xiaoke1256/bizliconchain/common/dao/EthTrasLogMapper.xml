@@ -116,4 +116,9 @@
   	where 1=1 and STATUS = 'C'
   	order by LOG_ID
   </select>
+  
+  <select id="getByTrasHash" resultType="com.xiaoke1256.bizliconchain.common.bo.EthTrasLog">
+    select LOG_ID,NONCE,CONTRACT_ADDRESS,METHOD,BIZ_KEY,TRAS_HASH,TRAS_STATUS,STATUS,GAS_PRICE,GAS_USED,GAS_LIMIT,ERR_MSG,INSERT_TIME,UPDATE_TIME,FINISH_TIME from ETH_TRAS_LOG 
+    where TRAS_HASH = #{trasHash}
+  </select>
 </mapper>
