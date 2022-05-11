@@ -1,6 +1,7 @@
 package com.xiaoke1256.bizliconchain.blockchain.cli;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -37,16 +38,13 @@ public class StockRightApplyCli extends BaseCli {
 	public List<String> getStockRightApplyKeysByUniScId(String uniScId) {
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(uniScId));
-		String json;
+		String[] array;
 		try {
-			json = baseWeb3j.queryToString(fromAddr, contractAddress, "getStockRightApplyKeysByUniScId", inputParameters);
+			array = baseWeb3j.queryToStringArray(fromAddr, contractAddress, "getStockRightApplyKeysByUniScId", inputParameters);
+		    return Arrays.asList(array);
 		} catch (ClassNotFoundException | InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
 		}
-		if(json==null) {
-			throw new NullPointerException();
-		}
-		return JSON.parseArray(json, String.class);
 	}
 	
 	public StockRightApply getStockRightApply(String uniScId,String investorCetfHash) {

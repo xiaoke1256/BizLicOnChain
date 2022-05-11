@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.web3j.abi.DefaultFunctionReturnDecoder;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Array;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Utf8String;
@@ -249,6 +250,38 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
         if(results.isEmpty())
         	return null;
         return results.get(0).toString();
+    }
+    
+    /**
+     * 用Call的方式调用合约。（目的是查询）
+     * @param from
+     * @param contractAddress
+     * @param method
+     * @param inputParameters
+     * @return
+     * @throws ExecutionException 
+     * @throws InterruptedException 
+     * @throws ClassNotFoundException 
+     */
+    public String[] queryToStringArray(String from, String contractAddress, String method,List<Type> inputParameters) throws InterruptedException, ExecutionException, ClassNotFoundException {
+    	Function function = new Function(method,
+                inputParameters,
+                Arrays.asList(TypeReference.create(Array.class)));
+        String encodedFunction = FunctionEncoder.encode(function);
+        EthCall response = web3j.ethCall(
+                Transaction.createEthCallTransaction(from, contractAddress, encodedFunction),
+                DefaultBlockParameterName.LATEST)
+                .sendAsync().get();
+        DefaultFunctionReturnDecoder rd = new DefaultFunctionReturnDecoder();
+        @SuppressWarnings("unchecked")
+		List<Array<Utf8String>> results = rd.decodeFunctionResult(response.getResult(), Arrays.asList(TypeReference.makeTypeReference("string[]")));
+        if(results.isEmpty())
+        	return null;
+        List<String> retList = new ArrayList<>();
+        for(Utf8String utf8String:results.get(0).getValue()) {
+        	retList.add(utf8String.toString());
+        }
+        return retList.toArray(new String[retList.size()]);
     }
     
     @Override

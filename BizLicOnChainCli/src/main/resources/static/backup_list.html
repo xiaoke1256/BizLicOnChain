@@ -39,7 +39,7 @@
   			},'json');
   			
   			//查申请案
-  			$.get('/bizlic/apply/'+uniScId,{},function(resp){
+  			$.get('bizlic/apply/'+$('[name=uniScId]').val(),{},function(resp){
   				if(resp.code!='00'){
   					alert('查询失败');
   					return;
