@@ -182,7 +182,7 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 	/** 
              获取Keys
      */
-	function getStockRightApplyKeysByUniScId(string memory uniScId) public returns (string[] memory){
+	function getStockRightApplyKeysByUniScId(string memory uniScId) public returns (string memory){
 		bool sucess;
         bytes memory result;
 		(sucess,result)= storageContract.call(abi.encodeWithSignature("getStockRightApplyKeys(string)",uniScId));
@@ -190,7 +190,15 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
         	require(sucess,parseErrMsg(result));
         }
         string[] memory stockRightApplyKeys = abi.decode(result,(string[]));
-        return stockRightApplyKeys;
+        string memory s = '[';
+        for(uint64 i = 0;i<stockRightApplyKeys.length;i++){
+          if(i>0){
+            s = StringUtils.concat(s,',');
+          }
+          s = StringUtils.concat(s,"'",stockRightApplyKeys[i],"'");
+        }
+        s = StringUtils.concat(s,']');
+        return s;
 	}
 
     /** 
