@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Type;
 
 import org.web3j.abi.datatypes.Utf8String;
@@ -64,5 +65,14 @@ public class StockRightApplyCli extends BaseCli {
 			throw new NullPointerException();
 		}
 		return JSON.parseObject(json, StockRightApply.class);
+	}
+	
+	public void backUp(String uniScId,String investorCetfHash,boolean isPass,String reason) {
+		List<Type> inputParameters = new ArrayList<Type>();
+		inputParameters.add(new Utf8String(uniScId));
+		inputParameters.add(new Utf8String(investorCetfHash));
+		inputParameters.add(new Bool(isPass));
+		inputParameters.add(new Utf8String(reason));
+		baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress, "backUp", gasPrice, gasLimit, inputParameters, uniScId+"_"+investorCetfHash);
 	}
 }
