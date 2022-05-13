@@ -11,7 +11,7 @@ const StockRightApplyOnChain = artifacts.require("StockRightApplyOnChain");
 const StockRightApplyOnChainProxy = artifacts.require("StockRightApplyOnChainProxy");
 
 module.exports = function(deployer) {
-	  deployer.deploy(ArrayUtils,{overwrite: false});
+	  //deployer.deploy(ArrayUtils,{overwrite: false});
 	  deployer.deploy(StringUtils,{overwrite: false});
 	  
 	  //deployer.deploy(BaseStockRightApplyOnChain,{overwrite: false});
@@ -20,15 +20,18 @@ module.exports = function(deployer) {
 	  //deployer.deploy(StockRightApplyOnChainStorage,{overwrite: false});
 	  
 	  
-	  deployer.deploy(AicOrgansHolderProxy,{overwrite: false});
-	  deployer.link(AicOrgansHolderProxy, StockRightApplyOnChain);
-	  deployer.link(ArrayUtils, StockRightApplyOnChain);
-	  deployer.link(StringUtils, StockRightApplyOnChain);
-	  deployer.deploy(StockRightApplyOnChain);
+	  //deployer.deploy(AicOrgansHolderProxy,{overwrite: false});
+	  //deployer.link(AicOrgansHolderProxy, StockRightApplyOnChain);
+	  //deployer.link(ArrayUtils, StockRightApplyOnChain);
+	  //deployer.link(StringUtils, StockRightApplyOnChain);
+	  //deployer.deploy(StockRightApplyOnChain);
 	  
-	  //deployer.link(StringUtils, StockRightApplyOnChainProxy);
-	  //deployer.link(StockHolderOnChainProxy, StockRightApplyOnChainProxy);
-	  //deployer.deploy(StockRightApplyOnChainProxy,{overwrite: false});
+      deployer.deploy(StockHolderOnChainProxy,{overwrite: false});
+      deployer.deploy(StockRightApplyOnChainStorage,{overwrite: false});
+	  deployer.link(StringUtils, StockRightApplyOnChainProxy);
+	  deployer.link(StockHolderOnChainProxy, StockRightApplyOnChainProxy);
+      deployer.link(StockRightApplyOnChainStorage, StockRightApplyOnChainProxy);
+	  deployer.deploy(StockRightApplyOnChainProxy);
 	  
 	  let stockHolderProxy = null;
 	  let stockRightApplyInstance = null;

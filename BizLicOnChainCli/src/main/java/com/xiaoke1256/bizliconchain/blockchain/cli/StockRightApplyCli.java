@@ -38,10 +38,13 @@ public class StockRightApplyCli extends BaseCli {
 	public List<String> getStockRightApplyKeysByUniScId(String uniScId) {
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(uniScId));
-		String[] array;
+		String json;
 		try {
-			array = baseWeb3j.queryToStringArray(fromAddr, contractAddress, "getStockRightApplyKeysByUniScId", inputParameters);
-		    return Arrays.asList(array);
+			json = baseWeb3j.queryToString(fromAddr, contractAddress, "getStockRightApplyKeysByUniScId", inputParameters);
+			if(json==null) {
+				return null;
+			}
+		    return JSON.parseArray(json, String.class);
 		} catch (ClassNotFoundException | InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
 		}

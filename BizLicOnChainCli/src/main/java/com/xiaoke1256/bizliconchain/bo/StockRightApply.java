@@ -9,11 +9,10 @@ public class StockRightApply {
 	private String transferorCetfHash;
 	private BigInteger price;
 	private BigInteger cptAmt;
-	private String newInvestorName;
-	private String newInvestorAccount;
-	private String newInvestorCetfType;
-	private String newInvestorCetfNo;
-	private String newInvestorCetfHash;
+	private String investorName;
+	private String investorAccount;
+	private String merkel;
+	private String investorCetfHash;
 	private String trasHash;
 	private String isArchived;
 	private String status;
@@ -21,7 +20,6 @@ public class StockRightApply {
 	private Date updateTime;
 	/**出让方*/
 	private StockHolder transferor;
-	
 	public Long getApplyId() {
 		return applyId;
 	}
@@ -52,35 +50,29 @@ public class StockRightApply {
 	public void setCptAmt(BigInteger cptAmt) {
 		this.cptAmt = cptAmt;
 	}
-	public String getNewInvestorName() {
-		return newInvestorName;
+	public String getInvestorName() {
+		return investorName;
 	}
-	public void setNewInvestorName(String newInvestorName) {
-		this.newInvestorName = newInvestorName;
+	public void setInvestorName(String investorName) {
+		this.investorName = investorName;
 	}
-	public String getNewInvestorAccount() {
-		return newInvestorAccount;
+	public String getInvestorAccount() {
+		return investorAccount;
 	}
-	public void setNewInvestorAccount(String newInvestorAccount) {
-		this.newInvestorAccount = newInvestorAccount;
+	public void setInvestorAccount(String investorAccount) {
+		this.investorAccount = investorAccount;
 	}
-	public String getNewInvestorCetfType() {
-		return newInvestorCetfType;
+	public String getMerkel() {
+		return merkel;
 	}
-	public void setNewInvestorCetfType(String newInvestorCetfType) {
-		this.newInvestorCetfType = newInvestorCetfType;
+	public void setMerkel(String merkel) {
+		this.merkel = merkel;
 	}
-	public String getNewInvestorCetfNo() {
-		return newInvestorCetfNo;
+	public String getInvestorCetfHash() {
+		return investorCetfHash;
 	}
-	public void setNewInvestorCetfNo(String newInvestorCetfNo) {
-		this.newInvestorCetfNo = newInvestorCetfNo;
-	}
-	public String getNewInvestorCetfHash() {
-		return newInvestorCetfHash;
-	}
-	public void setNewInvestorCetfHash(String newInvestorCetfHash) {
-		this.newInvestorCetfHash = newInvestorCetfHash;
+	public void setInvestorCetfHash(String investorCetfHash) {
+		this.investorCetfHash = investorCetfHash;
 	}
 	public String getTrasHash() {
 		return trasHash;
@@ -118,4 +110,5 @@ public class StockRightApply {
 	public void setTransferor(StockHolder transferor) {
 		this.transferor = transferor;
 	}
+	
 }

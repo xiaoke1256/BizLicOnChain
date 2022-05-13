@@ -218,7 +218,7 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 		string memory isSuccess = getIsSuccess(uniScId,investorCetfHash);
 		string memory status = getApplyStatus(uniScId,investorCetfHash);
 		s=StringUtils.concat(s,"uniScId:'",lUniScId,"'");
-		s=StringUtils.concat(s,"investorCetfHash:'",lInvestorCetfHash,"'");
+		s=StringUtils.concat(s,",investorCetfHash:'",lInvestorCetfHash,"'");
 		s=StringUtils.concat(s,",transferorCetfHash:'",transferorCetfHash,"'");
 		s=StringUtils.concat(s,",investorName:'",investorName,"'");
 		s=StringUtils.concat(s,",price:'",StringUtils.uint2str(price),"'");

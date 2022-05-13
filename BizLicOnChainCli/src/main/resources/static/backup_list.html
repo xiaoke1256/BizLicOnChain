@@ -51,8 +51,9 @@
   				for(var i in applys){
   					var apply = applys[i];
   					s+='<tr><td>'+(apply.transferor?apply.transferor.investorName:'')+'</td><td>'
-  						+apply.newInvestorName+'</td><td>'
-  						+apply.cptAmt+'</td><td></td></tr>'
+  						+apply.investorName+'</td><td>'
+  						+apply.cptAmt+'</td><td>'
+  						+apply.status+'</td><td>'+(apply.status==='待发证机关备案'?'<a href="javascript:void(0);">备案</a>':'')+'</td></tr>'
   				}
   				$('#listTable').append($(s));
   				
@@ -125,7 +126,7 @@
 			
 			<table id="listTable" style="width:75%" class="listTable" border="0" cellspacing="0" cellpadding="0">
 			  <tr>
-			    <th>出让方名称</th><th>受让方名称</th><th>转让额度</th><th>操作</th>
+			    <th>出让方名称</th><th>受让方名称</th><th>转让额度</th><th>状态</th><th>操作</th>
 			  </tr>
 			</table>
 		</div>

@@ -53,19 +53,6 @@ public interface IBaseWeb3j {
     public String queryToString(String from, String contractAddress, String method,List<Type> inputParameters) throws InterruptedException, ExecutionException, ClassNotFoundException;
     
     /**
-     * 用Call的方式调用合约。（目的是查询）
-     * @param from
-     * @param contractAddress
-     * @param method
-     * @param inputParameters
-     * @return
-     * @throws ExecutionException 
-     * @throws InterruptedException 
-     * @throws ClassNotFoundException 
-     */
-    public String[] queryToStringArray(String from, String contractAddress, String method,List<Type> inputParameters) throws InterruptedException, ExecutionException, ClassNotFoundException;
-    
-    /**
      * 查余额
      * @param address
      * @return
