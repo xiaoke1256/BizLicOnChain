@@ -16,6 +16,8 @@
   <script type="text/javascript" src="js/date_format.js" ></script>
   <script type="text/javascript">
   	$(function(){
+  		$('.modal').hide();
+  		
   		$('#searchBtn').click(function(){
   			var data = {uniScId:$('[name=uniScId]').val()};
   			$.get('bizlic',data,function(resp){
@@ -53,13 +55,22 @@
   					s+='<tr><td>'+(apply.transferor?apply.transferor.investorName:'')+'</td><td>'
   						+apply.investorName+'</td><td>'
   						+apply.cptAmt+'</td><td>'
-  						+apply.status+'</td><td>'+(apply.status==='待发证机关备案'?'<a href="javascript:void(0);">备案</a>':'')+'</td></tr>'
+  						+apply.status+'</td><td>'
+  						+(apply.status==='待发证机关备案'?
+  								'<a class="toBackUp" uniScId="'+apply.uniScId+'" investorCetfHash="'+apply.investorCetfHash+'" href="javascript:void(0);">备案</a>':
+  								'')
+  						+'</td></tr>'
   				}
   				$('#listTable').append($(s));
   				
   			},'json');
   			
   		});
+  		
+  		$('#listTable').on('click','a.toBackUp',function(){
+  			
+  		  $('.modal').show()
+  		} );
   		
   		//加载所有uniscid
 		$.get('uniScIds',{},function(resp){
@@ -137,7 +148,21 @@
 		</div>
 		<div class="clear"></div>
 	</div>
-	
-	
+	<div class="modal" >
+	  <div>
+		  <form name="payForm" id="backUpForm" method="post">
+		    <input type="hidden" name="uniScId" value="" >
+		    <input type="hidden" name="investorCetfHash" value="" >
+		    <table id="listTable" class="formTable" border="0" cellspacing="0" cellpadding="0">
+		      <tr><th>备案意见</th><td><textarea style="width:350px" name="reason"></textarea></td></tr>
+		    </table>
+		    <div> 
+		      <button type="button" onclick="$('.modal').hide()" >关闭</button> 
+		      <button type="button" id="rejectBtn" style="background-color:royalBlue;color:white" >拒绝</button> 
+		      <button type="button" id="passBtn" style="background-color:royalBlue;color:white" >确认备案</button> 
+		    </div>
+		  </form>
+	  </div>
+	</div>
 </body>
 </html>

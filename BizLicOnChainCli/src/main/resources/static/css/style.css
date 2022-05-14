@@ -55,3 +55,25 @@ html,body{
 .subTitle {
 	font:bold 16px/40px songti important
 }
+
+.modal{
+  width:100%;
+  position:absolute;
+  top:30px;
+  text-align:center;
+}
+
+.modal > div{
+  width:450px;
+  margin:0 auto;
+  background:#fff;
+  border: 1px solid #111;
+}
+
+.modal form {
+  width:100%
+}
+
+.modal form .formTable {
+  width:100%
+}
