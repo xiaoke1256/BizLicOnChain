@@ -58,14 +58,14 @@ html,body{
 
 .modal{
   width:100%;
+  height:calc(100% - 2px);
   position:absolute;
-  top:30px;
   text-align:center;
 }
 
 .modal > div{
   width:450px;
-  margin:0 auto;
+  margin:60px auto 0 auto;
   background:#fff;
   border: 1px solid #111;
 }

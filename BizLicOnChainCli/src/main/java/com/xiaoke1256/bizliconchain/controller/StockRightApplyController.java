@@ -48,4 +48,15 @@ public class StockRightApplyController {
 			return new RespMsg("99",e.getMessage());
 		}
 	}
+	
+	@RequestMapping(value = "/bizlic/apply/{uniScId}/{investorCetfHash}/backUp", method =RequestMethod.POST)
+	public RespMsg backUp(@PathVariable("uniScId")String uniScId,@PathVariable("investorCetfHash")String investorCetfHash,boolean isPass,String reason) {
+		try {
+			stockRightApplyCli.backUp(uniScId, investorCetfHash, isPass, reason);
+			return new RespMsg("00","Success!");
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new RespMsg("99",e.getMessage());
+		}
+	}
 }

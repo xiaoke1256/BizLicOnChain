@@ -18,6 +18,33 @@
   	$(function(){
   		$('.modal').hide();
   		
+  		/* 查申请案 */
+  		var searchApplys = function(){
+  			$.get('bizlic/apply/'+$('[name=uniScId]').val(),{},function(resp){
+  				if(resp.code!='00'){
+  					alert('查询失败');
+  					return;
+  				}
+  				
+  				$('#listTable').find('tr:gt(0)').remove();
+  				var applys = resp.data;
+  				var s = '';
+  				for(var i in applys){
+  					var apply = applys[i];
+  					s+='<tr><td>'+(apply.transferor?apply.transferor.investorName:'')+'</td><td>'
+  						+apply.investorName+'</td><td>'
+  						+apply.cptAmt+'</td><td>'
+  						+apply.status+'</td><td>'
+  						+(apply.status==='待发证机关备案'?
+  								'<a class="toBackUp" uniScId="'+$('[name=uniScId]').val()+'" investorCetfHash="'+apply.investorCetfHash+'" href="javascript:void(0);">备案</a>':
+  								'')
+  						+'</td></tr>'
+  				}
+  				$('#listTable').append($(s));
+  				
+  			},'json');
+  		}
+  		
   		$('#searchBtn').click(function(){
   			var data = {uniScId:$('[name=uniScId]').val()};
   			$.get('bizlic',data,function(resp){
@@ -41,36 +68,35 @@
   			},'json');
   			
   			//查申请案
-  			$.get('bizlic/apply/'+$('[name=uniScId]').val(),{},function(resp){
-  				if(resp.code!='00'){
-  					alert('查询失败');
-  					return;
-  				}
-  				
-  				$('#listTable').find('tr:gt(0)').remove();
-  				var applys = resp.data;
-  				var s = '';
-  				for(var i in applys){
-  					var apply = applys[i];
-  					s+='<tr><td>'+(apply.transferor?apply.transferor.investorName:'')+'</td><td>'
-  						+apply.investorName+'</td><td>'
-  						+apply.cptAmt+'</td><td>'
-  						+apply.status+'</td><td>'
-  						+(apply.status==='待发证机关备案'?
-  								'<a class="toBackUp" uniScId="'+apply.uniScId+'" investorCetfHash="'+apply.investorCetfHash+'" href="javascript:void(0);">备案</a>':
-  								'')
-  						+'</td></tr>'
-  				}
-  				$('#listTable').append($(s));
-  				
-  			},'json');
+  			searchApplys();
   			
   		});
   		
   		$('#listTable').on('click','a.toBackUp',function(){
-  			
+  		  $('#backUpForm [name=uniScId]').val($(this).attr('uniScId'));
+  		  $('#backUpForm [name=investorCetfHash]').val($(this).attr('investorCetfHash'));
   		  $('.modal').show()
   		} );
+  		
+  		$('#passBtn').click(function(){
+  		  var isPass = true;
+  		  var uniScId = $('#backUpForm [name=uniScId]').val();
+		  var investorCetfHash = $('#backUpForm [name=investorCetfHash]').val();
+		  var reason = $('#backUpForm [name=reason]').val();
+  		  $.post('bizlic/apply/'+uniScId+'/'+investorCetfHash+'/backUp',{isPass:isPass,reason:reason},function(resp){
+  			if(resp.code!='00'){
+			  alert('操作失败');
+			  return false;
+		    }else{
+		      searchApplys();
+		      alert('操作成功');
+		      $('.modal').hide();
+		      return true;
+		    }
+  			
+  		  });
+  		});
+  		
   		
   		//加载所有uniscid
 		$.get('uniScIds',{},function(resp){
