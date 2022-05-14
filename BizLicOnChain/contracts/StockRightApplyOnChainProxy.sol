@@ -356,4 +356,12 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
     	}
     	return abi.decode(b,(string));
 	}
+	
+	/**
+	 * 把合约中的货币支付给另外一个账户，免得货币被锁死
+	 */
+	function payToAnotherContract(address payable anotherContract,uint amt) public onlyCreator returns (bool){
+	    anotherContract.transfer(amt);
+	    return true;
+	}
 }
