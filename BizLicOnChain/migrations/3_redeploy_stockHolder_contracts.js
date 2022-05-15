@@ -23,28 +23,27 @@ module.exports = function(deployer) {
 	  deployer.link(IntUtils, StockHolderOnChain);
 	  deployer.link(StringUtils, StockHolderOnChain);
 	  deployer.deploy(StockHolderOnChain);
-/*
+
 	  deployer.link(BaseStockHolderOnChain, StockHolderOnChainProxy);
 	  deployer.link(BizLicOnChainProxy, StockHolderOnChainProxy);
-	  deployer.deploy(StockHolderOnChainProxy,{overwrite: false});
-*/
-	  
-	  //let bizlicProxy = null;
+	  deployer.deploy(StockHolderOnChainProxy);
+
+	  /*
+	  let bizlicProxy = null;
 	  let stockHolderInstance = null;
 	  let stockHolderProxy = null;
  	  deployer.then(function() {
-	/*
 		  return BizLicOnChainProxy.deployed();
 	  }).then(function(instance) {
 		  bizlicProxy = instance;
-    */
 		  return StockHolderOnChain.deployed();
 	  }).then(function(instance) {
 		  stockHolderInstance = instance;
 		  return StockHolderOnChainProxy.deployed();
 	  }).then(function(instance){
 		  stockHolderProxy = instance;
-		  stockHolderProxy.changeCurrentVersion(stockHolderInstance.address);
-		  //stockHolderProxy.initialize(stockHolderInstance.address,bizlicProxy.address);
+		  //stockHolderProxy.changeCurrentVersion(stockHolderInstance.address);
+		  stockHolderProxy.initialize(stockHolderInstance.address,bizlicProxy.address);
 	  });
+*/
 };
