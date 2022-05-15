@@ -160,7 +160,9 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
 			s=StringUtils.concat(s,',');
 			s=StringUtils.concat(s,'"investorCetfHash":"',stockHolders[uniScId][investorCetfHash].investorCetfHash,'"');
 			s=StringUtils.concat(s,',');
-			s=StringUtils.concat(s,'"stockRightDetail":',stockHolders[uniScId][investorCetfHash].stockRightDetail,'');
+			if(bytes(stockHolders[uniScId][investorCetfHash].stockRightDetail).length>0){
+			  s=StringUtils.concat(s,'"stockRightDetail":', stockHolders[uniScId][investorCetfHash].stockRightDetail);
+			}
 			s=StringUtils.concat(s,',');
 			s=StringUtils.concat(s,'"merkel":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorCetfHash].merkel),'"');
 			s=StringUtils.concat(s,',');
