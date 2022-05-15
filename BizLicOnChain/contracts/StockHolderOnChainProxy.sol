@@ -2,6 +2,7 @@ pragma solidity ^0.6.0;
 
 import { BaseStockHolderOnChain } from "./BaseStockHolderOnChain.sol";
 import { BizLicOnChainProxy } from "./BizLicOnChainProxy.sol";
+import { StringUtils } from "./StringUtils.sol";
 
 contract StockHolderOnChainProxy is BaseStockHolderOnChain {
 
@@ -145,15 +146,33 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
 	}
 	
 	/** 查单个股东 */
-	function getStockHolder(string memory uniScId,string memory investorCetfHash)public view returns (string memory){
+	function getStockHolder(string memory uniScId,string memory investorCetfHash) public returns (string memory){
 		require(_initialized);
-        bool sucess;
-        bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("getStockHolder(string,string)",uniScId,investorCetfHash));
-		if(!sucess){
-        	require(sucess,parseErrMsg(result));
-        }
-        return abi.decode(result,(string));
+	    if(bytes(stockHolders[uniScId][investorCetfHash].investorCetfHash).length==0 || bytes(stockHolders[uniScId][investorCetfHash].uniScId).length==0){
+	    	return 'null';
+	    }
+	    string memory s = '';
+
+	    s=StringUtils.concat(s,'{');
+		s=StringUtils.concat(s,'"uniScId":"',stockHolders[uniScId][investorCetfHash].uniScId,'"');
+		s=StringUtils.concat(s,',');
+		s=StringUtils.concat(s,'"investorName":"',stockHolders[uniScId][investorCetfHash].investorName,'"');
+		s=StringUtils.concat(s,',');
+		s=StringUtils.concat(s,'"investorAccount":"',StringUtils.address2str(stockHolders[uniScId][investorCetfHash].investorAccount),'"');
+		s=StringUtils.concat(s,',');
+		s=StringUtils.concat(s,'"investorCetfHash":"',stockHolders[uniScId][investorCetfHash].investorCetfHash,'"');
+		s=StringUtils.concat(s,',');
+
+		if(bytes(stockHolders[uniScId][investorCetfHash].stockRightDetail).length>0){
+		  s=StringUtils.concat(s,'"stockRightDetail":', stockHolders[uniScId][investorCetfHash].stockRightDetail);
+		}
+
+		s=StringUtils.concat(s,',');
+		s=StringUtils.concat(s,'"merkel":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorCetfHash].merkel),'"');
+		s=StringUtils.concat(s,',');
+		s=StringUtils.concat(s,'"cptAmt":',StringUtils.uint2str(stockHolders[uniScId][investorCetfHash].cptAmt),'');
+		s=StringUtils.concat(s,'}');
+		return s;
 	}
 
 	/**
