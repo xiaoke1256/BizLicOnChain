@@ -3,9 +3,11 @@ package com.xiaoke1256.investoradmin.service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import com.xiaoke1256.bizliconchain.common.dao.EthTrasLogMapper;
 import com.xiaoke1256.investoradmin.blockchain.cli.StockRightApplyCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
 import com.xiaoke1256.investoradmin.bo.StockRightApply;
+import com.xiaoke1256.investoradmin.bo.StockRightApplyOnChain;
 import com.xiaoke1256.investoradmin.dao.StockHolderMapper;
 import com.xiaoke1256.investoradmin.dao.StockRightApplyMapper;
 
@@ -40,8 +43,11 @@ public class StockRightApplyService {
 	@Value("${biz.uniScId}")
 	private String uniScId;
 	
-	public void startStockTransfer(StockRightApply apply){
+	public void startStockTransfer(StockRightApply apply,String ethPrivateKey){
 		StockHolder stockHolder = stockHolderDao.getStockHolder(apply.getStockHolderId());
+		stockHolder.setEthPrivateKey(ethPrivateKey);
+		stockHolder.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+		stockHolderDao.updateStockHolder(stockHolder);
 		apply.setTransferorCetfHash(stockHolder.getInvestorCetfHash());
 		apply.setStatus("待董事会确认");
 		apply.setInsertTime(new Date());
@@ -143,10 +149,10 @@ public class StockRightApplyService {
 	 * @param apply
 	 */
 	public void dealStatusChange(StockRightApply apply) {
-		StockRightApply applyOnChain = stockRightApplyCli.getStockRightApply(uniScId,apply.getNewInvestorCetfHash());
+		StockRightApplyOnChain applyOnChain = stockRightApplyCli.getStockRightApply(uniScId,apply.getNewInvestorCetfHash());
 		if("设置账号-处理中".equals(apply.getStatus())) {
-			if(apply.getNewInvestorAccount()==null && applyOnChain.getNewInvestorAccount()!=null || !applyOnChain.getNewInvestorAccount().equals(apply.getNewInvestorAccount())) {
-				apply.setNewInvestorAccount(applyOnChain.getNewInvestorAccount());
+			if(StringUtils.isEmpty(apply.getNewInvestorAccount()) && applyOnChain.getInvestorAccount()!=null || !applyOnChain.getInvestorAccount().equals(apply.getNewInvestorAccount())) {
+				apply.setNewInvestorAccount(applyOnChain.getInvestorAccount());
 				apply.setStatus("待董事会确认");
 				apply.setUpdateTime(new Date());
 				stockRightApplyDao.updateApply(apply);

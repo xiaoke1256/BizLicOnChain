@@ -20,7 +20,7 @@ import org.web3j.protocol.websocket.events.LogNotification;
 import com.alibaba.fastjson.JSON;
 import com.xiaoke1256.bizliconchain.blockchain.common.BaseCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
-import com.xiaoke1256.investoradmin.bo.StockRightApply;
+import com.xiaoke1256.investoradmin.bo.StockRightApplyOnChain;
 
 import io.reactivex.functions.Consumer;
 
@@ -137,7 +137,8 @@ public class StockRightApplyCli extends BaseCli {
 	 * @param investorCetfHash
 	 * @return
 	 */
-	public StockRightApply getStockRightApply(String uniScId,String investorCetfHash) {
+	public StockRightApplyOnChain getStockRightApply(String uniScId,String investorCetfHash) {
+		@SuppressWarnings("rawtypes")
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(uniScId));
 		inputParameters.add(new Utf8String(investorCetfHash));
@@ -150,6 +151,6 @@ public class StockRightApplyCli extends BaseCli {
 		if(json==null) {
 			throw new NullPointerException();
 		}
-		return JSON.parseObject(json, StockRightApply.class);
+		return JSON.parseObject(json, StockRightApplyOnChain.class);
 	}
 }

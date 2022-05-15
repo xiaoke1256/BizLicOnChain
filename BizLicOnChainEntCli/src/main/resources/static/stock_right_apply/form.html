@@ -36,6 +36,8 @@
 				+'<td>'+inverstor.cptAmt+'</td>'
 				+'</tr>'
 			$('#listTable').append($(s));
+			$('[name=ethAccount]').val(inverstor.ethAccount);
+			//$('[name=ethPrivateKey]').val(inverstor.ethPrivateKey);
   		},'json');
   		
   		//提交按钮
@@ -76,7 +78,8 @@
   				  price:priceDecimal,
   				  newInvestorName:$('[name=newInvestorName]').val(),
   				  newInvestorCetfType:$('[name=newInvestorCetfType]').val(),
-  				  newInvestorCetfNo:$('[name=newInvestorCetfNo]').val()};
+  				  newInvestorCetfNo:$('[name=newInvestorCetfNo]').val(),
+  				  ethPrivateKey:$('[name=ethPrivateKey]').val()};
 		  $.post('stockHolder/apply/stockTransfer/start',apply,function(resp){
 			if(resp===true){
 			  alert("成功");
@@ -114,11 +117,14 @@
 			
 			<table id="formTable" style="width:75%" class="formTable" border="0" cellspacing="0" cellpadding="0">
 			  <colgroup>
-			    <col width="10%" ></col>
-			    <col width="40%" ></col>
-			    <col width="10%" ></col>
-			    <col width="40%" ></col>
+			    <col width="15%" ></col>
+			    <col width="35%" ></col>
+			    <col width="15%" ></col>
+			    <col width="35%" ></col>
 			  </colgroup>
+			  <tr>
+			    <th>接收比特币的账号</th><td><input disabled name="ethAccount"/></td><th>密钥</th><td><input name="ethPrivateKey"/></td>
+			  </tr>
 			  <tr>
 			    <th>转让额（元）</th><td><input name="cptAmt"/></td><th>以太币价格（wei）</th><td><input name="priceDecimal"/></td>
 			  </tr>

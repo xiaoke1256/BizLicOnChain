@@ -3,6 +3,7 @@ package com.xiaoke1256.investoradmin.contorller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xiaoke1256.bizliconchain.common.exception.BizException;
 import com.xiaoke1256.investoradmin.bo.StockRightApply;
+import com.xiaoke1256.investoradmin.form.StockRightApplyForm;
 import com.xiaoke1256.investoradmin.service.StockRightApplyService;
 
 @RequestMapping(value = "/stockHolder/apply")
@@ -27,11 +29,13 @@ public class StockRightApplyController {
 	 * @return
 	 */
 	@PostMapping(value = "stockTransfer/start")
-	public Boolean startStockTransfer(StockRightApply apply) {
-		if(apply.getStockHolderId()==null) {
+	public Boolean startStockTransfer(StockRightApplyForm applyForm) {
+		if(applyForm.getStockHolderId()==null) {
 			throw new BizException("未登录");
 		}
-		stockRightApplyService.startStockTransfer(apply);
+		StockRightApply apply = new StockRightApply();
+		BeanUtils.copyProperties(applyForm, apply);
+		stockRightApplyService.startStockTransfer(apply,applyForm.getEthPrivateKey());
 		return true;
 	}
 	
