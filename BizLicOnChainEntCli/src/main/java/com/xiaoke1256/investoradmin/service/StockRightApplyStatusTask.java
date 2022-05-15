@@ -24,7 +24,7 @@ public class StockRightApplyStatusTask {
 	static Web3j web3j;
 	
     @Value("${contract.url}")
-    private   String URL;
+    private String URL;
 	
     @PostConstruct
     public void init() {
@@ -37,6 +37,14 @@ public class StockRightApplyStatusTask {
 	@Scheduled(cron = "0/20 * * * * ?")
 	public void dealStatusChange() {
 		List<StockRightApply> applys = stockRightApplyService.queryAwaitApply();
+		for(StockRightApply apply:applys) {
+			stockRightApplyService.dealStatusChange(apply);
+		}
+	}
+	
+	//看看是否被市场监督局审批通过了
+	public void dealAicAudit() {
+		List<StockRightApply> applys = stockRightApplyService.queryByStatus("待发证机关备案");
 		for(StockRightApply apply:applys) {
 			stockRightApplyService.dealStatusChange(apply);
 		}

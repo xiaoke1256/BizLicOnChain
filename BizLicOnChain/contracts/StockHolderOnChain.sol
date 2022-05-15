@@ -173,6 +173,32 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
 		return s;
 	}
 	
+	/** 查单个股东 */
+	function getStockHolder(string memory uniScId,string memory investorCetfHash)public view returns (string memory){
+	    if(bytes(stockHolders[uniScId][investorCetfHash].investorCetfHash).length==0 || bytes(stockHolders[uniScId][investorCetfHash].uniScId).length==0){
+	    	return 'null';
+	    }
+	    string memory s = '';
+	    s=StringUtils.concat(s,'{');
+		s=StringUtils.concat(s,'"uniScId":"',stockHolders[uniScId][investorCetfHash].uniScId,'"');
+		s=StringUtils.concat(s,',');
+		s=StringUtils.concat(s,'"investorName":"',stockHolders[uniScId][investorCetfHash].investorName,'"');
+		s=StringUtils.concat(s,',');
+		s=StringUtils.concat(s,'"investorAccount":"',StringUtils.address2str(stockHolders[uniScId][investorCetfHash].investorAccount),'"');
+		s=StringUtils.concat(s,',');
+		s=StringUtils.concat(s,'"investorCetfHash":"',stockHolders[uniScId][investorCetfHash].investorCetfHash,'"');
+		s=StringUtils.concat(s,',');
+		if(bytes(stockHolders[uniScId][investorCetfHash].stockRightDetail).length>0){
+		  s=StringUtils.concat(s,'"stockRightDetail":', stockHolders[uniScId][investorCetfHash].stockRightDetail);
+		}
+		s=StringUtils.concat(s,',');
+		s=StringUtils.concat(s,'"merkel":"',StringUtils.bytes32ToString(stockHolders[uniScId][investorCetfHash].merkel),'"');
+		s=StringUtils.concat(s,',');
+		s=StringUtils.concat(s,'"cptAmt":',StringUtils.uint2str(stockHolders[uniScId][investorCetfHash].cptAmt),'');
+		s=StringUtils.concat(s,'}');
+		return s;
+	}
+	
     /**
 	 * 查看现有股东的出资
 	 */

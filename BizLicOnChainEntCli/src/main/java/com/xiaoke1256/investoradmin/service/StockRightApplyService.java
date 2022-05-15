@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.web3j.crypto.Hash;
 
-import com.xiaoke1256.bizliconchain.common.bo.EthTrasLog;
 import com.xiaoke1256.bizliconchain.common.dao.EthTrasLogMapper;
+import com.xiaoke1256.investoradmin.blockchain.cli.StockHolderOnChainCli;
 import com.xiaoke1256.investoradmin.blockchain.cli.StockRightApplyCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
 import com.xiaoke1256.investoradmin.bo.StockRightApply;
@@ -38,7 +38,7 @@ public class StockRightApplyService {
 	@Autowired
 	private StockRightApplyCli stockRightApplyCli;
 	@Autowired
-	private EthTrasLogMapper ethTrasLogDao;
+	private StockHolderOnChainCli stockHolderOnChainCli;
 	
 	@Value("${biz.uniScId}")
 	private String uniScId;
@@ -157,29 +157,51 @@ public class StockRightApplyService {
 				apply.setUpdateTime(new Date());
 				stockRightApplyDao.updateApply(apply);
 			}
-		}
-		if("董事会确认-处理中".equals(apply.getStatus())) {
+		}else if("董事会确认-处理中".equals(apply.getStatus())) {
 			if(!"待董事会确认".equals(applyOnChain.getStatus())) {
 				apply.setStatus(applyOnChain.getStatus());
 				apply.setUpdateTime(new Date());
 				stockRightApplyDao.updateApply(apply);
 			}
-		}
-		if("付款-处理中".equals(apply.getStatus())) {
+		}else if("付款-处理中".equals(apply.getStatus())) {
 			if(!"待付款".equals(applyOnChain.getStatus())) {
 				apply.setStatus(applyOnChain.getStatus());
 				apply.setUpdateTime(new Date());
 				stockRightApplyDao.updateApply(apply);
-			}else {
-				String trasHash = apply.getTrasHash();
-				EthTrasLog log = ethTrasLogDao.getByTrasHash(trasHash);
-				if("E".equals(log.getStatus())) {
-					LOG.error("以太坊事务发生异常:"+log.getErrMsg());
-					//发生了错误
-					apply.setStatus("待付款");
-					apply.setUpdateTime(new Date());
-					stockRightApplyDao.updateApply(apply);
+			}
+		}else if("待发证机关备案".equals(apply.getStatus())) {
+			if(!"待发证机关备案".equals(applyOnChain.getStatus())) {
+				apply.setStatus(applyOnChain.getStatus());
+				apply.setUpdateTime(new Date());
+				stockRightApplyDao.updateApply(apply);
+				if("结束".equals(apply.getStatus())) {
+					//不管是成功还是失败股权都会发生变化
+					//处理新股东
+					StockHolder newStockHolder = stockHolderOnChainCli.getStockHolder(uniScId, apply.getNewInvestorCetfHash());
+					StockHolder orgNewStockHolder = stockHolderDao.getStockHolderByInvestorCetfHash(apply.getNewInvestorCetfHash());
+					if(orgNewStockHolder==null) {//新股东不存在
+						newStockHolder.setInsertTime(new Timestamp(System.currentTimeMillis()));
+						newStockHolder.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+						stockHolderDao.saveStockHolder(orgNewStockHolder);
+					}else {
+						//应该只有额度变化
+						orgNewStockHolder.setCptAmt(newStockHolder.getCptAmt());
+						orgNewStockHolder.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+						stockHolderDao.updateStockHolder(orgNewStockHolder);
+					}
+					//处理旧股东
+					StockHolder oldStockHolder = stockHolderOnChainCli.getStockHolder(uniScId, apply.getTransferorCetfHash());
+					StockHolder orgOldStockHolder = stockHolderDao.getStockHolderByInvestorCetfHash(apply.getTransferorCetfHash());
+					if(oldStockHolder==null || StringUtils.isEmpty(oldStockHolder.getInvestorCetfHash())) {
+						//说明股份完全转让给了新股东
+						stockHolderDao.deleteById(orgOldStockHolder.getStockHolderId());
+					}else {
+						orgOldStockHolder.setCptAmt(oldStockHolder.getCptAmt());
+						orgOldStockHolder.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+						stockHolderDao.updateStockHolder(orgOldStockHolder);
+					}
 				}
+				
 			}
 		}
 	}

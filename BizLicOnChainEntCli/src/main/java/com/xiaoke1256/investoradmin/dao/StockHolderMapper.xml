@@ -25,6 +25,10 @@
   	values (#{stockHolderId},#{investorName},#{ethAccount},#{ethPrivateKey},#{investorCetfType},#{investorCetfNo},#{investorCetfHash},#{cptAmt},#{insertTime},#{updateTime})
   </insert>
   
+  <select id="getStockHolderByInvestorCetfHash" resultMap="BaseMap">
+    select STOCK_HOLDER_ID,INVESTOR_NAME,ETH_ACCOUNT,ETH_PRIVATE_KEY,INVESTOR_CETF_TYPE,INVESTOR_CETF_NO,INVESTOR_CETF_HASH,CPT_AMT,INSERT_TIME,UPDATE_TIME 
+    from STOCK_HOLDER where INVESTOR_CETF_HASH = #{investorCetfHash}
+  </select>
   <update id="updateStockHolder" parameterType="com.xiaoke1256.investoradmin.bo.StockHolder" >
     update STOCK_HOLDER set
       STOCK_HOLDER_ID = #{stockHolderId},
@@ -39,6 +43,10 @@
       UPDATE_TIME = #{updateTime}
     where STOCK_HOLDER_ID = #{stockHolderId}
   </update>
+  
+  <delete id="deleteById">
+    delete from STOCK_HOLDER where STOCK_HOLDER_ID = #{stockHolderId}
+  </delete>
   
   <select id="queryAll" resultMap="BaseMap">
     select STOCK_HOLDER_ID,INVESTOR_NAME,ETH_ACCOUNT,ETH_PRIVATE_KEY,INVESTOR_CETF_TYPE,INVESTOR_CETF_NO,INVESTOR_CETF_HASH,CPT_AMT,INSERT_TIME,UPDATE_TIME 
