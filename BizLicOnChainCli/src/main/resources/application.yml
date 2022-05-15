@@ -29,9 +29,9 @@ server:
 
 contract:
   #ctAddr: "0x85EA9e5229306D7D73ED41CBE427F241D6717e5B"  #合约地址
-  ctAddr: "0x4bbabCB087Cb2c2BabCD2b4207DbE587a80e1f65" #合约地址（注册公司的合约）
-  stockCtAddr: "0x53A60a357551c2C2beaF78F1180d887A549f8947" #合约地址（注册股权的合约）
-  applyCtAddr: "0x81cE17486Ee2C29CBa5EcAB97DF7e4ffC8f2B11c" #合约地址（申请股权合约）
+  ctAddr: "0x2D203f5024bcd518530ee9501f617Eb9deB45eFa" #合约地址（注册公司的合约）
+  stockCtAddr: "0xae0116F06E891E40ccf89727F54bEF67f1C17885" #合约地址（注册股权的合约）
+  applyCtAddr: "0xA9A12821b940917f21F64c2073ceECB9d00234DB" #合约地址（申请股权合约）
   startAddr:  "************************************"   #顶级节点地址（好像没用到）
   #sendAddr:  "0xaefe184653e506426daab8369504ce3a2d95b68c"   #from地址
   sendAddr:  "0xb4efc357764a1eeb07695f8784209e8e316c222f"   #dev 环境下的
