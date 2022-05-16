@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.web3j.crypto.Hash;
 
-import com.xiaoke1256.bizliconchain.common.dao.EthTrasLogMapper;
 import com.xiaoke1256.investoradmin.blockchain.cli.StockHolderOnChainCli;
 import com.xiaoke1256.investoradmin.blockchain.cli.StockRightApplyCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;

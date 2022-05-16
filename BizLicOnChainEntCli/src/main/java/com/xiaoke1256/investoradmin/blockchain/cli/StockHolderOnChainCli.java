@@ -37,6 +37,7 @@ public class StockHolderOnChainCli extends BaseCli {
 	 * @return
 	 */
 	public List<StockHolder> getStockHolders(String uniScId) {
+		@SuppressWarnings("rawtypes")
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(uniScId));
 		String resultJson = null;
@@ -51,6 +52,7 @@ public class StockHolderOnChainCli extends BaseCli {
 	}
 	
 	public StockHolder getStockHolder(String uniScId,String investorCetfHash){
+		@SuppressWarnings("rawtypes")
 		List<Type> inputParameters = new ArrayList<Type>();
 		inputParameters.add(new Utf8String(uniScId));
 		inputParameters.add(new Utf8String(investorCetfHash));
