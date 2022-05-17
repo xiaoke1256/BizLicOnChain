@@ -35,6 +35,7 @@ public class StockHolderTask {
 			if (stockHoderInDb == null) {
 				//新增
 				stockHoderInDb = new StockHolder();
+				stockHoderInDb.setInvestorName(stockHoder.getInvestorName());
 				stockHoderInDb.setInvestorCetfHash(stockHoder.getInvestorCetfHash());
 				stockHoderInDb.setEthAccount(stockHoder.getEthAccount());
 				stockHoderInDb.setEthPrivateKey(stockHoder.getEthPrivateKey());
