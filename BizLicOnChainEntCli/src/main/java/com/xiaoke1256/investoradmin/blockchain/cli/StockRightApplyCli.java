@@ -59,7 +59,7 @@ public class StockRightApplyCli extends BaseCli {
 		inputParameters.add(new Bytes32(merkel)); 
 		inputParameters.add(new Uint(cptAmt)); 
 		inputParameters.add(new Uint(price));
-		String fromAddr = transferor.getEthAccount();
+		String fromAddr = transferor.getInvestorAccount();
 		String fromPrivateKey = transferor.getEthPrivateKey();
 		LOG.info("uniScId:"+uniScId);
 		LOG.info("transferor.getInvestorCetfHash():"+transferor.getInvestorCetfHash());
@@ -84,7 +84,7 @@ public class StockRightApplyCli extends BaseCli {
 		inputParameters.add(new Utf8String(uniScId));
 		inputParameters.add(new Utf8String(investorCetfHash));
 		inputParameters.add(new Address(investorAccount));
-		String fromAddr = transferor.getEthAccount();
+		String fromAddr = transferor.getInvestorAccount();
 		String fromPrivateKey = transferor.getEthPrivateKey();
 		if(StringUtils.isEmpty(fromAddr) || StringUtils.isEmpty(fromPrivateKey) ) {
 			throw new RuntimeException("请先设置出让方以太坊账号和密钥。");

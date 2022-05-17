@@ -36,7 +36,7 @@
 				+'<td>'+inverstor.cptAmt+'</td>'
 				+'</tr>'
 			$('#listTable').append($(s));
-			$('[name=ethAccount]').val(inverstor.ethAccount);
+			$('[name=investorAccount]').val(inverstor.investorAccount);
 			//$('[name=ethPrivateKey]').val(inverstor.ethPrivateKey);
   		},'json');
   		
@@ -123,7 +123,7 @@
 			    <col width="35%" ></col>
 			  </colgroup>
 			  <tr>
-			    <th>接收比特币的账号</th><td><input disabled name="ethAccount"/></td><th>密钥</th><td><input name="ethPrivateKey"/></td>
+			    <th>接收比特币的账号</th><td><input disabled name="investorAccount"/></td><th>密钥</th><td><input name="ethPrivateKey"/></td>
 			  </tr>
 			  <tr>
 			    <th>转让额（元）</th><td><input name="cptAmt"/></td><th>以太币价格（wei）</th><td><input name="priceDecimal"/></td>

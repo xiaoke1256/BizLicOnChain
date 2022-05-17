@@ -37,7 +37,7 @@ public class StockHolderTask {
 				stockHoderInDb = new StockHolder();
 				stockHoderInDb.setInvestorName(stockHoder.getInvestorName());
 				stockHoderInDb.setInvestorCetfHash(stockHoder.getInvestorCetfHash());
-				stockHoderInDb.setEthAccount(stockHoder.getEthAccount());
+				stockHoderInDb.setInvestorAccount(stockHoder.getInvestorAccount());
 				stockHoderInDb.setEthPrivateKey(stockHoder.getEthPrivateKey());
 				stockHoderInDb.setCptAmt(stockHoder.getCptAmt());
 				stockHoderInDb.setInsertTime(new Timestamp(System.currentTimeMillis()));
@@ -50,9 +50,9 @@ public class StockHolderTask {
 					needModify = true;
 					stockHoderInDb.setCptAmt(stockHoder.getCptAmt());
 				}
-				if(stockHoder.getEthAccount()!=null && !stockHoder.getEthAccount().equals(stockHoderInDb.getEthAccount())) {
+				if(stockHoder.getInvestorAccount()!=null && !stockHoder.getInvestorAccount().equals(stockHoderInDb.getInvestorAccount())) {
 					needModify = true;
-					stockHoderInDb.setEthAccount(stockHoder.getEthAccount());
+					stockHoderInDb.setInvestorAccount(stockHoder.getInvestorAccount());
 				}
 				if(needModify) {
 					stockHoderInDb.setUpdateTime(new Timestamp(System.currentTimeMillis()));

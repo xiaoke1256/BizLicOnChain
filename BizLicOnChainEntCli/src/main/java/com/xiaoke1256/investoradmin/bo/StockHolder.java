@@ -17,7 +17,7 @@ public class StockHolder {
 	/**
 	 * 股东以太坊账号（公钥）
 	 */
-	private String ethAccount;
+	private String investorAccount;
 	/**
 	 * 股东以太坊账号（私钥）（正式做系统时不建议在数据库中保存私钥）
 	 */
@@ -53,11 +53,11 @@ public class StockHolder {
 	public void setInvestorName(String investorName) {
 		this.investorName = investorName;
 	}
-	public String getEthAccount() {
-		return ethAccount;
+	public String getInvestorAccount() {
+		return investorAccount;
 	}
-	public void setEthAccount(String ethAccount) {
-		this.ethAccount = ethAccount;
+	public void setInvestorAccount(String investorAccount) {
+		this.investorAccount = investorAccount;
 	}
 	public String getEthPrivateKey() {
 		return ethPrivateKey;
