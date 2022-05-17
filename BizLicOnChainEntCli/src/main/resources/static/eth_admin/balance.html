@@ -34,8 +34,13 @@
 		}
 		inverstor = resp;
 		$('#userNameSpan').html(inverstor.investorName+' 的账户余额:');
-		$.get('eth/'+inverstor.ethAccount+'/balance',{},function(num){
-	  	  $('#mun').html(parseInt(num).toLocaleString()+' wei');
+		$.get('eth/'+inverstor.investorAccount+'/balance',{},function(num){
+		  if(typeof(num)=='number'){
+			  $('#mun').html(num.toLocaleString()+' wei');
+		  }else{
+			  $('#mun').html(parseInt(num).toLocaleString()+' wei'); 
+		  }
+	  	  
 	  	});
   	  },'json');
   	  
