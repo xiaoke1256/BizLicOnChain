@@ -177,16 +177,18 @@ public class StockRightApplyService {
 					//不管是成功还是失败股权都会发生变化
 					//处理新股东
 					StockHolder newStockHolder = stockHolderOnChainCli.getStockHolder(uniScId, apply.getNewInvestorCetfHash());
-					StockHolder orgNewStockHolder = stockHolderDao.getStockHolderByInvestorCetfHash(apply.getNewInvestorCetfHash());
-					if(orgNewStockHolder==null) {//新股东不存在
-						newStockHolder.setInsertTime(new Timestamp(System.currentTimeMillis()));
-						newStockHolder.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-						stockHolderDao.saveStockHolder(orgNewStockHolder);
-					}else {
-						//应该只有额度变化
-						orgNewStockHolder.setCptAmt(newStockHolder.getCptAmt());
-						orgNewStockHolder.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-						stockHolderDao.updateStockHolder(orgNewStockHolder);
+					if(newStockHolder!=null && !StringUtils.isEmpty(newStockHolder.getInvestorCetfHash())) {
+						StockHolder orgNewStockHolder = stockHolderDao.getStockHolderByInvestorCetfHash(apply.getNewInvestorCetfHash());
+						if(orgNewStockHolder==null) {//新股东不存在
+							newStockHolder.setInsertTime(new Timestamp(System.currentTimeMillis()));
+							newStockHolder.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+							stockHolderDao.saveStockHolder(orgNewStockHolder);
+						}else {
+							//应该只有额度变化
+							orgNewStockHolder.setCptAmt(newStockHolder.getCptAmt());
+							orgNewStockHolder.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+							stockHolderDao.updateStockHolder(orgNewStockHolder);
+						}
 					}
 					//处理旧股东
 					StockHolder oldStockHolder = stockHolderOnChainCli.getStockHolder(uniScId, apply.getTransferorCetfHash());
