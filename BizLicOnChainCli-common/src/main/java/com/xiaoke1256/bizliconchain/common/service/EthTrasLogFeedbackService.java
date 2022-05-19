@@ -87,6 +87,8 @@ public class EthTrasLogFeedbackService {
 	        	log.setGasUsed(gasUsed);
 	        	log.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 	        	ethTrasLogService.updateLog(log);
+	        }else {
+	        	//有时 ethGetTransactionReceipt 会莫名奇妙的消失掉要手工处理。
 	        }
 		}
         

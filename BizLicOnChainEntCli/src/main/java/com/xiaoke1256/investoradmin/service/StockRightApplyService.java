@@ -107,7 +107,7 @@ public class StockRightApplyService {
 	public void setNewStockHolderAccount(Long applyId,String newInvestorAccount){
 		StockRightApply apply = stockRightApplyDao.getApply(applyId);
 		StockHolder stockHolder = stockHolderDao.getStockHolder(apply.getStockHolderId());
-		apply.setNewInvestorAccount(newInvestorAccount);
+		//apply.setNewInvestorAccount(newInvestorAccount); //一开始不要设置 等后续有反馈了再设置
 		apply.setStatus("设置账号-处理中");
 		apply.setUpdateTime(new Date());
 		stockRightApplyDao.updateApply(apply);
