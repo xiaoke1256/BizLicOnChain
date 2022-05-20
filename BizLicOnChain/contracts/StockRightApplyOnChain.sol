@@ -33,8 +33,15 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
      */
     bool internal _initialized = false;
     
-    
+    /**
+    股东地址发生改变的事件
+    */
     event InvestorAccountChange(string indexed uniScId,string indexed investorCetfHash,address investorAccount);
+    
+    /**
+     * 申请状态发生改变的事件
+    */
+    event StatusChange(string indexed uniScId,string indexed investorCetfHash,string newStatus);
 
 
     constructor() public{
@@ -80,6 +87,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		if(!sucess)
 			require(sucess,parseErrMsg(result));
 		require(abi.decode(result,(bool)),'Some thing wrong when invoke putStockRightApply method!');
+		emit StatusChange(uniScId,investorCetfHash,'待董事会确认');
 		return true;
 	}
 	
@@ -147,6 +155,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
         if(!sucess){
 			require(sucess,parseErrMsg(result));
 		}
+		emit StatusChange(uniScId,investorCetfHash,'待付款');
 		return true;
 	}
     
@@ -175,6 +184,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
         if(!sucess){
 			require(sucess,parseErrMsg(result));
 		}
+		emit StatusChange(uniScId,investorCetfHash,'待发证机关备案');
 		return true;
 	}
 	
@@ -236,11 +246,12 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
         	//uint applyPrice = getApplyPrice(uniScId,investorCetfHash);
         	investorAccount.transfer(applyPrice);
         }
+        emit StatusChange(uniScId,investorCetfHash,'结束');
     	return true;
     }
     
     /**
-     * 一个申请案流程结束了
+     * 一个申请案流程结束了,设置其状态和是否成功。
      */
     function setSuccessAndResult(string memory uniScId,string memory investorCetfHash,string memory isSuccess,string memory status,string memory reason)private {
     	bool sucess;
@@ -259,6 +270,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		}
     }
     
+    //以下是个字段的get和set
     function getTransferorCetfHash(string memory uniScId,string memory investorCetfHash)private returns (string memory){
     	bool sucess;
         bytes memory result;
