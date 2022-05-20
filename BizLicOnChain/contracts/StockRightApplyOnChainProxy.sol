@@ -126,7 +126,9 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
         return bytesToBool(result);
 	}
 	
-	 //出让方公司的董事会确认转让
+	 /**
+	  *出让方公司的董事会确认转让
+	  */
 	function comfirmByDirectors(string memory uniScId,string memory investorCetfHash) public returns (bool){
 		require(_initialized,"The contract has not inited!");
         bool sucess;
@@ -138,7 +140,9 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
         return bytesToBool(result);
 	}
 	
-	//受让方出资
+	/**
+	 *受让方出资
+	 */
 	function payForStock(string memory uniScId,string memory investorCetfHash)public payable returns (bool){
 		require(_initialized,"The contract has not inited!");
         bool sucess;
@@ -231,7 +235,7 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 		s=StringUtils.concat(s,"}");
         return s;
 	}
-	
+	//以下是从区块链中获取各个字段。
 	 function getTransferorCetfHash(string memory uniScId,string memory investorCetfHash)private view returns (string memory){
     	//bool sucess;
         //bytes memory result;

@@ -84,7 +84,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 	}
 	
 	/**
-	 *
+	 * 获取所有申请案的key
 	 */
 	function getStockRightApplyKeys(string memory uniScId)private returns (string[] memory){
 		bool sucess;
@@ -125,7 +125,9 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		return true;
 	}
     
-    //出让方公司的董事会确认转让（TODO 董事会可以驳回）
+    /**
+     * 出让方公司的董事会确认转让（TODO 董事会可以驳回）
+     */
 	function comfirmByDirectors(string memory uniScId,string memory investorCetfHash) public returns (bool){
 		require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
@@ -148,7 +150,9 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 		return true;
 	}
     
-    //受让方出资
+    /*
+     * 受让方出资
+     */
 	function payForStock(string memory uniScId,string memory investorCetfHash)public payable returns (bool){
 		require(bytes(uniScId).length>0);
         require(bytes(investorCetfHash).length>0);
@@ -235,6 +239,9 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
     	return true;
     }
     
+    /**
+     * 一个申请案流程结束了
+     */
     function setSuccessAndResult(string memory uniScId,string memory investorCetfHash,string memory isSuccess,string memory status,string memory reason)private {
     	bool sucess;
         bytes memory result;
