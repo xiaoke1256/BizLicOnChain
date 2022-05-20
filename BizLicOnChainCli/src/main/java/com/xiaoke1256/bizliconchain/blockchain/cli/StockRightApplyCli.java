@@ -16,7 +16,7 @@ import org.web3j.abi.datatypes.Utf8String;
 
 
 import com.alibaba.fastjson.JSON;
-import com.xiaoke1256.bizliconchain.blockchain.common.BaseCli;
+import com.xiaoke1256.bizliconchain.blockchain.common.client.BaseCli;
 import com.xiaoke1256.bizliconchain.bo.StockRightApply;
 
 

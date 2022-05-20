@@ -1,4 +1,4 @@
-package com.xiaoke1256.bizliconchain.blockchain.common;
+package com.xiaoke1256.bizliconchain.blockchain.common.client;
 
 import java.math.BigInteger;
 

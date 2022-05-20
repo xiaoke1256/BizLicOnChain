@@ -16,7 +16,7 @@ import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.crypto.Hash;
 
 import com.alibaba.fastjson.JSON;
-import com.xiaoke1256.bizliconchain.blockchain.common.BaseCli;
+import com.xiaoke1256.bizliconchain.blockchain.common.client.BaseCli;
 import com.xiaoke1256.bizliconchain.bo.StockHolder;
 import com.xiaoke1256.bizliconchain.bo.StockRightItem;
 import com.xiaoke1256.bizliconchain.common.web3j.cli.IBaseWeb3j;

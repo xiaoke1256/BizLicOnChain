@@ -18,7 +18,7 @@ import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.protocol.websocket.events.LogNotification;
 
 import com.alibaba.fastjson.JSON;
-import com.xiaoke1256.bizliconchain.blockchain.common.BaseCli;
+import com.xiaoke1256.bizliconchain.blockchain.common.client.BaseCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
 import com.xiaoke1256.investoradmin.bo.StockRightApplyOnChain;
 
