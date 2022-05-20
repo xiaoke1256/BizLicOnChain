@@ -23,7 +23,11 @@
   	  if('admin'===loginUserName){
   		$('#userNameSpan').html(loginUserName+' 的账户余额:');
   		$.get('eth/balance',{},function(num){
-  	  	  $('#mun').html(num+' wei');
+  		  if(typeof(num)=='number'){
+  			  $('#mun').html(num.toLocaleString()+' wei');
+  		  }else{
+  			  $('#mun').html(parseInt(num).toLocaleString()+' wei'); 
+  		  }
   	  	});
   		return;
   	  }
