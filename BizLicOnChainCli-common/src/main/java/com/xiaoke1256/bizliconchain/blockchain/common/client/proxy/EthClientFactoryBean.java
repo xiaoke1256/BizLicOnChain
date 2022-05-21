@@ -16,7 +16,7 @@ public class EthClientFactoryBean<T> implements SmartFactoryBean<T> {
     @SuppressWarnings("unchecked")
 	public T getObject() {
         this.checkBeanIsInterface();
-		Class<T>[] classes = (Class<T>[]) Array.newInstance(ethClientInterface, 1);
+		Class<T>[] classes = (Class<T>[]) Array.newInstance(ethClientInterface.getClass(), 1);
         classes[0] = ethClientInterface;
         return (T) Proxy.newProxyInstance(this.ethClientInterface.getClassLoader(), classes, new EthClientHandler());
     }

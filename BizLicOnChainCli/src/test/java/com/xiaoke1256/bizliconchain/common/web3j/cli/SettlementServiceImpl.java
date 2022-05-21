@@ -11,11 +11,6 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * @Datetime: 2020/6/23   11:47
- * @Author: Xia rong tao
- * @title
- */
 @Component
 public class SettlementServiceImpl  {
 

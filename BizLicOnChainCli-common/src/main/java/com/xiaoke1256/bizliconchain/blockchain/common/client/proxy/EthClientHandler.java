@@ -19,7 +19,8 @@ public class EthClientHandler implements InvocationHandler {
     }
 
 	private Object apiHeadler(Method method, Object body) {
-		// TODO Auto-generated method stub
+		System.out.print("method:"+method.toGenericString());
+		System.out.print("body:"+body.toString());
 		return null;
 	}
 }
