@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
@@ -83,6 +84,8 @@ public class EthClientHandler implements InvocationHandler {
 				}else if(BigInteger.class.equals(parameter.getType()) || Long.class.equals(parameter.getType()) 
 						|| Integer.class.equals(parameter.getType()) || Short.class.equals(parameter.getType()) ) {
 					inputParameters.add(new Uint(BigInteger.valueOf(((Number)args[i]).longValue())));
+				}else if(Boolean.class.equals(parameter.getType())){
+					inputParameters.add(new Bool((Boolean)args[i]));
 				}else {
 					throw new RuntimeException("其他类型未考虑");
 				}
@@ -97,6 +100,8 @@ public class EthClientHandler implements InvocationHandler {
 					}else {
 						inputParameters.add(new Uint(BigInteger.valueOf(((Number)args[i]).longValue())));
 					}
+				}else if(Bool.class.equals(type)){
+					inputParameters.add(new Bool((Boolean)args[i]));
 				}else {
 					throw new RuntimeException("其他类型未考虑");
 				}
