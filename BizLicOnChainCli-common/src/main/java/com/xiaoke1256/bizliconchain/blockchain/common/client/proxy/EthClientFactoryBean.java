@@ -16,12 +16,14 @@ public class EthClientFactoryBean<T> implements SmartFactoryBean<T>,ApplicationC
     private ApplicationContext ac;
     /** 提交合约的账号 */
     private String fromAddr;
+    private String fromPrivateKey;
     /** 合约地址 */
     private String contractAddress;
 
-    public EthClientFactoryBean(Class<T> ethClientInterface,String fromAddr,String contractAddress) {
+    public EthClientFactoryBean(Class<T> ethClientInterface,String fromAddr,String fromPrivateKey,String contractAddress) {
         this.ethClientInterface = ethClientInterface;
         this.fromAddr = fromAddr;
+        this.fromPrivateKey = fromPrivateKey;
         this.contractAddress = contractAddress;
     }
 
@@ -31,7 +33,7 @@ public class EthClientFactoryBean<T> implements SmartFactoryBean<T>,ApplicationC
 		Class<T>[] classes = (Class<T>[]) Array.newInstance(ethClientInterface.getClass(), 1);
         classes[0] = ethClientInterface;
         IBaseWeb3j baseWeb3j = ac.getBean(IBaseWeb3j.class);
-        return (T) Proxy.newProxyInstance(this.ethClientInterface.getClassLoader(), classes, new EthClientHandler(baseWeb3j,fromAddr,contractAddress));
+        return (T) Proxy.newProxyInstance(this.ethClientInterface.getClassLoader(), classes, new EthClientHandler(baseWeb3j,fromAddr,fromPrivateKey,contractAddress));
     }
 
     private void checkBeanIsInterface() {

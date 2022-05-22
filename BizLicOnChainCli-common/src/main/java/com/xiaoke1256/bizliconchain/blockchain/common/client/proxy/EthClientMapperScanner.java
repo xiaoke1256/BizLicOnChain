@@ -64,6 +64,7 @@ public class EthClientMapperScanner extends ClassPathBeanDefinitionScanner imple
             EthClient annotation = definition.getBeanClass().getAnnotation(EthClient.class);
             definition.getConstructorArgumentValues().addGenericArgumentValue(Objects.requireNonNull(definition.getBeanClassName()));
             definition.getConstructorArgumentValues().addGenericArgumentValue(this.ac.getEnvironment().resolvePlaceholders(annotation.fromAddr()));
+            definition.getConstructorArgumentValues().addGenericArgumentValue(this.ac.getEnvironment().resolvePlaceholders(annotation.fromPrivateKey()));
             definition.getConstructorArgumentValues().addGenericArgumentValue(this.ac.getEnvironment().resolvePlaceholders(annotation.contractAddress()));
             definition.setBeanClass(EthClientFactoryBean.class);
         }

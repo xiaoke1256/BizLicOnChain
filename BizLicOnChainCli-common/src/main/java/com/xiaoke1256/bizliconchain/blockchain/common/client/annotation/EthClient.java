@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 public @interface EthClient {
 	/** 发起交易的账号地址 */
 	String fromAddr() default "${contract.sendAddr}";
+	/** 发起交易的账号的私钥 */
+	String fromPrivateKey() default "${contract.sendAddrPk}";
 	/** 合约地址 */
 	String contractAddress() default "${contract.ctAddr}";
 }
