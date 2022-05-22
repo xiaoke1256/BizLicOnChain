@@ -73,7 +73,7 @@ public class EthClientHandler implements InvocationHandler {
 		
 		String resultJson = null;
 		try {
-			resultJson = baseWeb3j.queryToString(fromAddr, contractAddress, "getStockHolders", inputParameters);
+			resultJson = baseWeb3j.queryToString(fromAddr, contractAddress, method.getName(), inputParameters);
 			LOG.info("resultJson:"+resultJson);
 		} catch (ClassNotFoundException | InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);

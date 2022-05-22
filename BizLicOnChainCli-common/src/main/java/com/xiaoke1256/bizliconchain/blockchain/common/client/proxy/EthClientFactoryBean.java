@@ -14,9 +14,15 @@ import com.xiaoke1256.bizliconchain.common.web3j.cli.IBaseWeb3j;
 public class EthClientFactoryBean<T> implements SmartFactoryBean<T>,ApplicationContextAware {
     private Class<T> ethClientInterface;
     private ApplicationContext ac;
+    /** 提交合约的账号 */
+    private String fromAddr;
+    /** 合约地址 */
+    private String contractAddress;
 
-    public EthClientFactoryBean(Class<T> ethClientInterface) {
+    public EthClientFactoryBean(Class<T> ethClientInterface,String fromAddr,String contractAddress) {
         this.ethClientInterface = ethClientInterface;
+        this.fromAddr = fromAddr;
+        this.contractAddress = contractAddress;
     }
 
     @SuppressWarnings("unchecked")
@@ -25,8 +31,6 @@ public class EthClientFactoryBean<T> implements SmartFactoryBean<T>,ApplicationC
 		Class<T>[] classes = (Class<T>[]) Array.newInstance(ethClientInterface.getClass(), 1);
         classes[0] = ethClientInterface;
         IBaseWeb3j baseWeb3j = ac.getBean(IBaseWeb3j.class);
-        String fromAddr = ac.getEnvironment().resolvePlaceholders("${contract.sendAddr}");
-        String contractAddress = ac.getEnvironment().resolvePlaceholders("${contract.ctAddr}");
         return (T) Proxy.newProxyInstance(this.ethClientInterface.getClassLoader(), classes, new EthClientHandler(baseWeb3j,fromAddr,contractAddress));
     }
 

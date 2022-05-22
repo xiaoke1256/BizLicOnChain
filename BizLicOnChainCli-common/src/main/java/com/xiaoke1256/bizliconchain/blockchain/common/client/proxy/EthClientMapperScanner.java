@@ -5,18 +5,22 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
 
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.EthClient;
 
-public class EthClientMapperScanner extends ClassPathBeanDefinitionScanner {
+public class EthClientMapperScanner extends ClassPathBeanDefinitionScanner implements ApplicationContextAware {
     private ClassLoader classLoader;
+    private ApplicationContext ac;
 
     public EthClientMapperScanner(BeanDefinitionRegistry registry, ClassLoader classLoader) {
         super(registry, false);
@@ -57,10 +61,17 @@ public class EthClientMapperScanner extends ClassPathBeanDefinitionScanner {
             if (this.logger.isDebugEnabled()) {
                 this.logger.debug("Creating EthClientBean with name '" + holder.getBeanName() + "' and '" + definition.getBeanClassName() + "' Interface");
             }
-       
+            EthClient annotation = definition.getBeanClass().getAnnotation(EthClient.class);
             definition.getConstructorArgumentValues().addGenericArgumentValue(Objects.requireNonNull(definition.getBeanClassName()));
+            definition.getConstructorArgumentValues().addGenericArgumentValue(this.ac.getEnvironment().resolvePlaceholders(annotation.fromAddr()));
+            definition.getConstructorArgumentValues().addGenericArgumentValue(this.ac.getEnvironment().resolvePlaceholders(annotation.contractAddress()));
             definition.setBeanClass(EthClientFactoryBean.class);
         }
 
     }
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.ac = applicationContext;
+	}
 }
