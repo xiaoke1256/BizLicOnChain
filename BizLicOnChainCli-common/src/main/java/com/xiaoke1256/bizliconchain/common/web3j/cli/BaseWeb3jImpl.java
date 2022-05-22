@@ -15,9 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.DefaultFunctionReturnDecoder;
 import org.web3j.abi.FunctionEncoder;
-import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.Array;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Utf8String;
@@ -43,12 +41,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.annotation.PostConstruct;
-
-/**
- * @Datetime: 2020/6/23   10:36
- * @Author: Xia rong tao
- * @title
- */
 
 @Component
 public class BaseWeb3jImpl implements IBaseWeb3j {

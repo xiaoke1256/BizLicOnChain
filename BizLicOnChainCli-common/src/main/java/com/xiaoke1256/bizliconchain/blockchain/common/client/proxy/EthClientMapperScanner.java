@@ -57,7 +57,6 @@ public class EthClientMapperScanner extends ClassPathBeanDefinitionScanner {
             if (this.logger.isDebugEnabled()) {
                 this.logger.debug("Creating EthClientBean with name '" + holder.getBeanName() + "' and '" + definition.getBeanClassName() + "' Interface");
             }
-
        
             definition.getConstructorArgumentValues().addGenericArgumentValue(Objects.requireNonNull(definition.getBeanClassName()));
             definition.setBeanClass(EthClientFactoryBean.class);
