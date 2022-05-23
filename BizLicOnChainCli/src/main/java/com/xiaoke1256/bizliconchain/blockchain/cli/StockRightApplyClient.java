@@ -5,7 +5,7 @@ import java.util.List;
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.EthClient;
 import com.xiaoke1256.bizliconchain.bo.StockRightApply;
 
-@EthClient(contractAddress="contract.applyCtAddr")
+@EthClient(contractAddress="${contract.applyCtAddr}")
 public interface StockRightApplyClient {
 	/**
 	 * 获取某企业下有哪些申请
