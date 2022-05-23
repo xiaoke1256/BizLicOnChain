@@ -15,7 +15,7 @@ import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.EthClien
 @SpringBootApplication(exclude={HibernateJpaAutoConfiguration.class})
 @EnableAutoConfiguration
 @MapperScan("com.xiaoke1256.bizliconchain.**.dao")
-@EthClientScan("com.xiaoke1256.bizliconchain.common.web3j.cli")
+@EthClientScan("com.xiaoke1256.bizliconchain.blockchain.cli")
 public class SpringbootApplication extends SpringBootServletInitializer {
 	
 	@Override

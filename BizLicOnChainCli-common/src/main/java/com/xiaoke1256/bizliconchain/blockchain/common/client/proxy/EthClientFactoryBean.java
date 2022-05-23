@@ -3,12 +3,15 @@ package com.xiaoke1256.bizliconchain.blockchain.common.client.proxy;
 import java.lang.reflect.Array;
 import java.lang.reflect.Proxy;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.SmartFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.Assert;
 
+import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.EthClient;
 import com.xiaoke1256.bizliconchain.common.web3j.cli.IBaseWeb3j;
 
 public class EthClientFactoryBean<T> implements SmartFactoryBean<T>,ApplicationContextAware {
@@ -20,12 +23,17 @@ public class EthClientFactoryBean<T> implements SmartFactoryBean<T>,ApplicationC
     /** 合约地址 */
     private String contractAddress;
 
-    public EthClientFactoryBean(Class<T> ethClientInterface,String fromAddr,String fromPrivateKey,String contractAddress) {
+    public EthClientFactoryBean(Class<T> ethClientInterface) {
         this.ethClientInterface = ethClientInterface;
-        this.fromAddr = fromAddr;
-        this.fromPrivateKey = fromPrivateKey;
-        this.contractAddress = contractAddress;
     }
+    
+    @PostConstruct
+    public void init() {
+    	EthClient annotation = ethClientInterface.getAnnotation(EthClient.class);
+    	this.fromAddr = ac.getEnvironment().resolvePlaceholders(annotation.fromAddr());
+        this.fromPrivateKey = ac.getEnvironment().resolvePlaceholders(annotation.fromPrivateKey());
+        this.contractAddress = ac.getEnvironment().resolvePlaceholders(annotation.contractAddress());
+	}
 
     @SuppressWarnings("unchecked")
 	public T getObject() {

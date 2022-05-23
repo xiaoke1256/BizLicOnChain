@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xiaoke1256.bizliconchain.blockchain.cli.StockHolderOnChainCli;
-import com.xiaoke1256.bizliconchain.blockchain.cli.StockRightApplyCli;
+import com.xiaoke1256.bizliconchain.blockchain.cli.StockRightApplyClient;
 import com.xiaoke1256.bizliconchain.bo.StockHolder;
 import com.xiaoke1256.bizliconchain.bo.StockRightApply;
 import com.xiaoke1256.bizliconchain.common.mvc.RespMsg;
@@ -21,7 +21,7 @@ import com.xiaoke1256.bizliconchain.common.mvc.RespMsg;
 public class StockRightApplyController {
 	
 	@Autowired
-	private StockRightApplyCli stockRightApplyCli;
+	private StockRightApplyClient stockRightApplyCli;
 	
 	@Autowired
 	private StockHolderOnChainCli stockHolderOnChainCli;
