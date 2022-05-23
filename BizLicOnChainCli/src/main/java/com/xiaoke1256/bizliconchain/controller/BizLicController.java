@@ -1,14 +1,20 @@
 package com.xiaoke1256.bizliconchain.controller;
 
+import java.security.PrivateKey;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xiaoke1256.bizliconchain.blockchain.cli.BizLicOnChainCli;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.xiaoke1256.bizliconchain.blockchain.cli.BizLicOnChainClient;
 import com.xiaoke1256.bizliconchain.bo.Bizlic;
+import com.xiaoke1256.bizliconchain.common.encrypt.ECDSASecp256k1;
 import com.xiaoke1256.bizliconchain.common.mvc.RespMsg;
 
 @RequestMapping("/")
@@ -16,7 +22,17 @@ import com.xiaoke1256.bizliconchain.common.mvc.RespMsg;
 public class BizLicController {
 	
 	@Autowired
-	private BizLicOnChainCli bizLicOnChainCli;
+	private BizLicOnChainClient bizLicOnChainCli;
+	private PrivateKey privateKey;
+	
+	@PostConstruct
+	public void init() {
+		try {
+			privateKey = ECDSASecp256k1.loadECPrivateKey(this.getClass().getResourceAsStream("/com/xiaoke1256/bizliconchain/security/keys/ecdsa/private_key.der"));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 	/**
 	 * 新增或修改一个营业职照
@@ -25,7 +41,9 @@ public class BizLicController {
 	public RespMsg putBizlic(Bizlic bizlic) {
 		//organCode 需要有 organCode 为参数
 		try {
-			bizLicOnChainCli.sendLic(bizlic);
+			String licContent = JSON.toJSONString(bizlic,SerializerFeature.WriteDateUseDateFormat);
+			String sign = new String(ECDSASecp256k1.signature(privateKey, licContent.getBytes("UTF-8")));
+			bizLicOnChainCli.putLic(bizlic.getUniScId(), bizlic.getOrganCode(), licContent, sign);
 			return new RespMsg("00","Success!");
 		}catch(Exception e) {
 			e.printStackTrace();

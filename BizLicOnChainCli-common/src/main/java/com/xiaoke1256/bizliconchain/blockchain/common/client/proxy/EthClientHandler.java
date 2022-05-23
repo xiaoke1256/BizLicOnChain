@@ -133,7 +133,7 @@ public class EthClientHandler implements InvocationHandler {
 				return JSON.parseObject(resultJson, method.getReturnType());
 			}
 		}else {
-			String hash = baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress,  method.getName(), null, null, inputParameters, bizKeySb.toString());
+			String hash = baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress,  method.getName(), inputParameters, bizKeySb.toString());
 			if(String.class.equals(method.getReturnType()) ) {
 				return hash;
 			}

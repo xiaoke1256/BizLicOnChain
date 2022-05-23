@@ -64,6 +64,18 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
     @Value("${contract.isAddGas}")
     private boolean isAddGas;
     
+	/**
+	 * gas价格
+	 */
+	@Value("${contract.gasPrice}")
+	protected BigInteger gasPrice;
+	 
+	/**
+	 * gas限额
+	 */
+	@Value("${contract.gasLimit}")
+	protected BigInteger gasLimit;
+    
     @PostConstruct
     public void init() {
     	web3j = Web3j.build(new HttpService(URL));
@@ -73,6 +85,10 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
      * 调用合约（进行检查）
      */
     public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters,String bizKey) {
+    	return transactWithCheck(fromAddr, fromPrivateKey, contractAddress, method, gasPrice, gasLimit,BigInteger.ZERO, inputParameters, bizKey);
+    }
+    
+    public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, List<Type> inputParameters,String bizKey) {
     	return transactWithCheck(fromAddr, fromPrivateKey, contractAddress, method, gasPrice, gasLimit,BigInteger.ZERO, inputParameters, bizKey);
     }
     
@@ -253,6 +269,7 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
     
     /**
      * 注册事件监听
+     * @deprecated 没起作用
      * @param contractAddress
      * @param topic 类似 "ApplyStatusChange(string,string,string)"
      * @param onSuccess
