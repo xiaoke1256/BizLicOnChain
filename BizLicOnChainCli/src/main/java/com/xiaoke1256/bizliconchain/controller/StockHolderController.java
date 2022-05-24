@@ -49,7 +49,7 @@ public class StockHolderController {
 			List<StockHolder> stockHolders = stockHolderOnChainCli.getStockHolders(uniScId);
 			for(StockHolder stockHolder:stockHolders) {
 				String itemJson = stockHolder.getStockRightDetail();
-				if(itemJson!=null && "".equals(itemJson.trim())) {
+				if(itemJson!=null && !"".equals(itemJson.trim())) {
 					List<StockRightItem> items = JSON.parseArray(itemJson, StockRightItem.class);
 					stockHolder.setStockRightItems(items);
 					stockHolder.setStockRightDetail(null);

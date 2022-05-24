@@ -115,8 +115,8 @@ public class EthClientHandler implements InvocationHandler {
 			} catch (ClassNotFoundException | InterruptedException | ExecutionException e) {
 				throw new RuntimeException(e);
 			}
-			if(method.getReturnType().isAssignableFrom(Collection.class)) {
-			    java.lang.reflect.Type genericSuperclass = method.getReturnType().getGenericSuperclass();
+			if(Collection.class.isAssignableFrom(method.getReturnType())) {
+			    java.lang.reflect.Type genericSuperclass = method.getGenericReturnType();
 		        if (genericSuperclass instanceof ParameterizedType){
 					ParameterizedType parameterizedType = (ParameterizedType)genericSuperclass;
 		            //获得Demo1<String>，<>中的实际类型参数
