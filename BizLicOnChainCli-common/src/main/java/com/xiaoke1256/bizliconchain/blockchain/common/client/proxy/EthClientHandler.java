@@ -51,8 +51,6 @@ public class EthClientHandler implements InvocationHandler {
     }
 
 	private Object apiHeadler(Method method, Object[] args) {
-		System.out.print("method:"+method.toGenericString());
-		System.out.print("args:"+args.toString());
 		String fromAddr = this.fromAddr;
 		String fromPrivateKey = this.fromPrivateKey;
 		
