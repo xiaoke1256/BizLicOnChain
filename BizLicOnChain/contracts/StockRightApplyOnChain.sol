@@ -228,7 +228,7 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 			}
 			//先把旧的股权人的账号记下来。
 			string memory transferorCetfHash = getTransferorCetfHash(uniScId,investorCetfHash);
-			address payable oldInverstCount = getStockHoldersAccount(uniScId,transferorCetfHash);
+			address payable oldInverstCount = getStockHolderAccount(uniScId,transferorCetfHash);
 			//检查一下账号是否为空
         	//旧的股权人扣除一定的股权。如果扣完则删除旧的股权人。
         	bool result = increCpt(uniScId,transferorCetfHash,'',-cptAmt);
@@ -386,10 +386,10 @@ contract StockRightApplyOnChain /*is BaseStockRightApplyOnChain*/ {
 	/**
 	 * 获取旧股东的账号
 	 */
-	function getStockHoldersAccount(string memory uniScId,string memory transferorCetfHash) private returns (address payable){
+	function getStockHolderAccount(string memory uniScId,string memory transferorCetfHash) private returns (address payable){
 		bool sucess;
     	bytes memory result;
-    	(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("getStockHoldersAccount(string,string)",uniScId,transferorCetfHash));
+    	(sucess,result) = stockHolderContract.call(abi.encodeWithSignature("getStockHolderAccount(string,string)",uniScId,transferorCetfHash));
     	if(!sucess){
         	require(sucess,parseErrMsg(result));
         }
