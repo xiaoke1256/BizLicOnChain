@@ -8,16 +8,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.web3j.crypto.Hash;
 
-import com.xiaoke1256.bizliconchain.blockchain.cli.StockHolderOnChainCli;
+import com.alibaba.fastjson.JSON;
+import com.xiaoke1256.bizliconchain.blockchain.cli.StockHolderOnChainClient;
 import com.xiaoke1256.bizliconchain.bo.StockHolder;
+import com.xiaoke1256.bizliconchain.bo.StockRightItem;
 import com.xiaoke1256.bizliconchain.common.mvc.RespMsg;
 
 @RequestMapping("/")
 @RestController
 public class StockHolderController {
 	@Autowired
-	private StockHolderOnChainCli stockHolderOnChainCli;
+	private StockHolderOnChainClient stockHolderOnChainCli;
 	
 	/**
 	 * 新增或修改一个股东
@@ -26,7 +29,8 @@ public class StockHolderController {
 	public RespMsg putStockHolder(@RequestBody StockHolder stockHolder) {
 		//organCode 需要有 organCode 为参数
 		try {
-			stockHolderOnChainCli.sendStockHolder(stockHolder);
+			stockHolderOnChainCli.putStockHolder(stockHolder.getUniScId(),Hash.sha3String(stockHolder.getInvestorCetfType()+":"+stockHolder.getInvestorCetfNo()),
+					stockHolder.getInvestorName(),JSON.toJSONString(stockHolder.getStockRightItems()),stockHolder.getCptAmt());
 			return new RespMsg("00","Success!");
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -43,6 +47,14 @@ public class StockHolderController {
 	public RespMsg getStockHolders(@PathVariable("uniScId") String uniScId) {
 		try {
 			List<StockHolder> stockHolders = stockHolderOnChainCli.getStockHolders(uniScId);
+			for(StockHolder stockHolder:stockHolders) {
+				String itemJson = stockHolder.getStockRightDetail();
+				if(itemJson!=null && "".equals(itemJson.trim())) {
+					List<StockRightItem> items = JSON.parseArray(itemJson, StockRightItem.class);
+					stockHolder.setStockRightItems(items);
+					stockHolder.setStockRightDetail(null);
+				}
+			}
 			return new RespMsg("00","Success!",stockHolders);
 		}catch(Exception e) {
 			e.printStackTrace();
