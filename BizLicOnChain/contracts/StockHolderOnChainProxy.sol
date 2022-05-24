@@ -192,11 +192,11 @@ contract StockHolderOnChainProxy is BaseStockHolderOnChain {
 	/**
 	 * 获取股东账号
 	 */
-	function getStockHoldersAccount(string memory uniScId,string memory investorCetfHash)public returns(address) {
+	function getStockHolderAccount(string memory uniScId,string memory investorCetfHash)public returns(address) {
 		require(_initialized);
         bool sucess;
         bytes memory result;
-        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("getStockHoldersAccount(string,string)",uniScId,investorCetfHash));
+        (sucess,result)= currentVersion.delegatecall(abi.encodeWithSignature("getStockHolderAccount(string,string)",uniScId,investorCetfHash));
 		if(!sucess){
         	require(sucess,parseErrMsg(result));
         }

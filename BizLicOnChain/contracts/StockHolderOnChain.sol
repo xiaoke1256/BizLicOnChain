@@ -193,7 +193,7 @@ contract StockHolderOnChain is BaseStockHolderOnChain {
 	/**
 	 * 获取股东账号 
 	 */
-	function getStockHoldersAccount(string memory uniScId,string memory investorCetfHash)public view returns(address) {
+	function getStockHolderAccount(string memory uniScId,string memory investorCetfHash)public view returns(address) {
 		return stockHolders[uniScId][investorCetfHash].investorAccount ;
 	}
 	
