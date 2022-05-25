@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.xiaoke1256.investoradmin.blockchain.cli.StockHolderOnChainCli;
+import com.xiaoke1256.investoradmin.blockchain.cli.StockHolderOnChainClient;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
 import com.xiaoke1256.investoradmin.dao.StockHolderMapper;
 
@@ -16,7 +16,7 @@ import com.xiaoke1256.investoradmin.dao.StockHolderMapper;
 public class StockHolderTask {
 	
 	@Autowired
-	private StockHolderOnChainCli stockHolderOnChainCli;
+	private StockHolderOnChainClient stockHolderOnChainCli;
 	
 	@Autowired
 	private StockHolderMapper stockHolderDao;

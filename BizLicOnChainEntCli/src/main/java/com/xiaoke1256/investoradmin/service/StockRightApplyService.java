@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.web3j.crypto.Hash;
 
-import com.xiaoke1256.investoradmin.blockchain.cli.StockHolderOnChainCli;
+import com.xiaoke1256.investoradmin.blockchain.cli.StockHolderOnChainClient;
 import com.xiaoke1256.investoradmin.blockchain.cli.StockRightApplyCli;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
 import com.xiaoke1256.investoradmin.bo.StockRightApply;
@@ -37,7 +37,7 @@ public class StockRightApplyService {
 	@Autowired
 	private StockRightApplyCli stockRightApplyCli;
 	@Autowired
-	private StockHolderOnChainCli stockHolderOnChainCli;
+	private StockHolderOnChainClient stockHolderOnChainCli;
 	
 	@Value("${biz.uniScId}")
 	private String uniScId;
