@@ -17,11 +17,13 @@ import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
+import org.web3j.abi.datatypes.generated.Bytes32;
 
 import com.alibaba.fastjson.JSON;
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.FromAddr;
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.FromPrivateKey;
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.ParamType;
+import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.Price;
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.ReadOnly;
 import com.xiaoke1256.bizliconchain.common.web3j.cli.IBaseWeb3j;
 
@@ -57,6 +59,7 @@ public class EthClientHandler implements InvocationHandler {
 		@SuppressWarnings("rawtypes")
 		List<Type> inputParameters = new ArrayList<Type>();
 		StringBuilder bizKeySb = new StringBuilder();
+		BigInteger price = BigInteger.ZERO;
 		for(int i = 0;i< method.getParameters().length;i++) {
 			Parameter parameter = method.getParameters()[i];
 			//先看它是不是地址
@@ -68,6 +71,11 @@ public class EthClientHandler implements InvocationHandler {
 			FromPrivateKey fromPrivateKeyAnnotation = parameter.getAnnotation(FromPrivateKey.class);
 			if(fromPrivateKeyAnnotation!=null) {
 				fromPrivateKey = (String)args[i];
+				continue;
+			}
+			Price priceAnnotation = parameter.getAnnotation(Price.class);
+			if(priceAnnotation!=null) {
+				price = BigInteger.valueOf(((Number)args[i]).longValue());
 				continue;
 			}
 			if(bizKeySb.length()>0) {
@@ -84,6 +92,8 @@ public class EthClientHandler implements InvocationHandler {
 					inputParameters.add(new Uint(BigInteger.valueOf(((Number)args[i]).longValue())));
 				}else if(Boolean.class.equals(parameter.getType())){
 					inputParameters.add(new Bool((Boolean)args[i]));
+				}else if(byte[].class.equals(parameter.getType())){
+					inputParameters.add(new Bytes32((byte[])args[i]));
 				}else {
 					throw new RuntimeException("其他类型未考虑");
 				}
@@ -131,7 +141,7 @@ public class EthClientHandler implements InvocationHandler {
 				return JSON.parseObject(resultJson, method.getReturnType());
 			}
 		}else {
-			String hash = baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress,  method.getName(), inputParameters, bizKeySb.toString());
+			String hash = baseWeb3j.transactWithCheck(fromAddr, fromPrivateKey, contractAddress,  method.getName(), price, inputParameters, bizKeySb.toString());
 			if(String.class.equals(method.getReturnType()) ) {
 				return hash;
 			}

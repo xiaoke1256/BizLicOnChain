@@ -30,6 +30,8 @@ public interface IBaseWeb3j {
     public String transact(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger gasPrice, BigInteger gasLimit, List<Type> inputParameters,String bizKey);
 
     public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, List<Type> inputParameters,String bizKey);
+    
+    public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method,BigInteger vlaue , List<Type> inputParameters,String bizKey);
     /**
      * 调用合约（进行检查）
      */

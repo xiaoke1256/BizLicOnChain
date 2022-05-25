@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.web3j.crypto.Hash;
 
 import com.xiaoke1256.investoradmin.blockchain.cli.StockHolderOnChainClient;
-import com.xiaoke1256.investoradmin.blockchain.cli.StockRightApplyCli;
+import com.xiaoke1256.investoradmin.blockchain.cli.StockRightApplyClient;
 import com.xiaoke1256.investoradmin.bo.StockHolder;
 import com.xiaoke1256.investoradmin.bo.StockRightApply;
 import com.xiaoke1256.investoradmin.bo.StockRightApplyOnChain;
@@ -35,7 +35,7 @@ public class StockRightApplyService {
 	@Autowired
 	private StockHolderMapper stockHolderDao;
 	@Autowired
-	private StockRightApplyCli stockRightApplyCli;
+	private StockRightApplyClient stockRightApplyCli;
 	@Autowired
 	private StockHolderOnChainClient stockHolderOnChainCli;
 	
@@ -62,7 +62,9 @@ public class StockRightApplyService {
 			throw new RuntimeException(e);
 		}
 		byte[] merkel = Hash.sha3(os.toByteArray());
-		stockRightApplyCli.startStockTransfer(uniScId, stockHolder, apply.getNewInvestorName(), 
+		String fromAddr = stockHolder.getInvestorAccount();
+		String fromPrivateKey = stockHolder.getEthPrivateKey();
+		stockRightApplyCli.startStockTransfer(fromAddr,fromPrivateKey,uniScId, stockHolder.getInvestorCetfHash(), apply.getNewInvestorName(), 
 				apply.getNewInvestorCetfHash(), merkel, apply.getCptAmt(), apply.getPrice());
 		
 		LOG.info("已提交");
@@ -111,7 +113,9 @@ public class StockRightApplyService {
 		apply.setStatus("设置账号-处理中");
 		apply.setUpdateTime(new Date());
 		stockRightApplyDao.updateApply(apply);
-		stockRightApplyCli.setNewStockHolderAccount(uniScId, stockHolder, apply.getNewInvestorCetfHash(), newInvestorAccount);
+		String fromAddr = stockHolder.getInvestorAccount();
+		String fromPrivateKey = stockHolder.getEthPrivateKey();
+		stockRightApplyCli.setNewStockHolderAccount(fromAddr,fromPrivateKey,uniScId, apply.getNewInvestorCetfHash(), newInvestorAccount);
 	}
 	
 	public void comfirmByDirectors(Long applyId){

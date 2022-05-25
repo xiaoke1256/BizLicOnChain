@@ -92,6 +92,11 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
     	return transactWithCheck(fromAddr, fromPrivateKey, contractAddress, method, gasPrice, gasLimit,BigInteger.ZERO, inputParameters, bizKey);
     }
     
+    public String transactWithCheck(String fromAddr, String fromPrivateKey, String contractAddress, String method, BigInteger value, List<Type> inputParameters,String bizKey) {
+    	return transactWithCheck(fromAddr, fromPrivateKey, contractAddress, method, gasPrice, gasLimit, value, inputParameters, bizKey);
+    }
+    
+    
     /**
      * 调用合约（进行检查）
      */
