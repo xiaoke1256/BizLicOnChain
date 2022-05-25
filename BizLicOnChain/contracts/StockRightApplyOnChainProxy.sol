@@ -184,22 +184,46 @@ contract StockRightApplyOnChainProxy /*is BaseStockRightApplyOnChain*/ {
 	}
 
 	/** 
-             获取Keys
+        获取Keys（返回json）
      */
 	function getStockRightApplyKeysByUniScId(string memory uniScId) public returns (string memory){
-		bool sucess;
-        bytes memory result;
-		(sucess,result)= storageContract.call(abi.encodeWithSignature("getStockRightApplyKeys(string)",uniScId));
-		 if(!sucess){
-        	require(sucess,parseErrMsg(result));
-        }
-        string[] memory stockRightApplyKeys = abi.decode(result,(string[]));
+        string[] memory stockRightApplyKeys = getStockRightApplyKeys(uniScId);
         string memory s = '[';
         for(uint64 i = 0;i<stockRightApplyKeys.length;i++){
           if(i>0){
             s = StringUtils.concat(s,',');
           }
           s = StringUtils.concat(s,"'",stockRightApplyKeys[i],"'");
+        }
+        s = StringUtils.concat(s,']');
+        return s;
+	}
+	
+	/**
+	  获取Keys （返回数组）
+	 */
+	function getStockRightApplyKeys(string memory uniScId) private returns (string[] memory){
+	    bool sucess;
+        bytes memory result;
+		(sucess,result)= storageContract.call(abi.encodeWithSignature("getStockRightApplyKeys(string)",uniScId));
+		 if(!sucess){
+        	require(sucess,parseErrMsg(result));
+        }
+        string[] memory stockRightApplyKeys = abi.decode(result,(string[]));
+        return stockRightApplyKeys;
+	}
+	
+	/**
+	 * 获取申请案列表
+	*/
+	function getStockRightApplysByUniScId(string memory uniScId) public returns (string memory){
+	    string[] memory stockRightApplyKeys = getStockRightApplyKeys(uniScId);
+	    string memory s = '[';
+        for(uint64 i = 0;i<stockRightApplyKeys.length;i++){
+          if(i>0){
+            s = StringUtils.concat(s,',');
+          }
+          s = StringUtils.concat(s,getStockRightApply(uniScId,stockRightApplyKeys[i]));
         }
         s = StringUtils.concat(s,']');
         return s;
