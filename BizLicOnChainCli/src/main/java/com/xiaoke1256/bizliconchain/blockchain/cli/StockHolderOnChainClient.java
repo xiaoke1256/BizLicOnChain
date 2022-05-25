@@ -19,4 +19,7 @@ public interface StockHolderOnChainClient {
 	
 	public void putStockHolderAccount(String uniScId,String investorCetfHash,@ParamType(Address.class)String investorAccount);
 	
+	@ReadOnly
+	public StockHolder getStockHolder(String uniScId,String investorCetfHash);
+	
 }
