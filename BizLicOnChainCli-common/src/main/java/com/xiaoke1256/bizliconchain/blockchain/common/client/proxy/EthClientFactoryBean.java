@@ -9,6 +9,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.SmartFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.Assert;
 
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.EthClient;
@@ -29,7 +30,7 @@ public class EthClientFactoryBean<T> implements SmartFactoryBean<T>,ApplicationC
     
     @PostConstruct
     public void init() {
-    	EthClient annotation = ethClientInterface.getAnnotation(EthClient.class);
+    	EthClient annotation = AnnotationUtils.getAnnotation(ethClientInterface, EthClient.class);
     	this.fromAddr = ac.getEnvironment().resolvePlaceholders(annotation.fromAddr());
         this.fromPrivateKey = ac.getEnvironment().resolvePlaceholders(annotation.fromPrivateKey());
         this.contractAddress = ac.getEnvironment().resolvePlaceholders(annotation.contractAddress());
