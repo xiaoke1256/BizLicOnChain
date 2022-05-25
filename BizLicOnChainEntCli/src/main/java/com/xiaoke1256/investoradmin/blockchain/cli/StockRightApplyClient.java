@@ -10,7 +10,6 @@ import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.FromPriv
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.ParamType;
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.Price;
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.ReadOnly;
-import com.xiaoke1256.investoradmin.bo.StockHolder;
 import com.xiaoke1256.investoradmin.bo.StockRightApplyOnChain;
 
 @EthClient("${contract.ctAddr}")
