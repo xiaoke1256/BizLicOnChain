@@ -5,8 +5,6 @@ import com.xiaoke1256.bizliconchain.common.bo.EthTrasLog;
 import com.xiaoke1256.bizliconchain.common.service.EthTrasLogService;
 import com.xiaoke1256.bizliconchain.common.util.HexUtil;
 
-import io.reactivex.functions.Consumer;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +27,6 @@ import org.web3j.protocol.core.methods.response.EthCall;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.protocol.websocket.events.LogNotification;
 import org.web3j.utils.Numeric;
 
 import java.io.IOException;
@@ -271,25 +268,5 @@ public class BaseWeb3jImpl implements IBaseWeb3j {
     	return web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send().getBalance();
 		
 	}
-    
-    /**
-     * 注册事件监听
-     * @deprecated 没起作用
-     * @param contractAddress
-     * @param topic 类似 "ApplyStatusChange(string,string,string)"
-     * @param onSuccess
-     * @param onError
-     */
-    @Override
-    public void subscript(String contractAddress,String topic ,Consumer<LogNotification> onSuccess,Consumer<Throwable> onError) {
-    	if(onError==null) {
-    		onError = (t)->{};
-    	}
-    	if(onSuccess==null) {
-    		onSuccess = (l)->{};
-    	}
-    	web3j.logsNotifications(Arrays.asList(contractAddress), Arrays.asList(topic)).blockingSubscribe(onSuccess, onError);
-    }
-    
     
 }
