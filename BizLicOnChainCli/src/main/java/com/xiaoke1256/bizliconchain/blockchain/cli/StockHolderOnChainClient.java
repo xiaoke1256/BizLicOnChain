@@ -10,7 +10,7 @@ import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.ParamTyp
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.ReadOnly;
 import com.xiaoke1256.bizliconchain.bo.StockHolder;
 
-@EthClient(contractAddress="${contract.stockCtAddr}")
+@EthClient("${contract.stockCtAddr}")
 public interface StockHolderOnChainClient {
 	public void putStockHolder(String uniScId,String investorCetfHash,String investorName,String stockRightDetail,BigInteger cptAmt);
 	

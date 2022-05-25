@@ -6,7 +6,7 @@ import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.EthClien
 import com.xiaoke1256.bizliconchain.blockchain.common.client.annotation.ReadOnly;
 import com.xiaoke1256.bizliconchain.bo.Bizlic;
 
-@EthClient(contractAddress="${contract.ctAddr}")
+@EthClient("${contract.ctAddr}")
 public interface BizLicOnChainClient {
 	/**
 	 * 提交一个营业执照
